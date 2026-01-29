@@ -38,12 +38,12 @@ interface UseOnboardingReturn {
   progress: OnboardingProgress | null;
   canSkipCurrentStep: boolean;
 
-  // Form data
-  profileData: ReturnType<typeof useOnboardingStore>['profileData'];
-  preferencesData: ReturnType<typeof useOnboardingStore>['preferencesData'];
-  notificationSettings: ReturnType<typeof useOnboardingStore>['notificationSettings'];
+  // Form data - using Record types for flexibility
+  profileData: Record<string, unknown>;
+  preferencesData: Record<string, unknown>;
+  notificationSettings: Record<string, unknown>;
   selectedChannels: string[];
-  teamInvitations: ReturnType<typeof useOnboardingStore>['teamInvitations'];
+  teamInvitations: { email: string; role?: 'admin' | 'moderator' | 'member' }[];
 
   // Actions
   start: () => void;
@@ -55,12 +55,12 @@ interface UseOnboardingReturn {
   reset: () => void;
 
   // Form actions
-  updateProfile: (data: Partial<ReturnType<typeof useOnboardingStore>['profileData']>) => void;
-  updatePreferences: (data: Partial<ReturnType<typeof useOnboardingStore>['preferencesData']>) => void;
-  updateNotifications: (data: Partial<ReturnType<typeof useOnboardingStore>['notificationSettings']>) => void;
+  updateProfile: (data: Record<string, unknown>) => void;
+  updatePreferences: (data: Record<string, unknown>) => void;
+  updateNotifications: (data: Record<string, unknown>) => void;
   selectChannels: (channelIds: string[]) => void;
   toggleChannel: (channelId: string) => void;
-  addInvitation: (invitation: ReturnType<typeof useOnboardingStore>['teamInvitations'][0]) => void;
+  addInvitation: (invitation: { email: string; role?: 'admin' | 'moderator' | 'member' }) => void;
   removeInvitation: (email: string) => void;
 }
 

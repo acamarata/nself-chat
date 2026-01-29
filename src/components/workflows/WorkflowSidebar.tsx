@@ -264,10 +264,9 @@ function StepsPanel({
                             className="w-6 h-6 rounded flex items-center justify-center"
                             style={{ backgroundColor: template.color + '20' }}
                           >
-                            <Icon
-                              className="h-3.5 w-3.5"
-                              style={{ color: template.color }}
-                            />
+                            <span style={{ color: template.color }}>
+                              <Icon className="h-3.5 w-3.5" />
+                            </span>
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-xs font-medium truncate">

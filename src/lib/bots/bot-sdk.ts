@@ -3,6 +3,14 @@
  * High-level SDK for building nchat bots
  */
 
+// Extend Reflect for metadata support (requires reflect-metadata polyfill)
+declare global {
+  namespace Reflect {
+    function getMetadata(key: string, target: object): unknown
+    function defineMetadata(key: string, value: unknown, target: object): void
+  }
+}
+
 import type {
   BotManifest,
   BotConfig,

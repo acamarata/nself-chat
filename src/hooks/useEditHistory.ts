@@ -17,7 +17,6 @@ import {
   getHistoryPermissions,
   getCachedHistory,
   cacheHistory,
-  recordEdit as recordEditToHistory,
   loadHistorySettings,
 } from '@/lib/message-history'
 import type { MessageUser } from '@/types/message'

@@ -55,8 +55,7 @@
   "include": [
     "next-env.d.ts",
     "src/**/*.ts",
-    "src/**/*.tsx",
-    ".next/types/**/*.ts"
+    "src/**/*.tsx"
   ],
   "exclude": [
     "node_modules",
@@ -66,6 +65,9 @@
     "**/*.spec.ts",
     "**/*.spec.tsx",
     "platforms/**/*",
-    "deploy/**/*"
+    "deploy/**/*",
+    "**/examples/**/*",
+    "src/lib/bots/examples/**/*",
+    "src/lib/workflows/examples/**/*"
   ]
 }

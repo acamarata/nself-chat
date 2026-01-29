@@ -189,7 +189,7 @@ export function useChatInit(options: UseChatInitOptions = {}): UseChatInitReturn
     (rawChannels: unknown[]) => {
       if (!rawChannels) return;
 
-      const channels: Channel[] = rawChannels.map((ch: Record<string, unknown>) => ({
+      const channels: Channel[] = (rawChannels as Record<string, unknown>[]).map((ch) => ({
         id: ch.id as string,
         name: ch.name as string,
         slug: ch.slug as string,
@@ -245,16 +245,18 @@ export function useChatInit(options: UseChatInitOptions = {}): UseChatInitReturn
       if (!memberships) return;
 
       // Process read states and notification settings
-      memberships.forEach((membership: Record<string, unknown>) => {
+      (memberships as Record<string, unknown>[]).forEach((membership) => {
         const channelId = (membership.channel as Record<string, unknown>)?.id as string;
         if (!channelId) return;
 
         // Update notification settings
         if (membership.notifications_enabled !== undefined) {
-          notificationStore.setChannelMuted(
-            channelId,
-            !(membership.notifications_enabled as boolean)
-          );
+          const isMuted = !(membership.notifications_enabled as boolean);
+          if (isMuted) {
+            notificationStore.muteChannel(channelId);
+          } else {
+            notificationStore.unmuteChannel(channelId);
+          }
         }
 
         // Update last read time
@@ -368,7 +370,7 @@ export function useChatInit(options: UseChatInitOptions = {}): UseChatInitReturn
 
       // Check if channel is muted (via channel settings)
       const channelSettings = notificationStore.preferences?.channelSettings?.[channelId];
-      if (channelSettings?.mutedUntil && new Date(channelSettings.mutedUntil) > new Date()) {
+      if (channelSettings?.muteUntil && new Date(channelSettings.muteUntil) > new Date()) {
         return;
       }
 

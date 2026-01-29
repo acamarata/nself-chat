@@ -369,7 +369,9 @@ export function useHuddle(options: UseHuddleOptions = {}): UseHuddleReturn {
 
         if (result.data?.insert_nchat_huddles_one) {
           const newHuddle = transformHuddleFromGraphQL(result.data.insert_nchat_huddles_one);
-          startHuddleInStore(channelId, roomType);
+          // Store only supports audio/video, not screenshare
+          const storeRoomType: 'audio' | 'video' = roomType === 'screenshare' ? 'video' : roomType;
+          startHuddleInStore(channelId, storeRoomType);
           joinHuddleInStore(newHuddle.id);
           return newHuddle;
         }

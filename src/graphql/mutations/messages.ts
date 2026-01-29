@@ -36,4 +36,5 @@ export const DELETE_MESSAGE = gql`
   }
 `
 
-// ADD_REACTION and REMOVE_REACTION are exported from ./reactions.ts
+// Re-export reaction mutations for convenience
+export { ADD_REACTION, REMOVE_REACTION } from './reactions'

@@ -132,7 +132,7 @@ export const BADGE_RULES: BadgeRule[] = [
     id: 'idme-nurse',
     name: 'Healthcare Badge',
     description: 'Assign healthcare badge to verified healthcare workers',
-    condition: (_, ctx) => ctx?.idmeGroups?.includes('nurse') || ctx?.idmeGroups?.includes('hospital') ?? false,
+    condition: (_, ctx) => (ctx?.idmeGroups?.includes('nurse') || ctx?.idmeGroups?.includes('hospital')) ?? false,
     badge: 'nurse',
     autoAssign: true,
     autoRemove: true,

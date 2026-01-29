@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import { type ExtendedUserProfile, type SocialLink } from './UserCard'
 import { AvatarUpload } from './AvatarUpload'
 import { CoverPhotoUpload } from './CoverPhotoUpload'
-import { ProfileFields } from './ProfileFields'
+import { ProfileFields, type ProfileFieldDefinition } from './ProfileFields'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -38,12 +38,12 @@ export interface EditProfileData {
   website: string
   phone: string
   socialLinks: SocialLink[]
-  customFields: Record<string, string>
+  customFields: Record<string, string | boolean>
 }
 
 export interface EditProfileProps extends React.HTMLAttributes<HTMLDivElement> {
   user: ExtendedUserProfile
-  customFieldDefinitions?: { key: string; label: string; type: string }[]
+  customFieldDefinitions?: ProfileFieldDefinition[]
   onSave: (data: EditProfileData) => Promise<void>
   onCancel: () => void
   onAvatarUpload: (file: File) => Promise<string>

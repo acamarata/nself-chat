@@ -456,7 +456,7 @@ export function getMentionDisplayText(mention: ParsedMention): string {
 export function parseAutocompleteQuery(
   text: string,
   cursorPosition: number
-): { trigger: '@' | '#' | null; query: string; start: number } | null {
+): { trigger: '@' | '#'; query: string; start: number } | null {
   // Look backwards from cursor to find trigger
   let start = cursorPosition - 1
   let foundTrigger: '@' | '#' | null = null

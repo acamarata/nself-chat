@@ -211,7 +211,6 @@ export const VoiceRecorder = memo(function VoiceRecorder({
   if (variant === 'compact') {
     return (
       <CompactVoiceRecorder
-        ref={containerRef}
         isRecording={isRecording}
         isPaused={isPaused}
         duration={duration}
@@ -233,7 +232,6 @@ export const VoiceRecorder = memo(function VoiceRecorder({
   if (variant === 'inline') {
     return (
       <InlineVoiceRecorder
-        ref={containerRef}
         isRecording={isRecording}
         isPaused={isPaused}
         duration={duration}
@@ -419,28 +417,24 @@ interface CompactVoiceRecorderProps {
 }
 
 const CompactVoiceRecorder = memo(
-  function CompactVoiceRecorder(
-    {
-      isRecording,
-      isPaused,
-      duration,
-      formattedDuration,
-      waveformData,
-      error,
-      disabled,
-      onStart,
-      onStop,
-      onPause,
-      onResume,
-      onCancel,
-      showCancel,
-      className,
-    }: CompactVoiceRecorderProps,
-    ref: React.ForwardedRef<HTMLDivElement>
-  ) {
+  function CompactVoiceRecorder({
+    isRecording,
+    isPaused,
+    duration,
+    formattedDuration,
+    waveformData,
+    error,
+    disabled,
+    onStart,
+    onStop,
+    onPause,
+    onResume,
+    onCancel,
+    showCancel,
+    className,
+  }: CompactVoiceRecorderProps) {
     return (
       <div
-        ref={ref}
         className={cn(
           'flex items-center gap-3 rounded-full border bg-card px-4 py-2',
           className
@@ -539,23 +533,19 @@ interface InlineVoiceRecorderProps {
 }
 
 const InlineVoiceRecorder = memo(
-  function InlineVoiceRecorder(
-    {
-      isRecording,
-      isPaused,
-      formattedDuration,
-      waveformData,
-      disabled,
-      onStart,
-      onStop,
-      onCancel,
-      className,
-    }: InlineVoiceRecorderProps,
-    ref: React.ForwardedRef<HTMLDivElement>
-  ) {
+  function InlineVoiceRecorder({
+    isRecording,
+    isPaused,
+    formattedDuration,
+    waveformData,
+    disabled,
+    onStart,
+    onStop,
+    onCancel,
+    className,
+  }: InlineVoiceRecorderProps) {
     return (
       <div
-        ref={ref}
         className={cn('flex items-center gap-2', className)}
       >
         {isRecording || isPaused ? (

@@ -356,9 +356,7 @@ export function formatRange(
 
   try {
     const formatter = new Intl.NumberFormat(bcp47, rest);
-    // @ts-expect-error formatRange may not be in type definition but exists in modern browsers
     if (formatter.formatRange) {
-      // @ts-expect-error formatRange exists
       return formatter.formatRange(start, end);
     }
   } catch {

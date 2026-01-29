@@ -9,7 +9,7 @@
 // ============================================================================
 
 // Channels
-export { useChannels, useChannel, useCreateChannel } from './use-channels'
+export { useUserChannels, useChannelDetails, useChannelMutations } from './use-channels'
 
 // Messages
 export {

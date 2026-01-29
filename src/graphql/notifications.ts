@@ -323,7 +323,8 @@ export const MARK_ALL_AS_READ = gql`
   }
 `
 
-// UPDATE_NOTIFICATION_PREFERENCES is defined in users.ts
+// Re-export UPDATE_NOTIFICATION_PREFERENCES from users.ts
+export { UPDATE_NOTIFICATION_PREFERENCES } from './users'
 
 /**
  * Mute a channel's notifications

@@ -241,7 +241,7 @@ export function useAppInit(options: UseAppInitOptions = {}): UseAppInitReturn {
 
       // Preferences are auto-loaded from localStorage by the store
       // Apply any user-specific overrides
-      const savedTheme = preferencesStore.theme;
+      const savedTheme = preferencesStore.display.theme;
       if (savedTheme) {
         // Theme is already applied by ThemeProvider
       }

@@ -13,10 +13,13 @@ import { useShortcut, useScopedKeyboard, useCustomShortcut } from '@/lib/keyboar
 
 // Type for editor with common formatting commands
 // TipTap adds these methods through extensions
-interface EditorWithFormatting extends Editor {
+// Using a looser type to avoid conflicts with TipTap's complex chain() return type
+interface EditorWithFormatting {
   chain: () => {
     focus: () => EditorChainMethods;
   };
+  isActive: (name: string) => boolean;
+  can: () => { undo: () => boolean; redo: () => boolean };
 }
 
 interface EditorChainMethods {

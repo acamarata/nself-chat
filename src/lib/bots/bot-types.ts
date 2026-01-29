@@ -382,6 +382,7 @@ export interface MessageEmbed {
  * Complete response payload
  */
 export interface BotResponse {
+  type?: 'message' | 'error' | 'help' | 'embed'
   content?: string
   embeds?: MessageEmbed[]
   actions?: MessageActionRow[]
@@ -555,4 +556,56 @@ export interface BotBuilderCondition {
   value: unknown
   then: string[] // Action IDs to execute
   else?: string[] // Action IDs if condition fails
+}
+
+// ============================================================================
+// BOT INTERFACE
+// ============================================================================
+
+/**
+ * Context passed to bot handlers - union of all context types
+ */
+export type BotContext = MessageContext | CommandContext | UserContext | ReactionContext
+
+/**
+ * Bot interface - implement this to create a bot
+ * Note: Method signatures are flexible to support various implementation patterns
+ */
+export interface Bot {
+  readonly id: string
+  readonly name: string
+  readonly description: string
+  readonly avatar?: string
+  readonly version: string
+
+  /**
+   * Initialize the bot
+   */
+  init?(config: BotConfig): Promise<void> | void
+
+  /**
+   * Handle incoming messages
+   */
+  onMessage?(...args: unknown[]): unknown
+
+  /**
+   * Handle commands
+   */
+  onCommand?(...args: unknown[]): unknown
+
+  /**
+   * Handle user events
+   */
+  onUserJoin?(...args: unknown[]): unknown
+  onUserLeave?(...args: unknown[]): unknown
+
+  /**
+   * Handle reactions
+   */
+  onReaction?(...args: unknown[]): unknown
+
+  /**
+   * Cleanup when bot is disabled
+   */
+  destroy?(): Promise<void> | void
 }
