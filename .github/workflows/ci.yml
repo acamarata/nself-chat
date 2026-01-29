@@ -97,7 +97,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: [lint, type-check, test]
+    # Run in parallel with lint/type-check/test for faster feedback
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -121,15 +121,21 @@ jobs:
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
+        if: success()
         with:
           name: build-output
-          path: .next
+          path: |
+            .next
+            !.next/cache
           retention-days: 7
+          if-no-files-found: warn
 
   e2e:
     name: E2E Tests
     runs-on: ubuntu-latest
     needs: [build]
+    continue-on-error: true  # E2E tests are optional for now
+    if: false  # Skip E2E tests until backend is available
     steps:
       - name: Checkout
         uses: actions/checkout@v4
