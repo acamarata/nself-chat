@@ -1,79 +1,129 @@
+# Pull Request
+
 ## Description
 
-<!-- Provide a brief description of the changes in this PR -->
+<!-- Provide a brief description of your changes -->
 
 ## Type of Change
 
 <!-- Mark the relevant option with an 'x' -->
 
-- [ ] Bug fix (non-breaking change that fixes an issue)
-- [ ] New feature (non-breaking change that adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] Documentation update
-- [ ] Refactoring (no functional changes)
-- [ ] Performance improvement
-- [ ] Test update
-- [ ] CI/CD update
+- [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
+- [ ] ✨ New feature (non-breaking change which adds functionality)
+- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] 📝 Documentation update
+- [ ] 🎨 Code style update (formatting, renaming)
+- [ ] ♻️ Code refactoring (no functional changes)
+- [ ] ⚡ Performance improvement
+- [ ] ✅ Test update
+- [ ] 🔧 Build configuration change
+- [ ] 🔒 Security fix
 
 ## Related Issues
 
-<!-- Link any related issues here -->
+<!-- Link related issues here. Use 'Fixes #123' to auto-close issues when PR is merged -->
+
 Fixes #
 Related to #
 
 ## Changes Made
 
-<!-- List the specific changes made in this PR -->
+<!-- Provide a detailed list of changes -->
 
--
--
--
+- Change 1
+- Change 2
+- Change 3
 
-## Screenshots / Videos
+## Screenshots
 
-<!-- If applicable, add screenshots or videos to help explain your changes -->
+<!-- If applicable, add screenshots to help explain your changes -->
+
+### Before
+
+
+### After
+
 
 ## Testing
 
 <!-- Describe the tests you ran and how to reproduce them -->
 
-- [ ] Unit tests pass (`pnpm test`)
-- [ ] E2E tests pass (`pnpm test:e2e`)
-- [ ] Lint passes (`pnpm lint`)
-- [ ] Type check passes (`pnpm type-check`)
-- [ ] Build succeeds (`pnpm build`)
+### Test Configuration
 
-### Manual Testing Steps
+- **Node version**:
+- **pnpm version**:
+- **OS**:
+- **Browser** (if applicable):
 
-1.
-2.
-3.
+### Tests Run
+
+- [ ] `pnpm type-check` - TypeScript compilation
+- [ ] `pnpm lint` - Code linting
+- [ ] `pnpm test` - Unit tests
+- [ ] `pnpm test:e2e` - E2E tests (if applicable)
+- [ ] `pnpm build` - Production build
+- [ ] Manual testing
+
+### Test Results
+
+<!-- Paste relevant test output or describe manual testing -->
+
+```
+[Test output here]
+```
 
 ## Checklist
 
 <!-- Mark completed items with an 'x' -->
 
-- [ ] I have read the [contributing guidelines](../CONTRIBUTING.md)
-- [ ] My code follows the project's style guidelines
-- [ ] I have performed a self-review of my code
-- [ ] I have commented my code where necessary
-- [ ] I have made corresponding changes to documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix/feature works
-- [ ] New and existing unit tests pass locally
+### Code Quality
+
+- [ ] My code follows the project's code style
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] My changes generate no new warnings or errors
+- [ ] I have removed any console.log statements
+
+### Testing
+
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
 - [ ] Any dependent changes have been merged and published
 
-## Additional Notes
+### Documentation
 
-<!-- Add any additional information that reviewers should know -->
+- [ ] I have made corresponding changes to the documentation
+- [ ] I have updated the CHANGELOG.md (if applicable)
+- [ ] I have added JSDoc comments to new functions/components
+- [ ] I have updated the README if needed
+
+### Breaking Changes
+
+- [ ] This PR introduces no breaking changes
+- [ ] OR: I have documented all breaking changes in this PR description
+- [ ] OR: I have updated the UPGRADE-GUIDE.md with migration instructions
+
+## Additional Context
+
+<!-- Add any other context about the pull request here -->
+
+## Reviewer Notes
+
+<!-- Anything specific you want reviewers to focus on? -->
 
 ---
 
-### Reviewer Checklist
+### For Reviewers
 
-- [ ] Code quality and style
-- [ ] Test coverage
-- [ ] Documentation
-- [ ] Security considerations
+Please check:
+- [ ] Code quality and style adherence
+- [ ] Test coverage adequacy
+- [ ] Documentation completeness
+- [ ] Security implications
 - [ ] Performance impact
-- [ ] Breaking changes documented
+- [ ] Breaking changes properly documented
+- [ ] Accessibility compliance (if UI changes)
+
+---
+
+**By submitting this pull request, I confirm that my contribution is made under the terms of the MIT License.**
