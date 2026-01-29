@@ -170,7 +170,7 @@ You'll be notified once a decision is made.`,
 **{{variables.formResponse.title}}**
 Submitted by: {{trigger.data.userName}}
 Type: {{variables.formResponse.requestType}}
-Amount: ${{variables.formResponse.amount}}
+Amount: $ {{variables.formResponse.amount}}
 Urgency: {{variables.formResponse.urgency}}
 
 **Details:**
@@ -197,7 +197,7 @@ Attachments: {{variables.formResponse.attachmentUrl}}
 **{{variables.formResponse.title}}**
 Submitted by: {{trigger.data.userName}}
 Type: {{variables.formResponse.requestType}}
-Amount: ${{variables.formResponse.amount}}
+Amount: $ {{variables.formResponse.amount}}
 Urgency: {{variables.formResponse.urgency}}
 
 **Details:**
@@ -278,7 +278,7 @@ The approval has timed out and has been escalated to additional reviewers. You'l
 {{variables.formResponse.title}}
 Requester: {{trigger.data.userName}}
 Type: {{variables.formResponse.requestType}}
-Amount: ${{variables.formResponse.amount}}
+Amount: $ {{variables.formResponse.amount}}
 
 Decision by: {{variables.reviewedBy}}`,
     parseVariables: true,
