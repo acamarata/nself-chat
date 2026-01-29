@@ -12,7 +12,7 @@
 import { useState, createContext, useContext, ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 import type { TemplateId } from '@/templates/types'
-import { templates } from '@/templates'
+import { templateRegistry } from '@/templates'
 import { demoUsers, demoChannels, demoMessages, getDemoUser, getChannelMessages } from '@/lib/demo/sample-data'
 
 // -------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ export interface DemoContextValue {
   // Template
   currentTemplate: TemplateId
   setTemplate: (template: TemplateId) => void
-  templateConfig: typeof templates['default']
+  templateConfig: (typeof templateRegistry)['default'] | null
 
   // Demo Data
   users: typeof demoUsers
@@ -82,7 +82,7 @@ export function DemoMode({
   const [activeChannelId, setActiveChannelId] = useState<string | null>('channel-1')
   const currentUserId = 'user-7' // Demo user
 
-  const templateConfig = templates[currentTemplate]
+  const templateConfig = templateRegistry[currentTemplate] ?? null
 
   const contextValue: DemoContextValue = {
     currentTemplate,

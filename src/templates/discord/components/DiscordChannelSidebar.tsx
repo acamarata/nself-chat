@@ -22,7 +22,7 @@ import {
   Mic,
   MicOff,
   Headphones,
-  HeadphonesOff,
+  VolumeX,
 } from 'lucide-react'
 
 // -------------------------------------------------------------------------------
@@ -316,7 +316,7 @@ function UserPanel({
           )}
         >
           {user.isDeafened ? (
-            <HeadphonesOff className="w-5 h-5" />
+            <VolumeX className="w-5 h-5" />
           ) : (
             <Headphones className="w-5 h-5" />
           )}
