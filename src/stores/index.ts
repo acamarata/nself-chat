@@ -101,7 +101,7 @@ export type {
 export {
   useMessageStore,
   selectMessages,
-  selectIsLoading,
+  selectIsLoading as selectMessageIsLoading,
   selectHasMore,
   selectTypingUsers,
   selectUnreadCount,
@@ -423,7 +423,7 @@ export {
   selectCustomCommands,
   selectEnabledCustomCommands,
   selectIsExecuting,
-  selectLastError,
+  selectLastError as selectCommandLastError,
   selectRecentCommandNames,
   selectCommandUsageCount,
 } from '@/lib/commands/command-store';
@@ -479,7 +479,7 @@ export {
   selectCategories,
   selectActiveCategory,
   selectSearchResults,
-  selectHasActiveFilters,
+  selectHasActiveFilters as selectAppDirectoryHasActiveFilters,
   selectAppById,
   selectIsInstalled,
 } from './app-directory-store';

@@ -9,7 +9,6 @@ export const nhost = new NhostClient({
   functionsUrl: 'https://functions.localhost',
 
   // Security settings
-  clientStorageType: 'cookie', // Use secure httpOnly cookies
   refreshIntervalTime: 600, // Refresh token every 10 minutes
 
   // Development settings

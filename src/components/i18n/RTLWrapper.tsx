@@ -6,6 +6,7 @@
  * Wraps content with RTL-specific styling and direction attributes.
  */
 
+import * as React from 'react';
 import { type ReactNode, useMemo } from 'react';
 
 import { cn } from '@/lib/utils';
@@ -21,7 +22,7 @@ interface RTLWrapperProps {
   /** Additional class name */
   className?: string;
   /** HTML element to render */
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
   /** Force direction regardless of locale */
   forceDirection?: 'ltr' | 'rtl';
 }
@@ -29,13 +30,15 @@ interface RTLWrapperProps {
 export function RTLWrapper({
   children,
   className,
-  as: Component = 'div',
+  as = 'div',
   forceDirection,
 }: RTLWrapperProps) {
   const isRTL = useLocaleStore(selectIsRTL);
   const effectiveRTL = forceDirection ? forceDirection === 'rtl' : isRTL;
 
   const cssVariables = useMemo(() => getRTLCSSVariables(effectiveRTL), [effectiveRTL]);
+
+  const Component = as as React.ElementType;
 
   return (
     <Component
@@ -59,7 +62,7 @@ interface DirectionalTextProps {
   /** Additional class name */
   className?: string;
   /** HTML element to render */
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
 }
 
 /**
@@ -69,8 +72,10 @@ export function DirectionalText({
   children,
   direction = 'auto',
   className,
-  as: Component = 'span',
+  as = 'span',
 }: DirectionalTextProps) {
+  const Component = as as React.ElementType;
+
   return (
     <Component dir={direction} className={cn('unicode-bidi-isolate', className)}>
       {children}

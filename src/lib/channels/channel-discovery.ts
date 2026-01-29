@@ -262,7 +262,7 @@ export function isChannelActive(channel: Channel, hoursAgo: number = 24): boolea
 // Discovery Results
 // ============================================================================
 
-export function searchChannels(
+export function discoverChannels(
   channels: Channel[],
   query: string,
   filters?: Omit<DiscoveryFilters, 'query'>

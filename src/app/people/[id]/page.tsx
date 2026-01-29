@@ -129,7 +129,7 @@ export default function UserProfilePage() {
 
   const {
     setLoadingProfile,
-    setViewingProfile,
+    viewProfile,
     addBlockedUser,
     removeBlockedUser,
     isUserBlocked,
@@ -145,7 +145,7 @@ export default function UserProfilePage() {
     const loadProfile = async () => {
       setIsLoading(true)
       setLoadingProfile(true)
-      setViewingProfile(userId)
+      viewProfile(userId)
 
       try {
         // In development, use mock data
@@ -169,9 +169,9 @@ export default function UserProfilePage() {
     loadProfile()
 
     return () => {
-      setViewingProfile(null)
+      viewProfile(null)
     }
-  }, [userId, setLoadingProfile, setViewingProfile])
+  }, [userId, setLoadingProfile, viewProfile])
 
   // Handle message
   const handleMessage = () => {

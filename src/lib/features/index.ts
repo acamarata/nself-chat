@@ -33,6 +33,35 @@
  * }
  * ```
  *
+ * ## Category-Based Feature Flags (White-Label)
+ *
+ * For white-label configuration, use the category-based system:
+ *
+ * ```tsx
+ * import { FEATURE_FLAGS } from '@/config/feature-flags'
+ * import { featureService } from '@/lib/features/feature-service'
+ * import { useFeature } from '@/hooks/use-feature'
+ * import { FeatureGate } from '@/components/features/feature-gate'
+ *
+ * // Check via service
+ * if (featureService.isEnabled('messaging', 'threads')) {
+ *   // Show threads
+ * }
+ *
+ * // Check via hook
+ * function Component() {
+ *   const { isEnabled, flags } = useFeature()
+ *   if (isEnabled('voice', 'calls')) {
+ *     // Show voice calls
+ *   }
+ * }
+ *
+ * // Check via component
+ * <FeatureGate category="video" feature="screenShare">
+ *   <ScreenShareButton />
+ * </FeatureGate>
+ * ```
+ *
  * ## Environment Variables
  *
  * Features can be controlled via environment variables:
@@ -259,6 +288,28 @@ export {
  * @alias isFeatureEnabled
  */
 export { isFeatureEnabled as checkFeature } from './feature-config';
+
+// ============================================================================
+// CATEGORY-BASED FEATURE SERVICE (White-Label)
+// ============================================================================
+
+export {
+  featureService,
+  FeatureService,
+} from './feature-service';
+
+// Re-export from config for convenience
+export {
+  FEATURE_FLAGS,
+  DEFAULT_FEATURE_FLAGS,
+  getFeatureCategories,
+  getFeaturesInCategory,
+  categoryHasEnabledSwitch,
+  type FeatureFlags as WhiteLabelFeatureFlags,
+  type FeatureCategory as WhiteLabelFeatureCategory,
+  type FeaturesInCategory,
+  type FeaturePath,
+} from '@/config/feature-flags';
 
 /**
  * Default export with commonly used items

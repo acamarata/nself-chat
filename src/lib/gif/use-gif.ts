@@ -444,8 +444,4 @@ export function useGif(searchOptions?: UseGifSearchOptions): UseGifResult {
   };
 }
 
-// ============================================================================
-// Export all hooks
-// ============================================================================
-
-export { useGifSearch, useGifTrending, useGifCategories, useGif };
+// Note: All hooks are exported directly via their function declarations above

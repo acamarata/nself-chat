@@ -75,7 +75,7 @@ export function BrandingStep({ config, onUpdate, onValidate }: BrandingStepProps
   const handleResetToDefaults = () => {
     const defaults = {
       appName: defaultAppConfig.branding.appName,
-      tagline: defaultAppConfig.branding.tagline,
+      tagline: defaultAppConfig.branding.tagline || '',
       logo: defaultAppConfig.branding.logo || '',
       favicon: defaultAppConfig.branding.favicon || '',
       companyName: defaultAppConfig.branding.companyName || '',

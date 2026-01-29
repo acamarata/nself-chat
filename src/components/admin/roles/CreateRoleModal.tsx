@@ -7,8 +7,8 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/alert-dialog'
-import { CreateRoleInput, EffectivePermissions } from '@/lib/admin/roles/role-types'
+} from '@/components/ui/dialog'
+import { CreateRoleInput, EffectivePermissions, Permission } from '@/lib/admin/roles/role-types'
 import { RoleEditor } from './RoleEditor'
 
 interface CreateRoleModalProps {
@@ -21,7 +21,7 @@ interface CreateRoleModalProps {
     description?: string
     color: string
     icon?: string
-    permissions: string[]
+    permissions: Permission[]
   }
 }
 

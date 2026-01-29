@@ -117,7 +117,8 @@ export const MessageList = forwardRef<MessageListRef, MessageListProps>(
         const item = displayItems[index]
         if (item.type === 'date-separator') return 48
         if (item.type === 'unread-indicator') return 40
-        if (item.isGrouped) return 28
+        if (item.type === 'new-messages-indicator') return 40
+        if (item.type === 'message' && item.isGrouped) return 28
         return ESTIMATED_MESSAGE_HEIGHT
       },
       overscan: OVERSCAN,
@@ -125,6 +126,7 @@ export const MessageList = forwardRef<MessageListRef, MessageListProps>(
         const item = displayItems[index]
         if (item.type === 'date-separator') return `date-${item.date.toISOString()}`
         if (item.type === 'unread-indicator') return 'unread-indicator'
+        if (item.type === 'new-messages-indicator') return 'new-messages-indicator'
         return item.message.id
       },
     })
@@ -292,7 +294,9 @@ export const MessageList = forwardRef<MessageListRef, MessageListProps>(
                     <DateSeparator date={item.date} />
                   ) : item.type === 'unread-indicator' ? (
                     <NewMessagesSeparator count={item.count} />
-                  ) : (
+                  ) : item.type === 'new-messages-indicator' ? (
+                    <NewMessagesSeparator count={item.count} />
+                  ) : item.type === 'message' ? (
                     <MessageItem
                       message={item.message}
                       isGrouped={item.isGrouped}
@@ -308,7 +312,7 @@ export const MessageList = forwardRef<MessageListRef, MessageListProps>(
                       onUnpin={onUnpin}
                       onScrollToMessage={scrollToMessage}
                     />
-                  )}
+                  ) : null}
                 </div>
               )
             })}
@@ -479,6 +483,14 @@ export function SimpleMessageList({
 
         if (item.type === 'unread-indicator') {
           return <NewMessagesSeparator key="unread" count={item.count} />
+        }
+
+        if (item.type === 'new-messages-indicator') {
+          return <NewMessagesSeparator key="new-messages" count={item.count} />
+        }
+
+        if (item.type !== 'message') {
+          return null
         }
 
         return (

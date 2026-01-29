@@ -1,6 +1,10 @@
 // Learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom'
 
+// Enable Immer's MapSet plugin for stores that use Map/Set
+import { enableMapSet } from 'immer'
+enableMapSet()
+
 // Mock Next.js router
 jest.mock('next/navigation', () => ({
   useRouter() {

@@ -6,6 +6,7 @@
  * Renders translated text with interpolation support.
  */
 
+import * as React from 'react';
 import { type ReactNode, useMemo } from 'react';
 
 import { translate, type TranslateOptions } from '@/lib/i18n/translator';
@@ -28,7 +29,7 @@ interface TranslatedTextProps {
   /** Namespace override */
   ns?: string;
   /** HTML tag to render (default: span) */
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
   /** Additional class name */
   className?: string;
   /** Custom render function for rich formatting */
@@ -46,7 +47,7 @@ export function TranslatedText({
   context,
   defaultValue,
   ns,
-  as: Component = 'span',
+  as = 'span',
   className,
   children,
 }: TranslatedTextProps) {
@@ -71,6 +72,7 @@ export function TranslatedText({
     return <>{children(translatedText)}</>;
   }
 
+  const Component = as as React.ElementType;
   return <Component className={className}>{translatedText}</Component>;
 }
 
@@ -92,7 +94,7 @@ interface PluralProps {
   i18nKey: string;
   count: number;
   values?: Record<string, string | number | boolean>;
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
   className?: string;
 }
 

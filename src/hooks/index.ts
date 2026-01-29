@@ -171,3 +171,12 @@ export { useSocket } from '@/lib/socket/hooks/use-socket'
 export { usePresence } from '@/lib/socket/hooks/use-presence'
 export { useTyping } from '@/lib/socket/hooks/use-typing'
 export { useChannelEvents } from '@/lib/socket/hooks/use-channel-events'
+
+// Hasura-based presence (uses GraphQL subscriptions)
+export { useHasuraPresence, useMyPresence } from './use-hasura-presence'
+
+// Read Receipts
+export { useChannelReadStatus, useMarkRead } from './use-read-receipts'
+
+// Reactions (uses Hasura subscriptions)
+export { useMessageReactions } from './use-reactions'

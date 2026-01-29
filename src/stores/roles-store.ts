@@ -43,7 +43,8 @@ import {
   createHistoryEntry,
   validateRole,
 } from '@/lib/admin/roles/role-manager'
-import { PERMISSION_GROUPS, PermissionGroup } from '@/lib/admin/roles/permission-types'
+import { PERMISSION_GROUPS } from '@/lib/admin/roles/permission-types'
+import type { PermissionGroup } from '@/lib/admin/roles/role-types'
 
 // ============================================================================
 // Types

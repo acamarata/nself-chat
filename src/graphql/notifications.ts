@@ -323,20 +323,7 @@ export const MARK_ALL_AS_READ = gql`
   }
 `
 
-/**
- * Update notification preferences
- */
-export const UPDATE_NOTIFICATION_PREFERENCES = gql`
-  mutation UpdateNotificationPreferences($userId: uuid!, $preferences: jsonb!) {
-    update_nchat_users_by_pk(
-      pk_columns: { id: $userId }
-      _set: { notification_preferences: $preferences }
-    ) {
-      id
-      notification_preferences
-    }
-  }
-`
+// UPDATE_NOTIFICATION_PREFERENCES is defined in users.ts
 
 /**
  * Mute a channel's notifications

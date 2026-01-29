@@ -17,7 +17,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/alert-dialog'
+} from '@/components/ui/dialog'
 import {
   Select,
   SelectContent,

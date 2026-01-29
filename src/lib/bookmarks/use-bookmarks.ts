@@ -686,7 +686,7 @@ export function useRecentBookmarks(limit = 5) {
   })
 
   return {
-    recentBookmarks: data?.nchat_bookmarks ?? [],
+    recentBookmarks: (data?.nchat_bookmarks ?? []) as Bookmark[],
     loading,
     error,
   }

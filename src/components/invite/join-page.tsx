@@ -279,7 +279,7 @@ function AuthRequiredState({ code, invite }: AuthRequiredProps) {
 
 export function JoinPage({ code, className }: JoinPageProps) {
   const router = useRouter()
-  const { user, isLoading: authLoading } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const { config } = useAppConfig()
 
   const {

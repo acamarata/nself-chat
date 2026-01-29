@@ -43,7 +43,7 @@ export interface ChannelCategoriesProps {
 // Icon Mapping
 // ============================================================================
 
-const CATEGORY_ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+const CATEGORY_ICON_MAP: Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>> = {
   MessageSquare,
   Megaphone,
   Users,

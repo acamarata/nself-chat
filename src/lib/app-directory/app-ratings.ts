@@ -10,6 +10,9 @@ import type {
   RatingSummary,
 } from './app-types';
 
+// Re-export types for convenience
+export type { AppRating, RatingDistribution, RatingSummary };
+
 // ============================================================================
 // Sample Ratings Data
 // ============================================================================

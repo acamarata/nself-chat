@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 // ============================================================================
 
 export interface SearchInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'size'> {
   /** Current search query value */
   value: string;
   /** Callback when search value changes */

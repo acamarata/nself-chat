@@ -260,16 +260,14 @@ function PermissionItem({
             {permission.name}
           </Label>
           {permission.dangerous && (
-            <AlertTriangle
-              className="h-4 w-4 text-amber-500"
-              title="Dangerous permission"
-            />
+            <span title="Dangerous permission">
+              <AlertTriangle className="h-4 w-4 text-amber-500" />
+            </span>
           )}
           {permission.requiresAdmin && (
-            <Shield
-              className="h-4 w-4 text-blue-500"
-              title="Requires admin"
-            />
+            <span title="Requires admin">
+              <Shield className="h-4 w-4 text-blue-500" />
+            </span>
           )}
         </div>
         {showDescription && (

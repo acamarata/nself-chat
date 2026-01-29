@@ -31,8 +31,11 @@ interface AppCategoriesProps {
   variant?: 'horizontal' | 'vertical';
 }
 
+// Icon component type with optional style support
+type IconComponent = React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
+
 // Icon mapping for categories
-const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+const CATEGORY_ICONS: Record<string, IconComponent> = {
   'productivity': Zap,
   'communication': MessageSquare,
   'developer-tools': Code,
@@ -130,7 +133,7 @@ export function AppCategories({
 interface CategoryButtonProps {
   id: string | null;
   name: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: IconComponent;
   color?: string;
   count?: number;
   isActive: boolean;

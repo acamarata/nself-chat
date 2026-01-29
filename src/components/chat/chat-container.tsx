@@ -136,7 +136,7 @@ export function ChatContainer({
     return (
       <div className={cn('flex h-full flex-col', className)}>
         <ChatEmpty channel={channel} />
-        <MessageInput onSendMessage={handleSendMessage} />
+        <MessageInput channelId={channel.id} onSend={handleSendMessage} />
       </div>
     )
   }
@@ -179,7 +179,7 @@ export function ChatContainer({
       )}
 
       {/* Message Input */}
-      <MessageInput onSendMessage={handleSendMessage} />
+      <MessageInput channelId={channel.id} onSend={handleSendMessage} />
     </div>
   )
 }

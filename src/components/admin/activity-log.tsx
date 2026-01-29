@@ -203,9 +203,9 @@ export function ActivityItem({ log }: ActivityItemProps) {
         <p className="mt-0.5 text-sm text-muted-foreground">{log.description}</p>
         {log.metadata && Object.keys(log.metadata).length > 0 && (
           <div className="mt-1 text-xs text-muted-foreground">
-            {log.metadata.reason && (
+            {'reason' in log.metadata && log.metadata.reason ? (
               <span className="italic">Reason: {String(log.metadata.reason)}</span>
-            )}
+            ) : null}
           </div>
         )}
       </div>

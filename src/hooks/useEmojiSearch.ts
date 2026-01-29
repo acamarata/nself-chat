@@ -52,7 +52,7 @@ export function useEmojiSearch(
   const customEmojis = useEmojiStore((state) => state.customEmojis);
 
   // Refs
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastQueryRef = useRef<string>('');
 
   // Memoized custom emojis

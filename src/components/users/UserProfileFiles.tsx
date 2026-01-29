@@ -157,7 +157,7 @@ function FileRow({ file, onFileClick }: FileRowProps) {
         'hover:bg-muted/50 transition-colors text-left'
       )}
     >
-      <FileIcon filename={file.name} className="h-10 w-10" />
+      <FileIcon file={file.name} className="h-10 w-10" />
       <div className="flex-1 min-w-0">
         <p className="font-medium text-sm truncate">{file.name}</p>
         <p className="text-xs text-muted-foreground">

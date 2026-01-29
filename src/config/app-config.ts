@@ -405,15 +405,25 @@ export const authPermissionDescriptions = {
   'admin-only': 'Only admins can manually create accounts'
 } as const
 
-// Setup step titles
+// Setup step titles - Expanded wizard with environment detection and deployment
 export const setupSteps = [
   'Welcome',
-  'Owner Information', 
+  'Environment Detection',
+  'Backend Setup',
+  'Owner Information',
   'App Branding',
   'Theme & Colors',
   'Landing Page',
   'Authentication Methods',
   'Access Permissions',
   'Features & Integrations',
+  'Deployment',
   'Review & Launch'
 ] as const
+
+// Step phases for grouping in the wizard UI
+export const setupPhases = {
+  setup: { name: 'Setup', steps: [0, 1, 2], description: 'Environment and backend configuration' },
+  customize: { name: 'Customize', steps: [3, 4, 5, 6, 7, 8, 9], description: 'Branding, theme, and features' },
+  deploy: { name: 'Deploy', steps: [10, 11], description: 'Deployment and launch' }
+} as const

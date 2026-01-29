@@ -73,7 +73,7 @@ export interface UploadProgressProps {
 
 function calculateUploadSpeed(
   uploadedBytes: number,
-  startedAt: number | null
+  startedAt: number | null | undefined
 ): number | null {
   if (!startedAt || uploadedBytes === 0) return null;
   const elapsed = (Date.now() - startedAt) / 1000; // seconds
@@ -84,7 +84,7 @@ function calculateUploadSpeed(
 function calculateTimeRemaining(
   uploadedBytes: number,
   totalBytes: number,
-  startedAt: number | null
+  startedAt: number | null | undefined
 ): number | null {
   const speed = calculateUploadSpeed(uploadedBytes, startedAt);
   if (!speed || speed === 0) return null;

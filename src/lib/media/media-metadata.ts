@@ -418,8 +418,9 @@ export function formatMetadataValue(
 
 /**
  * Format duration in seconds to readable string
+ * @alias formatDuration from media-manager.ts
  */
-export function formatDuration(seconds: number): string {
+export function formatMediaDuration(seconds: number): string {
   if (!seconds || seconds <= 0) return '0:00';
 
   const hours = Math.floor(seconds / 3600);

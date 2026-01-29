@@ -63,7 +63,7 @@ export function useEmojiAutocomplete(
   const addRecentEmoji = useEmojiStore((state) => state.addRecentEmoji);
 
   // Debounce timer
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Memoized data
   const customEmojisArray = useMemo(

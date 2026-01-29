@@ -476,11 +476,14 @@ export const useAppDirectoryStore = create<AppDirectoryStore>()(
           if (!state.hasMore || state.isLoading) return;
 
           const nextPage = state.currentPage + 1;
+          const filterCategories = state.activeCategory
+            ? [state.activeCategory]
+            : state.searchFilters.categories;
 
           await get().searchApps({
             query: state.searchQuery,
-            categories: state.activeCategory ? [state.activeCategory] : undefined,
             ...state.searchFilters,
+            categories: filterCategories,
             page: nextPage,
           });
         },

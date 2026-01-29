@@ -133,11 +133,13 @@ export const MentionAutocomplete = forwardRef<
       }
 
       // Get suggestions based on trigger
+      // When parseAutocompleteQuery returns non-null, trigger is always '@' or '#'
+      const trigger = queryInfo.trigger as '@' | '#'
       const suggestions = filterMentionSuggestions({
-        users: queryInfo.trigger === '@' ? users : [],
-        channels: queryInfo.trigger === '#' ? channels : [],
+        users: trigger === '@' ? users : [],
+        channels: trigger === '#' ? channels : [],
         permissions,
-        trigger: queryInfo.trigger,
+        trigger,
         query: queryInfo.query,
         maxSuggestions: 10,
         prioritizeChannelMembers: true,
@@ -148,7 +150,7 @@ export const MentionAutocomplete = forwardRef<
         ...prev,
         isOpen: suggestions.length > 0 || queryInfo.query.length === 0,
         query: queryInfo.query,
-        trigger: queryInfo.trigger,
+        trigger,
         suggestions,
         selectedIndex: 0,
         position: calculatePosition(anchorElement),
@@ -257,12 +259,13 @@ export const MentionAutocomplete = forwardRef<
       open: () => {
         // Trigger a re-parse by updating state
         const queryInfo = parseAutocompleteQuery(value, cursorPosition)
-        if (queryInfo) {
+        if (queryInfo && queryInfo.trigger) {
+          const trigger = queryInfo.trigger as '@' | '#'
           const suggestions = filterMentionSuggestions({
-            users: queryInfo.trigger === '@' ? users : [],
-            channels: queryInfo.trigger === '#' ? channels : [],
+            users: trigger === '@' ? users : [],
+            channels: trigger === '#' ? channels : [],
             permissions,
-            trigger: queryInfo.trigger,
+            trigger,
             query: queryInfo.query,
             maxSuggestions: 10,
             prioritizeChannelMembers: true,

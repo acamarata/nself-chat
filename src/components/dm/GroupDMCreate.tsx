@@ -151,8 +151,8 @@ export function GroupDMCreate() {
             user: {
               id: currentUser?.id || '',
               username: currentUser?.email?.split('@')[0] || '',
-              displayName: currentUser?.name || '',
-              avatarUrl: currentUser?.avatar || null,
+              displayName: currentUser?.displayName || currentUser?.email?.split('@')[0] || '',
+              avatarUrl: currentUser?.avatarUrl || null,
               status: 'online',
               statusEmoji: null,
               lastSeenAt: null,
@@ -348,8 +348,8 @@ export function GroupDMCreate() {
               <Label>Members ({selectedUsers.length + 1})</Label>
               <div className="flex -space-x-2">
                 <Avatar className="h-8 w-8 border-2 border-background">
-                  <AvatarImage src={currentUser?.avatar || undefined} />
-                  <AvatarFallback>{currentUser?.name?.charAt(0) || 'Y'}</AvatarFallback>
+                  <AvatarImage src={currentUser?.avatarUrl || undefined} />
+                  <AvatarFallback>{currentUser?.displayName?.charAt(0) || 'Y'}</AvatarFallback>
                 </Avatar>
                 {selectedUsers.slice(0, 5).map((user) => (
                   <Avatar key={user.id} className="h-8 w-8 border-2 border-background">

@@ -79,14 +79,14 @@ function canAggregate(
   switch (activity1.type) {
     case 'reaction':
       // Aggregate reactions to the same message
-      if ('message' in activity1 && 'message' in activity2) {
+      if ('message' in activity1 && 'message' in activity2 && activity1.message && activity2.message) {
         return activity1.message.id === activity2.message.id;
       }
       return false;
 
     case 'mention':
       // Aggregate mentions in the same channel
-      if ('channel' in activity1 && 'channel' in activity2) {
+      if ('channel' in activity1 && 'channel' in activity2 && activity1.channel && activity2.channel) {
         return activity1.channel.id === activity2.channel.id;
       }
       return false;
@@ -105,14 +105,14 @@ function canAggregate(
     case 'member_joined':
     case 'member_left':
       // Aggregate member changes in the same channel
-      if ('channel' in activity1 && 'channel' in activity2) {
+      if ('channel' in activity1 && 'channel' in activity2 && activity1.channel && activity2.channel) {
         return activity1.channel.id === activity2.channel.id;
       }
       return false;
 
     case 'file_shared':
       // Aggregate files shared in the same channel
-      if ('channel' in activity1 && 'channel' in activity2) {
+      if ('channel' in activity1 && 'channel' in activity2 && activity1.channel && activity2.channel) {
         return activity1.channel.id === activity2.channel.id;
       }
       return false;

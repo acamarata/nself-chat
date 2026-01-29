@@ -35,8 +35,8 @@ export function StatsCard({
   const IconComponent = typeof icon === 'function' ? icon : null
   const iconElement = IconComponent ? (
     <IconComponent className="h-4 w-4 text-muted-foreground" />
-  ) : icon ? (
-    <span className="text-muted-foreground">{icon}</span>
+  ) : icon && typeof icon !== 'function' ? (
+    <span className="text-muted-foreground">{icon as ReactNode}</span>
   ) : null
 
   // Determine trend direction from isPositive if direction not provided

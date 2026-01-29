@@ -127,13 +127,13 @@ export class AppleProvider implements AuthProvider {
         success: true,
         session: {
           accessToken: session.accessToken,
-          refreshToken: session.refreshToken,
+          refreshToken: session.refreshToken ?? undefined,
           expiresAt: new Date(session.accessTokenExpiresIn * 1000 + Date.now()),
           user: {
             id: session.user.id,
-            email: session.user.email || undefined,
+            email: session.user.email ?? undefined,
             displayName,
-            avatarUrl: session.user.avatarUrl || undefined,
+            avatarUrl: session.user.avatarUrl ?? undefined,
             emailVerified: true, // Apple verifies emails
             provider: 'apple',
             providerUserId: session.user.metadata?.['sub'] as string,

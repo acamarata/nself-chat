@@ -198,7 +198,7 @@ export function UserEngagementChart({
                     <span className="font-medium">
                       {payload[0].payload.metric}:
                     </span>{' '}
-                    <span>{payload[0].value?.toFixed(1)}%</span>
+                    <span>{typeof payload[0].value === 'number' ? payload[0].value.toFixed(1) : payload[0].value}%</span>
                   </div>
                 );
               }}

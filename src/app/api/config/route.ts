@@ -79,15 +79,13 @@ const configHistory: Array<{
 /**
  * Deep merge two objects
  */
-function deepMerge<T extends Record<string, unknown>>(
-  target: T,
-  source: Partial<T>
-): T {
-  const result = { ...target }
+function deepMerge<T>(target: T, source: Partial<T>): T {
+  const result = { ...target } as T
 
-  for (const key of Object.keys(source)) {
-    const sourceValue = source[key as keyof typeof source]
-    const targetValue = target[key as keyof typeof target]
+  for (const key of Object.keys(source as object)) {
+    const typedKey = key as keyof T
+    const sourceValue = (source as T)[typedKey]
+    const targetValue = target[typedKey]
 
     if (
       sourceValue &&
@@ -97,12 +95,12 @@ function deepMerge<T extends Record<string, unknown>>(
       typeof targetValue === 'object' &&
       !Array.isArray(targetValue)
     ) {
-      result[key as keyof T] = deepMerge(
-        targetValue as Record<string, unknown>,
-        sourceValue as Record<string, unknown>
+      result[typedKey] = deepMerge(
+        targetValue as object,
+        sourceValue as object
       ) as T[keyof T]
     } else if (sourceValue !== undefined) {
-      result[key as keyof T] = sourceValue as T[keyof T]
+      result[typedKey] = sourceValue
     }
   }
 
@@ -322,8 +320,8 @@ async function handlePost(request: AuthenticatedRequest): Promise<NextResponse> 
     }
 
     // Get current config and merge with updates
-    const currentConfig = await getConfigFromDatabase()
-    const updatedConfig = deepMerge(currentConfig, body as Partial<AppConfig>)
+    const currentDbConfig = await getConfigFromDatabase()
+    const updatedConfig = deepMerge<AppConfig>(currentDbConfig, body as Partial<AppConfig>)
 
     // Update setup state if completing steps
     if (body.setup?.currentStep !== undefined) {
@@ -370,8 +368,8 @@ async function handlePatch(request: AuthenticatedRequest): Promise<NextResponse>
       )
     }
 
-    const currentConfig = await getConfigFromDatabase()
-    const updatedConfig = deepMerge(currentConfig, body as Partial<AppConfig>)
+    const currentDbConfig = await getConfigFromDatabase()
+    const updatedConfig = deepMerge<AppConfig>(currentDbConfig, body as Partial<AppConfig>)
 
     await saveConfigToDatabase(updatedConfig, user.email)
 

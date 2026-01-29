@@ -30,7 +30,7 @@ const sizeConfig: Record<BadgeSize, { icon: string; text: string; padding: strin
 }
 
 // Icon components (simplified SVG icons)
-const icons: Record<string, React.FC<{ className?: string }>> = {
+const icons: Record<string, React.FC<{ className?: string; style?: React.CSSProperties }>> = {
   crown: ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
       <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm0 2h14v2H5v-2z" />

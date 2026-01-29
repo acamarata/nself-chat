@@ -363,7 +363,7 @@ export function PollResults({ pollId, open, onOpenChange }: PollResultsProps) {
       totalVotes: results.totalVotes,
       createdAt: results.createdAt,
       closedAt: results.closedAt,
-      options: results.options.map((o) => ({
+      options: results.options.map((o: ResultOption) => ({
         text: o.text,
         votes: o.voteCount,
         percentage: o.percentage,

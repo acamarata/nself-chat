@@ -110,7 +110,7 @@ export function NotificationSettings({
       >
         {!hideNavigation && (
           <div className="border-b bg-card">
-            <ScrollArea className="w-full" orientation="horizontal">
+            <ScrollArea className="w-full">
               <TabsList className="inline-flex h-12 items-center justify-start gap-1 p-1 bg-transparent">
                 {tabs.map((tab) => (
                   <TabsTrigger

@@ -20,12 +20,21 @@ import { extractDomain } from './preview-sanitizer'
 // URL Pattern Matching
 // ============================================================================
 
+// Internal detection type that includes specific platforms
+export type InternalUrlType =
+  | 'twitter'
+  | 'youtube'
+  | 'github'
+  | 'spotify'
+  | 'gist'
+  | 'codepen'
+  | 'codesandbox'
+  | 'generic';
+
 /**
  * Detect the type of URL and return the appropriate handler
  */
-export function detectUrlType(
-  url: string
-): 'twitter' | 'youtube' | 'github' | 'spotify' | 'gist' | 'codepen' | 'codesandbox' | 'generic' {
+export function detectUrlType(url: string): InternalUrlType {
   const patterns: Record<string, RegExp> = {
     twitter: /^https?:\/\/(?:www\.)?(twitter|x)\.com\/\w+\/status\/(\d+)/i,
     youtube:
@@ -39,11 +48,25 @@ export function detectUrlType(
 
   for (const [type, pattern] of Object.entries(patterns)) {
     if (pattern.test(url)) {
-      return type as ReturnType<typeof detectUrlType>
+      return type as InternalUrlType
     }
   }
 
   return 'generic'
+}
+
+/**
+ * Map internal URL type to public PreviewType
+ */
+export function mapToPreviewType(internalType: InternalUrlType): PreviewType {
+  switch (internalType) {
+    case 'gist':
+    case 'codepen':
+    case 'codesandbox':
+      return 'code'
+    default:
+      return internalType as PreviewType
+  }
 }
 
 // ============================================================================

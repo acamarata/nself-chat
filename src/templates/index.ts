@@ -81,6 +81,11 @@ export const templateRegistry: Record<TemplateId, TemplateRegistryEntry> = {
   },
 }
 
+/**
+ * Array of all template IDs for easy iteration
+ */
+export const templates: TemplateId[] = ['default', 'slack', 'discord', 'telegram', 'whatsapp']
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Template Loading
 // ─────────────────────────────────────────────────────────────────────────────
@@ -288,16 +293,16 @@ export function applyEnvOverrides(template: PlatformTemplate): PlatformTemplate 
   if (primaryColor || secondaryColor || accentColor) {
     overrides.theme = overrides.theme ?? {}
     if (primaryColor) {
-      overrides.theme.light = { ...overrides.theme.light, primaryColor }
-      overrides.theme.dark = { ...overrides.theme.dark, primaryColor }
+      overrides.theme.light = { ...overrides.theme.light, primaryColor } as Partial<ThemeColors>
+      overrides.theme.dark = { ...overrides.theme.dark, primaryColor } as Partial<ThemeColors>
     }
     if (secondaryColor) {
-      overrides.theme.light = { ...overrides.theme.light, secondaryColor }
-      overrides.theme.dark = { ...overrides.theme.dark, secondaryColor }
+      overrides.theme.light = { ...overrides.theme.light, secondaryColor } as Partial<ThemeColors>
+      overrides.theme.dark = { ...overrides.theme.dark, secondaryColor } as Partial<ThemeColors>
     }
     if (accentColor) {
-      overrides.theme.light = { ...overrides.theme.light, accentColor }
-      overrides.theme.dark = { ...overrides.theme.dark, accentColor }
+      overrides.theme.light = { ...overrides.theme.light, accentColor } as Partial<ThemeColors>
+      overrides.theme.dark = { ...overrides.theme.dark, accentColor } as Partial<ThemeColors>
     }
   }
 

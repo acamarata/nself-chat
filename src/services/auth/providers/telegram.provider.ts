@@ -182,7 +182,9 @@ export class TelegramProvider extends BaseAuthProvider {
     container.innerHTML = ''
 
     // Set up the callback function
-    (window as unknown as { onTelegramAuth: (user: TelegramAuthData) => void }).onTelegramAuth = (user: TelegramAuthData) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const win = window as any
+    win.onTelegramAuth = (user: TelegramAuthData) => {
       this.verifyTelegramAuth(user).then(result => {
         if (result.success) {
           // Notify listeners
@@ -198,7 +200,7 @@ export class TelegramProvider extends BaseAuthProvider {
     // Create the script element for Telegram widget
     const script = document.createElement('script')
     script.src = 'https://telegram.org/js/telegram-widget.js?22'
-    script.setAttribute('data-telegram-login', this.extendedConfig.botUsername)
+    script.setAttribute('data-telegram-login', this.extendedConfig.botUsername || '')
     script.setAttribute('data-size', 'large')
     script.setAttribute('data-onauth', 'onTelegramAuth(user)')
     script.setAttribute('data-request-access', this.extendedConfig.requestWriteAccess ? 'write' : 'read')
@@ -362,7 +364,8 @@ export class TelegramProvider extends BaseAuthProvider {
       if (container) {
         container.remove()
       }
-      delete (window as unknown as { onTelegramAuth?: unknown }).onTelegramAuth
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      delete (window as any).onTelegramAuth
     }
     super.destroy()
   }

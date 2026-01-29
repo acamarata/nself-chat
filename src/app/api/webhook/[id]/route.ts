@@ -39,6 +39,7 @@ import {
   withRateLimit,
   compose,
   getClientIp,
+  type RouteContext as MiddlewareRouteContext,
 } from '@/lib/api/middleware'
 import type {
   Webhook,
@@ -110,9 +111,7 @@ if (process.env.NODE_ENV === 'development') {
 // Types
 // ============================================================================
 
-interface RouteContext {
-  params: Promise<{ id: string }>
-}
+type RouteContext = MiddlewareRouteContext
 
 // ============================================================================
 // Helpers
@@ -328,7 +327,8 @@ async function handleGet(
   request: NextRequest,
   context: RouteContext
 ): Promise<NextResponse> {
-  const { id } = await context.params
+  const params = await context.params
+  const id = params.id || ''
   const { searchParams } = new URL(request.url)
 
   const { webhookId, token } = parseWebhookIdAndToken(id, searchParams)
@@ -364,7 +364,8 @@ async function handlePost(
   request: NextRequest,
   context: RouteContext
 ): Promise<NextResponse> {
-  const { id } = await context.params
+  const params = await context.params
+  const id = params.id || ''
   const { searchParams } = new URL(request.url)
 
   const { webhookId, token } = parseWebhookIdAndToken(id, searchParams)

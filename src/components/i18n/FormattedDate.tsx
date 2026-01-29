@@ -6,6 +6,7 @@
  * Renders dates formatted according to the current locale.
  */
 
+import * as React from 'react';
 import { useMemo } from 'react';
 
 import { useLocaleStore } from '@/stores/locale-store';
@@ -30,14 +31,14 @@ interface FormattedDateProps {
   /** Additional class name */
   className?: string;
   /** HTML element to render */
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
 }
 
 export function FormattedDate({
   date,
   format = 'medium',
   className,
-  as: Component = 'time',
+  as = 'time',
 }: FormattedDateProps) {
   const locale = useLocaleStore((state) => state.currentLocale);
 
@@ -51,7 +52,9 @@ export function FormattedDate({
     return d.toISOString();
   }, [date]);
 
-  if (Component === 'time') {
+  const Component = as as React.ElementType;
+
+  if (as === 'time') {
     return (
       <time dateTime={isoDate} className={className}>
         {formattedDate}

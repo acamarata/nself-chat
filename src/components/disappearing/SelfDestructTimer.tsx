@@ -48,7 +48,7 @@ interface SelfDestructTimerProps {
   /** Whether the control is disabled */
   disabled?: boolean;
   /** Size variant */
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'default';
   /** Show as icon button or full button */
   variant?: 'icon' | 'button' | 'dropdown';
   /** Additional class names */
@@ -66,7 +66,7 @@ export function SelfDestructTimer({
   onTypeChange,
   timerPresets = [86400, 604800, 2592000],
   disabled = false,
-  size = 'md',
+  size = 'default',
   variant = 'dropdown',
   className,
 }: SelfDestructTimerProps) {

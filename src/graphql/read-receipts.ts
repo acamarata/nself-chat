@@ -343,26 +343,7 @@ export const MARK_ALL_CHANNELS_READ = gql`
   }
 `
 
-/**
- * Mark thread as read
- */
-export const MARK_THREAD_READ = gql`
-  mutation MarkThreadRead($threadId: uuid!, $userId: uuid!) {
-    update_nchat_thread_participants(
-      where: {
-        thread_id: { _eq: $threadId }
-        user_id: { _eq: $userId }
-      }
-      _set: { last_read_at: "now()" }
-    ) {
-      affected_rows
-      returning {
-        id
-        last_read_at
-      }
-    }
-  }
-`
+// MARK_THREAD_READ is defined in threads.ts
 
 /**
  * Bulk create read receipts (for marking multiple messages as read)

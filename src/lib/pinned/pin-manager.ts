@@ -16,8 +16,8 @@ import type {
   PinListOptions,
   ChannelPinStats,
   PinConfig,
-  DEFAULT_PIN_CONFIG,
 } from './pin-types';
+import { DEFAULT_PIN_CONFIG } from './pin-types';
 import { canPinMessage, canUnpinMessage, type UserRole } from './pin-permissions';
 import { checkPinLimits, isValidPinNote, PIN_LIMITS } from './pin-limits';
 

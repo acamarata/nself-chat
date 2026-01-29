@@ -147,8 +147,8 @@ export function NewDMModal() {
             user: {
               id: currentUser?.id || '',
               username: currentUser?.email?.split('@')[0] || '',
-              displayName: currentUser?.name || '',
-              avatarUrl: currentUser?.avatar || null,
+              displayName: currentUser?.displayName || currentUser?.email?.split('@')[0] || '',
+              avatarUrl: currentUser?.avatarUrl || null,
               status: 'online',
               statusEmoji: null,
               lastSeenAt: null,

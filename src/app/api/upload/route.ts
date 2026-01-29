@@ -251,7 +251,7 @@ function validateUploadRequest(
   }
 
   // Check file type
-  if (!ALL_ALLOWED_MIME_TYPES.includes(contentType)) {
+  if (!ALL_ALLOWED_MIME_TYPES.includes(contentType as typeof ALL_ALLOWED_MIME_TYPES[number])) {
     return {
       valid: false,
       error: `File type "${contentType}" is not allowed`,

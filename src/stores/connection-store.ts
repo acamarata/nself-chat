@@ -328,11 +328,14 @@ export const useConnectionStore = create<ConnectionStore>()(
  * Update overall state based on network and socket state
  */
 function updateOverallStateInPlace(state: ConnectionStoreState): void {
-  const { network, socket } = state;
+  const { network, socket, retry } = state;
 
   // Determine overall state
   if (network.state === 'offline') {
     state.overallState = 'offline';
+  } else if (!retry.shouldRetry && retry.lastError) {
+    // Connection has failed and won't retry
+    state.overallState = 'error';
   } else if (socket.connected) {
     state.overallState = 'online';
   } else if (socket.reconnectAttempts > 0) {

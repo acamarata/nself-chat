@@ -74,15 +74,16 @@ export function ThemeStep({ config, onUpdate, onValidate }: ThemeStepProps) {
     if (preset) {
       // Always use dark variant by default for main theme
       const colors = preset.dark
+      const typedPresetKey = presetKey as AppConfig['theme']['preset']
       const newTheme = {
         ...theme,
-        preset: presetKey,
+        preset: typedPresetKey,
         ...colors,
-        colorScheme: 'dark'
+        colorScheme: 'dark' as const
       }
       setTheme(newTheme)
-      setSelectedPreset(presetKey)
-      
+      setSelectedPreset(presetKey as typeof selectedPreset)
+
       // Update preview theme based on current preview mode
       const previewColors = previewMode === 'dark' ? preset.dark : preset.light
       setPreviewTheme({

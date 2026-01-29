@@ -121,7 +121,7 @@ class SettingsManager {
   ): void {
     this.updateCategory(category, {
       [setting]: value,
-    } as Partial<UserSettings[K]>);
+    } as unknown as Partial<UserSettings[K]>);
   }
 
   // --------------------------------------------------------------------------
@@ -238,10 +238,10 @@ class SettingsManager {
 
     for (const key of Object.keys(updates) as (keyof UserSettings)[]) {
       if (updates[key] !== undefined) {
-        merged[key] = {
+        (merged as Record<string, unknown>)[key] = {
           ...base[key],
           ...updates[key],
-        } as UserSettings[typeof key];
+        };
       }
     }
 

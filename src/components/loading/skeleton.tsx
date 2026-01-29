@@ -168,7 +168,7 @@ export function TextBlockSkeleton({
   )
 }
 
-interface SkeletonGroupProps extends SkeletonBaseProps {
+interface SkeletonGroupProps extends Omit<SkeletonBaseProps, 'children'> {
   /** Number of items to render */
   count?: number
   /** Gap between items */

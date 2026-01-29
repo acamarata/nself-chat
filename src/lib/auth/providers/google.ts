@@ -130,13 +130,13 @@ export class GoogleProvider implements AuthProvider {
         success: true,
         session: {
           accessToken: session.accessToken,
-          refreshToken: session.refreshToken,
+          refreshToken: session.refreshToken ?? undefined,
           expiresAt: new Date(session.accessTokenExpiresIn * 1000 + Date.now()),
           user: {
             id: session.user.id,
-            email: session.user.email || undefined,
-            displayName: session.user.displayName || undefined,
-            avatarUrl: session.user.avatarUrl || undefined,
+            email: session.user.email ?? undefined,
+            displayName: session.user.displayName ?? undefined,
+            avatarUrl: session.user.avatarUrl ?? undefined,
             emailVerified: true, // Google accounts are verified
             provider: 'google',
             providerUserId: session.user.metadata?.['sub'] as string,

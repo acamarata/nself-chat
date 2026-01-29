@@ -512,7 +512,7 @@ export function AddStickerPackModal({
                     <h3 className="font-medium text-sm">Trending</h3>
                   </div>
                   <div className="grid grid-cols-3 gap-3">
-                    {trendingPacks.slice(0, 3).map((pack) => (
+                    {trendingPacks.slice(0, 3).map((pack: StickerPack) => (
                       <PackCard
                         key={pack.id}
                         pack={pack}

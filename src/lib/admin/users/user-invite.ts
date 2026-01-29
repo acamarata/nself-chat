@@ -270,6 +270,29 @@ export function calculateExpirationDate(days: number): string {
 }
 
 // ============================================================================
+// CSV Template Functions
+// ============================================================================
+
+/**
+ * Download a CSV template for bulk user invites
+ */
+export function downloadInviteTemplate(): void {
+  const template = `email,name,role
+user1@example.com,John Doe,member
+user2@example.com,Jane Smith,member
+`
+  const blob = new Blob([template], { type: 'text/csv' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = 'invite-template.csv'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+}
+
+// ============================================================================
 // Email Template Functions
 // ============================================================================
 

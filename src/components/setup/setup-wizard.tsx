@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { setupSteps, landingThemeTemplates, authProviderDescriptions, authPermissionDescriptions, type AppConfig } from '@/config/app-config'
+import { setupSteps, setupPhases, landingThemeTemplates, authProviderDescriptions, authPermissionDescriptions, type AppConfig } from '@/config/app-config'
 import { Button } from '@/components/ui/button'
 import { ProgressStepper } from './progress-stepper'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 // Step components
 import { WelcomeStep } from './steps/welcome-step'
+import { EnvironmentStep } from './steps/environment-step'
+import { BackendSetupStep } from './steps/backend-setup-step'
 import { OwnerInfoStep } from './steps/owner-info-step'
 import { BrandingStep } from './steps/branding-step'
 import { ThemeStep } from './steps/theme-step'
@@ -16,6 +18,7 @@ import { LandingPageStep } from './steps/landing-page-step'
 import { AuthMethodsStep } from './steps/auth-methods-step'
 import { AccessPermissionsStep } from './steps/access-permissions-step'
 import { FeaturesStep } from './steps/features-step'
+import { DeploymentStep } from './steps/deployment-step'
 import { ReviewStep } from './steps/review-step'
 
 interface SetupWizardProps {
@@ -102,20 +105,26 @@ export function SetupWizard({ initialConfig, onComplete, initialStep, visitedSte
       case 0:
         return <WelcomeStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
       case 1:
-        return <OwnerInfoStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
+        return <EnvironmentStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
       case 2:
-        return <BrandingStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
+        return <BackendSetupStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
       case 3:
-        return <ThemeStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
+        return <OwnerInfoStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
       case 4:
-        return <LandingPageStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
+        return <BrandingStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
       case 5:
-        return <AuthMethodsStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
+        return <ThemeStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
       case 6:
-        return <AccessPermissionsStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
+        return <LandingPageStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
       case 7:
-        return <FeaturesStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
+        return <AuthMethodsStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
       case 8:
+        return <AccessPermissionsStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
+      case 9:
+        return <FeaturesStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
+      case 10:
+        return <DeploymentStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
+      case 11:
         return <ReviewStep config={config} onUpdate={updateConfig} onValidate={setIsValid} />
       default:
         return null

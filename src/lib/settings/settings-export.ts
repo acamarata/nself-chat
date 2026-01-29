@@ -30,7 +30,7 @@ export function exportSettings(
   if (categories && categories.length > 0) {
     settingsToExport = {};
     for (const category of categories) {
-      settingsToExport[category] = settings[category];
+      (settingsToExport as Record<string, unknown>)[category] = settings[category];
     }
   } else {
     settingsToExport = settings;
@@ -135,19 +135,20 @@ export function importSettings(
 
     for (const category of categoriesToImport) {
       if (settings[category]) {
+        const settingsRecord = updates as Record<string, unknown>;
         if (options?.merge) {
           // Merge with existing settings
           const existing = settingsManager.getCategory(category);
-          updates[category] = {
+          settingsRecord[category] = {
             ...existing,
             ...settings[category],
-          } as UserSettings[typeof category];
+          };
         } else {
           // Replace category entirely
-          updates[category] = {
+          settingsRecord[category] = {
             ...defaultUserSettings[category],
             ...settings[category],
-          } as UserSettings[typeof category];
+          };
         }
         result.imported.push(category);
       }

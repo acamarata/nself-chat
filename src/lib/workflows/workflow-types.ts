@@ -45,6 +45,13 @@ export type StepType =
   | 'end'
 
 /**
+ * Base config interface with index signature
+ */
+export interface BaseConfig {
+  [key: string]: unknown
+}
+
+/**
  * Base step interface all steps extend
  */
 export interface BaseStep {
@@ -53,7 +60,7 @@ export interface BaseStep {
   name: string
   description?: string
   position: Position
-  config: Record<string, unknown>
+  config: BaseConfig
   metadata?: StepMetadata
 }
 
@@ -86,7 +93,7 @@ export type TriggerType =
   | 'mention'
   | 'slash_command'
 
-export interface TriggerConfig {
+export interface TriggerConfig extends BaseConfig {
   triggerType: TriggerType
   channelId?: string | null // null means any channel
   userId?: string | null // null means any user
@@ -124,7 +131,7 @@ export interface TriggerStep extends BaseStep {
 
 export type MessageTarget = 'channel' | 'user' | 'thread' | 'trigger_source'
 
-export interface MessageConfig {
+export interface MessageConfig extends BaseConfig {
   target: MessageTarget
   channelId?: string
   userId?: string
@@ -209,7 +216,7 @@ export interface FormFieldValidation {
   customMessage?: string
 }
 
-export interface FormConfig {
+export interface FormConfig extends BaseConfig {
   title: string
   description?: string
   fields: FormField[]
@@ -263,7 +270,7 @@ export interface ConditionGroup {
   conditions: (Condition | ConditionGroup)[]
 }
 
-export interface ConditionConfig {
+export interface ConditionConfig extends BaseConfig {
   logic: ConditionLogic
   conditions: (Condition | ConditionGroup)[]
   trueBranchId?: string
@@ -281,7 +288,7 @@ export interface ConditionStep extends BaseStep {
 
 export type DelayType = 'fixed' | 'until_time' | 'until_condition'
 
-export interface DelayConfig {
+export interface DelayConfig extends BaseConfig {
   delayType: DelayType
   duration?: number // milliseconds for 'fixed'
   durationUnit?: 'seconds' | 'minutes' | 'hours' | 'days'
@@ -307,7 +314,7 @@ export interface WebhookHeader {
   isSecret?: boolean
 }
 
-export interface WebhookConfig {
+export interface WebhookConfig extends BaseConfig {
   url: string
   method: HttpMethod
   headers?: WebhookHeader[]
@@ -332,7 +339,7 @@ export interface WebhookStep extends BaseStep {
 
 export type ApprovalType = 'single' | 'all' | 'any' | 'majority'
 
-export interface ApprovalConfig {
+export interface ApprovalConfig extends BaseConfig {
   approvalType: ApprovalType
   approvers: string[] // user IDs
   approverRoles?: string[] // role names
@@ -371,7 +378,7 @@ export type ActionType =
   | 'notify'
   | 'custom'
 
-export interface ActionConfig {
+export interface ActionConfig extends BaseConfig {
   actionType: ActionType
   variableName?: string
   variableValue?: unknown
@@ -402,7 +409,7 @@ export interface ActionStep extends BaseStep {
 
 export type LoopType = 'for_each' | 'while' | 'count'
 
-export interface LoopConfig {
+export interface LoopConfig extends BaseConfig {
   loopType: LoopType
   collection?: string // variable name containing array for 'for_each'
   itemVariableName?: string // variable name for current item
@@ -428,7 +435,7 @@ export interface ParallelBranch {
   stepIds: string[]
 }
 
-export interface ParallelConfig {
+export interface ParallelConfig extends BaseConfig {
   branches: ParallelBranch[]
   waitForAll?: boolean // wait for all branches or continue on first completion
 }
@@ -442,7 +449,7 @@ export interface ParallelStep extends BaseStep {
 // End Step
 // ============================================================================
 
-export interface EndConfig {
+export interface EndConfig extends BaseConfig {
   status?: 'success' | 'failure' | 'cancelled'
   message?: string
   outputVariables?: string[]

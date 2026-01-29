@@ -206,8 +206,8 @@ export default function MeetingRoomPage() {
     );
   }
 
-  // Preview / Lobby state
-  if (pageState === 'preview' && meeting) {
+  // Preview / Lobby state (including 'joining' transition)
+  if ((pageState === 'preview' || pageState === 'joining') && meeting) {
     return (
       <div className="flex min-h-screen bg-gray-900 text-white">
         {/* Preview Video */}

@@ -212,7 +212,7 @@ function ConnectionLine({
   pan,
 }: {
   startStep?: { position: Position } | null
-  canvasRef: React.RefObject<HTMLDivElement>
+  canvasRef: React.RefObject<HTMLDivElement | null>
   zoom: number
   pan: Position
 }) {

@@ -138,14 +138,14 @@ export class GitHubProvider implements AuthProvider {
         success: true,
         session: {
           accessToken: session.accessToken,
-          refreshToken: session.refreshToken,
+          refreshToken: session.refreshToken ?? undefined,
           expiresAt: new Date(session.accessTokenExpiresIn * 1000 + Date.now()),
           user: {
             id: session.user.id,
-            email: session.user.email || undefined,
+            email: session.user.email ?? undefined,
             username: session.user.metadata?.['login'] as string,
-            displayName: session.user.displayName || undefined,
-            avatarUrl: session.user.avatarUrl || undefined,
+            displayName: session.user.displayName ?? undefined,
+            avatarUrl: session.user.avatarUrl ?? undefined,
             emailVerified: true,
             provider: 'github',
             providerUserId: session.user.metadata?.['id'] as string,

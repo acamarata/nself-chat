@@ -296,16 +296,20 @@ function TemplateContent({ template }: { template: TemplateId }) {
   // Render the appropriate template layout based on selection
   switch (template) {
     case 'slack':
-      return <SlackLayout />
+      return <SlackLayout><DefaultContent /></SlackLayout>
     case 'discord':
-      return <DiscordLayout />
+      return <DiscordLayout><DefaultContent /></DiscordLayout>
     case 'telegram':
-      return <TelegramLayout />
+      return <TelegramLayout><DefaultContent /></TelegramLayout>
     case 'whatsapp':
-      return <WhatsAppLayout />
+      return <WhatsAppLayout><DefaultContent /></WhatsAppLayout>
     default:
       return <DefaultTemplate />
   }
+}
+
+function DefaultContent() {
+  return <div className="p-4">Demo content</div>
 }
 
 // -------------------------------------------------------------------------------

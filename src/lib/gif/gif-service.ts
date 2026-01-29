@@ -207,7 +207,7 @@ async function giphySearch(params: GifSearchParams): Promise<GifSearchResponse> 
   };
 }
 
-async function giphyTrending(params: GifTrendingParams): Promise<GifTrendingResponse> {
+async function giphyTrending(params: GifTrendingParams = {}): Promise<GifTrendingResponse> {
   const apiKey = process.env.GIPHY_API_KEY || process.env.NEXT_PUBLIC_GIPHY_API_KEY;
   if (!apiKey) {
     throw new Error('Giphy API key not configured');
@@ -215,9 +215,9 @@ async function giphyTrending(params: GifTrendingParams): Promise<GifTrendingResp
 
   const searchParams = new URLSearchParams({
     api_key: apiKey,
-    limit: String(params.limit || 25),
-    offset: String(params.offset || 0),
-    rating: params.rating || 'pg-13',
+    limit: String(params.limit ?? 25),
+    offset: String(params.offset ?? 0),
+    rating: params.rating ?? 'pg-13',
   });
 
   const response = await fetch(`${GIPHY_API_BASE}/trending?${searchParams}`);
@@ -332,7 +332,7 @@ async function tenorSearch(params: GifSearchParams): Promise<GifSearchResponse> 
   };
 }
 
-async function tenorTrending(params: GifTrendingParams): Promise<GifTrendingResponse> {
+async function tenorTrending(params: GifTrendingParams = {}): Promise<GifTrendingResponse> {
   const apiKey = process.env.TENOR_API_KEY || process.env.NEXT_PUBLIC_TENOR_API_KEY;
   if (!apiKey) {
     throw new Error('Tenor API key not configured');
@@ -340,9 +340,9 @@ async function tenorTrending(params: GifTrendingParams): Promise<GifTrendingResp
 
   const searchParams = new URLSearchParams({
     key: apiKey,
-    limit: String(params.limit || 25),
+    limit: String(params.limit ?? 25),
     media_filter: 'gif,tinygif,nanogif',
-    contentfilter: mapRatingToTenor(params.rating || 'pg-13'),
+    contentfilter: mapRatingToTenor(params.rating ?? 'pg-13'),
   });
 
   if (params.offset) {
@@ -586,7 +586,7 @@ export const gifClientService: GifService = {
   getTrending: proxyGifTrending,
   getCategories: proxyGifCategories,
   getRandom: proxyGifRandom,
-  getProvider,
+  getProvider: getGifProvider,
   isAvailable: () => true, // Always available client-side (server handles auth)
 };
 

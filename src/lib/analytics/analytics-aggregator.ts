@@ -28,7 +28,23 @@ import type {
   InactiveUserData,
   UserGrowthData,
   SearchQueryData,
+  DayOfWeekData,
 } from './analytics-types';
+
+// Internal types for method return values
+interface MessagePatternsResult {
+  hourOfDay: number[];
+  dayOfWeek: DayOfWeekData[];
+  peakHour: number;
+  peakDay: string;
+}
+
+interface PeakHoursAnalysisResult {
+  peakHour: number;
+  quietHour: number;
+  peakDay: DayOfWeekData | null;
+  averageByHour: number[];
+}
 
 import { AnalyticsCollector, getAnalyticsCollector } from './analytics-collector';
 import { AnalyticsProcessor, getAnalyticsProcessor } from './analytics-processor';
@@ -202,7 +218,7 @@ export class AnalyticsAggregator {
     stats: MessageStats;
     volume: MessageVolumeData[];
     topMessages: TopMessageData[];
-    patterns: ReturnType<typeof this.processor.calculateMessagePatterns>;
+    patterns: MessagePatternsResult;
   }> {
     const [volume, topMessages] = await Promise.all([
       this.collector.collectMessageVolume(filters),
@@ -312,7 +328,7 @@ export class AnalyticsAggregator {
 
   async aggregatePeakHoursData(filters: AnalyticsFilters): Promise<{
     hours: PeakHoursData[];
-    analysis: ReturnType<typeof this.processor.processPeakHours>;
+    analysis: PeakHoursAnalysisResult;
   }> {
     const hours = await this.collector.collectPeakHours(filters);
     const analysis = this.processor.processPeakHours(hours);

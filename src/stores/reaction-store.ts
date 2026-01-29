@@ -464,16 +464,17 @@ export const useReactionStore = create<ReactionStore>()(
           removeItem: (name) => localStorage.removeItem(name),
         },
         // Only persist certain fields (picker state is transient)
-        partialize: (state) => ({
-          recentReactions: state.recentReactions,
-          frequentReactions: state.frequentReactions,
-          quickReactions: state.quickReactions,
-          customEmojis: state.customEmojis,
-          customEmojiCategories: state.customEmojiCategories,
-          skinTone: state.skinTone,
-          maxRecentReactions: state.maxRecentReactions,
-          maxQuickReactions: state.maxQuickReactions,
-        }),
+        partialize: (state) =>
+          ({
+            recentReactions: state.recentReactions,
+            frequentReactions: state.frequentReactions,
+            quickReactions: state.quickReactions,
+            customEmojis: state.customEmojis,
+            customEmojiCategories: state.customEmojiCategories,
+            skinTone: state.skinTone,
+            maxRecentReactions: state.maxRecentReactions,
+            maxQuickReactions: state.maxQuickReactions,
+          }) as ReactionStore,
       }
     ),
     { name: 'reaction-store' }

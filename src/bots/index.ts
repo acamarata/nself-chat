@@ -15,16 +15,26 @@
  * ```
  */
 
-// Hello Bot
-export { default as createHelloBot, manifest as helloBotManifest } from './hello-bot'
+// Import bot factories and manifests locally for use in registerAllBots and manifests object
+import createHelloBot, { manifest as helloBotManifest } from './hello-bot'
+import createPollBot, { manifest as pollBotManifest } from './poll-bot'
+import createReminderBot, { manifest as reminderBotManifest } from './reminder-bot'
+import createWelcomeBot, { manifest as welcomeBotManifest } from './welcome-bot'
+
+// Re-export bot factories and manifests
+export { createHelloBot, helloBotManifest }
+export { createPollBot, pollBotManifest }
+export { createReminderBot, reminderBotManifest }
+export { createWelcomeBot, welcomeBotManifest }
+
+// Hello Bot - additional exports
 export {
   helloCommand,
   waveCommand,
   goodbyeCommand,
 } from './hello-bot'
 
-// Poll Bot
-export { default as createPollBot, manifest as pollBotManifest } from './poll-bot'
+// Poll Bot - additional exports
 export {
   pollCommand,
   quickpollCommand,
@@ -36,8 +46,7 @@ export {
   formatPollResults,
 } from './poll-bot'
 
-// Reminder Bot
-export { default as createReminderBot, manifest as reminderBotManifest } from './reminder-bot'
+// Reminder Bot - additional exports
 export {
   remindCommand,
   remindersCommand,
@@ -55,8 +64,7 @@ export {
   getStats as getReminderStats,
 } from './reminder-bot'
 
-// Welcome Bot
-export { default as createWelcomeBot, manifest as welcomeBotManifest } from './welcome-bot'
+// Welcome Bot - additional exports
 export {
   getChannelTemplate,
   setChannelTemplate,

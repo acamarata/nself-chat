@@ -165,9 +165,9 @@ export async function generateImageThumbnail(
 // ============================================================================
 
 /**
- * Generate thumbnail for a video file
+ * Generate thumbnail for a video file with custom options
  */
-export async function generateVideoThumbnail(
+export async function generateVideoThumbnailWithOptions(
   file: File | Blob,
   options: ThumbnailOptions & { seekTime?: number } = {}
 ): Promise<ThumbnailResult> {

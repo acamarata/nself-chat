@@ -5,7 +5,10 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/auth-context'
 import { Plus, Download, Upload } from 'lucide-react'
 import { AdminLayout } from '@/components/admin/admin-layout'
-import { UserTable, User } from '@/components/admin/user-table'
+import { UserTable, User as UserType } from '@/components/admin/user-table'
+import type { AdminUser } from '@/lib/admin/admin-store'
+
+type User = UserType
 import { BanDialog, BanDialogUser } from '@/components/admin/ban-dialog'
 import { RoleSelect, UserRole } from '@/components/admin/role-select'
 import { Button } from '@/components/ui/button'
@@ -128,20 +131,26 @@ export default function UsersManagementPage() {
     }
   }, [user, loading, router])
 
-  const handleEditRole = (targetUser: User) => {
-    setSelectedUser(targetUser)
-    setNewRole(targetUser.role)
-    setRoleDialogOpen(true)
+  const handleEditRole = (targetUser: AdminUser | User) => {
+    if ('status' in targetUser) {
+      setSelectedUser(targetUser)
+      setNewRole(targetUser.role)
+      setRoleDialogOpen(true)
+    }
   }
 
-  const handleBanUser = (targetUser: User) => {
-    setSelectedUser(targetUser)
-    setBanDialogOpen(true)
+  const handleBanUser = (targetUser: AdminUser | User) => {
+    if ('status' in targetUser) {
+      setSelectedUser(targetUser)
+      setBanDialogOpen(true)
+    }
   }
 
-  const handleDeleteUser = (targetUser: User) => {
-    setSelectedUser(targetUser)
-    setDeleteDialogOpen(true)
+  const handleDeleteUser = (targetUser: AdminUser | User) => {
+    if ('status' in targetUser) {
+      setSelectedUser(targetUser)
+      setDeleteDialogOpen(true)
+    }
   }
 
   const handleConfirmBan = async (data: {

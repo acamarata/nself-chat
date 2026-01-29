@@ -171,7 +171,8 @@ export const useSettingsStore = create<SettingsStore>()(
               (state) => {
                 for (const key of Object.keys(updates) as (keyof UserSettings)[]) {
                   if (updates[key]) {
-                    state.settings[key] = {
+                    // Type assertion needed due to TypeScript limitations with dynamic key assignment
+                    (state.settings[key] as Record<string, unknown>) = {
                       ...state.settings[key],
                       ...updates[key],
                     };

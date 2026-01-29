@@ -6,7 +6,7 @@ import { ReactNode } from 'react'
 
 export function NhostProvider({ children }: { children: ReactNode }) {
   return (
-    <NhostReactProvider nhost={nhost} initial={null}>
+    <NhostReactProvider nhost={nhost} initial={undefined}>
       {children}
     </NhostReactProvider>
   )

@@ -145,7 +145,7 @@ export function SearchModal({
   const filters = useSearchStore((state) => state.filters);
 
   // Debounce query
-  const debounceRef = React.useRef<NodeJS.Timeout>();
+  const debounceRef = React.useRef<NodeJS.Timeout | null>(null);
 
   React.useEffect(() => {
     if (debounceRef.current) {
@@ -211,7 +211,7 @@ export function SearchModal({
   // Handle suggestion select
   const handleSuggestionSelect = (
     selectedQuery: string,
-    selectedFilters?: Parameters<typeof useSearchStore.getState>['filters']
+    selectedFilters?: Partial<ReturnType<typeof useSearchStore.getState>['filters']>
   ) => {
     setQuery(selectedQuery);
     if (selectedFilters) {

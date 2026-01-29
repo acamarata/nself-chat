@@ -6,6 +6,7 @@
  * Renders numbers formatted according to the current locale.
  */
 
+import * as React from 'react';
 import { useMemo } from 'react';
 
 import { useLocaleStore } from '@/stores/locale-store';
@@ -30,13 +31,13 @@ interface FormattedNumberProps extends Omit<NumberFormatOptions, 'locale'> {
   /** Additional class name */
   className?: string;
   /** HTML element to render */
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
 }
 
 export function FormattedNumber({
   value,
   className,
-  as: Component = 'span',
+  as = 'span',
   ...options
 }: FormattedNumberProps) {
   const locale = useLocaleStore((state) => state.currentLocale);
@@ -46,6 +47,7 @@ export function FormattedNumber({
     [value, locale, options]
   );
 
+  const Component = as as React.ElementType;
   return <Component className={className}>{formattedNumber}</Component>;
 }
 
@@ -59,13 +61,13 @@ interface FormattedCurrencyProps extends Omit<CurrencyFormatOptions, 'locale'> {
   /** Additional class name */
   className?: string;
   /** HTML element to render */
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
 }
 
 export function FormattedCurrency({
   value,
   className,
-  as: Component = 'span',
+  as = 'span',
   ...options
 }: FormattedCurrencyProps) {
   const locale = useLocaleStore((state) => state.currentLocale);
@@ -75,6 +77,7 @@ export function FormattedCurrency({
     [value, locale, options]
   );
 
+  const Component = as as React.ElementType;
   return <Component className={className}>{formattedCurrency}</Component>;
 }
 
@@ -88,13 +91,13 @@ interface FormattedPercentProps extends Omit<PercentFormatOptions, 'locale'> {
   /** Additional class name */
   className?: string;
   /** HTML element to render */
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
 }
 
 export function FormattedPercent({
   value,
   className,
-  as: Component = 'span',
+  as = 'span',
   ...options
 }: FormattedPercentProps) {
   const locale = useLocaleStore((state) => state.currentLocale);
@@ -104,6 +107,7 @@ export function FormattedPercent({
     [value, locale, options]
   );
 
+  const Component = as as React.ElementType;
   return <Component className={className}>{formattedPercent}</Component>;
 }
 
@@ -121,7 +125,7 @@ interface FormattedBytesProps {
   /** Additional class name */
   className?: string;
   /** HTML element to render */
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
 }
 
 export function FormattedBytes({
@@ -129,7 +133,7 @@ export function FormattedBytes({
   decimals = 1,
   binary = false,
   className,
-  as: Component = 'span',
+  as = 'span',
 }: FormattedBytesProps) {
   const locale = useLocaleStore((state) => state.currentLocale);
 
@@ -138,6 +142,7 @@ export function FormattedBytes({
     [value, locale, decimals, binary]
   );
 
+  const Component = as as React.ElementType;
   return <Component className={className}>{formattedBytes}</Component>;
 }
 
@@ -153,14 +158,14 @@ interface CompactNumberProps {
   /** Additional class name */
   className?: string;
   /** HTML element to render */
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
 }
 
 export function CompactNumber({
   value,
   compactDisplay = 'short',
   className,
-  as: Component = 'span',
+  as = 'span',
 }: CompactNumberProps) {
   const locale = useLocaleStore((state) => state.currentLocale);
 
@@ -169,6 +174,7 @@ export function CompactNumber({
     [value, locale, compactDisplay]
   );
 
+  const Component = as as React.ElementType;
   return <Component className={className}>{formattedNumber}</Component>;
 }
 

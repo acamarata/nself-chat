@@ -1,47 +1,155 @@
-import { ApolloClient, InMemoryCache, createHttpLink, split } from '@apollo/client'
+import {
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+  split,
+  from,
+  type NormalizedCacheObject,
+} from '@apollo/client'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { getMainDefinition } from '@apollo/client/utilities'
-import { createClient } from 'graphql-ws'
+import { createClient, type Client } from 'graphql-ws'
 import { setContext } from '@apollo/client/link/context'
+import { onError } from '@apollo/client/link/error'
 
+// Environment variables
+const GRAPHQL_HTTP_URL =
+  process.env.NEXT_PUBLIC_GRAPHQL_URL ||
+  process.env.NEXT_PUBLIC_NHOST_GRAPHQL_URL ||
+  'http://localhost:1337/v1/graphql'
+
+const GRAPHQL_WS_URL =
+  process.env.NEXT_PUBLIC_GRAPHQL_WS_URL ||
+  GRAPHQL_HTTP_URL.replace(/^http/, 'ws')
+
+// Helper to get auth token
+function getAuthToken(): string | null {
+  if (typeof window === 'undefined') return null
+  return localStorage.getItem('token')
+}
+
+// HTTP Link for queries and mutations
 const httpLink = createHttpLink({
-  uri: process.env.NEXT_PUBLIC_NHOST_GRAPHQL_URL || 'http://localhost:1337/v1/graphql',
+  uri: GRAPHQL_HTTP_URL,
 })
 
-const wsLink = typeof window !== 'undefined' 
-  ? new GraphQLWsLink(
-      createClient({
-        url: (process.env.NEXT_PUBLIC_NHOST_GRAPHQL_URL || 'http://localhost:1337/v1/graphql').replace('http', 'ws'),
-      })
-    )
-  : null
-
+// Auth link to add authorization header to HTTP requests
 const authLink = setContext((_, { headers }) => {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
-  
+  const token = getAuthToken()
+
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    }
+      ...(token ? { authorization: `Bearer ${token}` } : {}),
+    },
   }
 })
 
-const splitLink = wsLink 
-  ? split(
-      ({ query }) => {
-        const definition = getMainDefinition(query)
-        return (
-          definition.kind === 'OperationDefinition' &&
-          definition.operation === 'subscription'
-        )
-      },
-      wsLink,
-      authLink.concat(httpLink)
-    )
-  : authLink.concat(httpLink)
-
-export const apolloClient = new ApolloClient({
-  link: splitLink,
-  cache: new InMemoryCache(),
+// Error handling link
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    graphQLErrors.forEach(({ message, locations, path }) => {
+      console.error(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
+    })
+  }
+  if (networkError) {
+    console.error(`[Network error]: ${networkError}`)
+  }
 })
+
+// WebSocket client and link for subscriptions (client-side only)
+let wsClient: Client | null = null
+let wsLink: GraphQLWsLink | null = null
+
+if (typeof window !== 'undefined') {
+  wsClient = createClient({
+    url: GRAPHQL_WS_URL,
+    connectionParams: () => {
+      const token = getAuthToken()
+      return {
+        headers: {
+          ...(token ? { authorization: `Bearer ${token}` } : {}),
+        },
+      }
+    },
+    // Reconnection configuration
+    retryAttempts: 5,
+    shouldRetry: () => true,
+    retryWait: async (retryCount) => {
+      // Exponential backoff: 1s, 2s, 4s, 8s, 16s
+      const delay = Math.min(1000 * Math.pow(2, retryCount), 16000)
+      await new Promise((resolve) => setTimeout(resolve, delay))
+    },
+    // Connection acknowledgment timeout
+    connectionAckWaitTimeout: 10000,
+    // Lazy connection - only connect when first subscription is made
+    lazy: true,
+    // Event handlers for connection state management
+    on: {
+      connected: () => {
+        console.log('[WebSocket] Connected to GraphQL subscriptions')
+      },
+      closed: (event) => {
+        console.log('[WebSocket] Connection closed', event)
+      },
+      error: (error) => {
+        console.error('[WebSocket] Connection error', error)
+      },
+    },
+  })
+
+  wsLink = new GraphQLWsLink(wsClient)
+}
+
+// Split link - route subscriptions to WebSocket, others to HTTP
+const splitLink =
+  wsLink !== null
+    ? split(
+        ({ query }) => {
+          const definition = getMainDefinition(query)
+          return (
+            definition.kind === 'OperationDefinition' &&
+            definition.operation === 'subscription'
+          )
+        },
+        wsLink,
+        from([errorLink, authLink, httpLink])
+      )
+    : from([errorLink, authLink, httpLink])
+
+// Apollo Client instance
+export const apolloClient: ApolloClient<NormalizedCacheObject> = new ApolloClient({
+  link: splitLink,
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          // Add field policies for pagination if needed
+        },
+      },
+    },
+  }),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network',
+    },
+  },
+})
+
+// Utility function to close WebSocket connection (useful for logout)
+export function closeWebSocketConnection(): void {
+  if (wsClient) {
+    wsClient.dispose()
+  }
+}
+
+// Utility function to reconnect WebSocket (useful after login/token refresh)
+export function reconnectWebSocket(): void {
+  if (wsClient) {
+    // Dispose and recreate happens automatically with lazy: true
+    // The next subscription will trigger a new connection with fresh token
+    wsClient.dispose()
+  }
+}

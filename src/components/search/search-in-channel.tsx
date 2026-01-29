@@ -118,7 +118,7 @@ export function SearchInChannel({
 
   // Handle query change with debounce
   const [localQuery, setLocalQuery] = React.useState(query);
-  const debounceRef = React.useRef<NodeJS.Timeout>();
+  const debounceRef = React.useRef<NodeJS.Timeout | null>(null);
 
   React.useEffect(() => {
     if (debounceRef.current) {

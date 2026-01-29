@@ -11,6 +11,9 @@ import type {
   PermissionLevel,
 } from './app-types';
 
+// Re-export types for convenience
+export type { PermissionScope, PermissionGroup, AppPermission, PermissionLevel };
+
 // ============================================================================
 // Permission Definitions
 // ============================================================================

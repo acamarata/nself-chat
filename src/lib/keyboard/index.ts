@@ -63,7 +63,7 @@ export {
   useCustomShortcut,
   useShortcutInfo,
   type UseShortcutOptions,
-  type ShortcutHandler,
+  type ShortcutHandler as ShortcutHandlerFn,
 } from './use-shortcuts';
 
 // Advanced keyboard shortcuts hooks

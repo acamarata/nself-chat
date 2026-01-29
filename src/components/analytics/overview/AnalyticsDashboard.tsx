@@ -274,11 +274,13 @@ export function AnalyticsDashboard({ className }: AnalyticsDashboardProps) {
         </TabsContent>
       </Tabs>
 
-      {/* Export Modal */}
+      {/* Export Button */}
       {showExport && (
         <AnalyticsExport
-          open={showExport}
-          onClose={() => setShowExport(false)}
+          onExport={(format) => {
+            console.log(`Exporting as ${format}`)
+            setShowExport(false)
+          }}
         />
       )}
     </div>

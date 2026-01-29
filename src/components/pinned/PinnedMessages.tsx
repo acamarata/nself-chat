@@ -11,7 +11,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetDescription,
-} from '@/components/ui/dialog';
+} from '@/components/ui/sheet';
 import { usePinnedStore } from '@/stores/pinned-store';
 import type { PinnedMessage, PinFilters } from '@/lib/pinned';
 import { PinnedMessageList } from './PinnedMessageList';

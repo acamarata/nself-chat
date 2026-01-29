@@ -447,5 +447,7 @@ export function getMessagePermissions(
     canBookmark: userRole !== 'guest',
     canForward: userRole !== 'guest',
     canReport: !isOwnMessage && userRole !== 'guest',
+    canCopy: true,
+    canMarkUnread: userRole !== 'guest',
   }
 }

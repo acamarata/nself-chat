@@ -12,7 +12,9 @@
 
 ---
 
-Build your own Slack, Discord, or Telegram clone in minutes. A complete, production-ready team communication platform that you can fully customize and deploy as your own product - with **zero code required** via our 9-step setup wizard.
+Build your own Slack, Discord, or Telegram clone in minutes. A complete, production-ready team communication platform that you can fully customize and deploy as your own product - with **zero code required** via our comprehensive setup wizard.
+
+**3 Commands. That's It.** Clone, install, run - the wizard handles everything else: backend setup, configuration, branding, and deployment.
 
 Powered by [nself CLI](https://nself.org) for backend infrastructure (PostgreSQL, Hasura GraphQL, Auth, Storage).
 
@@ -33,10 +35,11 @@ Powered by [nself CLI](https://nself.org) for backend infrastructure (PostgreSQL
 - **Real-time**: WebSocket-powered typing indicators, read receipts, and presence
 
 ### White-Label Everything
-- **9-Step Setup Wizard**: Configure everything without touching code
+- **12-Step Setup Wizard**: Complete guided experience with environment detection
 - **27 Theme Presets**: From Slack-like to Discord-style and beyond
 - **Full Branding Control**: Logo, colors, fonts, and custom CSS
 - **Landing Page Templates**: 5 homepage styles to choose from
+- **Env-Var Configuration**: Pre-configure and skip wizard steps entirely
 
 ### Multi-Platform Support
 - **Web**: Next.js 15 with React 19
@@ -67,7 +70,12 @@ pnpm install
 pnpm dev
 ```
 
-**That's it!** Visit **http://localhost:3000** and start exploring.
+**That's it!** Visit **http://localhost:3000** and the **Setup Wizard** guides you through everything:
+
+1. **Environment Detection** - Automatically detects what's already configured
+2. **Backend Setup** - One-click nself CLI installation and service startup
+3. **Customization** - Brand, theme, features, and auth in a few clicks
+4. **Deployment** - Get commands for Vercel, Docker, desktop apps, and mobile
 
 Development mode includes test users so you can immediately experience all features.
 
@@ -112,23 +120,37 @@ Development mode includes test users so you can immediately experience all featu
 
 ## White-Label Guide
 
-### 9-Step Setup Wizard
+### 12-Step Setup Wizard (3 Phases)
 
-When you first visit the app, you'll be guided through a comprehensive setup wizard:
+When you first visit the app, you'll be guided through a comprehensive setup wizard organized into three phases:
 
+#### Phase 1: Setup (Steps 1-3)
 | Step | Name | What You Configure |
 |------|------|-------------------|
 | 1 | **Welcome** | Introduction to the setup process |
-| 2 | **Owner Info** | Your name, email, company details |
-| 3 | **Branding** | App name, logo, tagline, favicon |
-| 4 | **Theme** | Colors, dark/light mode, preset themes |
-| 5 | **Landing Page** | Homepage style and sections |
-| 6 | **Auth Methods** | Choose authentication providers |
-| 7 | **Permissions** | Access control and verification |
-| 8 | **Features** | Toggle available features and integrations |
-| 9 | **Review** | Preview and confirm all settings |
+| 2 | **Environment Detection** | Auto-detect existing config, choose setup mode |
+| 3 | **Backend Setup** | Install nself CLI, initialize and start services |
 
-**Time to complete: 5-10 minutes**
+#### Phase 2: Customize (Steps 4-10)
+| Step | Name | What You Configure |
+|------|------|-------------------|
+| 4 | **Owner Info** | Your name, email, company details |
+| 5 | **Branding** | App name, logo, tagline, favicon |
+| 6 | **Theme** | Colors, dark/light mode, preset themes |
+| 7 | **Landing Page** | Homepage style and sections |
+| 8 | **Auth Methods** | Choose authentication providers |
+| 9 | **Permissions** | Access control and verification |
+| 10 | **Features** | Toggle available features and integrations |
+
+#### Phase 3: Deploy (Steps 11-12)
+| Step | Name | What You Configure |
+|------|------|-------------------|
+| 11 | **Deployment** | Choose deployment targets and get commands |
+| 12 | **Review & Launch** | Preview and confirm all settings |
+
+**Time to complete: 5-10 minutes** (faster if you skip optional steps)
+
+**Skip with Environment Variables**: Pre-configure via `.env.local` and the wizard auto-skips those steps!
 
 ### Customization Options
 

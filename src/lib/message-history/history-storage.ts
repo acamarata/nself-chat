@@ -10,8 +10,8 @@ import type {
   MessageEditHistory,
   EditHistorySummary,
   EditHistorySettings,
-  DEFAULT_EDIT_HISTORY_SETTINGS,
 } from './history-types'
+import { DEFAULT_EDIT_HISTORY_SETTINGS } from './history-types'
 import type { MessageUser } from '@/types/message'
 
 // ============================================================================

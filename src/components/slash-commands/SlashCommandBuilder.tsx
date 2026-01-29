@@ -294,13 +294,13 @@ export function SlashCommandBuilder({
                       {editingCommand.actionType === 'webhook' && (
                         <CommandWebhook
                           webhook={editingCommand.webhook}
-                          onChange={(webhook) => updateDraft({ webhook })}
+                          onChange={(webhook) => updateDraft({ webhook: webhook as typeof editingCommand.webhook })}
                         />
                       )}
                       {editingCommand.actionType === 'workflow' && (
                         <CommandWorkflow
                           workflow={editingCommand.workflow}
-                          onChange={(workflow) => updateDraft({ workflow })}
+                          onChange={(workflow) => updateDraft({ workflow: workflow as typeof editingCommand.workflow })}
                         />
                       )}
                     </div>
@@ -309,21 +309,21 @@ export function SlashCommandBuilder({
                   {activeTab === 'permissions' && (
                     <CommandPermissions
                       permissions={editingCommand.permissions}
-                      onChange={(permissions) => updateDraft({ permissions })}
+                      onChange={(permissions) => updateDraft({ permissions: permissions as typeof editingCommand.permissions })}
                     />
                   )}
 
                   {activeTab === 'channels' && (
                     <CommandChannels
                       channels={editingCommand.channels}
-                      onChange={(channels) => updateDraft({ channels })}
+                      onChange={(channels) => updateDraft({ channels: channels as typeof editingCommand.channels })}
                     />
                   )}
 
                   {activeTab === 'response' && (
                     <CommandResponse
                       responseConfig={editingCommand.responseConfig}
-                      onChange={(responseConfig) => updateDraft({ responseConfig })}
+                      onChange={(responseConfig) => updateDraft({ responseConfig: responseConfig as typeof editingCommand.responseConfig })}
                     />
                   )}
 

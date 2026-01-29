@@ -12,7 +12,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetDescription,
-} from '@/components/ui/dialog';
+} from '@/components/ui/sheet';
 import { useSavedStore, selectAllCollections } from '@/stores/saved-store';
 import type { SavedMessage, SavedCollection } from '@/lib/saved';
 import { SavedMessageList } from './SavedMessageList';

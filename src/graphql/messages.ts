@@ -406,24 +406,7 @@ export const MESSAGE_DELETED_SUBSCRIPTION = gql`
   }
 `
 
-/**
- * Subscribe to messages in a specific thread
- */
-export const THREAD_MESSAGES_SUBSCRIPTION = gql`
-  subscription ThreadMessagesSubscription($threadId: uuid!) {
-    nchat_messages(
-      where: {
-        thread_id: { _eq: $threadId }
-        is_deleted: { _eq: false }
-      }
-      order_by: { created_at: desc }
-      limit: 1
-    ) {
-      ...MessageFull
-    }
-  }
-  ${MESSAGE_FULL_FRAGMENT}
-`
+// THREAD_MESSAGES_SUBSCRIPTION is defined in threads.ts
 
 /**
  * Subscribe to all message activity in a channel (new, edited, deleted)

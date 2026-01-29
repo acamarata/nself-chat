@@ -459,7 +459,7 @@ export class IdMeProvider extends BaseAuthProvider {
 
     return {
       id: userData.id as string,
-      email: userData.email as string || verification?.attributes?.email,
+      email: (userData.email as string) || verification?.attributes?.email || '',
       username: (userData.displayName as string)?.replace(/\s+/g, '_').toLowerCase() ||
         `${verification?.attributes?.firstName}_${verification?.attributes?.lastName}`.toLowerCase() ||
         (userData.email as string)?.split('@')[0],

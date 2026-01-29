@@ -5,9 +5,9 @@
  * first responders, government employees, teachers, and students.
  */
 
-import { AuthProvider, AuthResult, AuthProviderConfig } from './types';
+import { AuthProvider, AuthResult, AuthCredentials, BaseProviderConfig } from './types';
 
-export interface IDmeConfig extends AuthProviderConfig {
+export interface IDmeConfig extends BaseProviderConfig {
   clientId: string;
   clientSecret: string;
   redirectUri: string;
@@ -46,14 +46,11 @@ const IDME_SANDBOX_URL = 'https://api.idmelabs.com';
 export class IDmeAuthProvider implements AuthProvider {
   private config: IDmeConfig;
   private baseUrl: string;
+  readonly type = 'idme' as const;
 
   constructor(config: IDmeConfig) {
     this.config = config;
     this.baseUrl = config.sandbox ? IDME_SANDBOX_URL : IDME_BASE_URL;
-  }
-
-  get id() {
-    return 'idme';
   }
 
   get name() {
@@ -62,6 +59,10 @@ export class IDmeAuthProvider implements AuthProvider {
 
   get icon() {
     return 'idme';
+  }
+
+  isConfigured(): boolean {
+    return !!(this.config.clientId && this.config.clientSecret && this.config.redirectUri);
   }
 
   /**
@@ -238,8 +239,22 @@ export class IDmeAuthProvider implements AuthProvider {
 
   /**
    * Authenticate user with ID.me
+   * This method handles the OAuth callback with the authorization code
    */
-  async authenticate(code: string): Promise<AuthResult> {
+  async authenticate(credentials?: AuthCredentials): Promise<AuthResult> {
+    // For ID.me, we expect OAuth credentials with a code
+    if (!credentials || credentials.type !== 'oauth' || !credentials.code) {
+      return {
+        success: false,
+        error: {
+          code: 'invalid_credentials',
+          message: 'OAuth authorization code is required for ID.me authentication',
+        },
+      };
+    }
+
+    const code = credentials.code;
+
     // Exchange code for tokens
     const tokens = await this.exchangeCode(code);
 
@@ -264,19 +279,34 @@ export class IDmeAuthProvider implements AuthProvider {
         displayName: `${profile.firstName} ${profile.lastName}`.trim(),
         provider: 'idme',
         providerUserId: profile.email,
-        verified: verifications.verified,
-        badges,
+        emailVerified: verifications.verified,
         metadata: {
           idme: {
             ...profile,
             verifications: verifications.groups,
+            badges,
           },
         },
       },
-      tokens: {
+      session: {
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
-        expiresAt: Date.now() + tokens.expiresIn * 1000,
+        expiresAt: new Date(Date.now() + tokens.expiresIn * 1000),
+        user: {
+          id: '', // Will be set by the auth system
+          email: profile.email || '',
+          displayName: `${profile.firstName} ${profile.lastName}`.trim(),
+          provider: 'idme',
+          providerUserId: profile.email,
+          emailVerified: verifications.verified,
+          metadata: {
+            idme: {
+              ...profile,
+              verifications: verifications.groups,
+              badges,
+            },
+          },
+        },
       },
     };
   }
@@ -331,6 +361,9 @@ export function createIDmeProvider(
   ];
 
   return new IDmeAuthProvider({
+    enabled: true,
+    name: 'idme',
+    displayName: 'ID.me',
     clientId,
     clientSecret,
     redirectUri,

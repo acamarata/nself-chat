@@ -87,6 +87,8 @@ function getMessagePermissions(
     canBookmark: !isSystemMessage && !message.isDeleted,
     canForward: !isSystemMessage && !message.isDeleted,
     canReport: !isOwner && !isSystemMessage && !message.isDeleted,
+    canCopy: !message.isDeleted,
+    canMarkUnread: !message.isDeleted,
   }
 }
 

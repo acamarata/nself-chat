@@ -45,6 +45,7 @@ export function TitleBar({
         justifyContent: 'space-between',
         backgroundColor: 'var(--title-bar-bg, transparent)',
         borderBottom: '1px solid var(--border-color, rgba(0,0,0,0.1))',
+        // @ts-expect-error WebkitAppRegion is a non-standard CSS property for Electron
         WebkitAppRegion: 'drag',
         userSelect: 'none',
         paddingLeft: isMacOS ? '70px' : '12px', // Space for macOS traffic lights
@@ -85,6 +86,7 @@ export function TitleBar({
             display: 'flex',
             alignItems: 'stretch',
             height: '100%',
+            // @ts-expect-error WebkitAppRegion is a non-standard CSS property for Electron
             WebkitAppRegion: 'no-drag',
           }}
         >

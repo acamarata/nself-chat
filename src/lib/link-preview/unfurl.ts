@@ -13,7 +13,7 @@ import type {
 } from './preview-types'
 import { parseOpenGraph, extractFallbackMetadata, mergeWithFallbacks } from './og-parser'
 import { parseTwitterCard, hasTwitterCard, mergeWithOpenGraph } from './twitter-parser'
-import { applyDomainHandler, detectUrlType, isDirectImageUrl, isDirectVideoUrl } from './domain-handlers'
+import { applyDomainHandler, detectUrlType, mapToPreviewType, isDirectImageUrl, isDirectVideoUrl } from './domain-handlers'
 import {
   sanitizePreviewData,
   sanitizeUrl,
@@ -76,9 +76,12 @@ export function unfurlFromHtml(url: string, html: string, options: UnfurlOptions
   const domainData = applyDomainHandler(url, html)
 
   // Build the preview data
+  // Map internal URL types (like 'gist', 'codepen') to public PreviewType
+  const previewType = domainData?.type || (urlType === 'generic' ? getTypeFromOg(mergedOg.type) : mapToPreviewType(urlType));
+
   let preview: LinkPreviewData = {
     ...basePreview,
-    type: domainData?.type || urlType === 'generic' ? getTypeFromOg(mergedOg.type) : urlType,
+    type: previewType,
     title: mergedOg.title,
     description: mergedOg.description,
     siteName: mergedOg.siteName,

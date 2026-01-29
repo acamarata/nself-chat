@@ -72,6 +72,7 @@ export function WindowControls({
     cursor: 'pointer',
     outline: 'none',
     transition: 'background-color 0.1s ease',
+    // @ts-expect-error WebkitAppRegion is a non-standard CSS property for Electron
     WebkitAppRegion: 'no-drag',
   };
 

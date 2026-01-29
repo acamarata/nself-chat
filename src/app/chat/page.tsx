@@ -262,7 +262,7 @@ export default function ChatPage() {
         </div>
 
         {/* Getting Started Guide (for new users) */}
-        {user?.role === 'owner' && !config?.setup?.completed && (
+        {user?.role === 'owner' && !config?.setup?.isCompleted && (
           <div className="mt-8 p-6 rounded-lg border-2 border-dashed border-primary/30 bg-primary/5">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">

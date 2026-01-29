@@ -72,7 +72,7 @@ export function SettingsExport({ className }: SettingsExportProps) {
   const getExportData = (): string => {
     const exportData: Partial<UserSettings> = {};
     for (const category of selectedCategories) {
-      exportData[category] = settings[category];
+      (exportData as Record<string, unknown>)[category] = settings[category];
     }
 
     return JSON.stringify(

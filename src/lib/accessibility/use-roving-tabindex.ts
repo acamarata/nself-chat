@@ -27,7 +27,7 @@ export interface RovingTabIndexResult<T extends HTMLElement> {
   /** Set the focused index */
   setFocusedIndex: (index: number) => void;
   /** Ref for the container element */
-  containerRef: React.RefObject<T>;
+  containerRef: React.RefObject<T | null>;
   /** Get props for each item */
   getItemProps: (index: number) => ItemProps;
   /** Handle keyboard navigation on the container */

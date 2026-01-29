@@ -105,11 +105,12 @@ export function RoleCard({
               </span>
             )}
             {role.isDefault && (
-              <Star
-                size={14}
-                className="fill-amber-400 text-amber-400"
-                title="Default role"
-              />
+              <span title="Default role">
+                <Star
+                  size={14}
+                  className="fill-amber-400 text-amber-400"
+                />
+              </span>
             )}
           </div>
           {role.description && (

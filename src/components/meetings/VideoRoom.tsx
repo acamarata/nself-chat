@@ -8,7 +8,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Meeting } from '@/lib/meetings/meeting-types';
+import { Meeting, LocalUserState } from '@/lib/meetings/meeting-types';
 import { MeetingControls } from './MeetingControls';
 import { ParticipantGrid } from './ParticipantGrid';
 import {

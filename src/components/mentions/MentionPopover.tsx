@@ -18,7 +18,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { getInitials, getPresenceColor, getPresenceLabel } from '@/stores/user-store'
-import type { MentionableUser, MentionableChannel, GroupMentionType } from '@/lib/mentions/mention-types'
+import type { MentionableUser, MentionableChannel, SpecialMentionType } from '@/lib/mentions/mention-types'
 
 // ============================================================================
 // Types
@@ -357,7 +357,7 @@ export function ChannelMentionPopoverContent({
 // ============================================================================
 
 export interface GroupMentionPopoverContentProps {
-  type: GroupMentionType
+  type: SpecialMentionType
   memberCount?: number
   onlineCount?: number
   className?: string
@@ -370,7 +370,7 @@ export function GroupMentionPopoverContent({
   className,
 }: GroupMentionPopoverContentProps) {
   const config: Record<
-    GroupMentionType,
+    SpecialMentionType,
     { title: string; description: string; icon: React.ReactNode }
   > = {
     everyone: {

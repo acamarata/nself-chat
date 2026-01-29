@@ -19,7 +19,7 @@ import { useUserManagementStore } from '@/stores/user-management-store'
 import {
   parseCSVEmails,
   validateBulkEmails,
-  downloadTemplate,
+  downloadInviteTemplate,
 } from '@/lib/admin/users/user-invite'
 import type { UserRole, BulkInviteResult } from '@/lib/admin/users/user-types'
 
@@ -96,7 +96,7 @@ export function BulkInvite() {
   }
 
   const handleDownloadTemplate = () => {
-    downloadTemplate('csv')
+    downloadInviteTemplate()
   }
 
   return (

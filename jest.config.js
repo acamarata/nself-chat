@@ -19,9 +19,10 @@ const customJestConfig = {
     '!src/**/_*.{js,jsx,ts,tsx}',
   ],
   testPathIgnorePatterns: [
-    '<rootDir>/.next/', 
+    '<rootDir>/.next/',
     '<rootDir>/node_modules/',
-    '<rootDir>/.backend/'
+    '<rootDir>/.backend/',
+    '<rootDir>/e2e/'
   ],
   modulePathIgnorePatterns: ['<rootDir>/.backend/'],
   transformIgnorePatterns: [

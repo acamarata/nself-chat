@@ -583,17 +583,18 @@ export const useEmojiStore = create<EmojiStore>()(
           removeItem: (name) => localStorage.removeItem(name),
         },
         // Only persist certain fields
-        partialize: (state) => ({
-          recentEmojis: state.recentEmojis,
-          frequentEmojis: state.frequentEmojis,
-          customEmojis: state.customEmojis,
-          customEmojiCategories: state.customEmojiCategories,
-          skinTone: state.skinTone,
-          quickReactions: state.quickReactions,
-          maxRecentEmojis: state.maxRecentEmojis,
-          autoReplaceShortcodes: state.autoReplaceShortcodes,
-          showRecentFirst: state.showRecentFirst,
-        }),
+        partialize: (state) =>
+          ({
+            recentEmojis: state.recentEmojis,
+            frequentEmojis: state.frequentEmojis,
+            customEmojis: state.customEmojis,
+            customEmojiCategories: state.customEmojiCategories,
+            skinTone: state.skinTone,
+            quickReactions: state.quickReactions,
+            maxRecentEmojis: state.maxRecentEmojis,
+            autoReplaceShortcodes: state.autoReplaceShortcodes,
+            showRecentFirst: state.showRecentFirst,
+          }) as EmojiStore,
       }
     ),
     { name: 'emoji-store' }

@@ -47,7 +47,7 @@ export interface BookmarkFoldersProps {
 // Icons
 // ============================================================================
 
-function FolderIcon({ className }: { className?: string }) {
+function FolderIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -56,6 +56,7 @@ function FolderIcon({ className }: { className?: string }) {
       strokeWidth={1.5}
       stroke="currentColor"
       className={cn('h-4 w-4', className)}
+      style={style}
     >
       <path
         strokeLinecap="round"

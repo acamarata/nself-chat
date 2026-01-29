@@ -59,16 +59,17 @@ export const pollCommand: CommandHandler = async (
   // Parse duration
   let duration: number | undefined
   if (durationStr) {
-    duration = parseDuration(durationStr)
-    if (!duration) {
+    const parsed = parseDuration(durationStr)
+    if (!parsed) {
       return error(
         'Invalid duration',
         'Use formats like: 30m, 1h, 24h, 1d, 1w'
       )
     }
+    duration = parsed
   } else {
     const defaultDuration = (config.settings?.default_duration as string) || '24h'
-    duration = parseDuration(defaultDuration) || undefined
+    duration = parseDuration(defaultDuration) ?? undefined
   }
 
   // Create the poll (we'll get the message ID after sending)

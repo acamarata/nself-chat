@@ -80,9 +80,13 @@ export function AppConfigProvider({ children }: { children: React.ReactNode }) {
         ...config.homepage,
         ...(updates.homepage || {})
       },
-      auth: {
-        ...config.auth,
-        ...(updates.auth || {})
+      authProviders: {
+        ...config.authProviders,
+        ...(updates.authProviders || {})
+      },
+      authPermissions: {
+        ...config.authPermissions,
+        ...(updates.authPermissions || {})
       },
       features: {
         ...config.features,

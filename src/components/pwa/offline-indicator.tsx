@@ -46,7 +46,7 @@ export function OfflineIndicator({
   const [pendingActions, setPendingActions] = useState<PendingAction[]>([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const wasOfflineRef = useRef(false);
-  const onlineTimeoutRef = useRef<NodeJS.Timeout>();
+  const onlineTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Handle online/offline status
   useEffect(() => {
@@ -112,7 +112,7 @@ export function OfflineIndicator({
         const db = await openDatabase();
         const actions = await getPendingRequests(db);
         setPendingActions(
-          actions.map((action: { id: number; url: string; timestamp: number; body?: { type?: string } }) => ({
+          actions.map((action) => ({
             id: action.id.toString(),
             type: action.body?.type || 'message',
             timestamp: action.timestamp,
@@ -367,7 +367,14 @@ function openDatabase(): Promise<IDBDatabase> {
   });
 }
 
-function getPendingRequests(db: IDBDatabase): Promise<unknown[]> {
+interface PendingRequest {
+  id: number;
+  url: string;
+  timestamp: number;
+  body?: { type?: string; content?: string; channelId?: string };
+}
+
+function getPendingRequests(db: IDBDatabase): Promise<PendingRequest[]> {
   return new Promise((resolve, reject) => {
     const transaction = db.transaction(STORE_NAME, 'readonly');
     const store = transaction.objectStore(STORE_NAME);

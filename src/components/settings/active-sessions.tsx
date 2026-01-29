@@ -127,7 +127,7 @@ export function ActiveSessions() {
   // Use demo sessions in dev mode if no real sessions
   const displaySessions = isDevMode && sessions.length === 0 ? demoSessions : sessions
   const displayCurrentSession = isDevMode && !currentSession ? demoSessions[0] : currentSession
-  const otherSessions = displaySessions.filter((s) => !s.isCurrent)
+  const otherSessions = displaySessions.filter((s: Session) => !s.isCurrent)
 
   // Loading state
   if (loadingSessions && !isDevMode) {
@@ -210,7 +210,7 @@ export function ActiveSessions() {
           </div>
 
           <div className="space-y-3">
-            {otherSessions.map((session) => (
+            {otherSessions.map((session: Session) => (
               <SessionCard
                 key={session.id}
                 session={session}

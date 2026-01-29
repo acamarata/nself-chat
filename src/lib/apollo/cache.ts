@@ -5,8 +5,11 @@
  * for the Apollo InMemoryCache.
  */
 
-import { InMemoryCache, FieldPolicy, Reference, makeVar } from '@apollo/client';
+import { InMemoryCache, FieldPolicy, Reference, makeVar, FieldFunctionOptions } from '@apollo/client';
 import { relayStylePagination } from '@apollo/client/utilities';
+
+// Type for readField function from Apollo
+type ReadFieldFunction = FieldFunctionOptions['readField'];
 
 // =============================================================================
 // Reactive Variables
@@ -45,9 +48,10 @@ function offsetPagination<T = Reference>(
 ): FieldPolicy<T[]> {
   return {
     keyArgs,
-    merge(existing: T[] | undefined, incoming: T[], { args }) {
+    merge(existing, incoming, { args }) {
+      const existingArray = existing || [];
       const offset = args?.offset ?? 0;
-      const merged = existing ? existing.slice(0) : [];
+      const merged = existingArray.slice(0);
 
       // Handle incoming items
       for (let i = 0; i < incoming.length; ++i) {
@@ -63,10 +67,11 @@ function offsetPagination<T = Reference>(
  * Cursor-based pagination for messages
  * Messages are typically loaded newest first, then older messages are loaded
  */
-function messagePagination(): FieldPolicy {
+function messagePagination(): FieldPolicy<Reference[]> {
   return {
     keyArgs: ['channel_id', 'where'],
-    merge(existing: Reference[] = [], incoming: Reference[], { args, readField }) {
+    merge(existing, incoming, { args, readField }) {
+      const existingArray = existing || [];
       // If we have a cursor/offset, we're loading more (prepend)
       const offset = args?.offset ?? 0;
 
@@ -77,16 +82,13 @@ function messagePagination(): FieldPolicy {
 
       // Loading older messages - prepend them
       const existingIds = new Set(
-        existing.map((ref) => readField('id', ref))
+        existingArray.map((ref) => readField('id', ref))
       );
       const newItems = incoming.filter(
         (ref) => !existingIds.has(readField('id', ref))
       );
 
-      return [...existing, ...newItems];
-    },
-    read(existing: Reference[] | undefined) {
-      return existing;
+      return [...existingArray, ...newItems];
     },
   };
 }
@@ -96,20 +98,17 @@ function messagePagination(): FieldPolicy {
  */
 function deduplicatedListMerge(): FieldPolicy<Reference[]> {
   return {
-    merge(
-      existing: Reference[] = [],
-      incoming: Reference[],
-      { readField, mergeObjects }
-    ) {
+    merge(existing, incoming, { readField, mergeObjects }) {
+      const existingArray = existing || [];
       const existingMap = new Map<string, Reference>();
 
-      existing.forEach((ref) => {
-        const id = readField<string>('id', ref);
+      existingArray.forEach((ref) => {
+        const id = readField('id', ref) as string | undefined;
         if (id) existingMap.set(id, ref);
       });
 
       incoming.forEach((ref) => {
-        const id = readField<string>('id', ref);
+        const id = readField('id', ref) as string | undefined;
         if (id) {
           const existingRef = existingMap.get(id);
           if (existingRef) {
@@ -181,18 +180,19 @@ const typePolicies = {
       // Message subscriptions
       nchat_messages: {
         merge(
-          existing: Reference[] = [],
+          existing: Reference[] | undefined,
           incoming: Reference[],
-          { readField }
+          { readField }: FieldFunctionOptions
         ) {
+          const existingArray = existing || [];
           // For subscriptions, prepend new messages
           const existingIds = new Set(
-            existing.map((ref) => readField('id', ref))
+            existingArray.map((ref) => readField('id', ref))
           );
           const newMessages = incoming.filter(
             (ref) => !existingIds.has(readField('id', ref))
           );
-          return [...newMessages, ...existing];
+          return [...newMessages, ...existingArray];
         },
       },
     },
@@ -206,16 +206,16 @@ const typePolicies = {
       messages: messagePagination(),
       // Computed field: is muted
       isMuted: {
-        read(_, { readField }) {
-          const id = readField<string>('id');
+        read(_: unknown, { readField }: FieldFunctionOptions) {
+          const id = readField('id') as string | undefined;
           // This would come from local state
           return false;
         },
       },
       // Computed field: unread count from reactive var
       localUnreadCount: {
-        read(_, { readField }) {
-          const id = readField<string>('id');
+        read(_: unknown, { readField }: FieldFunctionOptions) {
+          const id = readField('id') as string | undefined;
           if (!id) return 0;
           const counts = unreadCountsVar();
           return counts[id] ?? 0;
@@ -229,21 +229,21 @@ const typePolicies = {
     keyFields: ['id'],
     fields: {
       reactions: {
-        merge(existing: Reference[] = [], incoming: Reference[], { readField }) {
+        merge(_existing: Reference[] | undefined, incoming: Reference[], _options: FieldFunctionOptions) {
           // Reactions should always be replaced, not merged
           return incoming;
         },
       },
       attachments: {
-        merge(existing: Reference[] = [], incoming: Reference[]) {
+        merge(_existing: Reference[] | undefined, incoming: Reference[]) {
           // Attachments should always be replaced
           return incoming;
         },
       },
       // Computed field: time ago
       timeAgo: {
-        read(_, { readField }) {
-          const createdAt = readField<string>('created_at');
+        read(_: unknown, { readField }: FieldFunctionOptions) {
+          const createdAt = readField('created_at') as string | undefined;
           if (!createdAt) return '';
           const date = new Date(createdAt);
           const now = new Date();
@@ -268,17 +268,17 @@ const typePolicies = {
     fields: {
       // Computed field: is online from reactive var
       isOnline: {
-        read(_, { readField }) {
-          const id = readField<string>('id');
+        read(_: unknown, { readField }: FieldFunctionOptions) {
+          const id = readField('id') as string | undefined;
           if (!id) return false;
           return onlineUsersVar().has(id);
         },
       },
       // Full name computed field
       fullName: {
-        read(_, { readField }) {
-          const displayName = readField<string>('display_name');
-          const username = readField<string>('username');
+        read(_: unknown, { readField }: FieldFunctionOptions) {
+          const displayName = readField('display_name') as string | undefined;
+          const username = readField('username') as string | undefined;
           return displayName || username || 'Unknown';
         },
       },
@@ -298,8 +298,8 @@ const typePolicies = {
     fields: {
       // Computed field: formatted file size
       formattedSize: {
-        read(_, { readField }) {
-          const size = readField<number>('file_size');
+        read(_: unknown, { readField }: FieldFunctionOptions) {
+          const size = readField('file_size') as number | undefined;
           if (!size) return '';
           if (size < 1024) return `${size} B`;
           if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;

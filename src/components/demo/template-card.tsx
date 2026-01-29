@@ -9,7 +9,7 @@
 //
 // ===============================================================================
 
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -74,7 +74,7 @@ interface TemplateIconProps {
 
 function TemplateIcon({ templateId, className = '' }: TemplateIconProps) {
   // SVG icons for each template
-  const icons: Record<TemplateId, JSX.Element> = {
+  const icons: Record<TemplateId, React.ReactElement> = {
     default: (
       <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"

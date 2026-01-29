@@ -42,7 +42,7 @@ const SOCKET_CONFIG = {
 
   // Connection settings
   timeout: 20000,
-  transports: ['websocket', 'polling'] as const,
+  transports: ['websocket', 'polling'] as ('websocket' | 'polling')[],
 
   // Auto connect disabled - we connect manually after auth
   autoConnect: false,

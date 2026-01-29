@@ -42,7 +42,7 @@ export function LiveRegion({
   className,
 }: LiveRegionProps) {
   const [announcement, setAnnouncement] = useState('');
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (message) {

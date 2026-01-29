@@ -33,7 +33,7 @@ export interface CommandInputProps {
   /** Additional CSS classes */
   className?: string;
   /** Ref to the input element */
-  inputRef?: React.RefObject<HTMLInputElement>;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
 }
 
 // ============================================================================
@@ -94,7 +94,16 @@ export function CommandInput({
   className,
   inputRef,
 }: CommandInputProps) {
-  const displayPlaceholder = placeholder || getSearchPlaceholder(mode === 'all' ? 'all' : mode);
+  // Map component modes to CommandCategory (actions -> action, etc.)
+  const modeToCategory = (m: typeof mode): CommandCategory | 'all' => {
+    if (m === 'all') return 'all';
+    if (m === 'actions') return 'action';
+    if (m === 'channels') return 'channel';
+    if (m === 'dms') return 'dm';
+    if (m === 'users') return 'user';
+    return m as CommandCategory;
+  };
+  const displayPlaceholder = placeholder || getSearchPlaceholder(modeToCategory(mode));
 
   return (
     <div className={cn('flex items-center gap-2 border-b px-3', className)}>

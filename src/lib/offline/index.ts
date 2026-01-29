@@ -203,7 +203,8 @@ import { initializeConnectionManager, cleanupConnectionManager } from './connect
 import { initializeOfflineCache, cleanupOfflineCache } from './offline-cache';
 import { initializeOfflineQueue, cleanupOfflineQueue } from './offline-queue';
 import { initializeOfflineSync, cleanupOfflineSync, type DataFetchers } from './offline-sync';
-import type { OfflineConfig, ConnectionManagerOptions } from './offline-types';
+import type { OfflineConfig } from './offline-types';
+import type { ConnectionManagerOptions } from './connection-manager';
 
 export interface OfflineSystemOptions {
   config?: Partial<OfflineConfig>;

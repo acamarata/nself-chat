@@ -508,11 +508,11 @@ export const useAppStore = create<AppStore>()(
             ),
 
           // Modals
-          openModal: (modalId, data = null) =>
+          openModal: (modalId, data) =>
             set(
               (state) => {
                 state.activeModal = modalId;
-                state.modalData = data;
+                state.modalData = data ?? null;
               },
               false,
               'app/openModal'

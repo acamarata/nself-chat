@@ -529,7 +529,7 @@ export default function WebhooksManagementPage() {
                 setWebhookToEdit(webhook)
                 setSettingsModalOpen(true)
               }}
-              onDelete={handleDeleteWebhook}
+              onDelete={(webhook) => handleDeleteWebhook(webhook.id)}
               onTest={(webhook) => {
                 setWebhookToTest(webhook)
                 setTestModalOpen(true)

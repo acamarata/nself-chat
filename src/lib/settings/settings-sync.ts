@@ -266,7 +266,7 @@ class SettingsSync {
 
       if (!remoteCategory) continue;
 
-      merged[category] = { ...localCategory };
+      (merged as Record<string, unknown>)[category] = { ...localCategory };
 
       for (const key of Object.keys(remoteCategory)) {
         const localValue = localCategory[key as keyof typeof localCategory];

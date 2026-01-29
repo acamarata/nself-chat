@@ -30,7 +30,7 @@ export interface ProfileFieldDefinition {
   maxLength?: number
 }
 
-export interface ProfileFieldsProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ProfileFieldsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   fields: ProfileFieldDefinition[]
   values: Record<string, string | boolean>
   onChange: (key: string, value: string | boolean) => void
@@ -57,10 +57,11 @@ const ProfileFields = React.forwardRef<HTMLDivElement, ProfileFieldsProps>(
     },
     ref
   ) => {
+    const isCompact = variant === 'compact'
+
     const renderField = (field: ProfileFieldDefinition) => {
       const value = values[field.key] ?? ''
       const error = errors[field.key]
-      const isCompact = variant === 'compact'
 
       switch (field.type) {
         case 'textarea':
