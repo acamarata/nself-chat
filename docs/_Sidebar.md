@@ -116,6 +116,11 @@
 
 ---
 
+### Roadmap
+- [v0.2 Planning](Roadmap-v0.2)
+
+---
+
 ### Reference
 - [Environment Variables](Environment-Variables)
 - [TypeScript Types](Types)
