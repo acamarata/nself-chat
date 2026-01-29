@@ -38,10 +38,7 @@
     "**/*.test.tsx",
     "**/*.spec.ts",
     "**/*.spec.tsx",
-    "electron/**/*",
-    "tauri/**/*",
-    "capacitor.config.ts",
-    "react-native/**/*",
-    ".protocol-ts/**/*"
+    "platforms/**/*",
+    "deploy/**/*"
   ]
 }

@@ -102,9 +102,9 @@ if [ -d "dist-electron" ]; then
 fi
 
 # Tauri
-if [ -d "src-tauri/target" ]; then
-    log_info "Removing src-tauri/target/"
-    rm -rf src-tauri/target
+if [ -d "platforms/tauri/target" ]; then
+    log_info "Removing platforms/tauri/target/"
+    rm -rf platforms/tauri/target
 fi
 
 # Capacitor

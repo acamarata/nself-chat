@@ -32,7 +32,7 @@ ATOMIC=true
 # Script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-HELM_DIR="$PROJECT_ROOT/helm/nself-chat"
+HELM_DIR="$PROJECT_ROOT/deploy/helm/nself-chat"
 
 log_info() {
     echo -e "${GREEN}[INFO]${NC} $1"

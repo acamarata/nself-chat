@@ -127,28 +127,27 @@ pids/
 !.backend/.gitkeep
 
 # -----------------------------------------------------------------------------
-# Mobile & Desktop Build Output
+# Mobile & Desktop Build Output (in platforms/)
 # -----------------------------------------------------------------------------
 # Capacitor
 android/
 ios/
-capacitor/android/
-capacitor/ios/
+platforms/capacitor/android/
+platforms/capacitor/ios/
 
 # Tauri
-tauri/target/
-tauri/src-tauri/target/
+platforms/tauri/target/
 
 # Electron
-electron/dist/
-electron/out/
-electron/release/
+platforms/electron/dist/
+platforms/electron/out/
+platforms/electron/release/
 
 # React Native
-react-native/android/app/build/
-react-native/ios/build/
-react-native/ios/Pods/
-react-native/.expo/
+platforms/react-native/android/app/build/
+platforms/react-native/ios/build/
+platforms/react-native/ios/Pods/
+platforms/react-native/.expo/
 
 # -----------------------------------------------------------------------------
 # Internal/Development Files (not for public repo)

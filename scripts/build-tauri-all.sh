@@ -74,9 +74,9 @@ if ! command -v cargo-tauri &> /dev/null && ! pnpm tauri --version &> /dev/null;
     pnpm add -D @tauri-apps/cli
 fi
 
-# Check for src-tauri
-if [ ! -d "src-tauri" ]; then
-    log_error "src-tauri directory not found. Initialize with 'pnpm tauri init'"
+# Check for platforms/tauri
+if [ ! -d "platforms/tauri" ]; then
+    log_error "platforms/tauri directory not found. Initialize with 'pnpm tauri init'"
     exit 1
 fi
 
@@ -127,7 +127,7 @@ case "$PLATFORM" in
         pnpm tauri build --target universal-apple-darwin $BUILD_ARGS
 
         log_success "macOS build completed!"
-        log_info "Output: src-tauri/target/universal-apple-darwin/release/bundle/"
+        log_info "Output: platforms/tauri/target/universal-apple-darwin/release/bundle/"
         ;;
 
     windows)
@@ -140,7 +140,7 @@ case "$PLATFORM" in
         pnpm tauri build $BUILD_ARGS
 
         log_success "Windows build completed!"
-        log_info "Output: src-tauri/target/release/bundle/"
+        log_info "Output: platforms/tauri/target/release/bundle/"
         ;;
 
     linux)
@@ -153,7 +153,7 @@ case "$PLATFORM" in
         pnpm tauri build $BUILD_ARGS
 
         log_success "Linux build completed!"
-        log_info "Output: src-tauri/target/release/bundle/"
+        log_info "Output: platforms/tauri/target/release/bundle/"
         ;;
 
     all)

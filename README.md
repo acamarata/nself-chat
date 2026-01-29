@@ -178,7 +178,7 @@ docker compose up -d
 
 ```bash
 # Deploy to your cluster
-kubectl apply -f k8s/production/
+kubectl apply -f deploy/k8s/production/
 ```
 
 ### Desktop Apps
@@ -233,12 +233,16 @@ nself-chat/
 │   ├── services/               # Service layer
 │   ├── graphql/                # GraphQL operations
 │   └── config/                 # Configuration
-├── docs/                       # Documentation
+├── docs/                       # Documentation (GitHub Wiki)
+├── platforms/                  # Desktop & mobile apps
+│   ├── tauri/                 # Tauri desktop app
+│   ├── electron/              # Electron desktop app
+│   ├── capacitor/             # Capacitor mobile config
+│   └── react-native/          # React Native mobile app
+├── deploy/                     # Deployment configs
+│   ├── k8s/                   # Kubernetes manifests
+│   └── helm/                  # Helm charts
 ├── .backend/                   # nself backend (gitignored)
-├── tauri/                      # Tauri desktop app
-├── electron/                   # Electron desktop app
-├── capacitor/                  # Mobile app config
-├── k8s/                        # Kubernetes manifests
 └── .github/                    # CI/CD workflows
 ```
 

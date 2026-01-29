@@ -69,9 +69,9 @@ if ! pnpm electron-builder --version &> /dev/null 2>&1; then
 fi
 
 # Check for electron configuration
-if [ ! -f "electron/main.js" ] && [ ! -f "electron/main.ts" ] && [ ! -f "electron.config.js" ]; then
+if [ ! -f "platforms/electron/main.js" ] && [ ! -f "platforms/electron/main.ts" ] && [ ! -f "electron.config.js" ]; then
     log_error "Electron configuration not found."
-    log_error "Create electron/main.js or electron/main.ts to get started."
+    log_error "Create platforms/electron/main.js or platforms/electron/main.ts to get started."
     exit 1
 fi
 

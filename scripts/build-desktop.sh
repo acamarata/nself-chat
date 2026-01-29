@@ -91,9 +91,9 @@ if $BUILD_TAURI; then
         log_warn "Rust not found. Install from https://rustup.rs/"
         log_warn "Skipping Tauri build"
     else
-        # Check for src-tauri directory
-        if [ ! -d "src-tauri" ]; then
-            log_warn "src-tauri directory not found. Run 'pnpm tauri init' first."
+        # Check for platforms/tauri directory
+        if [ ! -d "platforms/tauri" ]; then
+            log_warn "platforms/tauri directory not found. Run 'pnpm tauri init' first."
             log_warn "Skipping Tauri build"
         else
             "$SCRIPT_DIR/build-tauri-all.sh" ${PLATFORM:+--platform "$PLATFORM"} || {
@@ -109,7 +109,7 @@ if $BUILD_ELECTRON; then
     log_info "Building Electron desktop application..."
 
     # Check for electron directory
-    if [ ! -f "electron/main.js" ] && [ ! -f "electron/main.ts" ] && [ ! -f "electron.config.js" ]; then
+    if [ ! -f "platforms/electron/main.js" ] && [ ! -f "platforms/electron/main.ts" ] && [ ! -f "electron.config.js" ]; then
         log_warn "Electron configuration not found. Run 'pnpm electron init' first."
         log_warn "Skipping Electron build"
     else

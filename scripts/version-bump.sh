@@ -59,22 +59,22 @@ fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
 "
 
 # Update Tauri config if exists
-if [ -f "src-tauri/tauri.conf.json" ]; then
-    log_info "Updating src-tauri/tauri.conf.json..."
+if [ -f "platforms/tauri/tauri.conf.json" ]; then
+    log_info "Updating platforms/tauri/tauri.conf.json..."
     node -e "
 const fs = require('fs');
-const config = JSON.parse(fs.readFileSync('src-tauri/tauri.conf.json', 'utf8'));
+const config = JSON.parse(fs.readFileSync('platforms/tauri/tauri.conf.json', 'utf8'));
 if (config.package) config.package.version = '$NEW_VERSION';
 if (config.version) config.version = '$NEW_VERSION';
-fs.writeFileSync('src-tauri/tauri.conf.json', JSON.stringify(config, null, 2) + '\n');
+fs.writeFileSync('platforms/tauri/tauri.conf.json', JSON.stringify(config, null, 2) + '\n');
 "
 fi
 
 # Update Cargo.toml if exists
-if [ -f "src-tauri/Cargo.toml" ]; then
-    log_info "Updating src-tauri/Cargo.toml..."
-    sed -i.bak "s/^version = \".*\"/version = \"$NEW_VERSION\"/" src-tauri/Cargo.toml
-    rm -f src-tauri/Cargo.toml.bak
+if [ -f "platforms/tauri/Cargo.toml" ]; then
+    log_info "Updating platforms/tauri/Cargo.toml..."
+    sed -i.bak "s/^version = \".*\"/version = \"$NEW_VERSION\"/" platforms/tauri/Cargo.toml
+    rm -f platforms/tauri/Cargo.toml.bak
 fi
 
 # Update iOS Info.plist if exists

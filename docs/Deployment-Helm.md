@@ -41,7 +41,7 @@ This guide covers deploying nself-chat using Helm charts.
 ## Chart Overview
 
 ```
-helm/nself-chat/
+deploy/helm/nself-chat/
 ├── Chart.yaml              # Chart metadata
 ├── values.yaml             # Default values
 ├── values-production.yaml  # Production overrides
@@ -81,19 +81,19 @@ dependencies:
 
 ```bash
 # Update dependencies
-helm dependency update ./helm/nself-chat
+helm dependency update ./deploy/helm/nself-chat
 
 # Install
-helm install nself-chat ./helm/nself-chat \
+helm install nself-chat ./deploy/helm/nself-chat \
   --namespace nself-chat \
   --create-namespace
 
 # Install with custom values
-helm install nself-chat ./helm/nself-chat \
+helm install nself-chat ./deploy/helm/nself-chat \
   --namespace nself-chat \
   --create-namespace \
-  --values ./helm/nself-chat/values.yaml \
-  --values ./helm/nself-chat/values-production.yaml \
+  --values ./deploy/helm/nself-chat/values.yaml \
+  --values ./deploy/helm/nself-chat/values-production.yaml \
   --set image.tag=v1.0.0
 ```
 
@@ -114,16 +114,16 @@ helm install nself-chat oci://ghcr.io/nself/charts/nself-chat \
 
 ```bash
 # Staging
-helm install nself-chat ./helm/nself-chat \
-  -f ./helm/nself-chat/values.yaml \
-  -f ./helm/nself-chat/values-staging.yaml \
+helm install nself-chat ./deploy/helm/nself-chat \
+  -f ./deploy/helm/nself-chat/values.yaml \
+  -f ./deploy/helm/nself-chat/values-staging.yaml \
   --namespace nself-chat-staging \
   --create-namespace
 
 # Production
-helm install nself-chat ./helm/nself-chat \
-  -f ./helm/nself-chat/values.yaml \
-  -f ./helm/nself-chat/values-production.yaml \
+helm install nself-chat ./deploy/helm/nself-chat \
+  -f ./deploy/helm/nself-chat/values.yaml \
+  -f ./deploy/helm/nself-chat/values-production.yaml \
   --namespace nself-chat \
   --create-namespace
 ```
@@ -230,7 +230,7 @@ autoscaling:
 ### Standard Upgrade
 
 ```bash
-helm upgrade nself-chat ./helm/nself-chat \
+helm upgrade nself-chat ./deploy/helm/nself-chat \
   --namespace nself-chat \
   --reuse-values \
   --set image.tag=v1.1.0
@@ -239,10 +239,10 @@ helm upgrade nself-chat ./helm/nself-chat \
 ### Upgrade with New Values
 
 ```bash
-helm upgrade nself-chat ./helm/nself-chat \
+helm upgrade nself-chat ./deploy/helm/nself-chat \
   --namespace nself-chat \
-  -f ./helm/nself-chat/values.yaml \
-  -f ./helm/nself-chat/values-production.yaml \
+  -f ./deploy/helm/nself-chat/values.yaml \
+  -f ./deploy/helm/nself-chat/values-production.yaml \
   --set image.tag=v1.1.0
 ```
 
@@ -251,7 +251,7 @@ helm upgrade nself-chat ./helm/nself-chat \
 Automatically rollback on failure:
 
 ```bash
-helm upgrade nself-chat ./helm/nself-chat \
+helm upgrade nself-chat ./deploy/helm/nself-chat \
   --namespace nself-chat \
   --atomic \
   --timeout 300s
@@ -339,7 +339,7 @@ resources:
 Install with custom values:
 
 ```bash
-helm install nself-chat ./helm/nself-chat \
+helm install nself-chat ./deploy/helm/nself-chat \
   -f my-values.yaml \
   --namespace nself-chat
 ```
@@ -350,7 +350,7 @@ To customize templates, copy and modify:
 
 ```bash
 # Export current templates
-helm template nself-chat ./helm/nself-chat > manifests.yaml
+helm template nself-chat ./deploy/helm/nself-chat > manifests.yaml
 
 # Modify as needed
 # Apply directly with kubectl
@@ -411,7 +411,7 @@ helm get values nself-chat -n nself-chat
 helm get manifest nself-chat -n nself-chat
 
 # Test chart rendering
-helm template nself-chat ./helm/nself-chat --debug
+helm template nself-chat ./deploy/helm/nself-chat --debug
 ```
 
 ### Common Issues
@@ -420,22 +420,22 @@ helm template nself-chat ./helm/nself-chat --debug
 
 ```bash
 # Clear cache and retry
-rm -rf ./helm/nself-chat/charts ./helm/nself-chat/Chart.lock
-helm dependency update ./helm/nself-chat
+rm -rf ./deploy/helm/nself-chat/charts ./deploy/helm/nself-chat/Chart.lock
+helm dependency update ./deploy/helm/nself-chat
 ```
 
 #### Template Rendering Errors
 
 ```bash
 # Debug template rendering
-helm template nself-chat ./helm/nself-chat --debug 2>&1 | head -100
+helm template nself-chat ./deploy/helm/nself-chat --debug 2>&1 | head -100
 ```
 
 #### Installation Timeout
 
 ```bash
 # Increase timeout
-helm install nself-chat ./helm/nself-chat \
+helm install nself-chat ./deploy/helm/nself-chat \
   --timeout 600s \
   --wait
 ```
@@ -447,7 +447,7 @@ helm install nself-chat ./helm/nself-chat \
 helm get values nself-chat -n nself-chat -a
 
 # Re-apply with explicit values
-helm upgrade nself-chat ./helm/nself-chat \
+helm upgrade nself-chat ./deploy/helm/nself-chat \
   --namespace nself-chat \
   -f values.yaml \
   --force
@@ -457,7 +457,7 @@ helm upgrade nself-chat ./helm/nself-chat \
 
 ```bash
 # Enable debug output
-helm install nself-chat ./helm/nself-chat \
+helm install nself-chat ./deploy/helm/nself-chat \
   --debug \
   --dry-run
 ```
@@ -492,11 +492,11 @@ kubectl logs -n nself-chat -l app.kubernetes.io/name=nself-chat
 ```yaml
 - name: Deploy to Kubernetes
   run: |
-    helm upgrade --install nself-chat ./helm/nself-chat \
+    helm upgrade --install nself-chat ./deploy/helm/nself-chat \
       --namespace nself-chat \
       --create-namespace \
-      -f ./helm/nself-chat/values.yaml \
-      -f ./helm/nself-chat/values-production.yaml \
+      -f ./deploy/helm/nself-chat/values.yaml \
+      -f ./deploy/helm/nself-chat/values-production.yaml \
       --set image.tag=${{ github.sha }} \
       --wait \
       --atomic \
