@@ -22,9 +22,23 @@ const customJestConfig = {
     '<rootDir>/.next/',
     '<rootDir>/node_modules/',
     '<rootDir>/.backend/',
-    '<rootDir>/e2e/'
+    '<rootDir>/e2e/',
+    '<rootDir>/src/__tests__/mocks/',
+    '<rootDir>/src/__tests__/utils/',
+    '<rootDir>/src/__tests__/setup.ts',
   ],
-  modulePathIgnorePatterns: ['<rootDir>/.backend/'],
+  testMatch: [
+    '**/__tests__/**/*.test.[jt]s?(x)',
+    '**/?(*.)+(spec|test).[jt]s?(x)',
+  ],
+  modulePathIgnorePatterns: [
+    '<rootDir>/.backend/',
+    '<rootDir>/.next/standalone/',
+    '<rootDir>/.next/',
+  ],
+  haste: {
+    forceNodeFilesystemAPI: true,
+  },
   transformIgnorePatterns: [
     'node_modules/(?!(uuid|@apollo/client|graphql)/)',
   ],

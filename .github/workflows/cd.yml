@@ -1,8 +1,9 @@
 name: CD
 
 on:
-  # Only run CD on workflow_dispatch for now
-  # Enable push trigger once Vercel tokens are configured
+  # CD is disabled until Vercel secrets are configured
+  # To enable: Add VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID to repository secrets
+  # Then uncomment the push trigger below
   # push:
   #   branches: [main]
   workflow_dispatch:
@@ -24,6 +25,22 @@ env:
   NODE_VERSION: '20'
 
 jobs:
+  check-secrets:
+    name: Check Secrets
+    runs-on: ubuntu-latest
+    outputs:
+      has-vercel: ${{ steps.check.outputs.has-vercel }}
+    steps:
+      - name: Check for Vercel secrets
+        id: check
+        run: |
+          if [ -n "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "has-vercel=true" >> $GITHUB_OUTPUT
+          else
+            echo "has-vercel=false" >> $GITHUB_OUTPUT
+            echo "::warning::Vercel secrets not configured. Deployment will be skipped."
+          fi
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -70,8 +87,8 @@ jobs:
   deploy-staging:
     name: Deploy to Staging
     runs-on: ubuntu-latest
-    needs: [build]
-    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging')
+    needs: [check-secrets, build]
+    if: needs.check-secrets.outputs.has-vercel == 'true' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging'))
     environment:
       name: staging
       url: ${{ steps.deploy.outputs.url }}
@@ -96,8 +113,8 @@ jobs:
   deploy-production:
     name: Deploy to Production
     runs-on: ubuntu-latest
-    needs: [build, deploy-staging]
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
+    needs: [check-secrets, build]
+    if: needs.check-secrets.outputs.has-vercel == 'true' && github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
     environment:
       name: production
       url: ${{ steps.deploy.outputs.url }}
@@ -123,15 +140,14 @@ jobs:
   notify:
     name: Notify
     runs-on: ubuntu-latest
-    needs: [deploy-staging]
+    needs: [check-secrets, build]
     if: always()
     steps:
-      - name: Notify on success
-        if: needs.deploy-staging.result == 'success'
-        run: echo "Deployment successful!"
-
-      - name: Notify on failure
-        if: needs.deploy-staging.result == 'failure'
+      - name: Summary
         run: |
-          echo "Deployment failed!"
-          exit 1
+          echo "## CD Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Build: ${{ needs.build.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Vercel configured: ${{ needs.check-secrets.outputs.has-vercel }}" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ needs.check-secrets.outputs.has-vercel }}" != "true" ]; then
+            echo "- Note: Deployment skipped (Vercel secrets not configured)" >> $GITHUB_STEP_SUMMARY
+          fi

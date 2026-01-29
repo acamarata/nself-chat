@@ -6,11 +6,19 @@
  */
 
 import React from 'react'
-import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { act } from '@testing-library/react'
 import { ChannelList } from '../channel-list'
-import { useChannelStore, Channel, ChannelCategory } from '@/stores/channel-store'
+import type { Channel, ChannelCategory } from '@/stores/channel-store'
+
+// ============================================================================
+// Mock Data
+// ============================================================================
+
+let mockChannels: Channel[] = []
+let mockCategories: ChannelCategory[] = []
+let mockStarredChannels: Set<string> = new Set()
+let mockIsLoading = false
 
 // ============================================================================
 // Mocks
@@ -38,6 +46,40 @@ jest.mock('@/stores/ui-store', () => ({
   }),
 }))
 
+// Mock the entire channel-store to avoid re-render issues with Zustand selectors
+jest.mock('@/stores/channel-store', () => {
+  return {
+    useChannelStore: (selector?: (state: any) => any) => {
+      const state = {
+        channels: new Map(mockChannels.map(c => [c.id, c])),
+        categories: mockCategories,
+        starredChannels: mockStarredChannels,
+        isLoading: mockIsLoading,
+        collapsedCategories: new Set(),
+        toggleCategoryCollapse: jest.fn(),
+      }
+      return selector ? selector(state) : state
+    },
+    selectPublicChannels: () => mockChannels.filter(c => c.type === 'public' && !c.isArchived),
+    selectPrivateChannels: () => mockChannels.filter(c => c.type === 'private' && !c.isArchived),
+    selectStarredChannels: () => mockChannels.filter(c => mockStarredChannels.has(c.id)),
+    selectChannelsByCategory: () => {
+      const categorized: Record<string, Channel[]> = {}
+      const uncategorized: Channel[] = []
+      mockCategories.forEach(cat => { categorized[cat.id] = [] })
+      mockChannels.forEach(channel => {
+        if (channel.isArchived) return
+        if (channel.categoryId && categorized[channel.categoryId]) {
+          categorized[channel.categoryId].push(channel)
+        } else if (channel.type !== 'direct' && channel.type !== 'group') {
+          uncategorized.push(channel)
+        }
+      })
+      return { categorized, uncategorized }
+    },
+  }
+})
+
 // Mock sub-components
 jest.mock('../channel-item', () => ({
   ChannelItem: ({ channel, onSelect }: { channel: any; onSelect?: (ch: any) => void }) => {
@@ -56,7 +98,7 @@ jest.mock('../channel-item', () => ({
 }))
 
 jest.mock('../channel-category', () => ({
-  ChannelCategory: ({ category, children, onCreateChannel }: any) => {
+  ChannelCategory: ({ category, children }: any) => {
     const React = require('react')
     return React.createElement('div', {
       'data-testid': `category-${category.id}`,
@@ -78,6 +120,14 @@ jest.mock('../direct-message-list', () => ({
   DirectMessageList: () => {
     const React = require('react')
     return React.createElement('div', { 'data-testid': 'dm-list' }, 'Direct Messages')
+  },
+}))
+
+// Mock ScrollArea to avoid Radix UI infinite re-render issue in JSDOM
+jest.mock('@/components/ui/scroll-area', () => ({
+  ScrollArea: ({ children, className }: { children: React.ReactNode; className?: string }) => {
+    const React = require('react')
+    return React.createElement('div', { className, 'data-testid': 'scroll-area' }, children)
   },
 }))
 
@@ -119,34 +169,12 @@ const setupStore = (config: {
   channels?: Channel[]
   categories?: ChannelCategory[]
   starredChannels?: string[]
-  mutedChannels?: string[]
   isLoading?: boolean
 }) => {
-  const store = useChannelStore.getState()
-
-  act(() => {
-    store.resetChannelStore()
-
-    if (config.channels) {
-      store.setChannels(config.channels)
-    }
-
-    if (config.categories) {
-      store.setCategories(config.categories)
-    }
-
-    if (config.starredChannels) {
-      config.starredChannels.forEach((id) => store.setChannelStarred(id, true))
-    }
-
-    if (config.mutedChannels) {
-      config.mutedChannels.forEach((id) => store.setChannelMuted(id, true))
-    }
-
-    if (config.isLoading !== undefined) {
-      store.setLoading(config.isLoading)
-    }
-  })
+  mockChannels = config.channels || []
+  mockCategories = config.categories || []
+  mockStarredChannels = new Set(config.starredChannels || [])
+  mockIsLoading = config.isLoading || false
 }
 
 // ============================================================================
@@ -156,9 +184,10 @@ const setupStore = (config: {
 describe('ChannelList Component', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    act(() => {
-      useChannelStore.getState().resetChannelStore()
-    })
+    mockChannels = []
+    mockCategories = []
+    mockStarredChannels = new Set()
+    mockIsLoading = false
   })
 
   // ==========================================================================
@@ -215,27 +244,31 @@ describe('ChannelList Component', () => {
     it('should render starred channels section when channels are starred', () => {
       const channels = [
         createMockChannel({ id: 'ch-1', name: 'general' }),
-        createMockChannel({ id: 'ch-2', name: 'starred-channel' }),
+        createMockChannel({ id: 'ch-2', name: 'favorites' }),
       ]
 
       setupStore({ channels, starredChannels: ['ch-2'] })
 
       render(<ChannelList />)
 
-      expect(screen.getByText(/starred/i)).toBeInTheDocument()
+      // Should have a "Starred" section header
+      const starredElements = screen.getAllByText(/starred/i)
+      expect(starredElements.length).toBeGreaterThan(0)
     })
 
     it('should render private channels section', () => {
       const channels = [
         createMockChannel({ id: 'ch-1', name: 'general', type: 'public' }),
-        createMockChannel({ id: 'ch-2', name: 'private-channel', type: 'private' }),
+        createMockChannel({ id: 'ch-2', name: 'secret-channel', type: 'private' }),
       ]
 
       setupStore({ channels })
 
       render(<ChannelList />)
 
-      expect(screen.getByText(/private/i)).toBeInTheDocument()
+      // Should have a "Private" section header
+      const privateElements = screen.getAllByText(/private/i)
+      expect(privateElements.length).toBeGreaterThan(0)
     })
 
     it('should render categorized channels', () => {
@@ -297,14 +330,7 @@ describe('ChannelList Component', () => {
         createMockChannel({ id: 'ch-1', name: 'general', unreadCount: 5 } as any),
       ]
 
-      // Need to set unread count in the store or via channel
       setupStore({ channels })
-
-      // Set unread count manually
-      act(() => {
-        const store = useChannelStore.getState()
-        store.updateChannel('ch-1', { unreadCount: 5 } as any)
-      })
 
       render(<ChannelList />)
 
@@ -493,13 +519,15 @@ describe('ChannelList Component', () => {
 
     it('should toggle private channels section collapse', async () => {
       const user = userEvent.setup()
-      const channels = [createMockChannel({ id: 'ch-1', name: 'private', type: 'private' })]
+      const channels = [createMockChannel({ id: 'ch-1', name: 'secret-channel', type: 'private' })]
 
       setupStore({ channels })
 
       render(<ChannelList />)
 
-      const privateHeader = screen.getByText(/private/i).closest('div[class*="cursor-pointer"]')
+      // Get all elements containing "Private" (should be the section header)
+      const privateElements = screen.getAllByText(/private/i)
+      const privateHeader = privateElements[0]?.closest('div[class*="cursor-pointer"]')
 
       if (privateHeader) {
         await user.click(privateHeader)

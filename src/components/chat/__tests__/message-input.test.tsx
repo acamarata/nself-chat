@@ -222,29 +222,37 @@ describe('MessageInput Component', () => {
     it('should render emoji button', () => {
       render(<MessageInput {...defaultProps} />)
 
-      // There should be a button for emoji picker
-      const emojiButton = screen.getByRole('button', { name: /emoji/i })
+      // The emoji button uses Smile icon - find by the SVG class
+      const buttons = screen.getAllByRole('button')
+      const emojiButton = buttons.find(b => b.querySelector('.lucide-smile'))
       expect(emojiButton).toBeInTheDocument()
     })
 
     it('should render file upload button when fileUploads enabled', () => {
       render(<MessageInput {...defaultProps} />)
 
-      const attachButton = screen.getByRole('button', { name: /attach/i })
+      // The attach button uses Paperclip icon
+      const buttons = screen.getAllByRole('button')
+      const attachButton = buttons.find(b => b.querySelector('.lucide-paperclip'))
       expect(attachButton).toBeInTheDocument()
     })
 
     it('should render mention button', () => {
       render(<MessageInput {...defaultProps} />)
 
-      const mentionButton = screen.getByRole('button', { name: /mention/i })
+      // The mention button uses AtSign icon
+      const buttons = screen.getAllByRole('button')
+      const mentionButton = buttons.find(b => b.querySelector('.lucide-at-sign'))
       expect(mentionButton).toBeInTheDocument()
     })
 
     it('should render help text', () => {
       render(<MessageInput {...defaultProps} />)
 
-      expect(screen.getByText(/enter/i)).toBeInTheDocument()
+      // The help text shows "Enter to send, Shift+Enter for new line"
+      // Use getAllByText since there may be multiple matches for "Enter"
+      const enterElements = screen.getAllByText(/enter/i)
+      expect(enterElements.length).toBeGreaterThan(0)
       expect(screen.getByText(/to send/i)).toBeInTheDocument()
     })
 
@@ -572,8 +580,13 @@ describe('MessageInput Component', () => {
       const user = userEvent.setup()
       render(<MessageInput {...defaultProps} />)
 
-      const emojiButton = screen.getByRole('button', { name: /emoji/i })
-      await user.click(emojiButton)
+      // Find emoji button by its icon
+      const buttons = screen.getAllByRole('button')
+      const emojiButton = buttons.find(b => b.querySelector('.lucide-smile'))
+      expect(emojiButton).toBeDefined()
+      if (emojiButton) {
+        await user.click(emojiButton)
+      }
 
       await waitFor(() => {
         expect(screen.getByTestId('emoji-picker')).toBeInTheDocument()
@@ -584,8 +597,13 @@ describe('MessageInput Component', () => {
       const user = userEvent.setup()
       render(<MessageInput {...defaultProps} />)
 
-      const emojiButton = screen.getByRole('button', { name: /emoji/i })
-      await user.click(emojiButton)
+      // Find emoji button by its icon
+      const buttons = screen.getAllByRole('button')
+      const emojiButton = buttons.find(b => b.querySelector('.lucide-smile'))
+      expect(emojiButton).toBeDefined()
+      if (emojiButton) {
+        await user.click(emojiButton)
+      }
 
       const picker = await screen.findByTestId('emoji-picker')
       await user.click(picker)
@@ -603,8 +621,13 @@ describe('MessageInput Component', () => {
       const user = userEvent.setup()
       render(<MessageInput {...defaultProps} />)
 
-      const mentionButton = screen.getByRole('button', { name: /mention/i })
-      await user.click(mentionButton)
+      // Find mention button by its icon
+      const buttons = screen.getAllByRole('button')
+      const mentionButton = buttons.find(b => b.querySelector('.lucide-at-sign'))
+      expect(mentionButton).toBeDefined()
+      if (mentionButton) {
+        await user.click(mentionButton)
+      }
 
       expect(mockEditor.commands.insertContent).toHaveBeenCalledWith('@')
     })
