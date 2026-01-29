@@ -1,14 +1,31 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { ChevronLeft, Database, Download, Trash2, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { DataExportRequest, DataDeletionRequest, ConsentManager } from '@/components/compliance';
+import { ComplianceSkeleton } from '@/components/ui/loading-skeletons';
 import {
   SettingsLayout,
 } from '@/components/settings';
+
+// Lazy load heavy compliance components
+const DataExportRequest = dynamic(
+  () => import('@/components/compliance').then(mod => ({ default: mod.DataExportRequest })),
+  { loading: () => <ComplianceSkeleton />, ssr: false }
+);
+
+const DataDeletionRequest = dynamic(
+  () => import('@/components/compliance').then(mod => ({ default: mod.DataDeletionRequest })),
+  { loading: () => <ComplianceSkeleton />, ssr: false }
+);
+
+const ConsentManager = dynamic(
+  () => import('@/components/compliance').then(mod => ({ default: mod.ConsentManager })),
+  { loading: () => <ComplianceSkeleton />, ssr: false }
+);
 
 export default function UserDataPage() {
   return (

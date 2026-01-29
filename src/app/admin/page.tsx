@@ -1,5 +1,6 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -7,11 +8,18 @@ import { useAuth } from '@/contexts/auth-context'
 import { Users, Hash, MessageSquare, Activity, ArrowRight, Clock, CheckCircle, AlertTriangle } from 'lucide-react'
 import { AdminLayout } from '@/components/admin/admin-layout'
 import { StatsCard } from '@/components/admin/stats-card'
-import { ActivityChart, generateMockActivityData } from '@/components/admin/activity-chart'
+import { generateMockActivityData } from '@/components/admin/activity-chart'
+import { ChartSkeleton } from '@/components/ui/loading-skeletons'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+
+// Lazy load heavy chart component (recharts)
+const ActivityChart = dynamic(
+  () => import('@/components/admin/activity-chart').then(mod => ({ default: mod.ActivityChart })),
+  { loading: () => <ChartSkeleton />, ssr: false }
+);
 
 // Mock data for demonstration
 const mockStats = {

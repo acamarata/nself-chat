@@ -1,5 +1,6 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { useState, useMemo } from 'react'
 import {
   BarChart3,
@@ -25,8 +26,39 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
-import { Progress } from '@/components/ui/progress'
+import { ChartSkeleton } from '@/components/ui/loading-skeletons'
 import { useAdminAccess } from '@/lib/admin/use-admin'
+
+// Lazy load chart components
+const MessagesOverTimeChart = dynamic(
+  () => import('@/components/admin/analytics-charts').then(mod => ({ default: mod.MessagesOverTimeChart })),
+  { loading: () => <ChartSkeleton />, ssr: false }
+)
+
+const PeakActivityChart = dynamic(
+  () => import('@/components/admin/analytics-charts').then(mod => ({ default: mod.PeakActivityChart })),
+  { loading: () => <ChartSkeleton />, ssr: false }
+)
+
+const UserGrowthChart = dynamic(
+  () => import('@/components/admin/analytics-charts').then(mod => ({ default: mod.UserGrowthChart })),
+  { loading: () => <ChartSkeleton />, ssr: false }
+)
+
+const RoleDistributionChart = dynamic(
+  () => import('@/components/admin/analytics-charts').then(mod => ({ default: mod.RoleDistributionChart })),
+  { loading: () => <ChartSkeleton />, ssr: false }
+)
+
+const DailyActiveUsersChart = dynamic(
+  () => import('@/components/admin/analytics-charts').then(mod => ({ default: mod.DailyActiveUsersChart })),
+  { loading: () => <ChartSkeleton />, ssr: false }
+)
+
+const PopularChannelsChart = dynamic(
+  () => import('@/components/admin/analytics-charts').then(mod => ({ default: mod.PopularChannelsChart })),
+  { loading: () => <ChartSkeleton />, ssr: false }
+)
 
 // Mock data for demonstration
 const generateMockData = (days: number) => {
@@ -199,177 +231,22 @@ export default function AnalyticsPage() {
 
           <TabsContent value="activity" className="space-y-4">
             <div className="grid gap-4 lg:grid-cols-2">
-              {/* Activity Chart Placeholder */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">Messages Over Time</CardTitle>
-                  <CardDescription>
-                    Daily message volume for the selected period
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-[300px] flex items-end gap-1">
-                    {chartData.slice(-14).map((d, i) => (
-                      <div
-                        key={i}
-                        className="flex-1 bg-primary/20 hover:bg-primary/40 transition-colors rounded-t"
-                        style={{
-                          height: `${(d.messages / 600) * 100}%`,
-                          minHeight: '4px',
-                        }}
-                        title={`${d.date}: ${d.messages} messages`}
-                      />
-                    ))}
-                  </div>
-                  <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-                    <span>{chartData[chartData.length - 14]?.date ?? ''}</span>
-                    <span>{chartData[chartData.length - 1]?.date ?? ''}</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Peak Hours */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">Peak Activity Hours</CardTitle>
-                  <CardDescription>Average message volume by hour (UTC)</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {mockPeakHours.map((hour) => {
-                      const maxMessages = Math.max(...mockPeakHours.map((h) => h.messages))
-                      return (
-                        <div key={hour.hour} className="flex items-center gap-3">
-                          <span className="w-16 text-sm text-muted-foreground">{hour.hour}</span>
-                          <div className="flex-1">
-                            <Progress value={(hour.messages / maxMessages) * 100} className="h-2" />
-                          </div>
-                          <span className="w-12 text-sm text-right">{hour.messages}</span>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </CardContent>
-              </Card>
+              <MessagesOverTimeChart data={chartData} />
+              <PeakActivityChart data={mockPeakHours} />
             </div>
           </TabsContent>
 
           <TabsContent value="users" className="space-y-4">
             <div className="grid gap-4 lg:grid-cols-2">
-              {/* User Growth Chart Placeholder */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">User Growth</CardTitle>
-                  <CardDescription>New user signups over time</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-[300px] flex items-end gap-1">
-                    {chartData.slice(-14).map((d, i) => (
-                      <div
-                        key={i}
-                        className="flex-1 bg-green-500/20 hover:bg-green-500/40 transition-colors rounded-t"
-                        style={{
-                          height: `${(d.users / 25) * 100}%`,
-                          minHeight: '4px',
-                        }}
-                        title={`${d.date}: ${d.users} new users`}
-                      />
-                    ))}
-                  </div>
-                  <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-                    <span>{chartData[chartData.length - 14]?.date ?? ''}</span>
-                    <span>{chartData[chartData.length - 1]?.date ?? ''}</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Role Distribution */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">Role Distribution</CardTitle>
-                  <CardDescription>Users by role type</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {mockRoleDistribution.map((role) => (
-                      <div key={role.role} className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className={`h-3 w-3 rounded-full ${role.color}`} />
-                            <span className="text-sm font-medium">{role.role}</span>
-                          </div>
-                          <span className="text-sm text-muted-foreground">
-                            {role.count} ({((role.count / totalRoleCount) * 100).toFixed(1)}%)
-                          </span>
-                        </div>
-                        <Progress
-                          value={(role.count / totalRoleCount) * 100}
-                          className="h-2"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              <UserGrowthChart data={chartData} />
+              <RoleDistributionChart data={mockRoleDistribution} totalCount={totalRoleCount} />
             </div>
-
-            {/* Active Users Trend */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">Daily Active Users</CardTitle>
-                <CardDescription>Number of users active each day</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[200px] flex items-end gap-1">
-                  {chartData.map((d, i) => (
-                    <div
-                      key={i}
-                      className="flex-1 bg-blue-500/20 hover:bg-blue-500/40 transition-colors rounded-t"
-                      style={{
-                        height: `${(d.activeUsers / 70) * 100}%`,
-                        minHeight: '4px',
-                      }}
-                      title={`${d.date}: ${d.activeUsers} active users`}
-                    />
-                  ))}
-                </div>
-                <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-                  <span>{chartData[0]?.date ?? ''}</span>
-                  <span>{chartData[chartData.length - 1]?.date ?? ''}</span>
-                </div>
-              </CardContent>
-            </Card>
+            <DailyActiveUsersChart data={chartData} />
           </TabsContent>
 
           <TabsContent value="channels" className="space-y-4">
             <div className="grid gap-4 lg:grid-cols-2">
-              {/* Popular Channels */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">Most Active Channels</CardTitle>
-                  <CardDescription>Ranked by message volume</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {mockPopularChannels.map((channel, index) => (
-                      <div key={channel.name} className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <Badge variant="outline" className="text-xs">
-                              #{index + 1}
-                            </Badge>
-                            <span className="font-medium">#{channel.name}</span>
-                          </div>
-                          <span className="text-sm text-muted-foreground">
-                            {channel.messages.toLocaleString()} messages
-                          </span>
-                        </div>
-                        <Progress value={channel.percentage} className="h-2" />
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              <PopularChannelsChart data={mockPopularChannels} />
 
               {/* Channel Stats */}
               <Card>

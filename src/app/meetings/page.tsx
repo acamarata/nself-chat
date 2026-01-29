@@ -6,6 +6,7 @@
  * Displays upcoming meetings, calendar view, and options to schedule new meetings
  */
 
+import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -14,12 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/auth-context';
 import { useMeetings } from '@/hooks/useMeetings';
 import { useMeetingStore } from '@/stores/meeting-store';
-import {
-  MeetingList,
-  MeetingCalendar,
-  MeetingScheduler,
-  MeetingDetail,
-} from '@/components/meetings';
+import { MeetingListSkeleton, CalendarSkeleton, FormSkeleton } from '@/components/ui/loading-skeletons';
 import { Meeting } from '@/lib/meetings/meeting-types';
 import {
   Calendar,
@@ -29,6 +25,27 @@ import {
   Loader2,
   AlertCircle,
 } from 'lucide-react';
+
+// Lazy load heavy meeting components
+const MeetingList = dynamic(
+  () => import('@/components/meetings').then(mod => ({ default: mod.MeetingList })),
+  { loading: () => <MeetingListSkeleton />, ssr: false }
+);
+
+const MeetingCalendar = dynamic(
+  () => import('@/components/meetings').then(mod => ({ default: mod.MeetingCalendar })),
+  { loading: () => <CalendarSkeleton />, ssr: false }
+);
+
+const MeetingScheduler = dynamic(
+  () => import('@/components/meetings').then(mod => ({ default: mod.MeetingScheduler })),
+  { loading: () => <FormSkeleton />, ssr: false }
+);
+
+const MeetingDetail = dynamic(
+  () => import('@/components/meetings').then(mod => ({ default: mod.MeetingDetail })),
+  { loading: () => <FormSkeleton />, ssr: false }
+);
 
 // ============================================================================
 // Component
