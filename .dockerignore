@@ -75,6 +75,8 @@ temp
 Dockerfile*
 docker-compose*.yml
 docker/
+!docker/healthcheck.sh
+!docker/entrypoint.sh
 
 # Kubernetes manifests
 k8s/
