@@ -39,6 +39,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "validate": "pnpm type-check && pnpm lint && pnpm test && pnpm build",
+    "validate:env": "tsx scripts/validate-env.ts",
+    "validate:env:prod": "tsx scripts/validate-env.ts --production",
     "precommit": "pnpm type-check && pnpm format:check && pnpm lint",
     "check-all": "pnpm type-check && pnpm format:check && pnpm lint && pnpm test:coverage",
     "clean": "./scripts/clean.sh",
