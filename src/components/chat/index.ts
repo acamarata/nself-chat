@@ -78,3 +78,8 @@ export {
 } from './message-skeleton'
 
 export { MessageEmpty, SearchEmpty, ThreadEmpty } from './message-empty'
+
+// Container components
+export { ChatContainer, TypingIndicator as ChatTypingIndicator, ScrollToBottomButton } from './chat-container'
+export { ChatWithThreads, ChatThreadsToggle } from './chat-with-threads'
+export type { ChatThreadsToggleProps } from './chat-with-threads'

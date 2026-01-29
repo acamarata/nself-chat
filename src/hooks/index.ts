@@ -35,6 +35,15 @@ export {
   type UseCreateThreadOptions,
 } from './use-thread'
 
+// Thread Notifications
+export {
+  useThreadNotifications,
+  useThreadReplyNotifications,
+  type ThreadNotificationOptions,
+  type UseThreadNotificationsReturn,
+  type UseThreadReplyNotificationsOptions,
+} from './use-thread-notifications'
+
 // Notifications
 export {
   useNotifications,
@@ -172,8 +181,25 @@ export { usePresence } from '@/lib/socket/hooks/use-presence'
 export { useTyping } from '@/lib/socket/hooks/use-typing'
 export { useChannelEvents } from '@/lib/socket/hooks/use-channel-events'
 
+// Typing Indicator Hook (integrated with store and WebSocket)
+export {
+  useChannelTyping,
+  type UseChannelTypingOptions,
+  type UseChannelTypingReturn,
+} from './use-channel-typing'
+
+// Legacy typing indicator hook
+export { useTypingIndicator } from './use-typing-indicator'
+
 // Hasura-based presence (uses GraphQL subscriptions)
 export { useHasuraPresence, useMyPresence } from './use-hasura-presence'
+
+// Presence sync (full presence system with WebSocket)
+export {
+  usePresenceSync,
+  type UsePresenceSyncOptions,
+  type UsePresenceSyncReturn,
+} from './use-presence-sync'
 
 // Read Receipts
 export { useChannelReadStatus, useMarkRead } from './use-read-receipts'

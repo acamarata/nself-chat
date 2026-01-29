@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { use, useState, useCallback, useEffect } from 'react'
+import { use, useState, useCallback, useEffect, useMemo } from 'react'
 import { notFound } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { ChannelHeader } from '@/components/layout/channel-header'
@@ -12,6 +12,7 @@ import { ChatLoading } from '@/components/chat/chat-loading'
 import { useAuth } from '@/contexts/auth-context'
 import { useChannelStore, type Channel } from '@/stores/channel-store'
 import { useMessageStore } from '@/stores/message-store'
+import { useChannelTyping } from '@/hooks/use-channel-typing'
 import type { Message, TypingUser } from '@/types/message'
 import type { UserProfile, PresenceStatus } from '@/stores/user-store'
 
@@ -163,7 +164,6 @@ export default function ChannelPage({ params }: ChannelPageProps) {
   const [error, setError] = useState<string | null>(null)
   const [channel, setChannel] = useState<Channel | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
-  const [typingUsers, setTypingUsers] = useState<TypingUser[]>([])
   const [showMemberList, setShowMemberList] = useState(false)
   const [showPinnedMessages, setShowPinnedMessages] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
@@ -178,6 +178,22 @@ export default function ChannelPage({ params }: ChannelPageProps) {
     mutedChannels,
     starredChannels,
   } = useChannelStore()
+
+  // Typing indicator hook - integrates with WebSocket and store
+  const { typingUsers, stopTyping } = useChannelTyping({
+    channelId: channel?.id ?? '',
+    enabled: !!channel?.id,
+  })
+
+  // Convert typing users to the format expected by ChatContainer
+  const formattedTypingUsers: TypingUser[] = useMemo(() => {
+    return typingUsers.map((u) => ({
+      id: u.userId,
+      displayName: u.userName,
+      avatarUrl: u.userAvatar,
+      startedAt: new Date(u.startedAt),
+    }))
+  }, [typingUsers])
 
   // Load channel data
   useEffect(() => {
@@ -429,7 +445,7 @@ export default function ChannelPage({ params }: ChannelPageProps) {
           messages={messages}
           loading={loading}
           hasMore={false}
-          typingUsers={typingUsers}
+          typingUsers={formattedTypingUsers}
           onSendMessage={handleSendMessage}
           onEditMessage={handleEditMessage}
           onDeleteMessage={handleDeleteMessage}

@@ -16,6 +16,9 @@ import { MessageActions, getMessagePermissions } from './message-actions'
 import { MessageContextMenu } from './message-context-menu'
 import { MessageSystem } from './message-system'
 import { InlineReplyIndicator } from './reply-preview'
+import { MessageDeliveryStatus } from './message-delivery-status'
+import { FailedMessageRetry } from './failed-message-retry'
+import { useMessageStatus } from '@/lib/messages/use-message-status'
 import type { Message, MessageAction, MessageActionPermissions } from '@/types/message'
 
 interface MessageItemProps {
@@ -33,6 +36,7 @@ interface MessageItemProps {
   onPin?: (messageId: string) => void
   onUnpin?: (messageId: string) => void
   onScrollToMessage?: (messageId: string) => void
+  onRetryMessage?: (messageId: string) => void
   className?: string
 }
 
@@ -55,11 +59,17 @@ export const MessageItem = memo(function MessageItem({
   onPin,
   onUnpin,
   onScrollToMessage,
+  onRetryMessage,
   className,
 }: MessageItemProps) {
   const [isHovering, setIsHovering] = useState(false)
   const { user } = useAuth()
   const { config } = useAppConfig()
+
+  // Get message delivery status
+  const { isFailed, error, retryCount, retry } = useMessageStatus({
+    messageId: message.id,
+  })
 
   // Check if this is a system message
   if (message.type !== 'text') {
@@ -199,13 +209,27 @@ export const MessageItem = memo(function MessageItem({
                 'w-12 shrink-0 pt-1 text-right text-[10px] text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100'
               )}
             >
-              {format(new Date(message.createdAt), 'h:mm')}
+              <div className="flex items-center justify-end gap-1">
+                <span>{format(new Date(message.createdAt), 'h:mm')}</span>
+                {user && (
+                  <MessageDeliveryStatus
+                    messageId={message.id}
+                    messageUserId={message.userId}
+                    currentUserId={user.id}
+                    messageCreatedAt={new Date(message.createdAt)}
+                    size="sm"
+                    showTooltip={false}
+                    showReadCount={false}
+                    onRetry={onRetryMessage}
+                  />
+                )}
+              </div>
             </div>
           )}
 
           {/* Content */}
           <div className="min-w-0 flex-1">
-            {/* Header (author + time) - only for non-grouped messages */}
+            {/* Header (author + time + delivery status) - only for non-grouped messages */}
             {!isGrouped && (
               <div className="mb-0.5 flex items-baseline gap-2">
                 <span
@@ -221,6 +245,17 @@ export const MessageItem = memo(function MessageItem({
                 </span>
                 {message.isEdited && (
                   <span className="text-xs text-muted-foreground">(edited)</span>
+                )}
+                {/* Delivery status indicator */}
+                {user && (
+                  <MessageDeliveryStatus
+                    messageId={message.id}
+                    messageUserId={message.userId}
+                    currentUserId={user.id}
+                    messageCreatedAt={new Date(message.createdAt)}
+                    size={isCompact ? 'sm' : 'md'}
+                    onRetry={onRetryMessage}
+                  />
                 )}
               </div>
             )}
@@ -271,6 +306,21 @@ export const MessageItem = memo(function MessageItem({
                 threadInfo={message.threadInfo}
                 onClick={() => onThread?.(message)}
                 className="mt-1"
+              />
+            )}
+
+            {/* Failed message retry indicator */}
+            {isFailed && (
+              <FailedMessageRetry
+                messageId={message.id}
+                content={message.content}
+                errorMessage={error || undefined}
+                retryCount={retryCount}
+                maxRetries={3}
+                onRetry={(id) => onRetryMessage?.(id) || retry()}
+                onDelete={(id) => onDelete?.(id)}
+                variant="inline"
+                className="mt-2"
               />
             )}
           </div>

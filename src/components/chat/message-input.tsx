@@ -54,6 +54,7 @@ import { useAuth } from '@/contexts/auth-context'
 import { useAppConfig } from '@/contexts/app-config-context'
 import { useMessageStore } from '@/stores/message-store'
 import { useUIStore } from '@/stores/ui-store'
+import { useChannelTyping } from '@/hooks/use-channel-typing'
 import { ReplyPreview, EditPreview } from './reply-preview'
 import type { Message, MentionSuggestion } from '@/types/message'
 
@@ -133,6 +134,12 @@ export const MessageInput = forwardRef<MessageInputRef, MessageInputProps>(
     const { saveDraft, getDraft, clearDraft } = useMessageStore()
     const { setMessageInputFocused } = useUIStore()
 
+    // Typing indicator integration
+    const { handleInputChange: handleTypingChange, stopTyping } = useChannelTyping({
+      channelId,
+      enabled: !disabled,
+    })
+
     // Feature flags
     const features = {
       fileUploads: config?.features?.fileUploads ?? true,
@@ -184,7 +191,12 @@ export const MessageInput = forwardRef<MessageInputRef, MessageInputProps>(
       content: '',
       editable: !disabled,
       onUpdate: ({ editor }) => {
-        // Debounced typing indicator
+        const content = editor.getText()
+
+        // Trigger typing indicator with debounce
+        handleTypingChange(content)
+
+        // Also call the optional onTyping prop (legacy support)
         const now = Date.now()
         if (now - lastTypingTimeRef.current > TYPING_DEBOUNCE_MS) {
           onTyping?.()
@@ -192,7 +204,6 @@ export const MessageInput = forwardRef<MessageInputRef, MessageInputProps>(
         }
 
         // Auto-save draft
-        const content = editor.getText()
         if (content.trim()) {
           saveDraft(channelId, content, replyingTo?.id)
         }
@@ -256,6 +267,9 @@ export const MessageInput = forwardRef<MessageInputRef, MessageInputProps>(
       if (!textContent && attachments.length === 0) return
       if (textContent.length > maxLength) return
 
+      // Stop typing indicator immediately
+      stopTyping()
+
       setIsSending(true)
 
       try {
@@ -284,6 +298,7 @@ export const MessageInput = forwardRef<MessageInputRef, MessageInputProps>(
       onSend,
       clearDraft,
       channelId,
+      stopTyping,
     ])
 
     // Handle keyboard shortcuts

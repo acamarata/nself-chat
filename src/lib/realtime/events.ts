@@ -10,6 +10,13 @@ export const SOCKET_EVENTS = {
   MESSAGE_DELETE: 'message:delete',
   MESSAGE_TYPING: 'message:typing',
 
+  // Message Delivery Status
+  MESSAGE_SENT: 'message:sent',
+  MESSAGE_DELIVERED: 'message:delivered',
+  MESSAGE_READ: 'message:read',
+  MESSAGE_FAILED: 'message:failed',
+  MESSAGE_ACK: 'message:ack',
+
   // Presence
   PRESENCE_UPDATE: 'presence:update',
   PRESENCE_SUBSCRIBE: 'presence:subscribe',
@@ -33,6 +40,60 @@ export interface MessagePayload {
   authorId: string
   createdAt: string
   updatedAt?: string
+}
+
+/**
+ * Message sent acknowledgement payload
+ */
+export interface MessageSentPayload {
+  /** Client-side message ID (used for optimistic updates) */
+  clientMessageId: string
+  /** Server-assigned message ID */
+  messageId: string
+  /** Timestamp when server received the message */
+  sentAt: string
+}
+
+/**
+ * Message delivered payload
+ */
+export interface MessageDeliveredPayload {
+  messageId: string
+  /** For group chats: number of recipients who received */
+  deliveredCount?: number
+  /** Total recipients in the channel */
+  totalRecipients?: number
+  /** Timestamp of delivery */
+  deliveredAt: string
+}
+
+/**
+ * Message read payload
+ */
+export interface MessageReadPayload {
+  messageId: string
+  /** User who read the message */
+  userId: string
+  /** For group chats: total read count */
+  readCount?: number
+  /** Total recipients in the channel */
+  totalRecipients?: number
+  /** Timestamp when read */
+  readAt: string
+}
+
+/**
+ * Message failed payload
+ */
+export interface MessageFailedPayload {
+  /** Client-side message ID */
+  clientMessageId: string
+  /** Error code */
+  errorCode: string
+  /** Error message */
+  errorMessage: string
+  /** Whether the message can be retried */
+  retryable: boolean
 }
 
 export interface PresencePayload {

@@ -54,3 +54,11 @@ export {
   type ThreadParticipantsProps,
   type ThreadParticipantListProps,
 } from './thread-participants'
+
+// Sidebar component (thread list)
+export {
+  ThreadSidebar,
+  ThreadSidebarTrigger,
+  type ThreadSidebarProps,
+  type ThreadSidebarTriggerProps,
+} from './thread-sidebar'

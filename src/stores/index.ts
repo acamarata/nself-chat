@@ -521,6 +521,34 @@ export type {
 } from './attachment-store';
 
 // ============================================================================
+// Read Receipts Store
+// ============================================================================
+
+export {
+  useReadReceiptsStore,
+  selectReadReceipts,
+  selectReadCount,
+  selectDeliveryStatus,
+  selectShowReadReceipts,
+  selectShareReadReceipts,
+  selectChannelReadStatus,
+  selectMyLastRead,
+  selectHasUserRead,
+  selectPendingReadsCount,
+  selectIsLoadingChannel,
+} from './read-receipts-store';
+
+export type {
+  ReadReceipt,
+  ChannelReadStatus,
+  DeliveryStatus as ReadReceiptsDeliveryStatus,
+  MessageStatus,
+  ReadReceiptsState,
+  ReadReceiptsActions,
+  ReadReceiptsStore,
+} from './read-receipts-store';
+
+// ============================================================================
 // Media Store
 // ============================================================================
 
@@ -571,6 +599,7 @@ import { useSearchStore } from './search-store';
 import { useReactionStore } from './reaction-store';
 import { useAttachmentStore } from './attachment-store';
 import { useMediaStore } from './media-store';
+import { useReadReceiptsStore } from './read-receipts-store';
 import { useCommandStore } from '@/lib/commands/command-store';
 import { useAppStore } from './app-store';
 import { useCommandPaletteStore } from './command-palette-store';
@@ -601,6 +630,7 @@ export const useStores = () => ({
   reaction: useReactionStore(),
   attachment: useAttachmentStore(),
   media: useMediaStore(),
+  readReceipts: useReadReceiptsStore(),
   command: useCommandStore(),
   commandPalette: useCommandPaletteStore(),
   appDirectory: useAppDirectoryStore(),
@@ -626,6 +656,7 @@ export const resetAllStores = () => {
   useReactionStore.getState().reset();
   useAttachmentStore.getState().reset();
   useMediaStore.getState().reset();
+  useReadReceiptsStore.getState().reset();
   useCommandStore.getState().reset();
   useCommandPaletteStore.getState().reset();
   useAppDirectoryStore.getState().resetStore();
@@ -653,6 +684,7 @@ if (process.env.NODE_ENV === 'development') {
       reaction: useReactionStore,
       attachment: useAttachmentStore,
       media: useMediaStore,
+      readReceipts: useReadReceiptsStore,
       command: useCommandStore,
       commandPalette: useCommandPaletteStore,
       appDirectory: useAppDirectoryStore,

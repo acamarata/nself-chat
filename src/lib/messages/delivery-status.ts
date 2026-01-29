@@ -303,8 +303,13 @@ export function handleMessageFailed(
  */
 export function handleRetryAttempt(messageId: string): void {
   const store = useDeliveryStatusStore.getState()
-  store.incrementRetryCount(messageId)
-  store.markSending(messageId)
+  const existing = store.getStatusEntry(messageId)
+  const newRetryCount = (existing?.retryCount ?? 0) + 1
+
+  // Update status while preserving the incremented retry count
+  store.setStatus(messageId, 'sending', {
+    retryCount: newRetryCount,
+  })
 }
 
 // ============================================================================

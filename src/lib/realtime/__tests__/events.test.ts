@@ -101,9 +101,31 @@ describe('SOCKET_EVENTS', () => {
     })
   })
 
+  describe('Message delivery events', () => {
+    it('should have MESSAGE_SENT event', () => {
+      expect(SOCKET_EVENTS.MESSAGE_SENT).toBe('message:sent')
+    })
+
+    it('should have MESSAGE_DELIVERED event', () => {
+      expect(SOCKET_EVENTS.MESSAGE_DELIVERED).toBe('message:delivered')
+    })
+
+    it('should have MESSAGE_READ event', () => {
+      expect(SOCKET_EVENTS.MESSAGE_READ).toBe('message:read')
+    })
+
+    it('should have MESSAGE_FAILED event', () => {
+      expect(SOCKET_EVENTS.MESSAGE_FAILED).toBe('message:failed')
+    })
+
+    it('should have MESSAGE_ACK event', () => {
+      expect(SOCKET_EVENTS.MESSAGE_ACK).toBe('message:ack')
+    })
+  })
+
   describe('Event count', () => {
-    it('should have exactly 14 events', () => {
-      expect(Object.keys(SOCKET_EVENTS)).toHaveLength(14)
+    it('should have exactly 19 events', () => {
+      expect(Object.keys(SOCKET_EVENTS)).toHaveLength(19)
     })
   })
 })
