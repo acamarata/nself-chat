@@ -219,6 +219,11 @@ export interface NotificationItemProps extends Omit<React.HTMLAttributes<HTMLDiv
   onDismiss?: (id: string) => void;
 
   /**
+   * Callback when archiving
+   */
+  onArchive?: (id: string) => void;
+
+  /**
    * Callback when clicking the notification
    */
   onClick?: (id: string) => void;
