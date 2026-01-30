@@ -11,7 +11,6 @@ import type {
   AuditLogEntry,
   AuditLogFilters,
   AuditCategory,
-  AuditSeverity,
   ExportFormat,
 } from '@/lib/audit/audit-types'
 import { exportToCSV, exportToJSON, generateExportSummary } from '@/lib/audit/audit-export'

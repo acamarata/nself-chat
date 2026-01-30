@@ -7,7 +7,6 @@ import {
   RefreshCw,
   AlertTriangle,
   CheckCircle,
-  XCircle,
   Clock,
 } from 'lucide-react'
 import { AdminLayout } from '@/components/admin/admin-layout'
@@ -16,7 +15,7 @@ import { BanUserModal } from '@/components/admin/ban-user-modal'
 import { StatsCard, StatsGrid } from '@/components/admin/stats-card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   Select,
   SelectContent,
@@ -24,8 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useModeration, useAdminStats, useAdminAccess } from '@/lib/admin/use-admin'
-import { useAdminStore, ModerationReport, ReportStatus, ReportType, AdminUser } from '@/lib/admin/admin-store'
+import {  useAdminAccess } from '@/lib/admin/use-admin'
+import { ModerationReport, ReportStatus, ReportType, AdminUser } from '@/lib/admin/admin-store'
 
 // Mock data for demonstration when not connected to backend
 const mockReports: ModerationReport[] = [

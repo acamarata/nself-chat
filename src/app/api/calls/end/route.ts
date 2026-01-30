@@ -4,7 +4,7 @@
  * Ends an active call.
  */
 
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { apolloClient } from '@/lib/apollo-client'
 import { END_CALL, LEAVE_CALL } from '@/graphql/calls'
 import {

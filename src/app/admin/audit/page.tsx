@@ -20,7 +20,6 @@ import {
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   Popover,
@@ -130,7 +129,7 @@ export default function AuditLogPage() {
   const router = useRouter()
   const {
     entries,
-    statistics,
+    _statistics,
     isLoading,
     setEntries,
     refreshStatistics,
@@ -191,7 +190,7 @@ export default function AuditLogPage() {
   // Calculate summary stats
   const securityCount = entries.filter((e) => e.category === 'security').length
   const adminCount = entries.filter((e) => e.category === 'admin').length
-  const failedCount = entries.filter((e) => !e.success).length
+  const _failedCount = entries.filter((e) => !e.success).length
   const last24h = entries.filter(
     (e) => new Date(e.timestamp).getTime() > Date.now() - 24 * 60 * 60 * 1000
   ).length

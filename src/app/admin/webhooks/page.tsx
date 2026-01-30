@@ -19,8 +19,6 @@ import {
   WebhookTestModal,
 } from '@/components/webhooks'
 import {
-  useWebhooks,
-  useWebhookDeliveries,
   Webhook,
   WebhookDelivery,
   CreateWebhookFormData,
@@ -210,7 +208,7 @@ export default function WebhooksManagementPage() {
         setWebhooks((prev) => [newWebhook, ...prev])
         setIsLoading(false)
         return newWebhook
-      } catch (err) {
+      } catch (_err) {
         setError('Failed to create webhook')
         setIsLoading(false)
         return null
@@ -249,7 +247,7 @@ export default function WebhooksManagementPage() {
 
         setIsLoading(false)
         return webhooks.find((w) => w.id === data.id) || null
-      } catch (err) {
+      } catch (_err) {
         setError('Failed to update webhook')
         setIsLoading(false)
         return null
@@ -267,7 +265,7 @@ export default function WebhooksManagementPage() {
       setWebhooks((prev) => prev.filter((w) => w.id !== id))
       setIsLoading(false)
       return true
-    } catch (err) {
+    } catch (_err) {
       setError('Failed to delete webhook')
       setIsLoading(false)
       return false
@@ -300,7 +298,7 @@ export default function WebhooksManagementPage() {
 
         setIsLoading(false)
         return webhooks.find((w) => w.id === id) || null
-      } catch (err) {
+      } catch (_err) {
         setError('Failed to regenerate URL')
         setIsLoading(false)
         return null
@@ -343,7 +341,7 @@ export default function WebhooksManagementPage() {
         setDeliveries((prev) => [newDelivery, ...prev])
         setIsLoading(false)
         return newDelivery
-      } catch (err) {
+      } catch (_err) {
         setError('Failed to send test')
         setIsLoading(false)
         return null

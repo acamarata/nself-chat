@@ -4,7 +4,7 @@
  * Accepts an incoming call.
  */
 
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { apolloClient } from '@/lib/apollo-client'
 import { UPDATE_CALL_STATUS, JOIN_CALL } from '@/graphql/calls'
 import {

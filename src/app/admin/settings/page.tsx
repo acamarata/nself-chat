@@ -10,7 +10,6 @@ import {
   Lock,
   Palette,
   Globe,
-  Mail,
   AlertTriangle,
 } from 'lucide-react'
 import { AdminLayout } from '@/components/admin/admin-layout'
@@ -116,7 +115,7 @@ const defaultSettings: WorkspaceSettings = {
 }
 
 export default function SettingsPage() {
-  const { canManageSettings, isOwner } = useAdminAccess()
+  const { canManageSettings, _isOwner } = useAdminAccess()
   const [settings, setSettings] = useState<WorkspaceSettings>(defaultSettings)
   const [isSaving, setIsSaving] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)

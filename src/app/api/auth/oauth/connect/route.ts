@@ -5,7 +5,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { authConfig } from '@/config/auth.config'
+// import { authConfig } from '@/config/auth.config'
 
 const OAUTH_CONFIGS = {
   google: {

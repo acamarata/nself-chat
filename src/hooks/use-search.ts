@@ -99,7 +99,7 @@ export function useSearch() {
       }
 
       // Save to search history (in localStorage for now)
-      saveSearchHistory(query, searchFilters || {})
+      saveSearchHistory(query, (searchFilters || {}) as Record<string, unknown>)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An error occurred'
       setError(errorMessage)

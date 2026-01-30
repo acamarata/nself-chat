@@ -84,13 +84,14 @@ async function lockOrientationNative(orientation: OrientationType): Promise<void
   }
 
   // Fallback to Screen Orientation API
-  if (window.screen?.orientation?.lock) {
+  const screenOrientation: any = window.screen?.orientation
+  if (screenOrientation?.lock) {
     try {
       const lockType =
         orientation === 'portrait'
           ? 'portrait-primary'
           : 'landscape-primary'
-      await window.screen.orientation.lock(lockType as any)
+      await screenOrientation.lock(lockType)
     } catch (err) {
       console.error('Screen Orientation API lock failed:', err)
       throw err

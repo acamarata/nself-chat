@@ -10,7 +10,9 @@ import { useCallStore } from '@/stores/call-store'
 import { useBatteryStatus, getRecommendedFrameRate, getRecommendedResolution, shouldDisableVideo } from './use-battery-status'
 import { useMobilePiP } from './use-mobile-pip'
 import { useMobileOrientation } from './use-mobile-orientation'
+// @ts-ignore - Capacitor integration (optional dependency)
 import { callKitManager } from '@/platforms/capacitor/src/native/call-kit'
+// @ts-ignore - VoIP push integration (optional dependency)
 import { voipPushManager } from '@/lib/voip-push'
 import { useToast } from './use-toast'
 
@@ -178,7 +180,7 @@ export function useMobileCallOptimization(
         toast({
           title: 'Video Disabled',
           description: `Critical battery (${batteryLevel}%). Video has been disabled to save battery.`,
-          variant: 'warning',
+          variant: 'destructive',
         })
       }
     } catch (error) {

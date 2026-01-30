@@ -5,7 +5,9 @@
  * integrating with CallKit and Telecom frameworks.
  */
 
+// @ts-ignore - Capacitor plugin (optional dependency)
 import { PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications'
+// @ts-ignore - Capacitor integration (optional dependency)
 import { callKitManager } from '@/platforms/capacitor/src/native/call-kit'
 import { useCallStore } from '@/stores/call-store'
 

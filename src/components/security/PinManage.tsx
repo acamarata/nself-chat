@@ -118,7 +118,8 @@ export function PinManage({ userId, userName }: PinManageProps) {
   }
 
   // Handle settings change
-  const handleSettingsChange = (updates: Partial<typeof pinSettings>) => {
+  const handleSettingsChange = (updates: Partial<Exclude<typeof pinSettings, null>>) => {
+    if (!updates) return
     const success = updatePinSettings(updates)
     if (success) {
       const updated = loadPinSettings()

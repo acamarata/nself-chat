@@ -12,12 +12,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import type {
   AuditLogEntry,
   AuditLogFilters,
-  AuditLogResponse,
   AuditLogSortOptions,
   AuditCategory,
   AuditSeverity,
 } from '@/lib/audit/audit-types'
-import { queryAuditLogs, searchParamsToFilters } from '@/lib/audit/audit-search'
+import { queryAuditLogs } from '@/lib/audit/audit-search'
 
 // ============================================================================
 // Mock Data Store (In production, use database)

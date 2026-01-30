@@ -9,7 +9,6 @@
 import * as React from 'react';
 import { useActivityFeed } from '@/hooks/useActivityFeed';
 import {
-  ActivityFeed,
   ActivityFilterTabs,
   ActivityEmpty,
   ActivityLoading,

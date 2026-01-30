@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import type {
   GifApiRequest,
   GifApiResponse,
-  GifProvider,
   GifSearchParams,
   GifTrendingParams,
 } from '@/types/gif';
