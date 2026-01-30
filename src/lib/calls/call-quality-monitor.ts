@@ -643,7 +643,11 @@ export class CallQualityMonitor extends EventEmitter {
 
     const n = recent.length
     for (const key in avg) {
-      avg[key as keyof typeof avg] = (avg[key as keyof typeof avg] as number) / n
+      const typedKey = key as keyof typeof avg
+      const currentValue = avg[typedKey]
+      if (currentValue !== undefined) {
+        avg[typedKey] = (currentValue as number) / n as any
+      }
     }
 
     return avg

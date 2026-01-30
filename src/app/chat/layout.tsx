@@ -193,13 +193,14 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         {/* Call Invitation Overlay */}
-        {hasIncomingCall && (
+        {/* TODO: Properly integrate with useCallInvitation hook */}
+        {/* {hasIncomingCall && (
           <CallInvitation
-            userId={user.id}
-            userName={user.displayName || user.username || 'User'}
-            userAvatarUrl={user.avatarUrl}
+            invitation={...}
+            onAccept={...}
+            onDecline={...}
           />
-        )}
+        )} */}
 
         {/* Video Call Modal */}
         {isInCall && (

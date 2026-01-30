@@ -37,7 +37,7 @@ export function VideoCallModal({
   userAvatarUrl,
   onClose,
 }: VideoCallModalProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLElement>(null)
 
   // Call state
   const participants = useCallStore(selectParticipants)

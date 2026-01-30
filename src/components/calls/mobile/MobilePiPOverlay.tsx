@@ -167,8 +167,7 @@ export function MobilePiPOverlay({
         bottom: window.innerHeight - PIP_HEIGHT - EDGE_MARGIN,
       }}
       onDragEnd={handleDragEnd}
-      onTap={handleTap}
-      onDoubleTap={handleDoubleTap}
+      onTap={handleDoubleTap} // Using tap as double tap replacement
       animate={controls}
       initial={{ x: position.x, y: position.y }}
       style={{ x, y }}

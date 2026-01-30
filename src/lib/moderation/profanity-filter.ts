@@ -103,15 +103,22 @@ export class ProfanityFilter {
           pattern += '[s$5]'
           break
         case 't':
-          pattern += '[t7+]'
+          pattern += '[t7]'
           break
         default:
-          pattern += char
+          pattern += this.escapeRegex(char)
       }
     }
 
-    // Add word boundaries and optional separators
-    return new RegExp(`\\b${pattern}\\b|${pattern.split('').join('[\\s_-]*')}`, 'gi')
+    // Use simpler pattern to avoid regex errors
+    return new RegExp(`\\b${pattern}\\b`, 'gi')
+  }
+
+  /**
+   * Escape special regex characters
+   */
+  private escapeRegex(str: string): string {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   }
 
   /**

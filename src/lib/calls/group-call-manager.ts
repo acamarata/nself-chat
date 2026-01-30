@@ -192,7 +192,7 @@ export class GroupCallManager {
     const sendTransportParams = await this.requestTransport('send')
     this.sendTransport = this.device.createSendTransport(sendTransportParams)
 
-    this.sendTransport.on('connect', async ({ dtlsParameters }, callback, errback) => {
+    this.sendTransport.on('connect', async ({ dtlsParameters }: any, callback: () => void, errback: (error: Error) => void) => {
       try {
         await this.connectTransport('send', dtlsParameters)
         callback()
@@ -201,7 +201,7 @@ export class GroupCallManager {
       }
     })
 
-    this.sendTransport.on('produce', async ({ kind, rtpParameters }, callback, errback) => {
+    this.sendTransport.on('produce', async ({ kind, rtpParameters }: any, callback: (params: { id: string }) => void, errback: (error: Error) => void) => {
       try {
         const { id } = await this.produce(kind, rtpParameters)
         callback({ id })
@@ -214,7 +214,7 @@ export class GroupCallManager {
     const recvTransportParams = await this.requestTransport('recv')
     this.recvTransport = this.device.createRecvTransport(recvTransportParams)
 
-    this.recvTransport.on('connect', async ({ dtlsParameters }, callback, errback) => {
+    this.recvTransport.on('connect', async ({ dtlsParameters }: any, callback: () => void, errback: (error: Error) => void) => {
       try {
         await this.connectTransport('recv', dtlsParameters)
         callback()
@@ -381,8 +381,9 @@ export class GroupCallManager {
       })
 
       // Emit audio level events
-      consumer.observer.on('layerschange', (layers) => {
-        // Handle layers change
+      consumer.observer.on('layerschange', (layers: any) => {
+        // Handle layers change (layers parameter unused)
+        void layers
       })
     } catch (error) {
       this.callbacks.onError?.(error instanceof Error ? error : new Error(String(error)))

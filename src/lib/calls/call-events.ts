@@ -298,7 +298,9 @@ export class CallEventEmitter extends EventEmitter {
     event: K,
     handler: CallEventHandlers[K]
   ): void {
-    this.on(event, handler)
+    if (handler) {
+      this.on(event, handler as (...args: any[]) => void)
+    }
   }
 
   /**
@@ -308,7 +310,9 @@ export class CallEventEmitter extends EventEmitter {
     event: K,
     handler: CallEventHandlers[K]
   ): void {
-    this.once(event, handler)
+    if (handler) {
+      this.once(event, handler as (...args: any[]) => void)
+    }
   }
 
   /**
@@ -318,7 +322,9 @@ export class CallEventEmitter extends EventEmitter {
     event: K,
     handler: CallEventHandlers[K]
   ): void {
-    this.off(event, handler)
+    if (handler) {
+      this.off(event, handler as (...args: any[]) => void)
+    }
   }
 
   /**

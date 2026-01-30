@@ -297,8 +297,8 @@ export class VirtualBackground {
   }
 
   private applyVirtualBackground(
-    mask: HTMLCanvasElement | ImageBitmap,
-    image: HTMLCanvasElement | HTMLVideoElement
+    mask: HTMLCanvasElement | ImageBitmap | HTMLImageElement,
+    image: HTMLCanvasElement | HTMLVideoElement | HTMLImageElement
   ): void {
     if (!this.outputCanvas || !this.outputCtx) {
       return

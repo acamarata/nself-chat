@@ -125,7 +125,7 @@ function TouchControl({
     setIsPressed(true)
     if (onLongPress) {
       longPressTimer.current = setTimeout(() => {
-        onLongPress()
+        if (onLongPress) onLongPress()
         // Haptic feedback
         if ('vibrate' in navigator) {
           navigator.vibrate(50)

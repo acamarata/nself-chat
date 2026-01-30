@@ -77,11 +77,10 @@ export function useCallInvitation(
       onInvitation: (invitation) => {
         setInvitations((prev) => [...prev, invitation])
 
-        // Show toast
+        // Show toast (duration handled by toast component defaults)
         toast({
           title: `Incoming ${invitation.type} call`,
           description: `${invitation.callerName} is calling you`,
-          duration: 10000,
         })
 
         // Call user's callback

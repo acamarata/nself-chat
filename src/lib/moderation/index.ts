@@ -1,8 +1,25 @@
 /**
- * Moderation Module - User blocking, reporting, and muting functionality
+ * Moderation Module - User blocking, reporting, muting, and AI-powered content moderation
  *
  * This module provides comprehensive moderation tools for the nself-chat application.
  */
+
+// AI-Powered Moderation (v0.5.0)
+export { AIDetector, getAIDetector } from './ai-detector'
+export type { ToxicityResult, NSFWResult, SpamResult } from './ai-detector'
+
+export { ProfanityFilter, getProfanityFilter } from './profanity-filter'
+export type { ProfanityResult } from './profanity-filter'
+
+export {
+  ModerationService,
+  getModerationService,
+  DEFAULT_MODERATION_CONFIG,
+} from './moderation-service'
+export type { ModerationResult, ModerationConfig } from './moderation-service'
+
+export { ModerationQueue } from './moderation-queue'
+export type { QueueItem, ModerationAction } from './moderation-queue'
 
 // Block store and types
 export {
