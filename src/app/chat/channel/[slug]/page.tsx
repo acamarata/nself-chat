@@ -3,7 +3,6 @@
 import * as React from 'react'
 import { use, useState, useCallback, useEffect, useMemo } from 'react'
 import { notFound } from 'next/navigation'
-import { cn } from '@/lib/utils'
 import { ChannelHeader } from '@/components/layout/channel-header'
 import { MemberList } from '@/components/layout/member-list'
 import { PinnedMessages } from '@/components/layout/pinned-messages'

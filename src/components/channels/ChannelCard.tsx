@@ -14,7 +14,7 @@ import {
 import { cn } from '@/lib/utils'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback} from '@/components/ui/avatar'
 import { JoinChannelButton } from './JoinChannelButton'
 import type { Channel } from '@/stores/channel-store'
 import { formatMemberCount, getActivityLevel, getActivityLevelLabel } from '@/lib/channels/channel-stats'

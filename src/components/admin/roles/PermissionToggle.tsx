@@ -7,7 +7,7 @@ import { PERMISSIONS, isDangerousPermission, requiresAdmin } from '@/lib/admin/r
 import { Switch } from '@/components/ui/switch'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
-import { AlertTriangle, Shield, Lock, Info } from 'lucide-react'
+import { AlertTriangle, Shield, Lock} from 'lucide-react'
 import {
   Tooltip,
   TooltipContent,

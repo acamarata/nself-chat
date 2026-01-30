@@ -15,7 +15,6 @@ import {
 } from '@/lib/admin/roles/permission-types'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
 import {
   Collapsible,
   CollapsibleContent,
@@ -26,7 +25,6 @@ import {
   ChevronDown,
   AlertTriangle,
   Shield,
-  Info,
 } from 'lucide-react'
 
 interface RolePermissionsProps {

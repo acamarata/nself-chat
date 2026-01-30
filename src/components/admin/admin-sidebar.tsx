@@ -10,7 +10,6 @@ import {
   Settings,
   BarChart3,
   ChevronLeft,
-  AlertTriangle,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'

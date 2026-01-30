@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { ChevronDown, ChevronRight, User, Hash, Settings, Shield, Ban, Trash2, Plus, Edit, Archive } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {

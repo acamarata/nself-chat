@@ -11,8 +11,6 @@ import {
   Settings,
   Ban,
   UserCheck,
-  Clock,
-  Activity,
   Sliders,
   Users,
 } from 'lucide-react'

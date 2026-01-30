@@ -9,7 +9,6 @@
 import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/auth-context';

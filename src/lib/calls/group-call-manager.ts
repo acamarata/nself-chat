@@ -9,7 +9,7 @@
  */
 
 import * as mediasoupClient from 'mediasoup-client'
-import type { Device, Transport, Producer, Consumer } from 'mediasoup-client/lib/types'
+import type { Device, Transport, Producer, Consumer } from 'mediasoup-client'
 
 // =============================================================================
 // Types

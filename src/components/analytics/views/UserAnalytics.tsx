@@ -10,7 +10,6 @@ import {
   UserPlus,
   UserMinus,
   Activity,
-  MessageSquare,
   Heart,
   FileText,
 } from 'lucide-react';

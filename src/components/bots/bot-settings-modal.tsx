@@ -39,7 +39,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { BotPermissions, BotPermissionsCompact } from './bot-permissions'
-import { cn } from '@/lib/utils'
 import type { Bot as BotType, BotPermission, BotInstallation } from '@/graphql/bots'
 
 // ============================================================================

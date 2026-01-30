@@ -15,7 +15,6 @@ import { VideoGrid } from './VideoGrid'
 import { SpeakerView } from './SpeakerView'
 import { VideoControls } from './VideoControls'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 
 // =============================================================================
 // Types

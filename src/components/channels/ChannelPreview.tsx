@@ -7,23 +7,20 @@ import {
   Hash,
   Lock,
   Users,
-  MessageSquare,
   Calendar,
   Star,
   Bell,
   BellOff,
   Share2,
   Settings,
-  TrendingUp,
   Activity,
-  Clock,
   MoreVertical,
   ExternalLink,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback} from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 import {
   Dialog,

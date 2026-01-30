@@ -6,7 +6,6 @@ import { Star, Download, Check, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { useAppDirectoryStore } from '@/stores/app-directory-store';
 import type { App } from '@/lib/app-directory/app-types';
 

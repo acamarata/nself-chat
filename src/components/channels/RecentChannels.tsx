@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Clock, ChevronRight, Activity } from 'lucide-react'
+import {  ChevronRight, Activity } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'

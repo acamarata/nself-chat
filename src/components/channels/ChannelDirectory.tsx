@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 import {
   Hash,
   Lock,
-  Users,
   ChevronRight,
   Folder,
   FolderOpen,
@@ -15,7 +14,6 @@ import {
   ArrowUpDown,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import {

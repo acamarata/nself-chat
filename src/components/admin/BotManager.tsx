@@ -16,7 +16,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Bot, Settings, Trash2, Activity } from 'lucide-react';
+import { Plus, Bot, Settings, Trash2} from 'lucide-react';
 
 export function BotManager() {
   const { bots, loading, refetch } = useBots();

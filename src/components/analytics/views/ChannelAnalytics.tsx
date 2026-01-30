@@ -9,9 +9,6 @@ import {
   Hash,
   Lock,
   Users,
-  MessageSquare,
-  TrendingUp,
-  Activity,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';

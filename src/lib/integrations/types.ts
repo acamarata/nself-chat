@@ -517,3 +517,164 @@ export interface IntegrationSettings {
     historyDays?: number
   }
 }
+
+// ============================================================================
+// Discord Types
+// ============================================================================
+
+export interface DiscordUser {
+  id: string
+  username: string
+  discriminator: string
+  avatar: string | null
+  bot?: boolean
+  system?: boolean
+  email?: string
+}
+
+export interface DiscordGuild {
+  id: string
+  name: string
+  icon: string | null
+  owner_id: string
+  permissions?: string
+  features: string[]
+  approximate_member_count?: number
+  approximate_presence_count?: number
+}
+
+export interface DiscordChannel {
+  id: string
+  type: number
+  guild_id?: string
+  name: string
+  position?: number
+  topic?: string | null
+  nsfw?: boolean
+  last_message_id?: string | null
+  parent_id?: string | null
+}
+
+export interface DiscordMessage {
+  id: string
+  channel_id: string
+  author: DiscordUser
+  content: string
+  timestamp: string
+  edited_timestamp: string | null
+  tts: boolean
+  mention_everyone: boolean
+  mentions: DiscordUser[]
+  attachments: Array<{
+    id: string
+    filename: string
+    size: number
+    url: string
+    proxy_url: string
+  }>
+  embeds: Array<Record<string, unknown>>
+  reactions?: Array<{
+    count: number
+    emoji: { id: string | null; name: string }
+  }>
+}
+
+export interface DiscordImportOptions {
+  guildIds?: string[]
+  channelIds?: string[]
+  startDate?: string
+  endDate?: string
+  includeAttachments?: boolean
+}
+
+export interface DiscordSyncResult {
+  success: boolean
+  guildsSynced: number
+  channelsSynced: number
+  messagesSynced: number
+  errors: string[]
+}
+
+// ============================================================================
+// Telegram Types
+// ============================================================================
+
+export interface TelegramUser {
+  id: number
+  is_bot: boolean
+  first_name: string
+  last_name?: string
+  username?: string
+  language_code?: string
+}
+
+export interface TelegramChat {
+  id: number
+  type: 'private' | 'group' | 'supergroup' | 'channel'
+  title?: string
+  username?: string
+  first_name?: string
+  last_name?: string
+  description?: string
+  invite_link?: string
+  photo?: {
+    small_file_id: string
+    small_file_unique_id: string
+    big_file_id: string
+    big_file_unique_id: string
+  }
+  permissions?: Record<string, boolean>
+}
+
+export interface TelegramMessage {
+  message_id: number
+  from?: TelegramUser
+  sender_chat?: TelegramChat
+  date: number
+  chat: TelegramChat
+  text?: string
+  caption?: string
+  photo?: Array<{
+    file_id: string
+    file_unique_id: string
+    width: number
+    height: number
+    file_size?: number
+  }>
+  document?: {
+    file_id: string
+    file_unique_id: string
+    file_name?: string
+    mime_type?: string
+    file_size?: number
+  }
+  video?: {
+    file_id: string
+    file_unique_id: string
+    width: number
+    height: number
+    duration: number
+    file_size?: number
+  }
+  voice?: {
+    file_id: string
+    file_unique_id: string
+    duration: number
+    mime_type?: string
+    file_size?: number
+  }
+  reply_to_message?: TelegramMessage
+}
+
+export interface TelegramImportOptions {
+  chatIds?: (number | string)[]
+  startDate?: string
+  endDate?: string
+}
+
+export interface TelegramSyncResult {
+  success: boolean
+  chatsSynced: number
+  messagesSynced: number
+  errors: string[]
+}

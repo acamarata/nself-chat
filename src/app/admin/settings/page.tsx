@@ -27,7 +27,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { useAdminAccess } from '@/lib/admin/use-admin'
 import { useAppConfig } from '@/contexts/app-config-context'

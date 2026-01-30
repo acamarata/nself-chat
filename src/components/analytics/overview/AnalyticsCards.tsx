@@ -18,7 +18,6 @@ import {
   Heart,
   FileText,
   Search,
-  Clock,
   Bot,
   TrendingUp,
   TrendingDown,
@@ -26,7 +25,7 @@ import {
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent} from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 
 import { useAnalyticsStore } from '@/stores/analytics-store';

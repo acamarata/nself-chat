@@ -20,7 +20,6 @@ import {
   Volume2,
   VolumeX,
   Maximize,
-  Info,
 } from 'lucide-react'
 import {
   DropdownMenu,

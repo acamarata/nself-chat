@@ -10,7 +10,7 @@ import {
   requiresAdmin,
 } from '@/lib/admin/roles/permission-types'
 import * as Icons from 'lucide-react'
-import { AlertTriangle, Shield, Info } from 'lucide-react'
+import { AlertTriangle, Shield} from 'lucide-react'
 
 interface PermissionDescriptionProps {
   permission: Permission

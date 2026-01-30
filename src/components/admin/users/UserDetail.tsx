@@ -11,7 +11,6 @@ import {
   Hash,
   MessageSquare,
   Ban,
-  AlertTriangle,
   Save,
   MoreHorizontal,
   Key,

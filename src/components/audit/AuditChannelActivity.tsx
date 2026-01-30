@@ -8,7 +8,6 @@ import { useState, useMemo } from 'react'
 import {
   Hash,
   Users,
-  MessageSquare,
   Clock,
   Activity,
   TrendingUp,

@@ -7,7 +7,6 @@
  */
 
 import * as React from 'react';
-import { cn } from '@/lib/utils';
 import { ActivityItem } from './ActivityItem';
 import { ActivityDateSeparator } from './ActivityDate';
 import { groupActivitiesByDateGroup } from '@/lib/activity/activity-manager';

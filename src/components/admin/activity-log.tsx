@@ -8,7 +8,6 @@ import {
   UserCheck,
   Ban,
   Shield,
-  MessageSquare,
   Trash2,
   Hash,
   Archive,

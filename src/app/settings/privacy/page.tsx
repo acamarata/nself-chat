@@ -12,7 +12,6 @@ import {
 } from '@/components/settings'
 import {
   Shield,
-  MessageSquare,
   Eye,
   Check,
   Edit3,

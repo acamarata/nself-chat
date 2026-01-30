@@ -5,7 +5,6 @@ import { useState } from 'react'
 import {
   Shield,
   Crown,
-  Users,
   Plus,
   Trash2,
   Pencil,

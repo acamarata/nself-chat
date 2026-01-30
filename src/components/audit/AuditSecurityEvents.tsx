@@ -13,8 +13,6 @@ import {
   XCircle,
   Key,
   Globe,
-  Clock,
-  Activity,
   TrendingUp,
   TrendingDown,
 } from 'lucide-react'

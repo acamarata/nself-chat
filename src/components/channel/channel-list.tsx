@@ -10,7 +10,6 @@ import {
   ChevronRight,
   Hash,
   Lock,
-  MessageSquare,
   MoreVertical,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'

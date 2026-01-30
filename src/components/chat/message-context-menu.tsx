@@ -26,7 +26,6 @@ import {
   ContextMenuTrigger,
   ContextMenuShortcut,
 } from '@/components/ui/context-menu'
-import { cn } from '@/lib/utils'
 import { emojiFromName } from './message-reactions'
 import type { MessageActionPermissions, MessageAction, Message } from '@/types/message'
 

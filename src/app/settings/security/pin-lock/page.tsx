@@ -8,7 +8,7 @@
 
 import { useAuth } from '@/contexts/auth-context'
 import { PinManage } from '@/components/security/PinManage'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent} from '@/components/ui/card'
 import { Shield } from 'lucide-react'
 
 export default function PinLockSettingsPage() {
