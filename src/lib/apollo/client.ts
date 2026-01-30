@@ -327,9 +327,15 @@ export const apolloClient = new ApolloClient({
       errorPolicy: 'all',
     },
   },
-  connectToDevTools: process.env.NODE_ENV === 'development',
-  name: 'nchat-web',
-  version: process.env.NEXT_PUBLIC_APP_VERSION || '0.2.0',
+  // Updated for Apollo Client v3.14.0+ - use devtools.enabled instead of connectToDevTools
+  devtools: {
+    enabled: process.env.NODE_ENV === 'development',
+  },
+  // Updated for Apollo Client v3.14.0+ - use clientAwareness instead of name/version
+  clientAwareness: {
+    name: 'nchat-web',
+    version: process.env.NEXT_PUBLIC_APP_VERSION || '0.2.0',
+  },
 });
 
 // =============================================================================

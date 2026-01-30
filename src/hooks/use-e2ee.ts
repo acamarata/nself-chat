@@ -89,7 +89,6 @@ export function useE2EE(): UseE2EEReturn {
             title: 'Recovery Code',
             description: 'Save your recovery code in a secure location',
             variant: 'default',
-            duration: 10000,
           });
         }
       } catch (err: any) {

@@ -212,7 +212,7 @@ export function useCamera(options: UseCameraOptions = {}): UseCameraReturn {
         ...(selectedDevice && { deviceId: { exact: selectedDevice.deviceId } }),
       }
 
-      const newStream = await mediaManagerRef.current.getVideoStream(false, videoConstraints)
+      const newStream = await mediaManagerRef.current.getVideoStream(videoConstraints.audio !== undefined ? videoConstraints.audio : false, videoConstraints)
       setStream(newStream)
       setIsActive(true)
       setIsEnabled(true)

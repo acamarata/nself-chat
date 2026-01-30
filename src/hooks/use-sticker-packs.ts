@@ -171,9 +171,8 @@ export function useStickerPacksManagement(): UseStickerPacksManagementResult {
   const apolloClient = useApolloClient()
 
   // Check if user can manage sticker packs (owner or admin)
-  const canManage = hasPermission('manage_stickers') ||
-    user?.role === 'owner' ||
-    user?.role === 'admin'
+  // TODO: Add 'manage_stickers' permission to PERMISSIONS
+  const canManage = user?.role === 'owner' || user?.role === 'admin'
 
   // Mutations
   const [createPackMutation, { loading: createLoading }] = useMutation(CREATE_STICKER_PACK)
