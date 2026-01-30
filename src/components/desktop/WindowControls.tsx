@@ -19,11 +19,7 @@ export function WindowControls({
 }: WindowControlsProps) {
   const { isTauri, isMacOS, isWindows } = useTauri();
 
-  // Don't render on macOS or web
-  if (!isTauri || isMacOS) {
-    return null;
-  }
-
+  // Define hooks before any early returns (Rules of Hooks)
   const handleMinimize = useCallback(async () => {
     await minimizeWindow();
   }, []);
@@ -35,6 +31,11 @@ export function WindowControls({
   const handleClose = useCallback(async () => {
     await closeWindow();
   }, []);
+
+  // Don't render on macOS or web
+  if (!isTauri || isMacOS) {
+    return null;
+  }
 
   // Determine colors based on variant
   const colors = {

@@ -179,7 +179,10 @@ export class NhostAuthService implements AuthService {
       const { data: mutationData, error } = await nhost.graphql.request(mutation, variables)
 
       if (error) {
-        throw new Error(error.message || 'Failed to update profile')
+        const errorMessage = Array.isArray(error)
+          ? error[0]?.message || 'Failed to update profile'
+          : error.message || 'Failed to update profile'
+        throw new Error(errorMessage)
       }
 
       const updatedUser = mutationData?.update_nchat_users?.returning?.[0]
