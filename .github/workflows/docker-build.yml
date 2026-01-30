@@ -127,8 +127,14 @@ jobs:
           exit-code: '0'
           severity: 'CRITICAL,HIGH,MEDIUM'
 
+      - name: Install Cosign
+        if: github.event_name != 'pull_request'
+        uses: sigstore/cosign-installer@v3
+        continue-on-error: true
+
       - name: Sign image with Cosign
         if: github.event_name != 'pull_request'
+        continue-on-error: true
         env:
           COSIGN_EXPERIMENTAL: "true"
         run: |
