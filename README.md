@@ -2,12 +2,12 @@
 
 **Real-time team communication platform - part of the ɳSelf ecosystem**
 
-Technical name: `nself-chat` | Package: `@nself/chat` | Short name: `nchat` | **Version**: `0.3.0`
+Technical name: `nself-chat` | Package: `@nself/chat` | Short name: `nchat` | **Version**: `0.4.0`
 
 [![CI](https://github.com/acamarata/nself-chat/actions/workflows/ci.yml/badge.svg)](https://github.com/acamarata/nself-chat/actions/workflows/ci.yml)
 [![CD](https://github.com/acamarata/nself-chat/actions/workflows/cd.yml/badge.svg)](https://github.com/acamarata/nself-chat/actions/workflows/cd.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-0.3.0-brightgreen.svg)](https://github.com/acamarata/nself-chat/releases)
+[![Version](https://img.shields.io/badge/Version-0.4.0-brightgreen.svg)](https://github.com/acamarata/nself-chat/releases)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org/)
@@ -15,7 +15,7 @@ Technical name: `nself-chat` | Package: `@nself/chat` | Short name: `nchat` | **
 [![Tests](https://img.shields.io/badge/Tests-860%2B-success.svg)](https://github.com/acamarata/nself-chat)
 [![Accessibility](https://img.shields.io/badge/A11y-WCAG%20AA-blue.svg)](https://www.w3.org/WAI/WCAG2AA-Conformance)
 
-> **v0.3.0 Release**: Advanced messaging features including scheduled messages, message forwarding, translations, polls, and social media integrations. Plus full-text search, Bot API, and comprehensive monitoring. Powered by [ɳSelf CLI](https://github.com/acamarata/nself) for backend infrastructure.
+> **v0.4.0 Release**: Enterprise Communication Suite - End-to-End Encryption (Signal Protocol), WebRTC Voice & Video Calling (up to 50 participants), Screen Sharing with Annotations, Live Streaming (HLS/WebRTC), and comprehensive mobile optimizations including CallKit, Telecom Manager, and Picture-in-Picture. Powered by [ɳSelf CLI](https://github.com/acamarata/nself) for backend infrastructure.
 
 ---
 
@@ -24,6 +24,19 @@ Build your own Slack, Discord, or Telegram clone with **ɳChat** - a complete, p
 **3 Commands. That's It.** Clone, install, run - the wizard handles everything else: backend setup, configuration, branding, and deployment.
 
 Powered by [ɳSelf](https://nself.org) for backend infrastructure (PostgreSQL, Hasura GraphQL, Auth, Storage).
+
+---
+
+## Project Status
+
+| Category | Status | Details |
+|----------|--------|---------|
+| **Version** | v0.4.0 | Enterprise Communication Suite |
+| **CI/CD** | ✅ All Passing | All CI checks green, Docker build working |
+| **Code Quality** | ✅ Excellent | 860+ tests, TypeScript strict mode |
+| **Production** | ✅ Ready | Multi-platform support (web, iOS, Android, desktop) |
+| **Documentation** | ✅ Comprehensive | 30+ documentation pages, interactive API docs |
+| **Security** | ✅ Enterprise | E2EE with Signal Protocol, encrypted storage |
 
 ---
 
@@ -36,7 +49,11 @@ Powered by [ɳSelf](https://nself.org) for backend infrastructure (PostgreSQL, H
 - Auto-login in development mode for rapid iteration
 
 ### Complete Feature Set
-- **90+ Features**: Messaging, channels, threads, reactions, file uploads, and more
+- **100+ Features**: Messaging, channels, threads, reactions, file uploads, and more
+- **End-to-End Encryption**: Signal Protocol implementation for private messaging
+- **Voice & Video Calling**: WebRTC calls with up to 50 participants, screen sharing with annotations
+- **Live Streaming**: HLS and WebRTC streaming capabilities for broadcasts
+- **Mobile-Optimized**: CallKit (iOS), Telecom Manager (Android), Picture-in-Picture support
 - **11 Auth Providers**: Email, magic links, Google, GitHub, Apple, ID.me, and more
 - **Bot SDK**: Build custom bots with slash commands, events, and rich responses
 - **Real-time**: WebSocket-powered typing indicators, read receipts, and presence
@@ -124,13 +141,16 @@ Key screens to capture for documentation:
 
 ## Features at a Glance
 
-### 90+ Features Across 14 Categories
+### 100+ Features Across 17 Categories
 
 | Category | Count | Features |
 |----------|-------|----------|
 | **Messaging** | 17 | Channels, DMs, threads, reactions, pins, bookmarks, voice messages, scheduled messages, code blocks, markdown, link previews, mentions, quotes, forward, translations, polls, reminders |
 | **Channels** | 9 | Public, private, direct messages, group DMs, categories, topics, archive, favorites, mute |
 | **Files & Media** | 8 | Upload, images, documents, audio, video, preview, drag & drop, clipboard paste |
+| **Security & Encryption** | 7 | End-to-end encryption (Signal Protocol), encrypted file storage, encrypted backups, key management, perfect forward secrecy, secure verification, encrypted notifications |
+| **Voice & Video Calls** | 12 | WebRTC calling (1-on-1 and group up to 50), screen sharing with annotations, call recording, noise cancellation, virtual backgrounds, CallKit integration (iOS), Telecom Manager (Android), Picture-in-Picture mode, call quality indicators, bandwidth optimization, call transfers, call waiting |
+| **Live Streaming** | 6 | HLS streaming, WebRTC streaming, stream recording, stream chat, viewer analytics, multi-quality adaptive streaming |
 | **Users & Presence** | 7 | Online/away status, custom status, profiles, roles, blocking, avatars, display names |
 | **Real-time** | 5 | Typing indicators, read receipts, presence updates, live messages, live notifications |
 | **Search** | 7 | Messages, files, users, global search, filters, highlighting, MeiliSearch full-text search |
@@ -142,6 +162,67 @@ Key screens to capture for documentation:
 | **Moderation** | 6 | Content moderation, reporting, auto-filter, warnings, bans, slow mode |
 | **Integrations** | 4 | Slack import, GitHub, Jira, Google Drive |
 | **Social Media** | 5 | Twitter integration, Instagram integration, LinkedIn integration, OAuth connections, encrypted token storage |
+
+---
+
+## What's New in v0.4.0
+
+### End-to-End Encryption (E2EE)
+
+Built on the **Signal Protocol**, the gold standard for secure messaging:
+
+- **Perfect Forward Secrecy**: Each message encrypted with unique keys
+- **Double Ratchet Algorithm**: Continuous key rotation for maximum security
+- **Encrypted File Storage**: All uploads encrypted at rest and in transit
+- **Secure Key Exchange**: X3DH key agreement protocol
+- **Encrypted Backups**: Optional encrypted backup/restore
+- **Group Encryption**: Sender keys for efficient group messaging
+- **Verification**: QR code and safety number verification
+
+**Implementation**: `@signalapp/libsignal-client` library with native bindings for optimal performance.
+
+### Voice & Video Calling
+
+Enterprise-grade WebRTC calling powered by **mediasoup** SFU (Selective Forwarding Unit):
+
+- **Group Calls**: Up to 50 simultaneous participants
+- **Screen Sharing**: Share your screen with annotation tools (draw, highlight, text)
+- **Call Recording**: Record calls for later playback (with consent)
+- **Noise Cancellation**: AI-powered background noise reduction
+- **Virtual Backgrounds**: Blur or replace backgrounds
+- **Adaptive Quality**: Automatic bandwidth optimization
+- **Call Controls**: Mute, video toggle, speaker selection, call transfer
+- **Mobile Native**: CallKit integration (iOS) for native call experience
+- **Android Telecom**: Telecom Manager integration for Android system calls
+- **Picture-in-Picture**: Continue calls while using other apps
+
+**Technologies**: WebRTC, mediasoup SFU, canvas API for annotations.
+
+### Live Streaming
+
+Broadcast to unlimited viewers with professional-grade streaming:
+
+- **HLS Streaming**: HTTP Live Streaming with adaptive bitrate
+- **WebRTC Streaming**: Ultra-low latency option for interactive streams
+- **Stream Recording**: Archive streams automatically
+- **Stream Chat**: Real-time chat alongside live streams
+- **Viewer Analytics**: Track concurrent viewers, engagement, watch time
+- **Multi-Quality**: Automatic transcoding to multiple quality levels
+- **DVR Mode**: Pause/rewind live streams
+
+**Technologies**: hls.js for HLS playback, WebRTC for low-latency streaming.
+
+### Mobile Optimizations
+
+Native mobile experience across platforms:
+
+- **CallKit (iOS)**: System-level call integration, lock screen controls, call history
+- **Telecom Manager (Android)**: Native Android calling experience
+- **Picture-in-Picture**: Minimize video calls to continue multitasking
+- **Push Notifications**: VoIP push notifications for instant call delivery
+- **Background Audio**: Keep audio running when app is backgrounded
+- **Battery Optimization**: Efficient resource usage for extended battery life
+- **Network Resilience**: Automatic reconnection and quality adjustment
 
 ---
 
@@ -189,7 +270,7 @@ When you first visit the app, you'll be guided through a comprehensive setup wiz
 | **Theme Presets** | 27 ready-to-use themes |
 | **Typography** | Font family, sizes, weights |
 | **Border Radius** | From sharp to fully rounded |
-| **Features** | Enable/disable any of 78+ features |
+| **Features** | Enable/disable any of 100+ features |
 | **Auth Methods** | Choose from 11 providers |
 | **Landing Page** | 5 homepage templates |
 | **Email Templates** | Customize transactional emails |
@@ -711,8 +792,12 @@ const weatherBot = bot('weather-bot')
 |---------|------------|
 | **WebSocket** | Socket.io |
 | **GraphQL Subscriptions** | graphql-ws |
-| **Voice/Video** | WebRTC |
+| **Voice/Video** | WebRTC + mediasoup (SFU) |
+| **End-to-End Encryption** | @signalapp/libsignal-client |
+| **Screen Sharing** | WebRTC + canvas (annotations) |
+| **Live Streaming** | HLS (hls.js) + WebRTC |
 | **TURN Server** | Coturn (optional) |
+| **Mobile Integration** | CallKit (iOS), Telecom Manager (Android) |
 
 ### Testing & Quality
 
