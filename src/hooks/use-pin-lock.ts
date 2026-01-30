@@ -191,8 +191,8 @@ export function usePinLock(): UsePinLockReturn {
   }, [hasPinSetup])
 
   // Lock function
-  const lock = useCallback((reason: LockState['lockReason'] = 'manual') => {
-    lockSession(reason)
+  const lock = useCallback((reason?: LockState['lockReason']) => {
+    lockSession(reason ?? 'manual')
     setIsLocked(true)
     const state = getLockState()
     setLockState(state)
