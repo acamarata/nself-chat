@@ -53,6 +53,23 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build production
+        run: pnpm build
+        env:
+          NEXT_PUBLIC_USE_DEV_AUTH: 'true'
+          NEXT_PUBLIC_ENV: 'production'
+          NODE_ENV: 'production'
+
+      - name: Start production server
+        run: pnpm start &
+        env:
+          NEXT_PUBLIC_USE_DEV_AUTH: 'true'
+          NEXT_PUBLIC_ENV: 'production'
+          NODE_ENV: 'production'
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:3000 --timeout 60000
+
       - name: Run Lighthouse CI
         run: pnpm lighthouse
         env:
