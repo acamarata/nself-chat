@@ -101,6 +101,7 @@
     "@sentry/nextjs": "^8.47.0",
     "@signalapp/libsignal-client": "^0.69.0",
     "@tanstack/react-virtual": "^3.13.0",
+    "@tensorflow-models/toxicity": "^1.2.2",
     "@tensorflow/tfjs": "^4.22.0",
     "@tiptap/extension-bubble-menu": "^2.11.2",
     "@tiptap/extension-character-count": "^2.11.2",

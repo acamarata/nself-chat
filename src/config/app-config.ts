@@ -137,14 +137,46 @@ export interface AppConfig {
     }
   }
   
-  // Moderation & Safety
+  // Moderation & Safety (v0.5.0 - AI-Powered)
   moderation: {
+    // Basic Settings
     autoModeration: boolean
     profanityFilter: boolean
     spamDetection: boolean
     requireMessageApproval: boolean
     moderatorRoles: string[]
     reportingSystem: boolean
+
+    // AI Detection (v0.5.0)
+    aiModeration: {
+      enabled: boolean
+      toxicityDetection: boolean
+      nsfwDetection: boolean
+      spamDetection: boolean
+      profanityFilter: boolean
+    }
+
+    // Detection Thresholds (0-1)
+    thresholds: {
+      toxic: number
+      nsfw: number
+      spam: number
+      profanity: number
+    }
+
+    // Automated Actions
+    autoActions: {
+      autoFlag: boolean
+      autoHide: boolean
+      autoWarn: boolean
+      autoMute: boolean
+    }
+
+    // Custom Word Lists
+    customWords: {
+      blocked: string[]
+      allowed: string[]
+    }
   }
 
   // End-to-End Encryption (E2EE)
@@ -344,6 +376,37 @@ export const defaultAppConfig: AppConfig = {
     requireMessageApproval: false,
     moderatorRoles: ['admin', 'moderator'],
     reportingSystem: true,
+
+    // AI Detection (v0.5.0)
+    aiModeration: {
+      enabled: true,
+      toxicityDetection: true,
+      nsfwDetection: true,
+      spamDetection: true,
+      profanityFilter: true,
+    },
+
+    // Detection Thresholds (0-1)
+    thresholds: {
+      toxic: 0.7,
+      nsfw: 0.7,
+      spam: 0.6,
+      profanity: 0.5,
+    },
+
+    // Automated Actions
+    autoActions: {
+      autoFlag: true,
+      autoHide: false,
+      autoWarn: false,
+      autoMute: false,
+    },
+
+    // Custom Word Lists
+    customWords: {
+      blocked: [],
+      allowed: [],
+    },
   },
 
   encryption: {
