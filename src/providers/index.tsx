@@ -35,6 +35,7 @@ import { PWAProvider } from './pwa-provider';
 
 // Components
 import { ThemeInjector } from '@/components/theme-injector';
+import { AnnouncerProvider } from '@/components/accessibility/live-region';
 
 // =============================================================================
 // Types
@@ -321,6 +322,7 @@ function SkipLinks() {
  * 11. ChatProvider - Chat state
  * 12. ModalProvider - Modal management
  * 13. NotificationProvider - Toast notifications
+ * 14. AnnouncerProvider - Screen reader announcements
  */
 export function AppProviders({ children }: AppProvidersProps) {
   return (
@@ -343,10 +345,12 @@ export function AppProviders({ children }: AppProvidersProps) {
                       <ChatProvider>
                         <ModalProvider>
                           <NotificationProvider>
-                            <PWAProvider>
-                              <SkipLinks />
-                              {children}
-                            </PWAProvider>
+                            <AnnouncerProvider>
+                              <PWAProvider>
+                                <SkipLinks />
+                                {children}
+                              </PWAProvider>
+                            </AnnouncerProvider>
                           </NotificationProvider>
                         </ModalProvider>
                       </ChatProvider>

@@ -44,6 +44,7 @@ import {
   getAuthenticatedUser,
   type AuthenticatedRequest,
 } from '@/lib/api/middleware'
+import { withCsrfProtection } from '@/lib/security/csrf'
 
 // ============================================================================
 // Configuration
@@ -343,9 +344,10 @@ async function handlePost(request: AuthenticatedRequest): Promise<NextResponse> 
   }
 }
 
-// Apply admin middleware
+// Apply admin middleware with CSRF protection
 export const POST = compose(
   withErrorHandler,
+  withCsrfProtection,
   withAuth,
   withAdmin
 )(handlePost)
@@ -385,6 +387,7 @@ async function handlePatch(request: AuthenticatedRequest): Promise<NextResponse>
 
 export const PATCH = compose(
   withErrorHandler,
+  withCsrfProtection,
   withAuth,
   withAdmin
 )(handlePatch)

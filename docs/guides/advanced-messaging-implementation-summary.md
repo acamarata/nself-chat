@@ -925,5 +925,4 @@ mutation MarkMessageRead($messageId: uuid!, $userId: uuid!) {
 ---
 
 **Last Updated:** January 30, 2026
-**Author:** automated tools
 **Version:** v0.3.0

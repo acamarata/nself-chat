@@ -247,6 +247,63 @@ export interface AppConfig {
     slack?: string
     website?: string
   }
+
+  // Enterprise Features
+  enterprise: {
+    // SSO/SAML
+    sso: {
+      enabled: boolean
+      allowedProviders: ('okta' | 'azure-ad' | 'google-workspace' | 'onelogin' | 'auth0' | 'ping-identity' | 'jumpcloud' | 'generic-saml')[]
+      enforceSSO: boolean // Require SSO for all logins
+      jitProvisioning: boolean
+      defaultRole: 'member' | 'moderator' | 'admin'
+    }
+
+    // Advanced RBAC
+    rbac: {
+      customRolesEnabled: boolean
+      maxCustomRoles: number
+      roleInheritance: boolean
+      timeLimitedRoles: boolean
+      roleTemplatesEnabled: boolean
+    }
+
+    // Audit Logging
+    audit: {
+      enabled: boolean
+      tamperProof: boolean // Enable cryptographic hash chains
+      retentionDays: number
+      exportFormats: ('json' | 'csv' | 'syslog' | 'cef' | 'leef')[]
+      autoVerifyIntegrity: boolean
+      verificationSchedule: 'hourly' | 'daily' | 'weekly'
+    }
+
+    // Compliance
+    compliance: {
+      mode: 'none' | 'soc2' | 'gdpr' | 'hipaa' | 'pci-dss' | 'custom'
+      requireMFA: boolean
+      sessionTimeout: number // minutes
+      passwordPolicy: {
+        minLength: number
+        requireUppercase: boolean
+        requireLowercase: boolean
+        requireNumbers: boolean
+        requireSymbols: boolean
+        expiryDays: number
+      }
+    }
+
+    // Advanced Security
+    security: {
+      ipWhitelisting: boolean
+      allowedIPs?: string[]
+      geoBlocking: boolean
+      blockedCountries?: string[]
+      rateLimiting: boolean
+      maxRequestsPerMinute: number
+      suspiciousActivityDetection: boolean
+    }
+  }
 }
 
 // Default configuration (before setup)
@@ -454,6 +511,55 @@ export const defaultAppConfig: AppConfig = {
   },
   
   social: {},
+
+  enterprise: {
+    sso: {
+      enabled: false,
+      allowedProviders: [],
+      enforceSSO: false,
+      jitProvisioning: true,
+      defaultRole: 'member',
+    },
+
+    rbac: {
+      customRolesEnabled: true,
+      maxCustomRoles: 50,
+      roleInheritance: true,
+      timeLimitedRoles: true,
+      roleTemplatesEnabled: true,
+    },
+
+    audit: {
+      enabled: true,
+      tamperProof: true,
+      retentionDays: 365,
+      exportFormats: ['json', 'csv', 'syslog', 'cef'],
+      autoVerifyIntegrity: true,
+      verificationSchedule: 'daily',
+    },
+
+    compliance: {
+      mode: 'none',
+      requireMFA: false,
+      sessionTimeout: 480, // 8 hours
+      passwordPolicy: {
+        minLength: 8,
+        requireUppercase: true,
+        requireLowercase: true,
+        requireNumbers: true,
+        requireSymbols: false,
+        expiryDays: 0, // Never expire
+      },
+    },
+
+    security: {
+      ipWhitelisting: false,
+      geoBlocking: false,
+      rateLimiting: true,
+      maxRequestsPerMinute: 60,
+      suspiciousActivityDetection: true,
+    },
+  },
 }
 
 // Landing Theme Templates

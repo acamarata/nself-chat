@@ -19,6 +19,7 @@ import { InlineReplyIndicator } from './reply-preview'
 import { MessageDeliveryStatus } from './message-delivery-status'
 import { FailedMessageRetry } from './failed-message-retry'
 import { useMessageStatus } from '@/lib/messages/use-message-status'
+import { messageEntry, messageHover } from '@/lib/animations'
 import type { Message, MessageAction, MessageActionPermissions } from '@/types/message'
 
 interface MessageItemProps {
@@ -151,7 +152,12 @@ export const MessageItem = memo(function MessageItem({
       permissions={adjustedPermissions}
       onAction={handleAction}
     >
-      <div
+      <motion.div
+        variants={messageEntry}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        layout
         className={cn(
           'group relative px-4 transition-colors',
           isHovering && 'bg-muted/50',
@@ -327,7 +333,7 @@ export const MessageItem = memo(function MessageItem({
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
     </MessageContextMenu>
   )
 })

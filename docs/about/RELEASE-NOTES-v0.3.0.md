@@ -579,7 +579,6 @@ See **docs/Roadmap.md** for the complete 12-phase plan.
 
 ### Developed By
 
-- **AI assistant** - AI-assisted development
 - **nself Team** - Project vision and architecture
 
 ---

@@ -127,10 +127,12 @@ export function E2EEProvider({ children }: E2EEProviderProps) {
 
         await e2eeManager.initialize(password, deviceId);
         updateStatus();
-      } catch (err: any) {
-        const errorMessage = err.message || 'Failed to initialize E2EE';
+      } catch (error) {
+        const errorMessage = error instanceof Error
+          ? error.message
+          : 'Failed to initialize E2EE';
         setError(errorMessage);
-        throw err;
+        throw error;
       } finally {
         setIsLoading(false);
       }
@@ -151,10 +153,12 @@ export function E2EEProvider({ children }: E2EEProviderProps) {
       try {
         await e2eeManager.recover(recoveryCode);
         updateStatus();
-      } catch (err: any) {
-        const errorMessage = err.message || 'Failed to recover E2EE';
+      } catch (error) {
+        const errorMessage = error instanceof Error
+          ? error.message
+          : 'Failed to recover E2EE';
         setError(errorMessage);
-        throw err;
+        throw error;
       } finally {
         setIsLoading(false);
       }
@@ -186,10 +190,12 @@ export function E2EEProvider({ children }: E2EEProviderProps) {
           recipientDeviceId
         );
         return result.encryptedPayload;
-      } catch (err: any) {
-        const errorMessage = err.message || 'Failed to encrypt message';
+      } catch (error) {
+        const errorMessage = error instanceof Error
+          ? error.message
+          : 'Failed to encrypt message';
         setError(errorMessage);
-        throw err;
+        throw error;
       }
     },
     [e2eeManager, status.initialized]
@@ -214,10 +220,12 @@ export function E2EEProvider({ children }: E2EEProviderProps) {
           senderUserId,
           senderDeviceId
         );
-      } catch (err: any) {
-        const errorMessage = err.message || 'Failed to decrypt message';
+      } catch (error) {
+        const errorMessage = error instanceof Error
+          ? error.message
+          : 'Failed to decrypt message';
         setError(errorMessage);
-        throw err;
+        throw error;
       }
     },
     [e2eeManager, status.initialized]
@@ -228,9 +236,12 @@ export function E2EEProvider({ children }: E2EEProviderProps) {
     setIsLoading(true);
     try {
       await e2eeManager.rotateSignedPreKey();
-    } catch (err: any) {
-      setError(err.message);
-      throw err;
+    } catch (error) {
+      const errorMessage = error instanceof Error
+        ? error.message
+        : 'An unknown error occurred';
+      setError(errorMessage);
+      throw error;
     } finally {
       setIsLoading(false);
     }

@@ -14,6 +14,7 @@ import {
   type AuthenticatedRequest,
   type RouteContext,
 } from '@/lib/api/middleware'
+import { withCsrfProtection } from '@/lib/security/csrf'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -86,5 +87,5 @@ async function handlePost(request: AuthenticatedRequest, context: RouteContext) 
   }
 }
 
-// Apply authentication middleware
-export const POST = compose(withErrorHandler, withAuth)(handlePost)
+// Apply authentication middleware with CSRF protection
+export const POST = compose(withErrorHandler, withCsrfProtection, withAuth)(handlePost)

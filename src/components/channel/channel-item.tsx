@@ -72,7 +72,7 @@ function formatLastMessage(message: string | null, maxLength: number = 30): stri
 // Component
 // ============================================================================
 
-export function ChannelItem({
+export const ChannelItem = React.memo(function ChannelItem({
   channel,
   isActive: isActiveProp,
   isDragging = false,
@@ -266,6 +266,17 @@ export function ChannelItem({
       </Link>
     </div>
   )
-}
+}, (prevProps, nextProps) => {
+  // Custom comparison for memoization
+  // Only re-render if channel data, active state, or drag state changes
+  return (
+    prevProps.channel.id === nextProps.channel.id &&
+    prevProps.channel.name === nextProps.channel.name &&
+    prevProps.channel.lastMessagePreview === nextProps.channel.lastMessagePreview &&
+    prevProps.isActive === nextProps.isActive &&
+    prevProps.isDragging === nextProps.isDragging &&
+    prevProps.depth === nextProps.depth
+  )
+})
 
 ChannelItem.displayName = 'ChannelItem'

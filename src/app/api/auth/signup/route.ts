@@ -1,34 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server'
+import {
+  withErrorHandler,
+  withRateLimit,
+  compose,
+} from '@/lib/api/middleware'
+import {
+  successResponse,
+  badRequestResponse,
+  internalErrorResponse,
+} from '@/lib/api/response'
+import { adminQuery } from '@/lib/graphql/admin-client'
+import { gql } from '@apollo/client'
 
-export async function POST(request: NextRequest) {
+// Rate limit: 3 signup attempts per hour per IP
+const RATE_LIMIT = { limit: 3, window: 60 * 60 }
+
+async function handleSignUp(request: NextRequest): Promise<NextResponse> {
   try {
     const body = await request.json()
     const { email, password, username, displayName } = body
 
     // In development mode, use mock data
     if (process.env.NEXT_PUBLIC_USE_DEV_AUTH === 'true') {
-      // Check if this is the first user by querying the database
-      const userCountResponse = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_URL}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET || '',
-        },
-        body: JSON.stringify({
-          query: `
-            query GetUserCount {
-              nchat_users_aggregate {
-                aggregate {
-                  count
-                }
-              }
+      // Check if this is the first user by querying the database using admin client
+      const GET_USER_COUNT = gql`
+        query GetUserCount {
+          nchat_users_aggregate {
+            aggregate {
+              count
             }
-          `,
-        }),
-      })
+          }
+        }
+      `
 
-      const userCountData = await userCountResponse.json()
-      const userCount = userCountData?.data?.nchat_users_aggregate?.aggregate?.count || 0
+      const userCountResult = await adminQuery(GET_USER_COUNT)
+      const userCount = userCountResult?.data?.nchat_users_aggregate?.aggregate?.count || 0
       const isFirstUser = userCount === 0
 
       const mockUser = {
@@ -47,20 +53,21 @@ export async function POST(request: NextRequest) {
         role: mockUser.role,
       })).toString('base64')
 
-      return NextResponse.json({
+      return successResponse({
         token: `mock.${mockToken}.signature`,
         user: mockUser,
       })
     }
 
-    return NextResponse.json(
-      { error: 'Missing required fields' },
-      { status: 400 }
-    )
-  } catch {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return badRequestResponse('Missing required fields', 'MISSING_FIELDS')
+  } catch (error) {
+    console.error('Signup error:', error)
+    return internalErrorResponse('Signup failed')
   }
 }
+
+// Apply rate limiting and error handling
+export const POST = compose(
+  withErrorHandler,
+  withRateLimit(RATE_LIMIT)
+)(handleSignUp)

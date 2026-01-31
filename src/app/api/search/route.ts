@@ -54,6 +54,7 @@ import {
   getAuthenticatedUser,
   compose,
 } from '@/lib/api/middleware'
+import { withCsrfProtection } from '@/lib/security/csrf'
 import { parseQuery, buildMeiliSearchFilter } from '@/lib/search/query-parser'
 import { searchAll, searchIndex, INDEX_NAMES } from '@/lib/search/meilisearch-client'
 import type { SearchOptions } from '@/lib/search/meilisearch-client'
@@ -832,6 +833,7 @@ export const GET = compose(
 
 export const POST = compose(
   withErrorHandler,
+  withCsrfProtection,
   withRateLimit(CONFIG.RATE_LIMIT)
 )(handlePost)
 

@@ -176,6 +176,9 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      dompurify:
+        specifier: ^3.3.1
+        version: 3.3.1
       emoji-picker-react:
         specifier: ^4.12.0
         version: 4.17.1(react@19.2.3)
@@ -296,6 +299,9 @@ importers:
       usehooks-ts:
         specifier: ^3.1.0
         version: 3.1.1(react@19.2.3)
+      web-vitals:
+        specifier: ^5.1.0
+        version: 5.1.0
       webrtc-adapter:
         specifier: ^9.0.3
         version: 9.0.3
@@ -330,6 +336,9 @@ importers:
       '@types/canvas-confetti':
         specifier: ^1.9.0
         version: 1.9.0
+      '@types/dompurify':
+        specifier: ^3.2.0
+        version: 3.2.0
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
@@ -2798,6 +2807,10 @@ packages:
 
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
+
+  '@types/dompurify@3.2.0':
+    resolution: {integrity: sha512-Fgg31wv9QbLDA0SpTOXO3MaxySc4DKGLi8sna4/Utjo4r3ZRPdCt4UQee8BWr+Q5z21yifghREPJGYaEOEIACg==}
+    deprecated: This is a stub types definition. dompurify provides its own type definitions, so you do not need this installed.
 
   '@types/eslint-scope@3.7.7':
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
@@ -7444,6 +7457,9 @@ packages:
   web-tree-sitter@0.24.5:
     resolution: {integrity: sha512-+J/2VSHN8J47gQUAvF8KDadrfz6uFYVjxoxbKWDoXVsH2u7yLdarCnIURnrMA6uSRkgX3SdmqM5BOoQjPdSh5w==}
 
+  web-vitals@5.1.0:
+    resolution: {integrity: sha512-ArI3kx5jI0atlTtmV0fWU3fjpLmq/nD3Zr1iFFlJLaqa5wLBkUSzINwBPySCX/8jRyjlmy1Volw1kz1g9XE4Jg==}
+
   webdriver-bidi-protocol@0.4.0:
     resolution: {integrity: sha512-U9VIlNRrq94d1xxR9JrCEAx5Gv/2W7ERSv8oWRoNe/QYbfccS0V3h/H6qeNeCRJxXGMhhnkqvwNrvPAYeuP9VA==}
 
@@ -10741,6 +10757,10 @@ snapshots:
   '@types/debug@4.1.12':
     dependencies:
       '@types/ms': 2.1.0
+
+  '@types/dompurify@3.2.0':
+    dependencies:
+      dompurify: 3.3.1
 
   '@types/eslint-scope@3.7.7':
     dependencies:
@@ -16086,6 +16106,8 @@ snapshots:
 
   web-tree-sitter@0.24.5:
     optional: true
+
+  web-vitals@5.1.0: {}
 
   webdriver-bidi-protocol@0.4.0: {}
 

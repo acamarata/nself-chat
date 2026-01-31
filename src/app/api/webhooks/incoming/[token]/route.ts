@@ -7,34 +7,45 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
+import {
+  withErrorHandler,
+  withRateLimit,
+  compose,
+} from '@/lib/api/middleware'
+import {
+  successResponse,
+  badRequestResponse,
+  internalErrorResponse,
+} from '@/lib/api/response'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+
+// Rate limit: 60 webhook requests per minute per IP
+const RATE_LIMIT = { limit: 60, window: 60 }
 
 /**
  * POST /api/webhooks/incoming/[token]
  *
  * Receive webhook from external service
  */
-export async function POST(
+async function handleWebhookPost(
   request: NextRequest,
-  { params }: { params: { token: string } }
-) {
+  context: { params: Promise<{ token: string }> }
+): Promise<NextResponse> {
+  const params = await context.params
   try {
     const token = params.token
 
     if (!token) {
-      return NextResponse.json(
-        { error: 'Missing webhook token' },
-        { status: 400 }
-      )
+      return badRequestResponse('Missing webhook token', 'MISSING_TOKEN')
     }
 
     // Parse request body
     const body = await request.json()
 
     // Get client IP
-    const headersList = headers()
+    const headersList = await headers()
     const ip = headersList.get('x-forwarded-for') || headersList.get('x-real-ip') || 'unknown'
 
     // TODO: Validate webhook token and find target channel
@@ -45,22 +56,22 @@ export async function POST(
       body,
     })
 
-    return NextResponse.json({
+    return successResponse({
       success: true,
       message: 'Webhook received',
       timestamp: new Date().toISOString(),
     })
   } catch (error) {
     console.error('Incoming webhook error:', error)
-    return NextResponse.json(
-      {
-        error: 'Failed to process webhook',
-        message: error instanceof Error ? error.message : 'Unknown error',
-      },
-      { status: 500 }
-    )
+    return internalErrorResponse('Failed to process webhook')
   }
 }
+
+// Apply rate limiting and error handling
+export const POST = compose(
+  withErrorHandler,
+  withRateLimit(RATE_LIMIT)
+)(handleWebhookPost)
 
 /**
  * GET /api/webhooks/incoming/[token]

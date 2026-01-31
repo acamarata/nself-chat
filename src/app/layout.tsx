@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import '@/styles/globals.css';
 import { AppProviders } from '@/providers';
+import { WebVitalsWrapper } from '@/components/performance/web-vitals-wrapper';
 
 // Initialize Sentry client-side monitoring
 import '@/sentry.client.config';
@@ -129,6 +130,9 @@ export default function RootLayout({
         {/* PWA primary color */}
         <meta name="theme-color" content="#6366f1" />
 
+        {/* Accessibility: Prefers reduced motion */}
+        <meta name="color-scheme" content="light dark" />
+
         {/* Preconnect to external services */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -215,10 +219,26 @@ export default function RootLayout({
           selection:text-primary
         `}
       >
+        {/* Skip to main content link for screen readers */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        >
+          Skip to main content
+        </a>
+
+        {/* Performance monitoring */}
+        <WebVitalsWrapper
+          enabled={true}
+          providers={process.env.NODE_ENV === 'production' ? ['sentry'] : ['console']}
+          sampleRate={1.0}
+          debug={process.env.NODE_ENV === 'development'}
+        />
+
         {/* Main app with all providers */}
         <AppProviders>
           {/* Main content area */}
-          <main id="main-content" className="min-h-screen">
+          <main id="main-content" tabIndex={-1} className="min-h-screen outline-none focus:outline-none">
             {children}
           </main>
         </AppProviders>

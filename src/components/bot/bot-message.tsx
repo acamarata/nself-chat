@@ -7,6 +7,7 @@
 
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
+import DOMPurify from 'dompurify'
 import { cn } from '@/lib/utils'
 import type {
   Block,
@@ -363,10 +364,17 @@ export function BotTypingIndicator({ botName = 'Bot' }: { botName?: string }) {
 // ============================================================================
 
 /**
- * Simple markdown formatting
+ * Simple markdown formatting with XSS protection
+ * Uses DOMPurify to sanitize HTML before rendering
  */
 function formatMarkdown(text: string): string {
+  // First, escape HTML entities to prevent injection
   let formatted = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
 
   // Bold: **text** or __text__
   formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
@@ -385,7 +393,7 @@ function formatMarkdown(text: string): string {
     '<code class="px-1 py-0.5 bg-muted rounded text-sm font-mono">$1</code>'
   )
 
-  // Links: [text](url)
+  // Links: [text](url) - URL validation happens in DOMPurify
   formatted = formatted.replace(
     /\[([^\]]+)\]\(([^)]+)\)/g,
     '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">$1</a>'
@@ -394,7 +402,12 @@ function formatMarkdown(text: string): string {
   // Line breaks
   formatted = formatted.replace(/\n/g, '<br />')
 
-  return formatted
+  // Sanitize with DOMPurify to prevent XSS attacks
+  return DOMPurify.sanitize(formatted, {
+    ALLOWED_TAGS: ['strong', 'em', 'del', 'code', 'a', 'br'],
+    ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
+    ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+  })
 }
 
 /**

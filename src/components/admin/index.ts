@@ -32,3 +32,11 @@ export { RoleEditor } from './role-editor'
 export { UsersManagement } from './users-management'
 export { ChannelsManagement } from './channels-management'
 export { SettingsManagement } from './settings-management'
+
+// Deployment Components
+export { VercelDeployButton, DeploymentStatusChecker } from './deployment'
+
+// Enterprise Features (v1.0.0+)
+export { SSOConfiguration } from './sso/SSOConfiguration'
+export { RoleEditor as EnterpriseRoleEditor } from './rbac/RoleEditor'
+export { AuditLogViewer } from './audit/AuditLogViewer'

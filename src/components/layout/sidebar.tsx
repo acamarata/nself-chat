@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -17,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { staggerContainer, staggerItem, sidebarToggle, fade } from '@/lib/animations'
 
 type ChannelType = 'public' | 'private' | 'direct' | 'group'
 type SortOrder = 'alphabetical' | 'manual' | 'recent'
@@ -203,7 +205,13 @@ export function Sidebar() {
     }
 
     return (
-      <div key={channel.id}>
+      <motion.div
+        key={channel.id}
+        variants={staggerItem}
+        initial="initial"
+        animate="animate"
+        layout
+      >
         <div className="flex items-center group relative">
           {/* Tree lines for nested channels */}
           {depth > 0 && (
@@ -299,18 +307,28 @@ export function Sidebar() {
             )}
           </div>
         )}
-      </div>
+      </motion.div>
     )
   }
 
   return (
-    <div className="flex h-full w-64 flex-col border-r bg-zinc-50 dark:bg-zinc-900/50">
+    <motion.div
+      className="flex h-full w-64 flex-col border-r bg-zinc-50 dark:bg-zinc-900/50"
+      initial={{ x: -256 }}
+      animate={{ x: 0 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+    >
       {/* App Header */}
-      <div className="flex h-16 items-center border-b border-zinc-200 dark:border-zinc-800 px-4">
+      <motion.div
+        className="flex h-16 items-center border-b border-zinc-200 dark:border-zinc-800 px-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1 }}
+      >
         <h1 className="text-xl font-bold bg-gradient-to-r from-[#00D4FF] to-[#0EA5E9] bg-clip-text text-transparent">
           nChat
         </h1>
-      </div>
+      </motion.div>
 
       {/* Channels */}
       <ScrollArea className="flex-1 px-2 py-4">
@@ -647,6 +665,6 @@ export function Sidebar() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </div>
+    </motion.div>
   )
 }

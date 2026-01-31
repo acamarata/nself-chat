@@ -11,6 +11,7 @@ import {
   BarChart3,
   ChevronLeft,
   Zap,
+  Rocket,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -74,6 +75,12 @@ export function AdminSidebar({ collapsed = false, onCollapse }: AdminSidebarProp
       label: 'Advanced',
       icon: Zap,
       requiresAdmin: true,
+    },
+    {
+      href: '/admin/deployment',
+      label: 'Deployment',
+      icon: Rocket,
+      requiresOwner: true,
     },
     {
       href: '/admin/settings',

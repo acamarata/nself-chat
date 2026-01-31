@@ -4,6 +4,7 @@
  */
 
 import { bot, command } from '@/lib/bots'
+import { createLogger } from '@/lib/logger'
 import {
   remindCommand,
   remindersCommand,
@@ -22,6 +23,8 @@ import {
   type Reminder,
 } from './scheduler'
 import manifest from './manifest.json'
+
+const logger = createLogger('ReminderBot')
 
 /**
  * Create and configure the Reminder Bot
@@ -97,7 +100,7 @@ export function createReminderBot() {
           const message = buildReminderMessage(reminder)
           await api.sendMessage(reminder.channelId, message)
         } catch (error) {
-          console.error(`[ReminderBot] Failed to send reminder:`, error)
+          logger.error('Failed to send reminder', error as Error, { reminderId: reminder.id })
         }
       })
 
@@ -110,7 +113,7 @@ export function createReminderBot() {
               const message = buildReminderMessage(reminder)
               await api.sendMessage(reminder.channelId, message)
             } catch (error) {
-              console.error(`[ReminderBot] Failed to send reminder:`, error)
+              logger.error('Failed to send reminder', error as Error, { reminderId: reminder.id })
             }
           })
         }
@@ -121,6 +124,7 @@ export function createReminderBot() {
       const cleanupInterval = setInterval(() => {
         const deleted = cleanupOldReminders()
         if (deleted > 0) {
+          // Old reminders cleaned up
         }
       }, 60 * 60 * 1000) // Every hour
 
@@ -130,11 +134,17 @@ export function createReminderBot() {
           const reminders = exportReminders()
           await api.setStorage('reminders', reminders)
         } catch (error) {
-          console.error(`[ReminderBot] Failed to save reminders:`, error)
+          logger.error('Failed to save reminders', error as Error)
         }
       }, 5 * 60 * 1000) // Every 5 minutes
 
-      // Note: In production, store interval IDs for cleanup on bot stop
+      // Register cleanup handlers to prevent memory leaks
+      instance.registerCleanup(() => {
+        clearInterval(cleanupInterval)
+        clearInterval(saveInterval)
+        // Clear all scheduled reminders
+        clearAllReminders()
+      })
     })
 
     .build()

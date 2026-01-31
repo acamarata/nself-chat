@@ -35,6 +35,7 @@ import {
   compose,
   getAuthenticatedUser,
 } from '@/lib/api/middleware'
+import { withCsrfProtection } from '@/lib/security/csrf'
 // Import pending upload functions
 // Note: These are defined in the parent route.ts but we need to access them
 // In production, this would use a shared store like Redis
@@ -370,9 +371,10 @@ async function handleCompleteUpload(request: NextRequest): Promise<NextResponse>
   }
 }
 
-// Apply middleware and export
+// Apply middleware and export with CSRF protection
 export const POST = compose(
   withErrorHandler,
+  withCsrfProtection,
   withRateLimit(CONFIG.RATE_LIMIT)
 )(handleCompleteUpload)
 

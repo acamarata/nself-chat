@@ -1,171 +1,179 @@
-# nself-chat v0.3.0
-
 ### [🏠 Home](Home)
 
 ---
 
-## 🚀 Getting Started
-
-- [⚡ Quick Start](getting-started/QUICK-START)
-- [📦 Installation](getting-started/INSTALLATION)
-- [🎯 Getting Started Guide](getting-started/Getting-Started)
+## 🎯 Getting Started
+- [🚀 Quick Start](getting-started/QUICK-START)
+- [📦 Installation](getting-started/Installation)
+- [🎓 Getting Started](getting-started/Getting-Started)
 
 ---
 
 ## ✨ Features
 
-### 💬 Communication
+### Core Features
+- [📋 Features Overview](features/Features)
+- [💬 Messaging](features/Features-Messaging)
+- [📊 Feature Comparison](features/Features-Complete)
+
+### Communication
 - [📞 Voice Calling](features/VOICE-CALLING-COMPLETE)
-- [📹 Video Calling](guides/Video-Calling-Implementation)
-- [📺 Live Streaming](features/LIVE_STREAMING_IMPLEMENTATION_SUMMARY)
-- [🖥️ Screen Sharing](features/SCREEN-SHARING-SUMMARY)
-- [📱 Mobile Calls](features/MOBILE-CALLS-IMPLEMENTATION)
+- [📹 Video Calling](features/WebRTC-Calling-Complete)
+- [📺 Live Streaming](features/Live-Streaming-Complete)
+- [🖥️ Screen Sharing](features/Screen-Sharing-Complete)
+- [📱 Mobile Calls](features/Mobile-Calls-Complete)
 
-### 💬 Advanced Messaging
-- [📝 Implementation](guides/advanced-messaging-implementation-summary)
-- [⚡ Quick Reference](reference/advanced-messaging-quick-reference)
+### Security & Privacy
+- [🔐 E2EE](features/E2EE-Complete)
+- [🔒 2FA](security/2FA-Implementation-Summary)
+- [🔐 PIN Lock](security/PIN-LOCK-SYSTEM)
 
-### 🎨 GIFs & Stickers
-- [📝 Implementation](features/GIF-Sticker-Implementation)
+### Interactive
+- [🎨 GIFs & Stickers](features/GIF-Sticker-Implementation)
+- [📊 Polls](features/Polls-Implementation)
+- [🔍 Search](reference/Search-Quick-Start)
 
-### 📊 Polls & Interactive
-- [📝 Implementation](features/Polls-Implementation)
-- [⚡ Quick Reference](reference/Polls-Quick-Start)
-
-### 🔍 Enhanced Search
-- [📝 Implementation](guides/Search-Implementation)
-- [⚡ Quick Reference](reference/Search-Quick-Start)
-
-### 🌐 Social Media
-- [📝 Implementation](features/Social-Media-Integration)
-- [⚡ Quick Reference](reference/Social-Media-Quick-Reference)
-
-### 🤖 Bots & Automation
-- [🤖 Bot Development](features/Bots)
-- [📝 Bot API](api/BOT_API_IMPLEMENTATION)
-
-### 🔌 Plugins & Extensions
-- [📝 Plugin System](features/Plugins)
-- [📋 Plugin List](features/Plugins-List)
-
-### 🎨 Customization
-- [🎨 White-Label Guide](features/White-Label-Guide)
-- [📋 Complete Features](features/Features)
-- [💬 Messaging Features](features/Features-Messaging)
+### Extensibility
+- [🤖 Bots](features/Bots)
+- [🔌 Plugins](features/Plugins)
+- [🎨 White-Label](features/White-Label-Guide)
 
 ---
 
-## 🔒 Security
+## 📖 Guides
 
-### Authentication
-- [📝 2FA Implementation](security/2FA-Implementation-Summary)
-- [⚡ 2FA Quick Reference](reference/2FA-Quick-Reference)
-- [📝 PIN Lock System](security/PIN-LOCK-SYSTEM)
-- [⚡ PIN Lock Quick Start](reference/PIN-LOCK-QUICK-START)
+### User Guides
+- [👤 User Guide](guides/USER-GUIDE)
+- [⚙️ Settings](guides/Settings-Quick-Start)
 
-### Encryption
-- [📝 E2EE Implementation](guides/E2EE-Implementation)
-- [⚡ E2EE Quick Reference](reference/E2EE-Quick-Reference)
-- [🛡️ E2EE Security Audit](security/E2EE-Security-Audit)
+### Developer Guides
+- [💬 Advanced Messaging](guides/advanced-messaging-implementation-summary)
+- [🔐 E2EE Setup](guides/E2EE-Implementation)
+- [🔍 Search Setup](guides/Search-Implementation)
+- [📞 Call Management](guides/Call-Management-Guide)
+- [📺 Live Streaming](guides/Live-Streaming-Implementation)
+- [🖥️ Screen Sharing](guides/Screen-Sharing-Implementation)
+- [📹 Video Calling](guides/Video-Calling-Implementation)
+- [🎙️ Voice Calling](guides/Voice-Calling-Implementation)
+- [📱 Mobile Optimization](guides/Mobile-Call-Optimizations)
+- [🧪 Testing](guides/testing-guide)
+- [🌍 i18n](guides/internationalization)
 
-### Security Overview
-- [🔐 Security Overview](security/SECURITY)
-- [🛡️ Security Audit](security/SECURITY-AUDIT)
-- [⚡ Performance](security/PERFORMANCE-OPTIMIZATION)
+### Enterprise
+- [🏢 Enterprise Overview](guides/enterprise/README)
+- [🔐 SSO Setup](guides/enterprise/SSO-Setup)
+- [👥 RBAC Guide](guides/enterprise/RBAC-Guide)
+- [📝 Audit Logging](guides/enterprise/Audit-Logging)
+
+### Backend
+- [🔧 nself CLI Setup](guides/backend/nself-cli-setup)
+- [🚀 nself CLI Deployment](guides/backend/nself-cli-deployment)
+
+### Deployment
+- [📋 Deployment Checklist](guides/deployment/DEPLOYMENT-CHECKLIST)
+- [🐳 Docker](guides/deployment/docker-deployment)
+- [☸️ Kubernetes](guides/deployment/self-hosted)
+- [📱 Mobile](guides/deployment/mobile-deployment)
+- [🖥️ Desktop](guides/deployment/desktop-deployment)
+- [☁️ Vercel](guides/deployment/vercel-deployment)
 
 ---
 
 ## ⚙️ Configuration
-
-- [📝 Configuration Guide](configuration/Configuration)
-- [🔐 Authentication Setup](configuration/Authentication)
+- [📝 Configuration](configuration/Configuration)
+- [🔐 Authentication](configuration/Authentication)
 - [🔧 Environment Variables](configuration/Environment-Variables)
 
 ---
 
-## 🚢 Deployment
+## 📡 API
 
+### API Documentation
+- [📝 API Overview](api/API)
+- [📖 Complete Reference](api/API-DOCUMENTATION)
+- [💻 API Examples](api/API-EXAMPLES)
+- [🤖 Bot API](api/BOT_API_IMPLEMENTATION)
+- [🔐 Auth API](api/authentication)
+- [📊 GraphQL Schema](api/graphql-schema)
+
+---
+
+## 🚀 Deployment
 - [📝 Deployment Overview](deployment/DEPLOYMENT)
 - [🐳 Docker](deployment/Deployment-Docker)
 - [☸️ Kubernetes](deployment/Deployment-Kubernetes)
 - [⎈ Helm Charts](deployment/Deployment-Helm)
 - [✅ Production Checklist](deployment/Production-Deployment-Checklist)
 - [🔍 Production Validation](deployment/Production-Validation)
+- [🏢 Multi-Tenant](Multi-Tenant-Deployment)
 
 ---
 
-## 📚 API & Reference
+## 📚 Reference
 
-### API Documentation
-- [📝 API Overview](api/API)
-- [📖 API Documentation](api/API-DOCUMENTATION)
-- [💻 API Examples](api/API-EXAMPLES)
-
-### Reference
+### Architecture
 - [🏗️ Architecture](reference/Architecture)
-- [📐 Architecture Diagrams](reference/ARCHITECTURE-DIAGRAMS)
+- [📐 Diagrams](reference/ARCHITECTURE-DIAGRAMS)
 - [🗄️ Database Schema](reference/Database-Schema)
 - [📁 Project Structure](reference/Project-Structure)
 - [📘 TypeScript Types](reference/Types)
 - [📖 SPORT Reference](reference/SPORT)
 
----
-
-## 📖 Guides
-
-### Implementation Guides
-- [📞 Call Management](guides/Call-Management-Guide)
-- [📹 Video Calling](guides/Video-Calling-Implementation)
-- [🎙️ Voice Calling](guides/Voice-Calling-Implementation)
-- [📺 Live Streaming](guides/Live-Streaming-Implementation)
-- [🖥️ Screen Sharing](guides/Screen-Sharing-Implementation)
-- [📱 Mobile Optimizations](guides/Mobile-Call-Optimizations)
-- [🔐 E2EE Setup](guides/E2EE-Implementation)
-- [🔍 Search Setup](guides/Search-Implementation)
-- [💬 Advanced Messaging](guides/advanced-messaging-implementation-summary)
-
-### User Guides
-- [📖 User Guide](guides/USER-GUIDE)
-- [⚙️ Settings](guides/Settings-Quick-Start)
-- [🧪 Testing](guides/testing-guide)
-- [🔌 Integrations](guides/integration-examples)
-- [🛠️ Utilities](guides/README)
+### Quick Reference
+- [🔐 2FA](reference/2FA-Quick-Reference)
+- [💬 Messaging](reference/advanced-messaging-quick-reference)
+- [📞 Call Management](reference/Call-Management-Quick-Reference)
+- [📊 Call State Machine](reference/Call-State-Machine-Diagram)
+- [🔒 E2EE](reference/E2EE-Quick-Reference)
+- [📺 Live Streaming](reference/Live-Streaming-Quick-Start)
+- [📱 Mobile Calls](reference/Mobile-Calls-Quick-Reference)
+- [🔐 PIN Lock](reference/PIN-LOCK-QUICK-START)
+- [📊 Polls](reference/Polls-Quick-Start)
+- [🖥️ Screen Sharing](reference/Screen-Sharing-Quick-Reference)
+- [🔍 Search](reference/Search-Quick-Start)
+- [🌐 Social Media](reference/Social-Media-Quick-Reference)
+- [🎙️ Voice Calling](reference/Voice-Calling-Quick-Start)
 
 ---
 
-## 🆘 Troubleshooting
+## 🔐 Security
+- [🔐 Security Overview](security/SECURITY)
+- [🛡️ Security Audit](security/SECURITY-AUDIT)
+- [⚡ Performance](security/PERFORMANCE-OPTIMIZATION)
+- [📋 Best Practices](security/security-best-practices)
+- [🔒 2FA](security/2FA-Implementation-Summary)
+- [🔐 PIN Lock](security/PIN-LOCK-SYSTEM)
+- [🔐 E2EE](security/E2EE-Implementation-Summary)
+- [🛡️ E2EE Audit](security/E2EE-Security-Audit)
 
+---
+
+## 🆘 Help
 - [❓ FAQ](troubleshooting/FAQ)
 - [🔧 Troubleshooting](troubleshooting/TROUBLESHOOTING)
-- [📖 Operations Runbook](troubleshooting/RUNBOOK)
+- [📖 Runbook](troubleshooting/RUNBOOK)
 
 ---
 
 ## ℹ️ About
-
-### Release Information
 - [📋 Changelog](about/Changelog)
-- [🎉 Release Notes v0.3.0](about/RELEASE-NOTES-v0.3.0)
-- [✅ Release Checklist](about/RELEASE-CHECKLIST-v0.3.0)
-- [📊 Implementation Status](about/IMPLEMENTATION_COMPLETE)
-
-### Planning
+- [🎉 v0.3.0 Release](about/RELEASE-NOTES-v0.3.0)
 - [🗺️ Roadmap](about/Roadmap)
-- [📈 Roadmap v0.2](about/Roadmap-v0.2)
 - [⬆️ Upgrade Guide](about/UPGRADE-GUIDE)
 - [🤝 Contributing](about/Contributing)
 
-### Documentation
-- [📚 Documentation Audit](about/DOCUMENTATION-AUDIT)
-- [🗺️ Documentation Map](about/DOCUMENTATION-MAP)
-- [📝 Documentation Improvements](about/DOCUMENTATION-IMPROVEMENT-SUMMARY)
+---
+
+## 🔗 Links
+- [GitHub](https://github.com/acamarata/nself-chat)
+- [Issues](https://github.com/acamarata/nself-chat/issues)
+- [Discussions](https://github.com/acamarata/nself-chat/discussions)
+- [Demo](https://demo.nself-chat.org)
 
 ---
 
 <div align="center">
 
-**Version 0.3.0** • **January 2026**
-
-[GitHub](https://github.com/acamarata/nself-chat) • [Issues](https://github.com/acamarata/nself-chat/issues) • [Discussions](https://github.com/acamarata/nself-chat/discussions)
+**v0.5.0** • **2026**
 
 </div>

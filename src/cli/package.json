@@ -1,0 +1,35 @@
+{
+  "name": "@nchat/cli",
+  "version": "1.0.0",
+  "description": "nChat CLI - Development and management tools",
+  "main": "index.ts",
+  "bin": {
+    "nchat-cli": "./index.ts",
+    "nchat": "./index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx index.ts"
+  },
+  "keywords": [
+    "nchat",
+    "cli",
+    "development",
+    "deployment"
+  ],
+  "author": "nChat Team",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.0.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.1",
+    "inquirer": "^9.2.15",
+    "cli-table3": "^0.6.3"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}

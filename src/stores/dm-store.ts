@@ -272,8 +272,9 @@ export const useDMStore = create<DMStore>()(
                 const dm = state.dms.get(dmId);
                 if (dm) {
                   const oldSlug = dm.slug;
-                  const updatedDM = { ...dm, ...updates, updatedAt: new Date().toISOString() };
-                  state.dms.set(dmId, updatedDM);
+
+                  // Mutate the draft directly (immer pattern)
+                  Object.assign(dm, updates, { updatedAt: new Date().toISOString() });
 
                   if (updates.slug && updates.slug !== oldSlug) {
                     state.dmsBySlug.delete(oldSlug);

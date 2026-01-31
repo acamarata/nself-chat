@@ -1,563 +1,285 @@
-# ɳChat Utilities Documentation
+# 📖 Guides
 
-Complete guide to the utility libraries, hooks, and systems available in ɳChat.
-
-## Table of Contents
-
-- [Environment Management](#environment-management)
-- [Logging](#logging)
-- [Error Handling](#error-handling)
-- [Performance Monitoring](#performance-monitoring)
-- [API Utilities](#api-utilities)
-- [Feature Flags](#feature-flags)
-- [Storage](#storage)
-- [Hooks](#hooks)
+Step-by-step implementation and usage guides for nself-chat.
 
 ---
 
-## Environment Management
+## 👤 User Guides
 
-### Location
-- `src/lib/env/validation.ts` - Environment variable validation
-- `src/lib/env/index.ts` - Environment utilities
-- `scripts/validate-env.ts` - CLI validation script
+### [📖 Complete User Guide](USER-GUIDE)
+Comprehensive guide for end users covering all features.
 
-### Features
-- Zod-based schema validation
-- Type-safe environment access
-- Production readiness checks
-- Health checks
-- Helpful error messages
+**Topics:** Setup wizard, Messaging, Channels, Calls, Settings, Notifications, Search, Security
 
-### Usage
-
-```typescript
-import { getPublicEnv, isDevelopment, isProduction } from '@/lib/env'
-
-// Get validated environment
-const env = getPublicEnv()
-console.log(env.NEXT_PUBLIC_APP_NAME) // Type-safe!
-
-// Environment checks
-if (isDevelopment()) {
-  // Development-only code
-}
-
-// Health check
-import { checkEnvHealth } from '@/lib/env'
-const { healthy, issues } = checkEnvHealth()
-if (!healthy) {
-  console.error('Environment issues:', issues)
-}
-```
-
-### CLI Validation
-
-```bash
-# Validate environment
-pnpm validate:env
-
-# Check production readiness
-pnpm validate:env:prod
-```
+**Perfect for:** End users learning to use nself-chat
 
 ---
 
-## Logging
+### [⚙️ Settings Quick Start](Settings-Quick-Start)
+Quick reference for user settings and preferences.
 
-### Location
-- `src/lib/logger/index.ts`
+**Topics:** Profile, Notifications, Privacy, Appearance, Security
 
-### Features
-- Structured logging with context
-- Multiple log levels (debug, info, warn, error)
-- Pretty printing in development, JSON in production
-- Function timing utilities
-- Error tracking integration placeholder
-
-### Usage
-
-```typescript
-import { logger, timeAsync, createLogger } from '@/lib/logger'
-
-// Basic logging
-logger.info('User logged in', { userId: '123' })
-logger.error('Failed to save', error, { operation: 'save-user' })
-
-// Time async operations
-const data = await timeAsync('fetchData', async () => {
-  return await fetch('/api/data')
-}, { userId: '123' })
-
-// Create contextual logger
-const userLogger = createLogger({ userId: '123', module: 'auth' })
-userLogger.info('Password changed')
-```
+**Perfect for:** Users customizing their experience
 
 ---
 
-## Error Handling
+## 👨‍💻 Developer Guides
 
-### Location
-- `src/components/error-boundary.tsx`
+### Messaging & Communication
 
-### Features
-- React Error Boundary component
-- Fallback UI with retry
-- Error hooks for async errors
-- Development error details
-- Automatic error logging
+#### [💬 Advanced Messaging Implementation](advanced-messaging-implementation-summary)
+Implement edit, delete, forward, pin, and star features.
 
-### Usage
+**Features:** Edit history, Soft delete, Multi-forward, Pin management, Star/bookmark
 
-```tsx
-import { ErrorBoundary, useAsyncError } from '@/components/error-boundary'
+#### [🔐 E2EE Implementation](E2EE-Implementation)
+Add end-to-end encryption to your channels.
 
-// Wrap components
-function App() {
-  return (
-    <ErrorBoundary>
-      <YourApp />
-    </ErrorBoundary>
-  )
-}
+**Features:** Signal Protocol, Key exchange, Device verification, Encrypted files
 
-// Custom fallback
-<ErrorBoundary fallback={<CustomErrorUI />}>
-  <Component />
-</ErrorBoundary>
+#### [🔍 Search Implementation](Search-Implementation)
+Integrate MeiliSearch for powerful search.
 
-// Throw async errors
-function Component() {
-  const throwError = useAsyncError()
-
-  const handleClick = async () => {
-    try {
-      await riskyOperation()
-    } catch (error) {
-      throwError(error) // Will be caught by ErrorBoundary
-    }
-  }
-}
-```
+**Features:** Full-text search, Advanced filters, Search operators, Saved searches
 
 ---
 
-## Performance Monitoring
+### Real-Time Communication
 
-### Location
-- `src/hooks/use-performance.ts`
+#### [📞 Call Management Guide](Call-Management-Guide)
+Manage voice and video calls in your application.
 
-### Features
-- Render counting and timing
-- Re-render debugging
-- Component mount timing
-- Debounce and throttle
-- Memory leak detection
-- Intersection observer performance
+**Topics:** Call setup, State management, Error handling, Quality monitoring
 
-### Usage
+#### [📺 Live Streaming Implementation](Live-Streaming-Implementation)
+Set up live streaming to channels.
 
-```tsx
-import {
-  useRenderCount,
-  useWhyDidYouUpdate,
-  usePerformanceMetrics,
-  useDebounce,
-  useThrottle,
-  useMemoryLeakDetector
-} from '@/hooks/use-performance'
+**Topics:** HLS setup, Stream encoding, Chat integration, Recording
 
-function MyComponent(props) {
-  // Track renders
-  const renderCount = useRenderCount()
+#### [🖥️ Screen Sharing Implementation](Screen-Sharing-Implementation)
+Add screen sharing to calls.
 
-  // Debug re-renders
-  useWhyDidYouUpdate('MyComponent', props)
+**Topics:** Screen capture API, Peer connection, Quality optimization
 
-  // Get metrics
-  const metrics = usePerformanceMetrics('MyComponent')
-  // metrics.renderCount, metrics.averageRenderTime, etc.
+#### [📹 Video Calling Implementation](Video-Calling-Implementation)
+Implement WebRTC video calling.
 
-  // Debounce search
-  const [search, setSearch] = useState('')
-  const debouncedSearch = useDebounce(search, 300)
+**Topics:** WebRTC setup, Media devices, Call signaling, ICE/STUN/TURN
 
-  // Throttle scroll
-  const [scrollY, setScrollY] = useState(0)
-  const throttledScrollY = useThrottle(scrollY, 100)
+#### [🎙️ Voice Calling Implementation](Voice-Calling-Implementation)
+Add voice calling to your app.
 
-  // Detect memory leaks
-  useMemoryLeakDetector('MyComponent')
+**Topics:** Audio setup, Noise suppression, Echo cancellation, Quality indicators
 
-  return <div>Rendered {renderCount} times</div>
-}
-```
+#### [📱 Mobile Call Optimizations](Mobile-Call-Optimizations)
+Optimize calls for mobile devices.
+
+**Topics:** Battery optimization, Network adaptation, Background support, Notifications
 
 ---
 
-## API Utilities
+### Testing & Quality
 
-### Location
-- `src/lib/api/retry.ts`
+#### [🧪 Testing Guide](testing-guide)
+Comprehensive testing strategies and examples.
 
-### Features
-- Exponential backoff with jitter
-- Configurable retry logic
-- Circuit breaker pattern
-- Specialized fetch/GraphQL retry
-- Automatic error detection
+**Topics:** Unit tests, Integration tests, E2E tests, Coverage
 
-### Usage
+#### [🎨 Visual Regression Testing](visual-regression-testing)
+Prevent UI regressions with visual testing.
 
-```typescript
-import {
-  retryAsync,
-  retryFetch,
-  retryGraphQL,
-  CircuitBreaker
-} from '@/lib/api/retry'
+**Topics:** Screenshot comparison, CI integration, Test organization
 
-// Basic retry
-const data = await retryAsync(
-  () => fetch('/api/data'),
-  {
-    maxRetries: 3,
-    initialDelay: 1000,
-    onRetry: (error, attempt) => {
-      console.log(`Retry ${attempt}:`, error)
-    }
-  }
-)
-
-// Retry fetch with smart defaults
-const response = await retryFetch('/api/users', {
-  method: 'POST',
-  body: JSON.stringify({ name: 'John' })
-})
-
-// Retry GraphQL
-const result = await retryGraphQL<UsersQuery>(
-  'query { users { id name } }',
-  { limit: 10 }
-)
-
-// Circuit breaker
-const breaker = new CircuitBreaker(5, 60000) // 5 failures, 60s timeout
-
-try {
-  const data = await breaker.execute(() => fetch('/api/data'))
-} catch (error) {
-  if (error.message === 'Circuit breaker is OPEN') {
-    // Handle circuit open
-  }
-}
-```
+#### [📊 Test Coverage Report](test-coverage-report)
+Current test coverage and improvement plans.
 
 ---
 
-## Feature Flags
+### Accessibility & Internationalization
 
-### Location
-- `src/lib/features/flags.ts`
+#### [♿ Accessibility Guide](accessibility)
+Make your app accessible to everyone.
 
-### Features
-- Toggle features without deployment
-- Environment-based flags
-- Role-based access
-- Percentage rollouts
-- User whitelist
-- LocalStorage overrides
+**Topics:** WCAG compliance, Screen readers, Keyboard navigation, ARIA
 
-### Usage
+#### [♿ Accessibility Quick Reference](accessibility-quick-reference)
+Quick tips for accessibility.
 
-```typescript
-import {
-  isFeatureEnabled,
-  featureFlags,
-  getEnabledFeatures
-} from '@/lib/features/flags'
+#### [📊 Screen Reader Testing Report](screen-reader-testing-report)
+Screen reader compatibility testing results.
 
-// Check if feature enabled
-if (isFeatureEnabled('video_calls')) {
-  // Show video call UI
-}
+#### [🎨 Color Contrast Report](color-contrast-report)
+Color contrast audit and recommendations.
 
-// Check with user context
-const enabled = isFeatureEnabled('analytics_dashboard', {
-  userId: '123',
-  role: 'admin'
-})
+#### [🌍 Internationalization](internationalization)
+Add multi-language support.
 
-// Override for testing
-featureFlags.override('ai_assistant', true)
+**Topics:** i18n setup, Language files, RTL support, Date/time formatting
 
-// Get all enabled features
-const features = getEnabledFeatures({ userId: '123', role: 'member' })
-// ['message_reactions', 'polls', 'scheduled_messages', ...]
-```
-
-### Available Flags
-
-**Experimental**: `voice_messages`, `video_calls`, `screen_sharing`, `ai_assistant`, `crypto_wallet`, `nft_avatars`
-
-**Beta**: `advanced_search`, `message_reactions`, `custom_emojis`, `polls`, `scheduled_messages`, `message_forwarding`
-
-**Admin**: `analytics_dashboard`, `audit_logs`, `advanced_moderation`, `custom_integrations`
-
-**Performance**: `lazy_load_messages`, `virtual_scrolling`, `image_optimization`, `web_workers`
-
-**Development**: `debug_mode`, `performance_monitoring`, `error_logging`
+#### [🌍 i18n Implementation Summary](i18n-implementation-summary)
+Summary of internationalization implementation.
 
 ---
 
-## Storage
+### Integration
 
-### Location
-- `src/lib/storage/local-storage.ts`
+#### [🔌 Integration Examples](integration-examples)
+Code examples for common integrations.
 
-### Features
-- Type-safe localStorage access
-- TTL (time-to-live) support
-- Automatic serialization
-- Error handling
-- Multi-tab sync
-- React hooks
-
-### Usage
-
-```typescript
-import {
-  storage,
-  useLocalStorage,
-  useExpiringStorage
-} from '@/lib/storage/local-storage'
-
-// Direct API
-storage.set('user', { name: 'John', age: 30 })
-const user = storage.get<User>('user')
-storage.remove('user')
-
-// With TTL
-storage.set('session', sessionData, { ttl: 3600000 }) // 1 hour
-
-// React hook
-function Component() {
-  const [theme, setTheme] = useLocalStorage('theme', 'dark')
-
-  return (
-    <button onClick={() => setTheme('light')}>
-      Current: {theme}
-    </button>
-  )
-}
-
-// Expiring storage hook
-function CachedData() {
-  const [data, setData] = useExpiringStorage(
-    'api-cache',
-    null,
-    300000 // 5 minutes
-  )
-
-  useEffect(() => {
-    if (!data) {
-      fetchData().then(setData)
-    }
-  }, [data])
-}
-```
+**Topics:** Slack, GitHub, Jira, webhooks, custom integrations
 
 ---
 
-## Hooks
+## 🏢 Enterprise Guides
 
-### Network Detection
+### [🏢 Enterprise Overview](enterprise/README)
+Enterprise features overview and setup.
 
-```typescript
-import {
-  useOnline,
-  useConnectionQuality,
-  useIsSlowConnection
-} from '@/hooks/use-online'
+**Features:** SSO, RBAC, Audit logging, Compliance
 
-function NetworkStatus() {
-  const isOnline = useOnline({
-    onOffline: () => toast.error('You are offline'),
-    onOnline: () => toast.success('Back online')
-  })
-
-  const { effectiveType, downlink } = useConnectionQuality()
-  const isSlowConnection = useIsSlowConnection()
-
-  return (
-    <div>
-      Status: {isOnline ? 'Online' : 'Offline'}
-      Connection: {effectiveType} ({downlink} Mbps)
-      {isSlowConnection && <div>Slow connection detected</div>}
-    </div>
-  )
-}
-```
+**Includes:**
+- [🔐 SSO Setup](enterprise/SSO-Setup) - Single sign-on
+- [👥 RBAC Guide](enterprise/RBAC-Guide) - Role-based access control
+- [📝 Audit Logging](enterprise/Audit-Logging) - Compliance and auditing
+- [📊 Implementation Summary](enterprise/Implementation-Summary) - Enterprise features
 
 ---
 
-## Best Practices
+## 🔧 Backend Guides
 
-### Environment Variables
-1. Always validate environment variables at startup
-2. Use `getPublicEnv()` instead of accessing `process.env` directly
-3. Run `pnpm validate:env:prod` before production deployment
+### [🛠️ nself CLI Setup](backend/nself-cli-setup)
+Set up the nself CLI backend infrastructure.
 
-### Logging
-1. Use structured logging with context
-2. Log at appropriate levels (debug, info, warn, error)
-3. Never log sensitive information (passwords, tokens, etc.)
-4. Use `timeAsync` to measure performance-critical operations
+**Topics:** Installation, Configuration, Services, Environment
 
-### Error Handling
-1. Wrap app root in `<ErrorBoundary>`
-2. Use `useAsyncError` for throwing async errors
-3. Provide user-friendly error messages
-4. Log errors for debugging
+### [🚀 nself CLI Deployment](backend/nself-cli-deployment)
+Deploy nself CLI to production.
 
-### Performance
-1. Use `useDebounce` for search inputs
-2. Use `useThrottle` for scroll handlers
-3. Monitor render counts with `useRenderCount`
-4. Debug re-renders with `useWhyDidYouUpdate`
-
-### API Calls
-1. Use `retryFetch` for all API calls
-2. Implement circuit breakers for critical services
-3. Handle network errors gracefully
-4. Show loading and error states
-
-### Feature Flags
-1. Use feature flags for gradual rollouts
-2. Test new features with percentage rollouts
-3. Gate risky features behind flags
-4. Clean up old flags after rollout
-
-### Storage
-1. Use type-safe storage wrappers
-2. Set appropriate TTLs for cached data
-3. Handle storage quota errors
-4. Clean up expired data regularly
+**Topics:** Production config, Docker deployment, K8s deployment, Monitoring
 
 ---
 
-## Testing
+## 🚀 Deployment Guides
 
-### Environment Validation
-```bash
-pnpm validate:env
-```
+### [📋 Deployment Overview](deployment/README)
+Complete deployment guide index.
 
-### Feature Flags
-```typescript
-// In tests
-import { featureFlags } from '@/lib/features/flags'
+### Platform-Specific Deployment
 
-beforeEach(() => {
-  featureFlags.override('my_feature', true)
-})
+#### [🐳 Docker Deployment](deployment/docker-deployment)
+Deploy with Docker and Docker Compose.
 
-afterEach(() => {
-  featureFlags.clearAllOverrides()
-})
-```
+**Topics:** docker-compose.yml, Environment variables, Volume management, Networking
 
-### Logging
-```typescript
-// Mock logger in tests
-jest.mock('@/lib/logger', () => ({
-  logger: {
-    info: jest.fn(),
-    error: jest.fn(),
-    // ...
-  }
-}))
-```
+#### [☸️ Kubernetes/Self-Hosted](deployment/self-hosted)
+Deploy to Kubernetes clusters.
 
----
+**Topics:** Manifests, Helm charts, Ingress, Secrets
 
-## Migration Guide
+**Related:**
+- [📋 Self-Hosted Index](deployment/self-hosted-index)
+- [🔧 Self-Hosted Troubleshooting](deployment/self-hosted-troubleshooting)
 
-### From console.log to logger
-```diff
-- console.log('User logged in', userId)
-+ logger.info('User logged in', { userId })
+#### [📱 Mobile Deployment](deployment/mobile-deployment)
+Deploy to iOS and Android.
 
-- console.error('Failed', error)
-+ logger.error('Failed', error, { context })
-```
+**Topics:** Capacitor build, App signing, Store submission, Push notifications
 
-### From direct localStorage to wrapper
-```diff
-- localStorage.setItem('key', JSON.stringify(value))
-+ storage.set('key', value)
+**Related:**
+- [🔧 Mobile Troubleshooting](deployment/mobile-deployment-troubleshooting)
 
-- const value = JSON.parse(localStorage.getItem('key') || 'null')
-+ const value = storage.get<Type>('key')
-```
+#### [🖥️ Desktop Deployment](deployment/desktop-deployment)
+Build desktop apps with Tauri or Electron.
 
-### From fetch to retryFetch
-```diff
-- const response = await fetch('/api/data')
-+ const response = await retryFetch('/api/data', {}, {
-+   maxRetries: 3
-+ })
-```
+**Topics:** App bundling, Auto-updates, Code signing, Distribution
+
+#### [☁️ Vercel Deployment](deployment/vercel-deployment)
+Deploy to Vercel platform.
+
+**Topics:** Vercel config, Environment variables, Preview deployments
 
 ---
 
-## Performance Tips
+### Deployment Tools
 
-1. **Lazy load heavy features** behind feature flags
-2. **Use debounce/throttle** for expensive operations
-3. **Monitor render counts** in development
-4. **Cache API responses** with TTL storage
-5. **Implement circuit breakers** for external services
+#### [📋 Deployment Checklist](deployment/DEPLOYMENT-CHECKLIST)
+Pre-deployment checklist for production.
 
----
+#### [📊 Deployment Summary](deployment/DEPLOYMENT-SUMMARY)
+Complete deployment capabilities overview.
 
-## Troubleshooting
+#### [✍️ Code Signing](deployment/code-signing)
+Sign your desktop and mobile apps.
 
-### Environment validation fails
-- Check `.env.local` file exists
-- Verify all required variables are set
-- Run `pnpm validate:env` for details
+#### [🏭 Production Deployment](deployment/production-deployment)
+Production deployment best practices.
 
-### Feature flags not working
-- Check user context is set: `featureFlags.setUserContext(userId, role)`
-- Verify environment matches flag requirements
-- Check browser console for flag state
-
-### Storage quota exceeded
-- Clear old data: `storage.cleanup()`
-- Reduce TTL for cached data
-- Consider using IndexedDB for large data
-
-### Retry exhausted
-- Check network connectivity
-- Verify API endpoint is accessible
-- Increase `maxRetries` if needed
-- Check circuit breaker state
+#### [⚡ Quick Reference](deployment/quick-reference)
+Deployment quick reference guide.
 
 ---
 
-## Related Documentation
+## 🔧 Development Guides
 
-- [API Documentation](../API.md)
-- [Configuration Guide](../CONFIGURATION.md)
-- [Deployment Guide](../DEPLOYMENT.md)
-- [Contributing Guidelines](../../CONTRIBUTING.md)
+### [🛠️ Development Overview](development/README)
+Development environment setup and tools.
+
+### [💻 CLI Usage](development/cli-usage)
+Command-line tools and utilities.
+
+### [📦 SDK Usage](development/sdk-usage)
+SDK documentation and examples.
 
 ---
 
-**Need Help?**
+## 🚀 Performance
 
-- Check the [FAQ](../FAQ.md)
-- Open a [Discussion](https://github.com/acamarata/nself-chat/discussions)
-- Report a [Bug](https://github.com/acamarata/nself-chat/issues/new?template=bug_report.yml)
+### [⚡ Optimization Guide](performance/optimization)
+Performance optimization strategies.
+
+**Topics:** Bundle optimization, Code splitting, Lazy loading, Caching
+
+---
+
+## 🎯 Guides by Role
+
+### For End Users
+- **[User Guide](USER-GUIDE)** - Complete user documentation
+- **[Settings Quick Start](Settings-Quick-Start)** - Customize your experience
+
+### For Developers
+- **[Advanced Messaging](advanced-messaging-implementation-summary)** - Messaging features
+- **[E2EE Implementation](E2EE-Implementation)** - Add encryption
+- **[Search Implementation](Search-Implementation)** - Add search
+- **[Testing Guide](testing-guide)** - Test your code
+- **[Integration Examples](integration-examples)** - Integration code
+
+### For Administrators
+- **[Enterprise Overview](enterprise/README)** - Enterprise features
+- **[SSO Setup](enterprise/SSO-Setup)** - Single sign-on
+- **[Audit Logging](enterprise/Audit-Logging)** - Compliance
+
+### For DevOps
+- **[nself CLI Setup](backend/nself-cli-setup)** - Backend setup
+- **[Docker Deployment](deployment/docker-deployment)** - Docker deploy
+- **[Kubernetes](deployment/self-hosted)** - K8s deploy
+- **[Production Deployment](deployment/production-deployment)** - Best practices
+
+---
+
+## 🆘 Need Help?
+
+- **[FAQ](../troubleshooting/FAQ)** - Frequently asked questions
+- **[Troubleshooting](../troubleshooting/TROUBLESHOOTING)** - Common issues
+- **[Runbook](../troubleshooting/RUNBOOK)** - Operations guide
+
+---
+
+<div align="center">
+
+**[⬆ Back to Home](../Home)**
+
+**[Edit this page on GitHub](https://github.com/acamarata/nself-chat/edit/main/docs/guides/README.md)**
+
+</div>

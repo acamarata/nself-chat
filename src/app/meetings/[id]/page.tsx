@@ -7,6 +7,7 @@
  */
 
 import * as React from 'react';
+import { Suspense } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -40,7 +41,7 @@ type PageState = 'loading' | 'preview' | 'joining' | 'in-meeting' | 'error' | 'e
 // Component
 // ============================================================================
 
-export default function MeetingRoomPage() {
+function MeetingRoomPageContent() {
   const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -347,4 +348,17 @@ export default function MeetingRoomPage() {
   }
 
   return null;
+}
+
+export default function MeetingRoomPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+        <Loader2 className="h-12 w-12 animate-spin mb-4" />
+        <p>Loading meeting...</p>
+      </div>
+    }>
+      <MeetingRoomPageContent />
+    </Suspense>
+  );
 }

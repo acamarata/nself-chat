@@ -2,6 +2,7 @@
 
 import { useMemo, memo, useState } from 'react'
 import Link from 'next/link'
+import DOMPurify from 'dompurify'
 import { cn } from '@/lib/utils'
 
 interface MessageContentProps {
@@ -68,12 +69,23 @@ export const MessageContent = memo(function MessageContent({
     )
   }
 
-  // If pre-rendered HTML is provided, use it
+  // If pre-rendered HTML is provided, sanitize and use it
   if (contentHtml) {
+    // Sanitize HTML to prevent XSS attacks
+    const sanitizedHtml = DOMPurify.sanitize(contentHtml, {
+      ALLOWED_TAGS: [
+        'p', 'br', 'strong', 'em', 'u', 'del', 'code', 'pre',
+        'a', 'ul', 'ol', 'li', 'blockquote', 'h1', 'h2', 'h3',
+        'h4', 'h5', 'h6', 'span', 'div', 'img'
+      ],
+      ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'target', 'rel'],
+      ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+    })
+
     return (
       <div
         className={cn('message-content prose prose-sm dark:prose-invert', className)}
-        dangerouslySetInnerHTML={{ __html: contentHtml }}
+        dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
       />
     )
   }

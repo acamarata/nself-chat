@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { reactionBurst, reactionPillHover } from '@/lib/animations'
 import type { Reaction, MessageUser } from '@/types/message'
 
 interface MessageReactionsProps {
@@ -92,11 +93,12 @@ function ReactionPill({ reaction, onClick, compact }: ReactionPillProps) {
       <Tooltip open={isHovering && reaction.users.length > 0}>
         <TooltipTrigger asChild>
           <motion.button
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            variants={reactionBurst}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            whileHover="hover"
+            whileTap="tap"
             onClick={onClick}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}

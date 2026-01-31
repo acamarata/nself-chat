@@ -60,6 +60,7 @@ import {
   compose,
   type AuthenticatedRequest,
 } from '@/lib/api/middleware'
+import { withCsrfProtection } from '@/lib/security/csrf'
 
 // ============================================================================
 // Configuration
@@ -725,6 +726,7 @@ export const GET = compose(
 
 export const POST = compose(
   withErrorHandler,
+  withCsrfProtection,
   withRateLimit(CONFIG.RATE_LIMIT),
   withAuth
 )(handlePost)

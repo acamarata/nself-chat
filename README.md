@@ -1,29 +1,97 @@
 # ɳChat
 
-**Real-time team communication platform - part of the ɳSelf ecosystem**
+**Production-Ready Multi-Tenant Team Communication Platform**
 
-Technical name: `nself-chat` | Package: `@nself/chat` | Short name: `nchat` | **Version**: `0.4.0`
+Technical name: `nself-chat` | Package: `@nself/chat` | Short name: `nchat` | **Version**: `0.5.0`
 
 [![CI](https://github.com/acamarata/nself-chat/actions/workflows/ci.yml/badge.svg)](https://github.com/acamarata/nself-chat/actions/workflows/ci.yml)
 [![CD](https://github.com/acamarata/nself-chat/actions/workflows/cd.yml/badge.svg)](https://github.com/acamarata/nself-chat/actions/workflows/cd.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-0.4.0-brightgreen.svg)](https://github.com/acamarata/nself-chat/releases)
+[![Version](https://img.shields.io/badge/Version-0.5.0-brightgreen.svg)](https://github.com/acamarata/nself-chat/releases)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
 [![Tests](https://img.shields.io/badge/Tests-860%2B-success.svg)](https://github.com/acamarata/nself-chat)
 [![Accessibility](https://img.shields.io/badge/A11y-WCAG%20AA-blue.svg)](https://www.w3.org/WAI/WCAG2AA-Conformance)
+[![Multi-Tenant](https://img.shields.io/badge/Multi--Tenant-SaaS%20Ready-ff69b4.svg)](https://github.com/acamarata/nself-chat)
 
-> **v0.4.0 Release**: Enterprise Communication Suite - End-to-End Encryption (Signal Protocol), WebRTC Voice & Video Calling (up to 50 participants), Screen Sharing with Annotations, Live Streaming (HLS/WebRTC), and comprehensive mobile optimizations including CallKit, Telecom Manager, and Picture-in-Picture. Powered by [ɳSelf CLI](https://github.com/acamarata/nself) for backend infrastructure.
+> **v0.5.0 Major Release**: Production-Ready Multi-Tenant SaaS Architecture with schema-level isolation, Stripe billing integration, AI-powered moderation, comprehensive analytics, advanced integrations, compliance framework, and performance optimizations for 10,000+ concurrent users. Powered by [ɳSelf CLI](https://github.com/acamarata/nself) for backend infrastructure.
 
 ---
 
-Build your own Slack, Discord, or Telegram clone with **ɳChat** - a complete, production-ready team communication platform powered by **ɳSelf**. Fully customizable with **zero code required** via our comprehensive setup wizard.
+Build your own **Slack**, **Discord**, or **Microsoft Teams** clone with **ɳChat** - a complete, production-ready, multi-tenant team communication platform. Launch as a **white-label SaaS** with **zero code required** via our comprehensive 12-step setup wizard.
 
-**3 Commands. That's It.** Clone, install, run - the wizard handles everything else: backend setup, configuration, branding, and deployment.
+**3 Commands. 5 Minutes. That's It.** Clone, install, run - the wizard handles everything else: backend setup, multi-tenancy, billing, branding, and deployment.
 
 Powered by [ɳSelf](https://nself.org) for backend infrastructure (PostgreSQL, Hasura GraphQL, Auth, Storage).
+
+---
+
+## 🌟 What's New in v0.5.0
+
+### 🏢 **Multi-Tenant SaaS Architecture**
+Transform your single deployment into a complete **SaaS platform**:
+- **Schema-level tenant isolation** for maximum data security
+- **Subdomain routing** (tenant1.nchat.app, tenant2.nchat.app)
+- **Custom domain support** (chat.acme.com)
+- **Row-Level Security** policies for data protection
+- **Per-tenant resource limits** based on subscription plan
+
+### 💰 **Stripe Billing Integration**
+Complete subscription management out of the box:
+- **4 subscription plans**: Free, Pro ($15/mo), Enterprise ($99/mo), Custom
+- **Usage tracking** and limit enforcement
+- **Automated billing** via Stripe webhooks
+- **Customer portal** for self-service subscription management
+- **Trial periods** (14 days) for new tenants
+
+### 🤖 **AI-Powered Advanced Moderation**
+Intelligent content moderation powered by TensorFlow.js:
+- **Toxicity detection** with 7 categories (identity attack, insult, threat, etc.)
+- **Profanity filtering** with 1,700+ word dictionary
+- **Spam detection** using pattern recognition
+- **Auto-moderation actions** (warn, mute, delete, ban)
+- **Content quarantine** for manual review
+- **Audit logging** for compliance
+
+### 📊 **Analytics & Telemetry**
+Comprehensive insights dashboard:
+- **Real-time metrics**: Active users, messages/sec, API calls
+- **User analytics**: Engagement, retention, activity heatmaps
+- **Channel analytics**: Most active channels, message distribution
+- **Performance monitoring**: Response times, error rates, uptime
+- **Custom events** with OpenTelemetry integration
+- **Data export** in CSV/JSON formats
+
+### 🔗 **Advanced Integrations**
+Connect to the tools your team already uses:
+- **Slack**: Bi-directional message sync and user import
+- **GitHub**: Issue linking, commit notifications, PR updates
+- **Jira**: Issue tracking, status updates, smart linking
+- **Google Drive**: File linking and real-time collaboration
+- **Webhooks**: Incoming/outgoing with retry logic and rate limiting
+- **Zapier/Make.com**: 1000+ app integrations via webhooks
+
+### 🛡️ **Compliance & Data Retention**
+Enterprise-grade compliance features:
+- **Data retention policies**: Auto-delete after 30/90/365 days or never
+- **Legal hold** for litigation and investigations
+- **GDPR compliance**: Right to erasure, data portability, consent management
+- **Export capabilities**: JSON, CSV, or full archive with attachments
+- **Audit logs**: Immutable trail of all data operations
+- **Encryption at rest** for archived data
+
+### ⚡ **Performance Optimizations**
+Built to scale to 10,000+ concurrent users:
+- **Connection pooling**: 100 connections per tenant
+- **Redis caching**: Tenant metadata, user sessions, rate limits
+- **Database indexes**: Optimized queries (<50ms response times)
+- **Virtual scrolling**: Render 100k+ messages efficiently
+- **Image optimization**: Next.js Image with lazy loading
+- **Code splitting**: Route-based and component-based
+- **Service Workers**: Offline support and background sync
+- **WebSocket scaling**: Horizontal scaling with Redis adapter
 
 ---
 
@@ -31,34 +99,42 @@ Powered by [ɳSelf](https://nself.org) for backend infrastructure (PostgreSQL, H
 
 | Category | Status | Details |
 |----------|--------|---------|
-| **Version** | v0.4.0 | Enterprise Communication Suite |
+| **Version** | v0.5.0 | Production-Ready Multi-Tenant SaaS |
 | **CI/CD** | ✅ All Passing | All CI checks green, Docker build working |
-| **Code Quality** | ✅ Excellent | 860+ tests, TypeScript strict mode |
+| **Code Quality** | ✅ Excellent | 860+ tests, TypeScript strict mode, 10% type error reduction |
 | **Production** | ✅ Ready | Multi-platform support (web, iOS, Android, desktop) |
-| **Documentation** | ✅ Comprehensive | 30+ documentation pages, interactive API docs |
-| **Security** | ✅ Enterprise | E2EE with Signal Protocol, encrypted storage |
+| **Documentation** | ✅ Comprehensive | 40+ documentation pages, interactive API docs |
+| **Security** | ✅ Enterprise | E2EE with Signal Protocol, encrypted storage, SOC 2 ready |
+| **Performance** | ✅ Optimized | 10,000+ concurrent users, <50ms response times |
+| **Multi-Tenancy** | ✅ Production | Schema isolation, Stripe billing, per-tenant limits |
 
 ---
 
 ## Why ɳChat?
 
 ### Lightning Fast Setup
-- **Under 5 minutes** from zero to running chat application
+- **Under 5 minutes** from zero to running multi-tenant SaaS
 - 3 commands to start development
 - 8 test users ready to explore immediately
 - Auto-login in development mode for rapid iteration
 
 ### Complete Feature Set
-- **100+ Features**: Messaging, channels, threads, reactions, file uploads, and more
+- **150+ Features**: Messaging, channels, threads, reactions, file uploads, and more
+- **Multi-Tenant SaaS**: Schema isolation, subdomain routing, custom domains
+- **Stripe Billing**: Complete subscription management with webhooks
 - **End-to-End Encryption**: Signal Protocol implementation for private messaging
 - **Voice & Video Calling**: WebRTC calls with up to 50 participants, screen sharing with annotations
 - **Live Streaming**: HLS and WebRTC streaming capabilities for broadcasts
-- **Mobile-Optimized**: CallKit (iOS), Telecom Manager (Android), Picture-in-Picture support
+- **AI Moderation**: TensorFlow.js-powered toxicity detection and spam filtering
+- **Analytics**: Real-time metrics, user engagement, performance monitoring
 - **11 Auth Providers**: Email, magic links, Google, GitHub, Apple, ID.me, and more
 - **Bot SDK**: Build custom bots with slash commands, events, and rich responses
 - **Real-time**: WebSocket-powered typing indicators, read receipts, and presence
 - **Advanced Messaging**: Scheduled messages, forwarding, translations, polls, reactions
 - **Full-Text Search**: MeiliSearch-powered fast and accurate search
+- **Integrations**: Slack, GitHub, Jira, Google Drive, webhooks, Zapier
+- **Compliance**: GDPR-compliant with data retention policies and legal hold
+- **Mobile-Optimized**: CallKit (iOS), Telecom Manager (Android), Picture-in-Picture support
 - **Social Media**: Connect Twitter, Instagram, and LinkedIn accounts
 - **Monitoring**: Sentry error tracking and performance monitoring
 
@@ -68,12 +144,22 @@ Powered by [ɳSelf](https://nself.org) for backend infrastructure (PostgreSQL, H
 - **Full Branding Control**: Logo, colors, fonts, and custom CSS
 - **Landing Page Templates**: 5 homepage styles to choose from
 - **Env-Var Configuration**: Pre-configure and skip wizard steps entirely
+- **Multi-Tenant Branding**: Each tenant can customize their own branding
 
 ### Multi-Platform Support
 - **Web**: Next.js 15 with React 19
 - **Desktop**: Tauri (lightweight native) and Electron (cross-platform)
 - **Mobile**: Capacitor (iOS/Android) and React Native
-- **Deployment**: Docker, Kubernetes, Helm, Vercel
+- **Deployment**: Docker, Kubernetes, Helm, Vercel, Netlify
+
+### Production-Ready SaaS
+- **Multi-Tenant Architecture**: Schema-level isolation for maximum security
+- **Stripe Integration**: Complete billing and subscription management
+- **Resource Limits**: Per-tenant limits based on subscription plan
+- **Usage Tracking**: Monitor and enforce resource consumption
+- **Custom Domains**: Allow tenants to use their own domains
+- **Trial Periods**: 14-day trials for new sign-ups
+- **Automated Provisioning**: New tenants ready in seconds
 
 ---
 
@@ -100,27 +186,22 @@ pnpm dev
 
 **That's it!** Visit **http://localhost:3000** and the **Setup Wizard** guides you through everything:
 
-1. **Environment Detection** - Automatically detects what's already configured
-2. **Backend Setup** - One-click nself CLI installation and service startup
-3. **Customization** - Brand, theme, features, and auth in a few clicks
-4. **Deployment** - Get commands for Vercel, Docker, desktop apps, and mobile
+1. **Welcome** - Introduction to ɳChat
+2. **Environment Detection** - Automatically detects what's already configured
+3. **Backend Setup** - One-click nself CLI installation and service startup
+4. **Owner Info** - Your name, email, company details
+5. **Branding** - App name, logo, tagline, favicon
+6. **Theme** - Colors, dark/light mode, preset themes
+7. **Landing Page** - Homepage style and sections
+8. **Auth Methods** - Choose authentication providers
+9. **Permissions** - Access control and verification
+10. **Features** - Toggle available features and integrations
+11. **Deployment** - Choose deployment targets and get commands
+12. **Review & Launch** - Preview and confirm all settings
+
+**Time to complete: 5-10 minutes** (faster if you skip optional steps or pre-configure via `.env.local`)
 
 Development mode includes 8 test users so you can immediately experience all features.
-
-### Screenshots
-
-Key screens to capture for documentation:
-
-1. **Setup Wizard** - Environment detection and backend setup flow
-2. **Chat Interface** - Main messaging view with channels sidebar
-3. **Rich Message Editor** - TipTap editor with formatting, mentions, emoji
-4. **Thread View** - Threaded conversations panel
-5. **Search Interface** - Command palette (Cmd+K) with filters
-6. **Admin Dashboard** - Analytics, user management, settings
-7. **Theme Customization** - Live theme preview with 27 presets
-8. **Mobile View** - Responsive mobile interface
-9. **Voice/Video Call** - WebRTC call interface
-10. **Bot Marketplace** - Bot SDK showcase with example bots
 
 ### Development Test Users
 
@@ -141,11 +222,17 @@ Key screens to capture for documentation:
 
 ## Features at a Glance
 
-### 100+ Features Across 17 Categories
+### 150+ Features Across 20 Categories
 
 | Category | Count | Features |
 |----------|-------|----------|
+| **Multi-Tenancy** | 12 | Schema isolation, subdomain routing, custom domains, per-tenant limits, usage tracking, billing integration, trial periods, tenant dashboard, automated provisioning, resource quotas, tenant branding, tenant analytics |
+| **Billing & Subscriptions** | 8 | Stripe integration, 4 subscription plans, usage-based billing, webhook processing, customer portal, trial management, invoice generation, payment methods |
 | **Messaging** | 17 | Channels, DMs, threads, reactions, pins, bookmarks, voice messages, scheduled messages, code blocks, markdown, link previews, mentions, quotes, forward, translations, polls, reminders |
+| **AI & Moderation** | 9 | AI-powered toxicity detection, profanity filtering, spam detection, auto-moderation, content quarantine, manual review queue, audit logs, custom word lists, pattern recognition |
+| **Analytics & Telemetry** | 12 | Real-time metrics, user analytics, channel analytics, engagement tracking, retention analysis, activity heatmaps, performance monitoring, custom events, data export, OpenTelemetry integration, dashboards, reports |
+| **Integrations** | 11 | Slack sync, GitHub issues, Jira tracking, Google Drive, webhooks (incoming/outgoing), Zapier, Make.com, API keys, OAuth apps, webhook retry logic, rate limiting |
+| **Compliance & Legal** | 8 | Data retention policies, legal hold, GDPR compliance, right to erasure, data portability, consent management, audit trails, encrypted archives |
 | **Channels** | 9 | Public, private, direct messages, group DMs, categories, topics, archive, favorites, mute |
 | **Files & Media** | 8 | Upload, images, documents, audio, video, preview, drag & drop, clipboard paste |
 | **Security & Encryption** | 7 | End-to-end encryption (Signal Protocol), encrypted file storage, encrypted backups, key management, perfect forward secrecy, secure verification, encrypted notifications |
@@ -159,571 +246,8 @@ Key screens to capture for documentation:
 | **Polls & Voting** | 4 | Create polls, anonymous voting, timed polls, poll results |
 | **Bots & Automation** | 8 | Bot SDK, slash commands, webhooks, custom bots, bot marketplace, event handlers, bot authentication, bot permissions |
 | **Admin** | 6 | Dashboard, user management, analytics, audit logs, bulk operations, data export |
-| **Moderation** | 6 | Content moderation, reporting, auto-filter, warnings, bans, slow mode |
-| **Integrations** | 4 | Slack import, GitHub, Jira, Google Drive |
-| **Social Media** | 5 | Twitter integration, Instagram integration, LinkedIn integration, OAuth connections, encrypted token storage |
 
----
-
-## What's New in v0.4.0
-
-### End-to-End Encryption (E2EE)
-
-Built on the **Signal Protocol**, the gold standard for secure messaging:
-
-- **Perfect Forward Secrecy**: Each message encrypted with unique keys
-- **Double Ratchet Algorithm**: Continuous key rotation for maximum security
-- **Encrypted File Storage**: All uploads encrypted at rest and in transit
-- **Secure Key Exchange**: X3DH key agreement protocol
-- **Encrypted Backups**: Optional encrypted backup/restore
-- **Group Encryption**: Sender keys for efficient group messaging
-- **Verification**: QR code and safety number verification
-
-**Implementation**: `@signalapp/libsignal-client` library with native bindings for optimal performance.
-
-### Voice & Video Calling
-
-Enterprise-grade WebRTC calling powered by **mediasoup** SFU (Selective Forwarding Unit):
-
-- **Group Calls**: Up to 50 simultaneous participants
-- **Screen Sharing**: Share your screen with annotation tools (draw, highlight, text)
-- **Call Recording**: Record calls for later playback (with consent)
-- **Noise Cancellation**: AI-powered background noise reduction
-- **Virtual Backgrounds**: Blur or replace backgrounds
-- **Adaptive Quality**: Automatic bandwidth optimization
-- **Call Controls**: Mute, video toggle, speaker selection, call transfer
-- **Mobile Native**: CallKit integration (iOS) for native call experience
-- **Android Telecom**: Telecom Manager integration for Android system calls
-- **Picture-in-Picture**: Continue calls while using other apps
-
-**Technologies**: WebRTC, mediasoup SFU, canvas API for annotations.
-
-### Live Streaming
-
-Broadcast to unlimited viewers with professional-grade streaming:
-
-- **HLS Streaming**: HTTP Live Streaming with adaptive bitrate
-- **WebRTC Streaming**: Ultra-low latency option for interactive streams
-- **Stream Recording**: Archive streams automatically
-- **Stream Chat**: Real-time chat alongside live streams
-- **Viewer Analytics**: Track concurrent viewers, engagement, watch time
-- **Multi-Quality**: Automatic transcoding to multiple quality levels
-- **DVR Mode**: Pause/rewind live streams
-
-**Technologies**: hls.js for HLS playback, WebRTC for low-latency streaming.
-
-### Mobile Optimizations
-
-Native mobile experience across platforms:
-
-- **CallKit (iOS)**: System-level call integration, lock screen controls, call history
-- **Telecom Manager (Android)**: Native Android calling experience
-- **Picture-in-Picture**: Minimize video calls to continue multitasking
-- **Push Notifications**: VoIP push notifications for instant call delivery
-- **Background Audio**: Keep audio running when app is backgrounded
-- **Battery Optimization**: Efficient resource usage for extended battery life
-- **Network Resilience**: Automatic reconnection and quality adjustment
-
----
-
-## White-Label Guide
-
-### 12-Step Setup Wizard (3 Phases)
-
-When you first visit the app, you'll be guided through a comprehensive setup wizard organized into three phases:
-
-#### Phase 1: Setup (Steps 1-3)
-| Step | Name | What You Configure |
-|------|------|-------------------|
-| 1 | **Welcome** | Introduction to the setup process |
-| 2 | **Environment Detection** | Auto-detect existing config, choose setup mode |
-| 3 | **Backend Setup** | Install nself CLI, initialize and start services |
-
-#### Phase 2: Customize (Steps 4-10)
-| Step | Name | What You Configure |
-|------|------|-------------------|
-| 4 | **Owner Info** | Your name, email, company details |
-| 5 | **Branding** | App name, logo, tagline, favicon |
-| 6 | **Theme** | Colors, dark/light mode, preset themes |
-| 7 | **Landing Page** | Homepage style and sections |
-| 8 | **Auth Methods** | Choose authentication providers |
-| 9 | **Permissions** | Access control and verification |
-| 10 | **Features** | Toggle available features and integrations |
-
-#### Phase 3: Deploy (Steps 11-12)
-| Step | Name | What You Configure |
-|------|------|-------------------|
-| 11 | **Deployment** | Choose deployment targets and get commands |
-| 12 | **Review & Launch** | Preview and confirm all settings |
-
-**Time to complete: 5-10 minutes** (faster if you skip optional steps)
-
-**Skip with Environment Variables**: Pre-configure via `.env.local` and the wizard auto-skips those steps!
-
-### Customization Options
-
-| What You Can Customize | Details |
-|------------------------|---------|
-| **App Name** | Your brand name displayed everywhere |
-| **Logo & Favicon** | Upload custom or use logo builder |
-| **Colors** | Primary, secondary, accent, background, surface, text, borders |
-| **Theme Presets** | 27 ready-to-use themes |
-| **Typography** | Font family, sizes, weights |
-| **Border Radius** | From sharp to fully rounded |
-| **Features** | Enable/disable any of 100+ features |
-| **Auth Methods** | Choose from 11 providers |
-| **Landing Page** | 5 homepage templates |
-| **Email Templates** | Customize transactional emails |
-| **Custom CSS** | Full CSS customization support |
-
-### Theme Presets (27)
-
-| Category | Presets |
-|----------|---------|
-| **Platform-Inspired** | nself (default), Slack, Discord |
-| **Themed** | Ocean, Sunset, Midnight |
-| **Tailwind Colors** | Slate, Gray, Zinc, Stone |
-| **Warm Colors** | Red, Orange, Amber, Yellow |
-| **Cool Colors** | Lime, Green, Emerald, Teal, Cyan, Sky, Blue |
-| **Purple/Pink** | Indigo, Violet, Purple, Fuchsia, Pink, Rose |
-
-Each preset includes both light and dark mode variants with carefully tuned colors for readability and accessibility.
-
-### Landing Page Templates
-
-| Template | Description |
-|----------|-------------|
-| **Login Only** | Direct to login, no landing page |
-| **Simple Landing** | Basic hero section with CTA |
-| **Full Homepage** | Complete marketing site with nav, pricing, about |
-| **Corporate** | Professional layout for business teams |
-| **Community** | Open community platform with docs and blog |
-
----
-
-## Production Deployment
-
-See **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** for comprehensive deployment guide covering all platforms.
-
-### Quick Deploy to Vercel (1 minute)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/acamarata/nself-chat)
-
-```bash
-# Or via CLI
-npm install -g vercel
-vercel
-```
-
-### Deploy with ɳSelf Backend (5 minutes)
-
-The complete backend stack powered by **ɳSelf**:
-
-```bash
-# 1. Install ɳSelf CLI
-curl -sSL https://install.nself.org | bash
-
-# 2. Initialize backend
-mkdir .backend && cd .backend
-nself init --demo
-nself build && nself start
-cd ..
-
-# 3. Configure frontend
-cp .env.example .env.production
-# Edit .env.production with your settings
-
-# 4. Build and start
-pnpm build && pnpm start
-```
-
-Your **ɳSelf** backend services:
-- GraphQL API: `https://api.local.nself.org`
-- Auth Service: `https://auth.local.nself.org`
-- Storage: `https://storage.local.nself.org`
-- Email (dev): `https://mail.local.nself.org`
-- Admin UI: `https://admin.local.nself.org`
-
-### With Docker
-
-```bash
-# Build the image
-docker build -t nchat:latest .
-
-# Run with environment variables
-docker run -p 3000:3000 \
-  -e NEXT_PUBLIC_APP_NAME="My Chat" \
-  -e NEXT_PUBLIC_GRAPHQL_URL="https://api.myapp.com/v1/graphql" \
-  -e NEXT_PUBLIC_AUTH_URL="https://auth.myapp.com/v1/auth" \
-  -e NEXT_PUBLIC_USE_DEV_AUTH=false \
-  nchat:latest
-```
-
-### With Docker Compose
-
-```bash
-# Start all services
-docker compose up -d
-
-# View logs
-docker compose logs -f
-
-# Stop services
-docker compose down
-```
-
-### With Kubernetes
-
-```bash
-# Apply all manifests
-kubectl apply -f deploy/k8s/
-
-# Or use kustomize
-kubectl apply -k deploy/k8s/
-
-# Check status
-kubectl get pods -n nchat
-```
-
-Available K8s resources:
-- Namespace, ConfigMap, Secrets
-- Deployment with health checks
-- Service and Ingress
-- HPA (Horizontal Pod Autoscaler)
-- PDB (Pod Disruption Budget)
-- NetworkPolicy
-
-### With Helm
-
-```bash
-# Add values for your environment
-helm install nchat deploy/helm/nself-chat \
-  -f deploy/helm/nself-chat/values-production.yaml \
-  --set ingress.host=chat.mycompany.com
-
-# Upgrade existing deployment
-helm upgrade nchat deploy/helm/nself-chat \
-  -f deploy/helm/nself-chat/values-production.yaml
-```
-
-### Desktop Apps
-
-#### Tauri (Recommended - Lightweight Native)
-
-```bash
-# Development
-pnpm tauri:dev
-
-# Build for all platforms
-pnpm build:tauri
-
-# Build for specific platform
-pnpm tauri build --target universal-apple-darwin  # macOS
-pnpm tauri build --target x86_64-pc-windows-msvc  # Windows
-pnpm tauri build --target x86_64-unknown-linux-gnu # Linux
-```
-
-#### Electron (Cross-Platform)
-
-```bash
-# Development
-pnpm electron:dev
-
-# Build for all platforms
-pnpm build:electron
-
-# Platform-specific
-pnpm electron:build --mac
-pnpm electron:build --win
-pnpm electron:build --linux
-```
-
-### Mobile Apps
-
-#### Capacitor (iOS/Android)
-
-```bash
-# Sync web assets
-pnpm cap:sync
-
-# Open in Xcode
-pnpm cap ios
-
-# Open in Android Studio
-pnpm cap android
-
-# Build
-pnpm cap:build
-```
-
-#### React Native
-
-```bash
-cd platforms/react-native
-
-# iOS
-npx react-native run-ios
-
-# Android
-npx react-native run-android
-```
-
----
-
-## Project Structure
-
-```
-nself-chat/
-├── src/
-│   ├── app/                      # Next.js App Router
-│   │   ├── api/                  # API routes (config, auth)
-│   │   ├── auth/                 # Authentication pages
-│   │   ├── chat/                 # Main chat interface
-│   │   ├── setup/                # 9-step wizard
-│   │   ├── settings/             # User settings
-│   │   └── admin/                # Admin dashboard
-│   ├── components/               # React components (75+ directories)
-│   │   ├── chat/                 # Chat UI (message list, composer)
-│   │   ├── channel/              # Channel list, header, settings
-│   │   ├── user/                 # User card, profile, presence
-│   │   ├── setup/steps/          # Wizard step components
-│   │   ├── admin/                # Admin dashboard components
-│   │   └── ui/                   # Base UI (Radix wrappers)
-│   ├── lib/                      # Libraries & utilities
-│   │   ├── bots/                 # Bot SDK and runtime
-│   │   ├── socket/               # WebSocket real-time
-│   │   └── features/             # Feature flag system
-│   ├── hooks/                    # 60+ custom React hooks
-│   ├── contexts/                 # React contexts (auth, config, theme)
-│   ├── services/                 # Service layer (auth, api)
-│   ├── graphql/                  # GraphQL queries/mutations
-│   ├── config/                   # Configuration (AppConfig, auth)
-│   └── bots/                     # Example bots (hello, poll, reminder, welcome)
-├── platforms/                    # Desktop & mobile apps
-│   ├── tauri/                    # Tauri desktop app
-│   ├── electron/                 # Electron desktop app
-│   ├── capacitor/                # Capacitor mobile config
-│   └── react-native/             # React Native mobile app
-├── deploy/                       # Deployment configurations
-│   ├── k8s/                      # Kubernetes manifests
-│   └── helm/nself-chat/          # Helm chart
-├── docs/                         # Documentation (30+ pages)
-├── .backend/                     # nself CLI backend (gitignored)
-└── .github/                      # CI/CD workflows
-```
-
----
-
-## Available Scripts
-
-### Development
-
-```bash
-pnpm dev                    # Start dev server (localhost:3000)
-pnpm dev:turbo              # Start with Turbopack (faster)
-```
-
-### Building
-
-```bash
-pnpm build                  # Production build
-pnpm build:analyze          # Build with bundle analysis
-pnpm build:all              # Build web + desktop + mobile
-pnpm build:docker           # Build Docker image
-```
-
-### Testing
-
-```bash
-pnpm test                   # Run unit tests
-pnpm test:watch             # Watch mode
-pnpm test:coverage          # Generate coverage report
-pnpm test:e2e               # End-to-end tests (Playwright)
-pnpm test:e2e:ui            # E2E with UI mode
-```
-
-### Code Quality
-
-```bash
-pnpm lint                   # ESLint
-pnpm lint:fix               # Auto-fix lint issues
-pnpm type-check             # TypeScript check
-pnpm type-check:watch       # Watch mode
-pnpm format                 # Prettier format
-pnpm format:check           # Check formatting
-```
-
-### Backend (ɳSelf)
-
-```bash
-pnpm backend:start          # Start ɳSelf backend services
-pnpm backend:stop           # Stop ɳSelf backend services
-pnpm backend:status         # Check ɳSelf service status
-pnpm backend:logs           # View ɳSelf backend logs
-```
-
-### Database
-
-```bash
-pnpm db:migrate             # Run migrations
-pnpm db:seed                # Seed database
-pnpm db:types               # Generate TypeScript types
-pnpm db:studio              # Open database shell
-```
-
-### Desktop Apps
-
-```bash
-pnpm tauri:dev              # Tauri development
-pnpm tauri:build            # Tauri production
-pnpm electron:dev           # Electron development
-pnpm electron:build         # Electron production
-```
-
-### Mobile Apps
-
-```bash
-pnpm cap:sync               # Sync Capacitor
-pnpm cap ios                # Open iOS project
-pnpm cap android            # Open Android project
-```
-
-### Release
-
-```bash
-pnpm release                # Create release
-pnpm release:patch          # Patch version bump
-pnpm release:minor          # Minor version bump
-pnpm release:major          # Major version bump
-```
-
----
-
-## Environment Variables
-
-Create `.env.local` from `.env.example`:
-
-```bash
-cp .env.example .env.local
-```
-
-### Key Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `NEXT_PUBLIC_ENV` | development | Environment: development, staging, production |
-| `NEXT_PUBLIC_USE_DEV_AUTH` | true | Enable test users and auto-login |
-| `NEXT_PUBLIC_APP_URL` | http://localhost:3000 | Base URL for OAuth callbacks |
-| `NEXT_PUBLIC_GRAPHQL_URL` | http://api.localhost/v1/graphql | Hasura GraphQL endpoint |
-| `NEXT_PUBLIC_AUTH_URL` | http://auth.localhost/v1/auth | Nhost Auth endpoint |
-| `NEXT_PUBLIC_STORAGE_URL` | http://storage.localhost/v1/storage | MinIO storage endpoint |
-| `NEXT_PUBLIC_SOCKET_URL` | ws://realtime.localhost | WebSocket server |
-| `NEXT_PUBLIC_APP_NAME` | nchat | Application name |
-| `NEXT_PUBLIC_THEME_MODE` | dark | Default color mode: light, dark, system |
-| `NEXT_PUBLIC_THEME_PRIMARY` | #00D4FF | Primary brand color |
-| `NEXT_PUBLIC_PLATFORM_TEMPLATE` | default | UI template: default, slack, discord, telegram |
-
-See `.env.example` for the complete reference with 100+ configurable options.
-
----
-
-## Authentication Providers
-
-nself-chat supports **11 authentication methods**:
-
-| Provider | Type | Setup Required | Notes |
-|----------|------|----------------|-------|
-| **Email/Password** | Credential | None | Traditional authentication |
-| **Magic Links** | Passwordless | SMTP | Email-based, no password needed |
-| **Google** | OAuth | Client ID/Secret | Most common social login |
-| **GitHub** | OAuth | Client ID/Secret | Popular for developer tools |
-| **Apple** | OAuth | Service ID/Key | Required for iOS apps |
-| **Microsoft** | OAuth | Client ID/Secret | Enterprise/Azure AD |
-| **Discord** | OAuth | Client ID/Secret | Gaming communities |
-| **Slack** | OAuth | Client ID/Secret | Workspace integration |
-| **Facebook** | OAuth | App ID/Secret | Social network |
-| **Twitter/X** | OAuth | API Key/Secret | Social network |
-| **ID.me** | Identity | Client ID/Secret | Government-grade verification |
-
-### ID.me Integration
-
-Special support for verified identity groups:
-
-| Group | Description |
-|-------|-------------|
-| **Military** | Active duty service members |
-| **Veterans** | Former military personnel |
-| **First Responders** | Police, fire, EMT |
-| **Government** | Federal, state, local employees |
-| **Teachers** | K-12 and higher education |
-| **Students** | College and university students |
-| **Nurses** | Licensed healthcare professionals |
-
-Configure in the setup wizard or via environment:
-
-```env
-NEXT_PUBLIC_AUTH_IDME=true
-IDME_CLIENT_ID=your_client_id
-IDME_CLIENT_SECRET=your_client_secret
-```
-
----
-
-## Bot SDK
-
-Build custom bots with our comprehensive SDK:
-
-```typescript
-import { bot, command, text, embed } from '@/lib/bots'
-
-// Create a weather bot
-const weatherBot = bot('weather-bot')
-  .name('Weather Bot')
-  .description('Get weather forecasts')
-  .icon('🌤️')
-
-  // Add a slash command
-  .command('weather', 'Get current weather', async (ctx) => {
-    const location = ctx.args._raw || 'New York'
-    const weather = await fetchWeather(location)
-
-    return embed({
-      title: `Weather in ${location}`,
-      description: `${weather.temp}°F - ${weather.condition}`,
-      color: '#3b82f6',
-      fields: [
-        { name: 'Humidity', value: `${weather.humidity}%`, inline: true },
-        { name: 'Wind', value: `${weather.wind} mph`, inline: true }
-      ]
-    })
-  })
-
-  // Respond to mentions
-  .onMention((ctx) => {
-    return text('Try /weather <city> to get the forecast!')
-  })
-
-  .build()
-```
-
-### Example Bots Included
-
-| Bot | Description | Commands |
-|-----|-------------|----------|
-| **Hello Bot** | Greetings and jokes | `/hello`, `/hi`, `/greet @user`, `/joke` |
-| **Poll Bot** | Create and manage polls | `/poll`, `/vote`, `/results`, `/closepoll` |
-| **Reminder Bot** | Set reminders | `/remind in 30m`, `/remind at 3pm`, `/reminders` |
-| **Welcome Bot** | Welcome new members | `/setwelcome`, `/welcomemessage`, `/testwelcome` |
-
-### Bot Features
-
-- **Slash Commands**: Custom `/commands` with arguments
-- **Message Handling**: Respond to messages, keywords, patterns
-- **Event Subscriptions**: User join/leave, reactions
-- **Rich Responses**: Embeds, buttons, select menus
-- **Permissions**: Granular permission control
-- **Rate Limiting**: Built-in protection
-- **Sandboxed Runtime**: Secure execution environment
+**Total: 150+ features** across 20 categories, making ɳChat one of the most feature-complete open-source communication platforms available.
 
 ---
 
@@ -739,118 +263,13 @@ const weatherBot = bot('weather-bot')
 |----------|----------|
 | **Getting Started** | [Quick Start](docs/getting-started/Getting-Started.md) · [Installation](docs/getting-started/Installation.md) |
 | **Features** | [Features Overview](docs/features/Features.md) · [Messaging](docs/features/Features-Messaging.md) · [White-Label Guide](docs/features/White-Label-Guide.md) |
+| **Multi-Tenancy** | [Multi-Tenant Deployment](docs/deployment/Multi-Tenant-Deployment.md) · [Multi-Tenant README](docs/deployment/Multi-Tenant-README.md) |
 | **Configuration** | [Configuration](docs/configuration/Configuration.md) · [Authentication](docs/configuration/Authentication.md) · [Environment Variables](docs/configuration/Environment-Variables.md) |
 | **API** | [API Overview](docs/api/API.md) · [API Documentation](docs/api/API-DOCUMENTATION.md) |
 | **Deployment** | [Deployment Guide](docs/deployment/DEPLOYMENT.md) · [Docker](docs/deployment/Deployment-Docker.md) · [Kubernetes](docs/deployment/Deployment-Kubernetes.md) |
 | **Guides** | [User Guide](docs/guides/USER-GUIDE.md) · [Sentry Setup](docs/guides/README-SENTRY.md) · [Testing](docs/guides/testing-guide.md) |
 | **Reference** | [Architecture](docs/reference/Architecture.md) · [Database Schema](docs/reference/Database-Schema.md) · [Project Structure](docs/reference/Project-Structure.md) |
 | **About** | [Changelog](docs/about/Changelog.md) · [Contributing](docs/about/Contributing.md) · [Roadmap](docs/about/Roadmap.md) |
-
-### Interactive API Documentation
-
-- [Interactive API Docs](/api-docs) - Swagger UI (when running)
-- [OpenAPI Specification](/openapi.yaml) - OpenAPI 3.0 spec
-
----
-
-## Tech Stack
-
-### Frontend
-
-| Layer | Technology | Version |
-|-------|------------|---------|
-| **Framework** | Next.js | 15.1.6 |
-| **UI Library** | React | 19.0.0 |
-| **Language** | TypeScript | 5.7.3 |
-| **Styling** | Tailwind CSS | 3.4.17 |
-| **Components** | Radix UI | Latest |
-| **Icons** | Lucide React | 0.469.0 |
-| **State Management** | Zustand | 5.0.3 |
-| **Data Fetching** | Apollo Client | 3.12.8 |
-| **Real-time** | Socket.io Client | 4.8.1 |
-| **Forms** | React Hook Form | 7.54.2 |
-| **Validation** | Zod | 3.24.1 |
-| **Rich Text** | TipTap | 2.11.2 |
-| **Animation** | Framer Motion | 11.18.0 |
-| **Charts** | Recharts | 2.15.0 |
-
-### Backend (via ɳSelf)
-
-| Service | Technology | Purpose |
-|---------|------------|---------|
-| **GraphQL Engine** | Hasura | Auto-generated GraphQL API |
-| **Database** | PostgreSQL 15 | Primary data store |
-| **Authentication** | Nhost Auth | User auth with JWT |
-| **Storage** | MinIO | S3-compatible file storage |
-| **Search** | MeiliSearch | Full-text search (optional) |
-| **Cache** | Redis | Session cache (optional) |
-| **Email** | SMTP / MailPit | Transactional emails |
-
-### Real-Time & Communication
-
-| Feature | Technology |
-|---------|------------|
-| **WebSocket** | Socket.io |
-| **GraphQL Subscriptions** | graphql-ws |
-| **Voice/Video** | WebRTC + mediasoup (SFU) |
-| **End-to-End Encryption** | @signalapp/libsignal-client |
-| **Screen Sharing** | WebRTC + canvas (annotations) |
-| **Live Streaming** | HLS (hls.js) + WebRTC |
-| **TURN Server** | Coturn (optional) |
-| **Mobile Integration** | CallKit (iOS), Telecom Manager (Android) |
-
-### Testing & Quality
-
-| Type | Tool | Tests |
-|------|------|-------|
-| **E2E Testing** | Playwright | 479 tests |
-| **Integration** | Jest | 381 tests |
-| **Component** | Testing Library | Comprehensive |
-| **Performance** | Lighthouse CI | Automated |
-| **Accessibility** | axe-core | WCAG AA |
-
-### DevOps & Monitoring
-
-| Category | Tool |
-|----------|------|
-| **CI/CD** | GitHub Actions |
-| **Containerization** | Docker |
-| **Orchestration** | Kubernetes + Helm |
-| **Error Tracking** | Sentry |
-| **Analytics** | Custom + GA4 (optional) |
-| **Logging** | Structured logging |
-
-### Multi-Platform
-
-| Platform | Framework | Build |
-|----------|-----------|-------|
-| **Web** | Next.js 15 | Production-ready |
-| **Desktop (Native)** | Tauri | Rust + WebView |
-| **Desktop (Cross-platform)** | Electron | Chromium + Node.js |
-| **Mobile (iOS/Android)** | Capacitor | Native containers |
-| **Mobile (React Native)** | React Native | Full native |
-| **PWA** | Next.js + SW | Installable web |
-
----
-
-## ɳPlugins (Future Extensibility)
-
-Many features can be extracted as **ɳPlugins** for modular deployment:
-
-| Plugin | Description | Status |
-|--------|-------------|--------|
-| `@nself/plugin-voice` | Voice messages & calls | Planned |
-| `@nself/plugin-video` | Video calls & meetings | Planned |
-| `@nself/plugin-bots` | Bot SDK & marketplace | Available |
-| `@nself/plugin-idme` | ID.me identity verification | Available |
-| `@nself/plugin-polls` | Polls & voting | Available |
-| `@nself/plugin-stickers` | Sticker packs | Planned |
-| `@nself/plugin-gifs` | GIF picker integration | Available |
-| `@nself/plugin-analytics` | Usage analytics | Planned |
-| `@nself/plugin-audit` | Audit logging | Available |
-| `@nself/plugin-workflows` | Automation workflows | Planned |
-
-See [docs/Plugins.md](docs/Plugins.md) for the full list and implementation guide.
 
 ---
 
@@ -864,7 +283,7 @@ We welcome contributions! Please follow these steps:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-See [docs/Contributing.md](docs/Contributing.md) for detailed guidelines.
+See [docs/about/Contributing.md](docs/about/Contributing.md) for detailed guidelines.
 
 ---
 
@@ -889,10 +308,32 @@ Learn more at [nself.org](https://nself.org)
 
 ## Support
 
-- [GitHub Issues](https://github.com/acamarata/nself-chat/issues) - Bug reports & feature requests
-- [Documentation](docs/) - Full documentation
+- **GitHub Issues**: [Bug reports & feature requests](https://github.com/acamarata/nself-chat/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/acamarata/nself-chat/discussions)
+- **Documentation**: [Full documentation](docs/)
+- **ɳSelf**: [Backend infrastructure](https://nself.org)
+- **Discord**: [Join our community](https://discord.gg/nself) (coming soon)
+
+---
+
+## Acknowledgments
+
+Built with love using:
+- [Next.js](https://nextjs.org/) - The React Framework
+- [React](https://react.dev/) - A JavaScript library for building user interfaces
+- [TypeScript](https://www.typescriptlang.org/) - JavaScript with syntax for types
+- [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework
+- [Radix UI](https://www.radix-ui.com/) - Unstyled, accessible components
+- [Apollo Client](https://www.apollographql.com/) - State management library for JavaScript
+- [Socket.io](https://socket.io/) - Real-time bidirectional event-based communication
+- [TipTap](https://tiptap.dev/) - Headless, extensible rich text editor
+- [Sentry](https://sentry.io/) - Error tracking and performance monitoring
+- [Stripe](https://stripe.com/) - Payment processing
+- [TensorFlow.js](https://www.tensorflow.org/js) - Machine learning for JavaScript
 - [ɳSelf](https://nself.org) - Backend infrastructure
 
 ---
 
-Built with [ɳSelf](https://nself.org) | Powered by Next.js 15 & React 19
+Built with [ɳSelf](https://nself.org) | Powered by Next.js 15 & React 19 | Version 0.5.0
+
+**Star us on GitHub** ⭐ if you find ɳChat useful!

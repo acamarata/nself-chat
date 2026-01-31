@@ -1,5 +1,10 @@
+'use client'
+
+import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
+import { staggerContainer, staggerItem } from '@/lib/animations'
+import { cn } from '@/lib/utils'
 
 export function ChartSkeleton() {
   return (
@@ -181,6 +186,180 @@ export function ComplianceSkeleton() {
           </div>
         </CardContent>
       </Card>
+    </div>
+  )
+}
+
+// ============================================================================
+// Chat-Specific Skeletons
+// ============================================================================
+
+/**
+ * Message skeleton with avatar
+ */
+export function MessageSkeleton({ grouped = false }: { grouped?: boolean }) {
+  return (
+    <motion.div
+      variants={staggerItem}
+      className={cn('flex gap-3 px-4 py-2', grouped && 'pl-16')}
+    >
+      {!grouped && <Skeleton className="h-9 w-9 rounded-full shrink-0" />}
+      <div className="flex-1 space-y-2">
+        {!grouped && (
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-3 w-16" />
+          </div>
+        )}
+        <Skeleton className="h-4 w-full max-w-md" />
+        <Skeleton className="h-4 w-3/4 max-w-sm" />
+      </div>
+    </motion.div>
+  )
+}
+
+/**
+ * Message list skeleton
+ */
+export function MessageListSkeleton({ count = 10 }: { count?: number }) {
+  return (
+    <motion.div
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+      className="space-y-1"
+    >
+      {Array.from({ length: count }).map((_, i) => (
+        <MessageSkeleton key={i} grouped={i > 0 && i % 3 !== 0} />
+      ))}
+    </motion.div>
+  )
+}
+
+/**
+ * Channel sidebar skeleton
+ */
+export function ChannelSidebarSkeleton() {
+  return (
+    <div className="w-64 border-r bg-background p-4 space-y-4">
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-24" />
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="flex items-center gap-2 pl-2">
+            <Skeleton className="h-4 w-4" />
+            <Skeleton className="h-4 flex-1" />
+          </div>
+        ))}
+      </div>
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-32" />
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div key={i} className="flex items-center gap-2 pl-2">
+            <Skeleton className="h-4 w-4" />
+            <Skeleton className="h-4 flex-1" />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/**
+ * Member list skeleton
+ */
+export function MemberListSkeleton({ count = 8 }: { count?: number }) {
+  return (
+    <motion.div
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+      className="w-64 border-l bg-background p-4 space-y-2"
+    >
+      <Skeleton className="h-5 w-20 mb-3" />
+      {Array.from({ length: count }).map((_, i) => (
+        <motion.div key={i} variants={staggerItem} className="flex items-center gap-2">
+          <Skeleton className="h-8 w-8 rounded-full" />
+          <div className="flex-1 space-y-1">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-3 w-12" />
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
+  )
+}
+
+/**
+ * Chat header skeleton
+ */
+export function ChatHeaderSkeleton() {
+  return (
+    <div className="flex items-center justify-between border-b px-4 py-3">
+      <div className="flex items-center gap-3">
+        <Skeleton className="h-5 w-5" />
+        <div className="space-y-1">
+          <Skeleton className="h-5 w-32" />
+          <Skeleton className="h-3 w-20" />
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <Skeleton className="h-9 w-9 rounded-md" />
+        <Skeleton className="h-9 w-9 rounded-md" />
+        <Skeleton className="h-9 w-9 rounded-md" />
+      </div>
+    </div>
+  )
+}
+
+/**
+ * Thread preview skeleton
+ */
+export function ThreadPreviewSkeleton() {
+  return (
+    <div className="border-l-2 border-primary/20 pl-3 py-2 space-y-2">
+      <div className="flex items-center gap-2">
+        <Skeleton className="h-4 w-4 rounded-full" />
+        <Skeleton className="h-3 w-24" />
+      </div>
+      <Skeleton className="h-3 w-full max-w-xs" />
+      <Skeleton className="h-3 w-32" />
+    </div>
+  )
+}
+
+/**
+ * Emoji picker skeleton
+ */
+export function EmojiPickerSkeleton() {
+  return (
+    <div className="w-80 p-4 space-y-3">
+      <Skeleton className="h-8 w-full" />
+      <div className="grid grid-cols-8 gap-2">
+        {Array.from({ length: 40 }).map((_, i) => (
+          <Skeleton key={i} className="h-8 w-8" />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/**
+ * Full chat layout skeleton
+ */
+export function ChatLayoutSkeleton() {
+  return (
+    <div className="flex h-screen">
+      <ChannelSidebarSkeleton />
+      <div className="flex-1 flex flex-col">
+        <ChatHeaderSkeleton />
+        <div className="flex-1 overflow-hidden">
+          <MessageListSkeleton count={8} />
+        </div>
+        <div className="border-t p-4">
+          <Skeleton className="h-20 w-full rounded-lg" />
+        </div>
+      </div>
+      <MemberListSkeleton count={6} />
     </div>
   )
 }

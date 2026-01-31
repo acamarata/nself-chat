@@ -217,8 +217,9 @@ export const useChannelStore = create<ChannelStore>()(
               const channel = state.channels.get(channelId);
               if (channel) {
                 const oldSlug = channel.slug;
-                const updatedChannel = { ...channel, ...updates, updatedAt: new Date().toISOString() };
-                state.channels.set(channelId, updatedChannel);
+
+                // Mutate the draft directly (immer pattern)
+                Object.assign(channel, updates, { updatedAt: new Date().toISOString() });
 
                 // Update slug mapping if slug changed
                 if (updates.slug && updates.slug !== oldSlug) {

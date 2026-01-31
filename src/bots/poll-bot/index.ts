@@ -64,7 +64,6 @@ export function createPollBot() {
 
     // Initialization and periodic tasks
     .onInit((instance, api) => {
-
       // Check for expired polls periodically (every minute)
       const checkInterval = setInterval(() => {
         const expired = checkExpiredPolls()
@@ -77,10 +76,15 @@ export function createPollBot() {
       const cleanupInterval = setInterval(() => {
         const deleted = cleanupOldPolls()
         if (deleted > 0) {
+          // Polls cleaned up
         }
       }, 24 * 60 * 60 * 1000)
 
-      // Note: In production, store these interval IDs for cleanup on bot stop
+      // Register cleanup handlers to prevent memory leaks
+      instance.registerCleanup(() => {
+        clearInterval(checkInterval)
+        clearInterval(cleanupInterval)
+      })
     })
 
     .build()

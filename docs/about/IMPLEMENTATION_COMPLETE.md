@@ -434,7 +434,6 @@ The implementation includes:
 **Implementation Date:** January 30, 2026
 **Version:** nself-chat v0.3.0
 **Status:** ✅ READY FOR PRODUCTION
-**Author:** automated tools (Sonnet 4.5)
 
 ---
 

@@ -143,6 +143,8 @@ export function ChatProvider({ children }: ChatProviderProps) {
 
   // Typing timeout refs
   const typingTimeouts = React.useRef<Record<string, NodeJS.Timeout>>({});
+  const typingUserTimeouts = React.useRef<NodeJS.Timeout[]>([]);
+  const channelReadTimeout = React.useRef<NodeJS.Timeout | null>(null);
 
   // =============================================================================
   // Derived State
@@ -217,9 +219,14 @@ export function ChatProvider({ children }: ChatProviderProps) {
       setIsLoadingChannel(true);
       try {
         setActiveChannel(channelId);
+        // Clear any existing timeout
+        if (channelReadTimeout.current) {
+          clearTimeout(channelReadTimeout.current);
+        }
         // Mark as read after a short delay
-        setTimeout(() => {
+        channelReadTimeout.current = setTimeout(() => {
           notificationStore.markChannelAsRead(channelId);
+          channelReadTimeout.current = null;
         }, 1000);
       } finally {
         setIsLoadingChannel(false);
@@ -397,7 +404,7 @@ export function ChatProvider({ children }: ChatProviderProps) {
       }));
 
       // Auto-remove after 5 seconds
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setTypingUsers((prev) => ({
           ...prev,
           [typingUser.channelId]: (prev[typingUser.channelId] || []).filter(
@@ -405,6 +412,7 @@ export function ChatProvider({ children }: ChatProviderProps) {
           ),
         }));
       }, 5000);
+      typingUserTimeouts.current.push(timer);
     };
 
     const handleTypingStop = (event: CustomEvent<{ userId: string; channelId: string }>) => {
@@ -466,6 +474,10 @@ export function ChatProvider({ children }: ChatProviderProps) {
   useEffect(() => {
     return () => {
       Object.values(typingTimeouts.current).forEach(clearTimeout);
+      typingUserTimeouts.current.forEach(clearTimeout);
+      if (channelReadTimeout.current) {
+        clearTimeout(channelReadTimeout.current);
+      }
     };
   }, []);
 

@@ -19,6 +19,29 @@
     "@next/next/no-html-link-for-pages": "error",
     "jsx-a11y/alt-text": "warn",
     "import/no-anonymous-default-export": "off",
-    "@typescript-eslint/no-require-imports": "error"
-  }
+    "@typescript-eslint/no-require-imports": "error",
+    "no-template-curly-in-string": "error"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "rules": {
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "TemplateLiteral[expressions.length>0] > TemplateElement[value.raw=/SELECT|INSERT|UPDATE|DELETE|FROM|WHERE/i]",
+            "message": "Potential SQL injection: Do not use template literals with variables in SQL queries. Use parameterized queries with $1, $2, etc."
+          },
+          {
+            "selector": "BinaryExpression[operator='+'][left.type='Literal'][left.raw=/SELECT|INSERT|UPDATE|DELETE/i]",
+            "message": "Potential SQL injection: Do not concatenate strings to build SQL queries. Use parameterized queries."
+          },
+          {
+            "selector": "BinaryExpression[operator='+'][right.type='Literal'][right.raw=/SELECT|INSERT|UPDATE|DELETE/i]",
+            "message": "Potential SQL injection: Do not concatenate strings to build SQL queries. Use parameterized queries."
+          }
+        ]
+      }
+    }
+  ]
 }

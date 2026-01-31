@@ -23,6 +23,9 @@ import type {
 import { BotEventEmitter } from './bot-events'
 import { CommandRegistry, createHelpCommand } from './bot-commands'
 import { createBotApi, createMockServices, type BotServices } from './bot-api'
+import { createLogger } from '@/lib/logger'
+
+const logger = createLogger('BotRuntime')
 
 // ============================================================================
 // BOT INSTANCE
@@ -43,6 +46,7 @@ export class BotInstance {
   private userJoinHandlers: UserEventHandler[] = []
   private userLeaveHandlers: UserEventHandler[] = []
   private reactionHandlers: ReactionHandler[] = []
+  private cleanupFunctions: Array<() => void> = []
 
   constructor(
     manifest: BotManifest,
@@ -218,6 +222,25 @@ export class BotInstance {
    */
   stop(): void {
     this.state.status = 'inactive'
+    // Run all cleanup functions
+    this.cleanupFunctions.forEach(fn => {
+      try {
+        fn()
+      } catch (error) {
+        logger.error(`Cleanup error for bot ${this.manifest.id}`, error as Error, {
+          botId: this.manifest.id,
+          botName: this.manifest.name,
+        })
+      }
+    })
+    this.cleanupFunctions = []
+  }
+
+  /**
+   * Register a cleanup function to be called when bot stops
+   */
+  registerCleanup(fn: () => void): void {
+    this.cleanupFunctions.push(fn)
   }
 
   /**
@@ -243,7 +266,11 @@ export class BotInstance {
   private handleError(error: Error): void {
     this.state.stats.errorsCount++
     this.state.errorMessage = error.message
-    console.error(`[BotInstance:${this.manifest.id}] Error:`, error)
+    logger.error(`Error in bot ${this.manifest.id}`, error, {
+      botId: this.manifest.id,
+      botName: this.manifest.name,
+      errorCount: this.state.stats.errorsCount,
+    })
   }
 }
 

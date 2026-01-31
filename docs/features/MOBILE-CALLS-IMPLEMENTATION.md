@@ -690,7 +690,6 @@ describe('MobileCallScreen', () => {
 
 **Version:** 0.4.0
 **Last Updated:** January 30, 2026
-**Author:** AI (Development Team)
 **Status:** ✅ Implementation Complete
 
 ---

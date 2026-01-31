@@ -107,6 +107,12 @@ const serverEnvSchema = z.object({
  * Validates public environment variables
  */
 export function validatePublicEnv() {
+  // Skip validation during build if SKIP_ENV_VALIDATION is set
+  if (process.env.SKIP_ENV_VALIDATION === 'true') {
+    // Return default values for build time
+    return publicEnvSchema.parse({})
+  }
+
   try {
     return publicEnvSchema.parse({
       NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
@@ -136,6 +142,12 @@ export function validatePublicEnv() {
  * Validates server environment variables
  */
 export function validateServerEnv() {
+  // Skip validation during build if SKIP_ENV_VALIDATION is set
+  if (process.env.SKIP_ENV_VALIDATION === 'true') {
+    // Return default values for build time
+    return serverEnvSchema.parse({})
+  }
+
   try {
     return serverEnvSchema.parse({
       NODE_ENV: process.env.NODE_ENV,

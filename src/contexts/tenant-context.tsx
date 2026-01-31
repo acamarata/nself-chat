@@ -50,9 +50,12 @@ export function TenantProvider({ children, initialTenant }: TenantProviderProps)
       const data = await response.json()
       setTenant(data.tenant)
       setContext(data.context)
-    } catch (err: any) {
-      setError(err.message)
-      console.error('Error fetching tenant:', err)
+    } catch (error) {
+      const errorMessage = error instanceof Error
+        ? error.message
+        : 'Failed to fetch tenant';
+      setError(errorMessage)
+      console.error('Error fetching tenant:', error)
     } finally {
       setIsLoading(false)
     }

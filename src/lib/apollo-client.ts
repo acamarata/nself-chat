@@ -131,7 +131,11 @@ export const apolloClient: ApolloClient<NormalizedCacheObject> = new ApolloClien
   }),
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'cache-first',
+      nextFetchPolicy: 'cache-first',
+    },
+    query: {
+      fetchPolicy: 'cache-first',
     },
   },
 })
