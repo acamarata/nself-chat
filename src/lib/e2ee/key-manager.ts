@@ -3,7 +3,7 @@
  * Manages identity keys, prekeys, and master keys for E2EE
  */
 
-import { crypto } from './crypto';
+import { crypto, PBKDF2_ITERATIONS } from './crypto';
 import { signalClient, type IdentityKeyPair, type SignedPreKeyPair, type PreKeyPair } from './signal-client';
 import type { ApolloClient } from '@apollo/client';
 import { gql } from '@apollo/client';
@@ -211,7 +211,7 @@ export class KeyManager {
         variables: {
           salt: Array.from(salt),
           keyHash: Array.from(keyHash),
-          iterations: crypto.PBKDF2_ITERATIONS,
+          iterations: PBKDF2_ITERATIONS,
           masterKeyBackupEncrypted: Array.from(masterKeyBackup),
           recoveryCodeHash: Array.from(recoveryCodeHash),
         },

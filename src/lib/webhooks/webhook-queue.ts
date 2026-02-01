@@ -305,7 +305,7 @@ export class WebhookQueueManager {
    */
   async getWebhookStatus(jobId: string): Promise<{
     state: string
-    progress: number
+    progress: string | boolean | number | object
     attemptsMade: number
     result?: WebhookDeliveryResult
     failedReason?: string

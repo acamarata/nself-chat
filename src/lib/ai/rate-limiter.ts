@@ -116,14 +116,21 @@ export const AI_RATE_LIMITS = {
 
 export class RateLimiter {
   private cache: RedisCacheService
-  private config: RateLimitConfig
+  private _config: RateLimitConfig
 
   constructor(config: RateLimitConfig) {
-    this.config = {
+    this._config = {
       keyPrefix: 'ratelimit:ai',
       ...config,
     }
     this.cache = getCache()
+  }
+
+  /**
+   * Get the rate limiter configuration
+   */
+  get config(): RateLimitConfig {
+    return this._config
   }
 
   // ============================================================================

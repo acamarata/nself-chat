@@ -20,7 +20,7 @@ export const dynamic = 'force-dynamic'
 export async function POST(request: NextRequest) {
   try {
     // Get webhook headers
-    const headersList = headers()
+    const headersList = await headers()
     const signature = headersList.get('x-hub-signature-256') || ''
     const event = headersList.get('x-github-event') || ''
     const delivery = headersList.get('x-github-delivery') || ''

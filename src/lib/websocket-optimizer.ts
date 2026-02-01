@@ -182,7 +182,7 @@ class WebSocketConnectionPool {
 
 export class OptimizedWebSocket {
   private socket: Socket | null = null
-  private config: Required<WebSocketConfig>
+  private config: Required<Omit<WebSocketConfig, 'auth'>> & { auth: NonNullable<WebSocketConfig['auth']> }
   private batcher: MessageBatcher | null = null
   private heartbeatTimer: NodeJS.Timeout | null = null
   private connectionPool: WebSocketConnectionPool | null = null
@@ -196,7 +196,7 @@ export class OptimizedWebSocket {
     this.config = {
       ...DEFAULT_CONFIG,
       ...config,
-      auth: config.auth || {},
+      auth: config.auth ?? {},
     }
   }
 
@@ -230,12 +230,10 @@ export class OptimizedWebSocket {
         timeout: this.config.timeout,
         autoConnect: false,
         transports: ['websocket'], // Force WebSocket only
-        // Enable compression
-        perMessageDeflate: this.config.enableCompression
-          ? {
-              threshold: 1024, // Compress messages > 1KB
-            }
-          : false,
+        // Enable compression - cast to any since socket.io types may not accept false
+        ...(this.config.enableCompression
+          ? { perMessageDeflate: { threshold: 1024 } }
+          : {}),
       })
 
       // Initialize message batcher
@@ -471,8 +469,8 @@ export class OptimizedWebSocket {
   // ============================================================================
 
   updateAuth(auth: WebSocketConfig['auth']): void {
-    if (this.socket) {
-      this.socket.auth = auth
+    if (this.socket && auth) {
+      this.socket.auth = auth as { [key: string]: any }
       // Reconnect with new auth
       this.socket.disconnect().connect()
     }

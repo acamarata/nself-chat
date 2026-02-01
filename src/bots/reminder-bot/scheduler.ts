@@ -272,6 +272,14 @@ export function stopAllTimers(): void {
 }
 
 /**
+ * Clear all reminders and stop all timers
+ */
+export function clearAllReminders(): void {
+  stopAllTimers()
+  reminders.clear()
+}
+
+/**
  * Get statistics
  */
 export function getStats(): {

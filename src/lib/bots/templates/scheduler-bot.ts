@@ -10,8 +10,9 @@
  * - Notification preferences
  */
 
-import { bot, text, embed, success, error, parseDuration, formatDuration } from '../bot-sdk'
+import { bot, text, embed, success, error, parseDuration, formatDuration, response } from '../bot-sdk'
 import type { BotInstance } from '../bot-runtime'
+import type { BotResponse } from '../bot-types'
 
 export interface Reminder {
   id: string
@@ -74,19 +75,21 @@ export function createSchedulerBot(): BotInstance {
       // Check user reminder limit
       const userReminders = await getUserReminders(ctx.user.id, api)
       const config = api.getBotConfig()
+      const maxReminders = typeof config.settings?.maxRemindersPerUser === 'number' ? config.settings.maxRemindersPerUser : 20
 
-      if (userReminders.length >= (config.settings?.maxRemindersPerUser || 20)) {
-        return error(`You have reached the maximum of ${config.settings?.maxRemindersPerUser} reminders. Delete some first.`)
+      if (userReminders.length >= maxReminders) {
+        return error(`You have reached the maximum of ${maxReminders} reminders. Delete some first.`)
       }
 
+      const parsedInterval = repeatStr ? parseDuration(repeatStr) : null
       const reminder: Reminder = {
         id: Math.random().toString(36).substring(7),
         message,
         channelId: ctx.channel.id,
         userId: ctx.user.id,
         scheduledFor,
-        recurring: repeatStr ? {
-          interval: parseDuration(repeatStr),
+        recurring: parsedInterval !== null && parsedInterval > 0 ? {
+          interval: parsedInterval,
           count: ctx.args.count ? parseInt(ctx.args.count as string) : undefined,
         } : undefined,
         completed: false,
@@ -112,21 +115,21 @@ export function createSchedulerBot(): BotInstance {
     })
 
     // List reminders command
-    .command('reminders', 'List your reminders', async (ctx, api) => {
+    .command('reminders', 'List your reminders', async (ctx, api): Promise<BotResponse> => {
       const reminders = await getUserReminders(ctx.user.id, api)
 
       if (reminders.length === 0) {
         return text('You have no active reminders.')
       }
 
-      const response = embed()
+      const embedBuilder = embed()
         .title('⏰ Your Reminders')
         .color('#f59e0b')
 
       reminders
         .sort((a, b) => a.scheduledFor.getTime() - b.scheduledFor.getTime())
         .forEach((reminder, i) => {
-          response.field(
+          embedBuilder.field(
             `${i + 1}. ${reminder.message}`,
             `**When:** ${formatDateTime(reminder.scheduledFor)}\n` +
             (reminder.recurring ? `**Repeats:** Every ${formatDuration(reminder.recurring.interval)}\n` : '') +
@@ -135,7 +138,7 @@ export function createSchedulerBot(): BotInstance {
           )
         })
 
-      return response.build()
+      return response().embed(embedBuilder).build()
     })
 
     // Delete reminder command

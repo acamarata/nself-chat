@@ -37,9 +37,9 @@ export function useParallax(distance: number = 50) {
 /**
  * Hook for scroll-triggered progress
  */
-export function useScrollProgress(target?: React.RefObject<HTMLElement>) {
+export function useScrollProgress(target?: React.RefObject<HTMLElement | null>) {
   const { scrollYProgress } = useScroll({
-    target: target?.current ?? undefined,
+    target: target,
   })
 
   return scrollYProgress

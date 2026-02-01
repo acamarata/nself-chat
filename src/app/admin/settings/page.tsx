@@ -114,7 +114,9 @@ const defaultSettings: WorkspaceSettings = {
 }
 
 export default function SettingsPage() {
-  const { canManageSettings, _isOwner } = useAdminAccess()
+  const { canManageSettings, isOwner } = useAdminAccess()
+  // Prefix with underscore as it's unused
+  const _isOwner = isOwner
   const [settings, setSettings] = useState<WorkspaceSettings>(defaultSettings)
   const [isSaving, setIsSaving] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)

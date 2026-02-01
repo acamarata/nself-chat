@@ -129,12 +129,15 @@ export default function AuditLogPage() {
   const router = useRouter()
   const {
     entries,
-    _statistics,
+    statistics,
     isLoading,
     setEntries,
     refreshStatistics,
     setLoading,
   } = useAuditStore()
+
+  // Prefix with underscore as it's unused
+  const _statistics = statistics
 
   const [activeTab, setActiveTab] = useState('all')
   const [dateRange, setDateRange] = useState('7d')

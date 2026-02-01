@@ -133,8 +133,10 @@ export {
   getSmartSearch,
   type SearchOptions,
   type SearchResult,
-  type SearchFilters,
-  type SearchRanking,
+  type SearchableMessage,
+  type SearchConfig,
+  type SearchProvider,
+  type SearchQuery,
 } from './smart-search'
 
 // ============================================================================

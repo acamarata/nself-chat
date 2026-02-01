@@ -86,7 +86,16 @@ class AIDetector {
       // Using a threshold of 0.5 for better detection
       const toxicity = await import('@tensorflow-models/toxicity')
       const threshold = 0.5
-      this.toxicityModel = await toxicity.load(threshold)
+      // Load with all default toxicity labels
+      const toxicityLabels = [
+        'identity_attack',
+        'insult',
+        'obscene',
+        'severe_toxicity',
+        'threat',
+        'toxicity',
+      ]
+      this.toxicityModel = await toxicity.load(threshold, toxicityLabels)
       console.log('Toxicity model loaded')
     } catch (error) {
       console.error('Failed to load toxicity model:', error)

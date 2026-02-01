@@ -196,6 +196,71 @@ export {
 } from './offline-sync';
 
 // =============================================================================
+// Sync Manager (v0.8.0)
+// =============================================================================
+
+export {
+  SyncManager,
+  getSyncManager,
+  resetSyncManager,
+  type SyncManagerConfig,
+  type SyncProgress,
+  type SyncEvent,
+  type SyncEventListener as SyncManagerEventListener,
+} from './sync-manager';
+
+// =============================================================================
+// Conflict Resolution (v0.8.0)
+// =============================================================================
+
+export {
+  ConflictResolver,
+  TombstoneStore,
+  getConflictResolver,
+  getTombstoneStore,
+  resetConflictResolver,
+  resetTombstoneStore,
+  type Conflict,
+  type ConflictType,
+  type ResolutionStrategy,
+  type ConflictResolution,
+  type Tombstone,
+  type UserChoiceCallback,
+} from './conflict-resolver';
+
+// =============================================================================
+// Attachment Cache (v0.8.0)
+// =============================================================================
+
+export {
+  AttachmentCache,
+  getAttachmentCache,
+  resetAttachmentCache,
+  type CachedAttachment,
+  type AttachmentCacheConfig,
+  type AttachmentCacheStats,
+  type DownloadProgress,
+  type DownloadProgressCallback,
+} from './attachment-cache';
+
+// =============================================================================
+// Sync Queue (v0.8.0)
+// =============================================================================
+
+export {
+  SyncQueue,
+  getSyncQueue,
+  resetSyncQueue,
+  type SyncQueueConfig,
+  type SyncQueueItem,
+  type SyncResult as SyncQueueResult,
+  type SyncProcessor,
+  type SyncItemType,
+  type SyncItemOperation,
+  type SyncItemStatus,
+} from './sync-queue';
+
+// =============================================================================
 // Initialization Helper
 // =============================================================================
 

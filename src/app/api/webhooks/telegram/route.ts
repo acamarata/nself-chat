@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
 
     // Verify secret token if configured
-    const headersList = headers()
+    const headersList = await headers()
     const secretToken = headersList.get('x-telegram-bot-api-secret-token')
 
     // TODO: Load configured secret from environment/database

@@ -33,3 +33,19 @@ export {
   createReportHistory,
   analyticsExport,
 } from './analytics-export';
+
+// ============================================================================
+// NEW: v0.8.0 Mobile/Desktop Analytics
+// ============================================================================
+
+export * from './types'
+export * from './firebase'
+export * from './sentry-mobile'
+export * from './events'
+export * from './privacy'
+export * from './config'
+
+// Re-export analytics instance
+export { analytics } from './events'
+export { analyticsPrivacy } from './privacy'
+export { getAnalyticsConfig, isAnalyticsAvailable, getPlatformProperties } from './config'

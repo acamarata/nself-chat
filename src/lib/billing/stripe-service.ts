@@ -6,12 +6,12 @@
  */
 
 import Stripe from 'stripe'
+import { DEFAULT_PLANS } from '../tenants/types'
 import type {
   Tenant,
   BillingPlan,
   BillingInterval,
   SubscriptionPlan,
-  DEFAULT_PLANS,
 } from '../tenants/types'
 import { getTenantService } from '../tenants/tenant-service'
 
@@ -26,7 +26,7 @@ function getStripeClient(): Stripe {
   }
 
   return new Stripe(apiKey, {
-    apiVersion: '2024-11-20.acacia',
+    apiVersion: '2025-08-27.basil',
     typescript: true,
   })
 }
@@ -357,18 +357,20 @@ export class StripeBillingService {
 
     // Find metered item (if any)
     const meteredItem = subscription.items.data.find((item) => {
-      return item.price.usage_type === 'metered'
+      return (item.price as Stripe.Price & { usage_type?: string }).usage_type === 'metered'
     })
 
     if (!meteredItem) {
       return // No metered billing configured
     }
 
-    // Record usage
-    await this.stripe.subscriptionItems.createUsageRecord(meteredItem.id, {
-      quantity,
-      action,
-      timestamp: Math.floor(Date.now() / 1000),
+    // Record usage using the billing meter events API
+    await this.stripe.billing.meterEvents.create({
+      event_name: 'usage_record',
+      payload: {
+        stripe_customer_id: subscription.customer as string,
+        value: String(quantity),
+      },
     })
   }
 
@@ -432,10 +434,11 @@ export class StripeBillingService {
   }
 
   private async handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
+    const invoiceWithSub = invoice as Stripe.Invoice & { subscription?: string | Stripe.Subscription | null }
     const subscriptionId =
-      typeof invoice.subscription === 'string'
-        ? invoice.subscription
-        : invoice.subscription?.id
+      typeof invoiceWithSub.subscription === 'string'
+        ? invoiceWithSub.subscription
+        : invoiceWithSub.subscription?.id
 
     if (!subscriptionId) {
       return
@@ -462,10 +465,11 @@ export class StripeBillingService {
   private async handleInvoicePaymentFailed(
     invoice: Stripe.Invoice
   ): Promise<void> {
+    const invoiceWithSub = invoice as Stripe.Invoice & { subscription?: string | Stripe.Subscription | null }
     const subscriptionId =
-      typeof invoice.subscription === 'string'
-        ? invoice.subscription
-        : invoice.subscription?.id
+      typeof invoiceWithSub.subscription === 'string'
+        ? invoiceWithSub.subscription
+        : invoiceWithSub.subscription?.id
 
     if (!subscriptionId) {
       return

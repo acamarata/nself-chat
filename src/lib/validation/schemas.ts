@@ -92,6 +92,22 @@ export const safeTextSchema = z
       .replace(/on\w+='[^']*'/gi, '')
   })
 
+/**
+ * Safe text content with minimum length requirement (prevents XSS)
+ */
+export const safeTextRequiredSchema = z
+  .string()
+  .min(1, 'Content is required')
+  .max(10000, 'Text must not exceed 10000 characters')
+  .transform((val) => {
+    // Strip dangerous HTML tags and attributes
+    return val
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+      .replace(/on\w+="[^"]*"/gi, '')
+      .replace(/on\w+='[^']*'/gi, '')
+  })
+
 // ============================================================================
 // Authentication Schemas
 // ============================================================================
@@ -224,7 +240,7 @@ export const updateChannelSchema = z.object({
  */
 export const sendMessageSchema = z.object({
   channelId: uuidSchema,
-  content: safeTextSchema.min(1, 'Message content is required'),
+  content: safeTextRequiredSchema,
   parentId: uuidSchema.optional(), // For threaded replies
   attachments: z.array(uuidSchema).max(10, 'Maximum 10 attachments').optional(),
   mentions: z.array(uuidSchema).max(50, 'Maximum 50 mentions').optional(),
@@ -234,7 +250,7 @@ export const sendMessageSchema = z.object({
  * Update message validation
  */
 export const updateMessageSchema = z.object({
-  content: safeTextSchema.min(1, 'Message content is required'),
+  content: safeTextRequiredSchema,
 })
 
 /**

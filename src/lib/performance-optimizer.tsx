@@ -27,9 +27,8 @@ export function createDynamicComponent<P = {}>(
   options: DynamicImportOptions = {}
 ): React.ComponentType<P> {
   return dynamic(importFn, {
-    loading: options.loading,
+    loading: options.loading ? () => React.createElement(options.loading!) : undefined,
     ssr: options.ssr ?? false,
-    suspense: options.suspense ?? false,
   })
 }
 
@@ -308,7 +307,7 @@ export const LazyImage = memo(function LazyImage({
  * Deep comparison for useMemo and useCallback
  */
 export function useDeepMemo<T>(factory: () => T, deps: any[]): T {
-  const ref = React.useRef<{ deps: any[]; value: T }>()
+  const ref = React.useRef<{ deps: any[]; value: T } | undefined>(undefined)
 
   if (
     !ref.current ||
@@ -327,7 +326,7 @@ export function useDebouncedCallback<T extends (...args: any[]) => any>(
   callback: T,
   delay: number
 ): (...args: Parameters<T>) => void {
-  const timeoutRef = React.useRef<NodeJS.Timeout>()
+  const timeoutRef = React.useRef<NodeJS.Timeout | undefined>(undefined)
 
   return useCallback(
     (...args: Parameters<T>) => {
@@ -477,15 +476,18 @@ export function lazyWithRetry<T extends React.ComponentType<any>>(
   importFn: () => Promise<{ default: T }>,
   retries = 3
 ): React.LazyExoticComponent<T> {
-  return lazy(() =>
-    importFn().catch((error) => {
+  const retryImport = async (): Promise<{ default: T }> => {
+    try {
+      return await importFn()
+    } catch (error) {
       if (retries > 0) {
         console.warn(`Retry loading component (${retries} attempts left)`)
-        return lazyWithRetry(importFn, retries - 1)
+        return retryImport()
       }
       throw error
-    })
-  )
+    }
+  }
+  return lazy(retryImport)
 }
 
 // ============================================================================

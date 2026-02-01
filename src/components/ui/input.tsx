@@ -25,6 +25,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       }
     }, [error])
 
+    // Extract conflicting event handlers that have different signatures in React vs Framer Motion
+    const { onDrag, onDragEnd, onDragStart, onAnimationStart, 'aria-invalid': ariaInvalid, ...safeProps } = props as InputProps & {
+      onDrag?: unknown;
+      onDragEnd?: unknown;
+      onDragStart?: unknown;
+      onAnimationStart?: unknown;
+    }
+
     return (
       <div className="relative w-full">
         <motion.input
@@ -36,10 +44,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className
           )}
           ref={ref}
-          aria-invalid={!!error || props['aria-invalid']}
+          aria-invalid={!!error || ariaInvalid === true}
           variants={shouldShake ? errorShake : undefined}
           animate={shouldShake ? 'animate' : 'initial'}
-          {...props}
+          {...safeProps}
         />
 
         {/* Error icon */}

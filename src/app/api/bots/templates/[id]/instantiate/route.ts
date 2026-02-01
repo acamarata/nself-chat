@@ -43,11 +43,12 @@ export async function POST(
 
     // Create new bot from template
     const now = new Date()
+    const templateWithCode = template as typeof template & { code?: string }
     const bot = {
       id: Math.random().toString(36).substring(7),
       name: body.name || template.name,
       description: body.description || template.description,
-      code: template.code,
+      code: templateWithCode.code || `// Bot instantiated from template: ${template.id}`,
       version: '1.0.0',
       template_id: templateId,
       config,

@@ -74,6 +74,11 @@ export interface TextAnnotation extends AnnotationBase {
   fontFamily: string
 }
 
+export interface EraserAnnotation extends AnnotationBase {
+  tool: 'eraser'
+  points: Point[]
+}
+
 export type Annotation =
   | PenAnnotation
   | ArrowAnnotation
@@ -81,6 +86,7 @@ export type Annotation =
   | RectangleAnnotation
   | CircleAnnotation
   | TextAnnotation
+  | EraserAnnotation
 
 export interface AnnotatorOptions {
   canvas: HTMLCanvasElement
@@ -346,6 +352,11 @@ export class ScreenAnnotator {
         break
 
       case 'eraser':
+        this.currentAnnotation = {
+          ...base,
+          tool: 'eraser',
+          points: [point],
+        }
         this.handleEraser(point)
         break
     }
@@ -379,6 +390,7 @@ export class ScreenAnnotator {
       }
 
       case 'eraser':
+        this.currentAnnotation.points.push(point)
         this.handleEraser(point)
         break
     }

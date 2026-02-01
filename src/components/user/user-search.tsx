@@ -317,6 +317,9 @@ const UserSearchInput = React.forwardRef<
     onClear?.()
   }
 
+  // Extract aria-invalid to ensure proper typing with our Input component
+  const { 'aria-invalid': ariaInvalid, ...restProps } = props
+
   return (
     <div className={cn('relative', className)}>
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -326,7 +329,8 @@ const UserSearchInput = React.forwardRef<
         value={value}
         onChange={handleChange}
         className="pl-9 pr-9"
-        {...props}
+        aria-invalid={ariaInvalid === true || ariaInvalid === 'true' ? true : ariaInvalid === false || ariaInvalid === 'false' ? false : undefined}
+        {...restProps}
       />
       {value && (
         <Button

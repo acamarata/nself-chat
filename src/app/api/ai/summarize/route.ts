@@ -28,6 +28,12 @@ interface SummarizeResponse {
   summary?: string
   digest?: any
   threadSummary?: any
+  meetingNotes?: any
+  qualityScore?: number
+  costInfo?: {
+    totalCost: number
+    requestCount: number
+  }
   error?: string
   provider?: string
 }

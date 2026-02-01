@@ -269,7 +269,7 @@ NEXT_PUBLIC_EMBEDDING_MODEL=text-embedding-3-small
 ## Support
 
 1. Full docs: `docs/Smart-Search-System.md`
-2. Implementation: `SMART-SEARCH-IMPLEMENTATION.md`
+2. Implementation: `.claude/implementation/smart-search-implementation.md`
 3. Database: Check migrations and functions
 4. API: Test endpoints individually
 5. Worker: Check logs and stats

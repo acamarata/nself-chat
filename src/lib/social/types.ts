@@ -17,6 +17,9 @@ export interface SocialAccount {
   created_by: string
   created_at: string
   updated_at: string
+  access_token_encrypted?: string
+  refresh_token_encrypted?: string
+  token_expires_at?: string
 }
 
 export interface SocialPost {

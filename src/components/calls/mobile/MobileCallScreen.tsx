@@ -119,7 +119,7 @@ function TouchControl({
   onLongPress,
 }: TouchControlProps) {
   const [isPressed, setIsPressed] = React.useState(false)
-  const longPressTimer = React.useRef<NodeJS.Timeout>()
+  const longPressTimer = React.useRef<NodeJS.Timeout | null>(null)
 
   const handleTouchStart = () => {
     setIsPressed(true)

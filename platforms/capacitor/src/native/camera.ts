@@ -57,18 +57,57 @@ class CameraService {
 
   /**
    * Pick multiple photos from gallery
+   * Note: For true multi-select on native, use @capacitor-community/media plugin
    */
   async pickPhotos(maxPhotos: number = 10): Promise<MediaFile[]> {
     try {
-      // Note: Capacitor Camera plugin doesn't support multiple selection natively
-      // This would require a custom plugin or use of image-picker plugin
-      console.warn('Multiple photo selection not natively supported');
+      // Capacitor Camera plugin doesn't support multiple selection natively
+      // For web, we can use input[multiple]
+      if (typeof window !== 'undefined' && !Capacitor.isNativePlatform()) {
+        return this.pickPhotosWeb(maxPhotos);
+      }
+
+      // Fallback: single photo selection
+      console.warn('Multiple photo selection requires @capacitor-community/media plugin on native');
       const photo = await this.pickPhoto();
       return photo ? [photo] : [];
     } catch (error) {
       console.error('Error picking photos:', error);
       return [];
     }
+  }
+
+  /**
+   * Pick multiple photos on web
+   */
+  private async pickPhotosWeb(maxPhotos: number): Promise<MediaFile[]> {
+    return new Promise((resolve) => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.multiple = true;
+
+      input.onchange = async (event) => {
+        const files = Array.from((event.target as HTMLInputElement).files || []);
+        const limited = files.slice(0, maxPhotos);
+
+        const mediaFiles = await Promise.all(
+          limited.map(async (file) => {
+            const uri = URL.createObjectURL(file);
+            return {
+              uri,
+              type: 'image' as const,
+              filename: file.name,
+              size: file.size,
+            };
+          })
+        );
+
+        resolve(mediaFiles);
+      };
+
+      input.click();
+    });
   }
 
   /**

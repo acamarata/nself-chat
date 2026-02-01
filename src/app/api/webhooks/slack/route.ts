@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get webhook headers
-    const headersList = headers()
+    const headersList = await headers()
     const signature = headersList.get('x-slack-signature') || ''
     const timestamp = headersList.get('x-slack-request-timestamp') || ''
 

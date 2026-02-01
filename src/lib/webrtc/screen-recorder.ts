@@ -502,8 +502,8 @@ export class ScreenRecorder {
    */
   getState(): RecordingState {
     return {
-      isRecording: this.recorder?.state === 'recording' ?? false,
-      isPaused: this.recorder?.state === 'paused' ?? false,
+      isRecording: this.recorder?.state === 'recording' || false,
+      isPaused: this.recorder?.state === 'paused' || false,
       duration: this.getCurrentDuration(),
       size: this.currentSize,
     }

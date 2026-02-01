@@ -11,7 +11,7 @@
  * - Skip weekends option
  */
 
-import { bot, embed, text, success, error, info } from '../bot-sdk'
+import { bot, embed, text, success, error, info, response } from '../bot-sdk'
 import type { BotInstance } from '../bot-runtime'
 
 export interface StandupResponse {
@@ -66,7 +66,7 @@ export function createStandupBot(): BotInstance {
       const existingSession = await api.getStorage<StandupSession>(`standup:${today}`)
 
       if (existingSession && existingSession.status === 'active') {
-        return info('Standup is already in progress! Use `/mystandup` to submit your update.')
+        return info('Standup In Progress', 'Standup is already in progress! Use `/mystandup` to submit your update.')
       }
 
       // Create new standup session
@@ -81,26 +81,29 @@ export function createStandupBot(): BotInstance {
 
       await api.setStorage(`standup:${today}`, session)
 
-      const questions = config.settings?.questions || {}
+      const settings = (config.settings || {}) as { questions?: { yesterday?: string; today?: string; blockers?: string } }
+      const questions = settings.questions || {}
 
-      return embed()
-        .title('🗣️ Daily Standup')
-        .description(
-          `Good morning team! Time for our daily standup.\n\n` +
-          `Please share:\n` +
-          `1️⃣ ${questions.yesterday}\n` +
-          `2️⃣ ${questions.today}\n` +
-          `3️⃣ ${questions.blockers}\n\n` +
-          `Use \`/mystandup\` to submit your update.`
+      return response()
+        .embed(
+          embed()
+            .title('🗣️ Daily Standup')
+            .description(
+              `Good morning team! Time for our daily standup.\n\n` +
+              `Please share:\n` +
+              `1️⃣ ${questions.yesterday || 'What did you accomplish yesterday?'}\n` +
+              `2️⃣ ${questions.today || 'What will you work on today?'}\n` +
+              `3️⃣ ${questions.blockers || 'Do you have any blockers?'}\n\n` +
+              `Use \`/mystandup\` to submit your update.`
+            )
+            .color('#3b82f6')
+            .footer(`${session.responses.length} responses so far`)
         )
-        .color('#3b82f6')
-        .footer(`${session.responses.length} responses so far`)
         .build()
     })
 
     // Submit standup update
     .command('mystandup', 'Submit your standup update', async (ctx, api) => {
-      const config = api.getBotConfig()
       const today = new Date().toISOString().split('T')[0]
 
       const session = await api.getStorage<StandupSession>(`standup:${today}`)
@@ -114,6 +117,7 @@ export function createStandupBot(): BotInstance {
 
       if (existingResponse) {
         return info(
+          'Already Submitted',
           'You\'ve already submitted your standup today.\n\n' +
           'Use `/updatestandup` to update your response.'
         )
@@ -128,7 +132,7 @@ export function createStandupBot(): BotInstance {
         )
       }
 
-      const response: StandupResponse = {
+      const standupResponse: StandupResponse = {
         userId: ctx.user.id,
         userName: ctx.user.displayName,
         yesterday: ctx.args.yesterday as string,
@@ -137,14 +141,14 @@ export function createStandupBot(): BotInstance {
         timestamp: new Date(),
       }
 
-      session.responses.push(response)
+      session.responses.push(standupResponse)
       await api.setStorage(`standup:${today}`, session)
 
       return success(
         `Thanks for your update! 🎉\n\n` +
-        `**Yesterday:** ${response.yesterday}\n` +
-        `**Today:** ${response.today}\n` +
-        `**Blockers:** ${response.blockers}\n\n` +
+        `**Yesterday:** ${standupResponse.yesterday}\n` +
+        `**Today:** ${standupResponse.today}\n` +
+        `**Blockers:** ${standupResponse.blockers}\n\n` +
         `${session.responses.length} team members have responded.`
       )
     })

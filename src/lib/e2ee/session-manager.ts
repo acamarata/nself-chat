@@ -285,14 +285,23 @@ class DatabaseIdentityKeyStore extends SignalClient.IdentityKeyStore {
       throw new Error('Device keys not found');
     }
 
-    this.identityKeyPair = SignalClient.IdentityKeyPair.new(
-      SignalClient.PublicKey.deserialize(deviceKeys.identityKeyPair.publicKey),
-      SignalClient.PrivateKey.deserialize(deviceKeys.identityKeyPair.privateKey)
+    const publicKey = SignalClient.PublicKey.deserialize(Buffer.from(deviceKeys.identityKeyPair.publicKey));
+    const privateKey = SignalClient.PrivateKey.deserialize(Buffer.from(deviceKeys.identityKeyPair.privateKey));
+    this.identityKeyPair = new SignalClient.IdentityKeyPair(
+      publicKey,
+      privateKey
     );
     this.registrationId = deviceKeys.registrationId;
   }
 
-  async getIdentityKey(): Promise<SignalClient.IdentityKeyPair> {
+  async getIdentityKey(): Promise<SignalClient.PrivateKey> {
+    if (!this.identityKeyPair) {
+      await this.initialize();
+    }
+    return this.identityKeyPair!.privateKey;
+  }
+
+  async getIdentityKeyPair(): Promise<SignalClient.IdentityKeyPair> {
     if (!this.identityKeyPair) {
       await this.initialize();
     }
@@ -365,8 +374,8 @@ class DatabasePreKeyStore extends SignalClient.PreKeyStore {
       throw new Error(`PreKey ${id} not found`);
     }
 
-    const publicKey = SignalClient.PublicKey.deserialize(prekey.publicKey);
-    const privateKey = SignalClient.PrivateKey.deserialize(prekey.privateKey);
+    const publicKey = SignalClient.PublicKey.deserialize(Buffer.from(prekey.publicKey));
+    const privateKey = SignalClient.PrivateKey.deserialize(Buffer.from(prekey.privateKey));
 
     return SignalClient.PreKeyRecord.new(id, publicKey, privateKey);
   }
@@ -408,10 +417,10 @@ class DatabaseSignedPreKeyStore extends SignalClient.SignedPreKeyStore {
     }
 
     const publicKey = SignalClient.PublicKey.deserialize(
-      deviceKeys.signedPreKey.keyPair.publicKey
+      Buffer.from(deviceKeys.signedPreKey.keyPair.publicKey)
     );
     const privateKey = SignalClient.PrivateKey.deserialize(
-      deviceKeys.signedPreKey.keyPair.privateKey
+      Buffer.from(deviceKeys.signedPreKey.keyPair.privateKey)
     );
     const signature = deviceKeys.signedPreKey.signature;
     const timestamp = Date.now();
@@ -577,7 +586,7 @@ export class SessionManager {
       plaintext,
       address,
       this.sessionStore,
-      this.identityKeyStore
+      this.identityKeyStore as SignalClient.IdentityKeyStore
     );
 
     // Update session metadata
@@ -613,7 +622,7 @@ export class SessionManager {
       encryptedMessage,
       address,
       this.sessionStore,
-      this.identityKeyStore,
+      this.identityKeyStore as SignalClient.IdentityKeyStore,
       this.preKeyStore,
       this.signedPreKeyStore
     );

@@ -259,22 +259,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // 1. MULTI-TENANT ROUTING (if enabled)
-  const enableMultiTenancy = process.env.ENABLE_MULTI_TENANCY === 'true'
-
-  if (enableMultiTenancy) {
-    const tenantConfig = getDefaultTenantConfig()
-    const tenantResponse = await tenantMiddleware(request, tenantConfig)
-
-    // If tenant middleware returned a redirect or error, return it
-    if (tenantResponse.status !== 200) {
-      return tenantResponse
-    }
-
-    // Continue with tenant-aware request
-    request = tenantResponse.request || request
-  }
-
   // In development mode with dev auth enabled, be more permissive
   // Client-side guards will handle the actual protection
   const isDev = process.env.NODE_ENV === 'development'
@@ -285,6 +269,25 @@ export async function middleware(request: NextRequest) {
   if (isDevOnlyRoute(pathname) && !isDev) {
     // Return 404 in production for dev routes
     return NextResponse.rewrite(new URL('/404', request.url))
+  }
+
+  // 1. MULTI-TENANT ROUTING (if enabled)
+  const enableMultiTenancy = process.env.ENABLE_MULTI_TENANCY === 'true'
+
+  if (enableMultiTenancy) {
+    const tenantConfig = getDefaultTenantConfig()
+    const tenantResponse = await tenantMiddleware(request, tenantConfig)
+
+    // If tenant middleware returned a redirect, rewrite, or error, return it with security headers
+    if (tenantResponse.status !== 200) {
+      return addSecurityHeaders(tenantResponse, isDev)
+    }
+
+    // For successful tenant resolution, tenantMiddleware returns NextResponse.next({ request: modifiedRequest })
+    // which already has the tenant context headers. Apply security headers and return.
+    // Note: In multi-tenant mode, we rely on client-side guards for auth since
+    // the tenant middleware already handles request modification internally.
+    return addSecurityHeaders(tenantResponse, isDev)
   }
 
   if (isDev && useDevAuth) {

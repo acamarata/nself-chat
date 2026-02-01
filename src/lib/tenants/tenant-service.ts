@@ -6,6 +6,7 @@
  */
 
 import { Pool } from 'pg'
+import { DEFAULT_PLANS } from './types'
 import type {
   Tenant,
   CreateTenantRequest,
@@ -14,7 +15,6 @@ import type {
   TenantUsage,
   TenantSettings,
   BillingPlan,
-  DEFAULT_PLANS,
 } from './types'
 
 /**

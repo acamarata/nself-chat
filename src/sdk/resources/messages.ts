@@ -51,76 +51,76 @@ export class MessagesResource extends BaseResource {
    * Send a message to a channel
    */
   async send(options: CreateMessageOptions): Promise<Message> {
-    return this.post<Message>('/api/messages', options)
+    return this._post<Message>('/api/messages', options)
   }
 
   /**
    * Get a single message by ID
    */
   async get(messageId: UUID): Promise<Message> {
-    return this.get<Message>(`/api/messages/${messageId}`)
+    return this._get<Message>(`/api/messages/${messageId}`)
   }
 
   /**
    * List messages in a channel
    */
   async list(channelId: UUID, options?: ListOptions): Promise<PaginatedResult<Message>> {
-    return this.get<PaginatedResult<Message>>(`/api/channels/${channelId}/messages`, options)
+    return this._get<PaginatedResult<Message>>(`/api/channels/${channelId}/messages`, options)
   }
 
   /**
    * Update a message
    */
   async update(messageId: UUID, options: UpdateMessageOptions): Promise<Message> {
-    return this.patch<Message>(`/api/messages/${messageId}`, options)
+    return this._patch<Message>(`/api/messages/${messageId}`, options)
   }
 
   /**
    * Delete a message
    */
   async delete(messageId: UUID): Promise<void> {
-    return this.delete<void>(`/api/messages/${messageId}`)
+    return this._delete<void>(`/api/messages/${messageId}`)
   }
 
   /**
    * Add a reaction to a message
    */
   async react(messageId: UUID, emoji: string): Promise<void> {
-    return this.post<void>(`/api/messages/${messageId}/reactions`, { emoji })
+    return this._post<void>(`/api/messages/${messageId}/reactions`, { emoji })
   }
 
   /**
    * Remove a reaction from a message
    */
   async unreact(messageId: UUID, emoji: string): Promise<void> {
-    return this.delete<void>(`/api/messages/${messageId}/reactions/${encodeURIComponent(emoji)}`)
+    return this._delete<void>(`/api/messages/${messageId}/reactions/${encodeURIComponent(emoji)}`)
   }
 
   /**
    * Pin a message
    */
   async pin(messageId: UUID): Promise<void> {
-    return this.post<void>(`/api/messages/${messageId}/pin`)
+    return this._post<void>(`/api/messages/${messageId}/pin`)
   }
 
   /**
    * Unpin a message
    */
   async unpin(messageId: UUID): Promise<void> {
-    return this.delete<void>(`/api/messages/${messageId}/pin`)
+    return this._delete<void>(`/api/messages/${messageId}/pin`)
   }
 
   /**
    * Get thread replies
    */
   async getThread(messageId: UUID, options?: ListOptions): Promise<PaginatedResult<Message>> {
-    return this.get<PaginatedResult<Message>>(`/api/messages/${messageId}/thread`, options)
+    return this._get<PaginatedResult<Message>>(`/api/messages/${messageId}/thread`, options)
   }
 
   /**
    * Mark message as read
    */
   async markAsRead(messageId: UUID): Promise<void> {
-    return this.post<void>(`/api/messages/${messageId}/read`)
+    return this._post<void>(`/api/messages/${messageId}/read`)
   }
 }

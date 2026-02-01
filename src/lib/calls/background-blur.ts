@@ -227,7 +227,7 @@ export class BackgroundBlur {
     requestAnimationFrame(() => this.processFrame())
   }
 
-  private applyBlur(mask: HTMLCanvasElement | ImageBitmap | HTMLImageElement, image: HTMLCanvasElement | HTMLVideoElement | HTMLImageElement): void {
+  private applyBlur(mask: HTMLCanvasElement | ImageBitmap | HTMLImageElement, image: HTMLCanvasElement | HTMLVideoElement | HTMLImageElement | CanvasImageSource): void {
     if (!this.tempCanvas || !this.tempCtx || !this.outputCanvas || !this.outputCtx || !this.ctx) {
       return
     }

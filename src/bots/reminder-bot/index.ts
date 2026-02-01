@@ -143,7 +143,7 @@ export function createReminderBot() {
         clearInterval(cleanupInterval)
         clearInterval(saveInterval)
         // Clear all scheduled reminders
-        clearAllReminders()
+        stopAllTimers()
       })
     })
 
@@ -179,4 +179,5 @@ export {
   exportReminders,
   importReminders,
   stopAllTimers,
+  clearAllReminders,
 } from './scheduler'

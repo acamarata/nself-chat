@@ -20,7 +20,8 @@ import {
   getCustomRoleService,
   canAssignRole,
 } from '@/lib/rbac/custom-roles'
-import { Permission } from '@/lib/auth/permissions'
+import { Permission } from '@/lib/admin/roles/role-types'
+import { Permission as AuthPermission } from '@/lib/auth/permissions'
 import { UserRole } from '@/lib/auth/roles'
 
 import { Button } from '@/components/ui/button'
@@ -321,7 +322,7 @@ export function RoleEditor() {
           onClose={() => {
             setIsCreating(false)
             setIsEditing(false)
-            setSelectedConnection(null)
+            setSelectedRole(null)
           }}
           onSave={(data) => {
             if (isEditing && selectedRole) {
@@ -497,8 +498,8 @@ function RoleEditorDialog({ role, open, onClose, onSave }: RoleEditorDialogProps
 
           <TabsContent value="permissions" className="space-y-4">
             <RolePermissions
-              permissions={formData.permissions || []}
-              onChange={(permissions) => setFormData({ ...formData, permissions })}
+              permissions={(formData.permissions || []) as unknown as Permission[]}
+              onChange={(permissions) => setFormData({ ...formData, permissions: permissions as unknown as AuthPermission[] })}
               showDescriptions={true}
             />
           </TabsContent>

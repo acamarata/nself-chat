@@ -94,7 +94,7 @@ export async function generateSignedPreKey(
   signedPreKeyId: number
 ): Promise<SignedPreKeyPair> {
   const identityPrivateKey = SignalClient.PrivateKey.deserialize(
-    identityKeyPair.privateKey
+    Buffer.from(identityKeyPair.privateKey)
   );
 
   const keyPair = SignalClient.PrivateKey.generate();
@@ -156,12 +156,12 @@ export async function processPreKeyBundle(
 ): Promise<void> {
   // Create identity key
   const remoteIdentityKey = SignalClient.PublicKey.deserialize(
-    bundle.identityKey
+    Buffer.from(bundle.identityKey)
   );
 
   // Create signed prekey
   const signedPreKey = SignalClient.PublicKey.deserialize(
-    bundle.signedPreKey.publicKey
+    Buffer.from(bundle.signedPreKey.publicKey)
   );
 
   // Create one-time prekey (if available)
@@ -170,12 +170,12 @@ export async function processPreKeyBundle(
 
   if (bundle.oneTimePreKey) {
     oneTimePreKey = SignalClient.PublicKey.deserialize(
-      bundle.oneTimePreKey.publicKey
+      Buffer.from(bundle.oneTimePreKey.publicKey)
     );
     oneTimePreKeyId = bundle.oneTimePreKey.keyId;
   }
 
-  // Create prekey bundle
+  // Create prekey bundle - identity_key should be PublicKey
   const prekeyBundle = SignalClient.PreKeyBundle.new(
     bundle.registrationId,
     parseInt(bundle.deviceId, 10),
@@ -183,22 +183,26 @@ export async function processPreKeyBundle(
     oneTimePreKey,
     bundle.signedPreKey.keyId,
     signedPreKey,
-    bundle.signedPreKey.signature,
+    Buffer.from(bundle.signedPreKey.signature),
     remoteIdentityKey
   );
 
   // Process bundle to create session
-  const localIdentityKey = SignalClient.IdentityKeyPair.new(
-    SignalClient.PublicKey.deserialize(localIdentityKeyPair.publicKey),
-    SignalClient.PrivateKey.deserialize(localIdentityKeyPair.privateKey)
+  const localPublicKey = SignalClient.PublicKey.deserialize(Buffer.from(localIdentityKeyPair.publicKey));
+  const localPrivateKey = SignalClient.PrivateKey.deserialize(Buffer.from(localIdentityKeyPair.privateKey));
+  const localIdentityKey = new SignalClient.IdentityKeyPair(
+    localPublicKey,
+    localPrivateKey
   );
 
   // This creates the session in the session store
+  const sessionStore = new InMemorySessionStore();
+  const identityKeyStore = new InMemoryIdentityKeyStore(localIdentityKey, localRegistrationId);
   await SignalClient.processPreKeyBundle(
     prekeyBundle,
     remoteAddress,
-    new InMemorySessionStore(),
-    new InMemoryIdentityKeyStore(localIdentityKey, localRegistrationId)
+    sessionStore,
+    identityKeyStore as SignalClient.IdentityKeyStore
   );
 }
 
@@ -237,7 +241,8 @@ export async function decryptMessage(
   sessionStore: SignalClient.SessionStore,
   identityKeyStore: SignalClient.IdentityKeyStore,
   preKeyStore: SignalClient.PreKeyStore,
-  signedPreKeyStore: SignalClient.SignedPreKeyStore
+  signedPreKeyStore: SignalClient.SignedPreKeyStore,
+  kyberPreKeyStore?: SignalClient.KyberPreKeyStore
 ): Promise<Uint8Array> {
   let plaintext: Buffer;
 
@@ -246,13 +251,17 @@ export async function decryptMessage(
       Buffer.from(encryptedMessage.body)
     );
 
+    // Use provided KyberPreKeyStore or create a dummy one for backwards compatibility
+    const kyberStore = kyberPreKeyStore || new InMemoryKyberPreKeyStore();
+
     plaintext = await SignalClient.signalDecryptPreKey(
       prekeyMessage,
       remoteAddress,
       sessionStore,
       identityKeyStore,
       preKeyStore,
-      signedPreKeyStore
+      signedPreKeyStore,
+      kyberStore
     );
   } else {
     const signalMessage = SignalClient.SignalMessage.deserialize(
@@ -345,7 +354,11 @@ class InMemoryIdentityKeyStore extends SignalClient.IdentityKeyStore {
     this.registrationId = registrationId;
   }
 
-  async getIdentityKey(): Promise<SignalClient.IdentityKeyPair> {
+  async getIdentityKey(): Promise<SignalClient.PrivateKey> {
+    return this.identityKey.privateKey;
+  }
+
+  async getIdentityKeyPair(): Promise<SignalClient.IdentityKeyPair> {
     return this.identityKey;
   }
 
@@ -362,8 +375,8 @@ class InMemoryIdentityKeyStore extends SignalClient.IdentityKeyStore {
 
     this.trustedKeys.set(identifier, key);
 
-    // Return true if this is a new key or key has changed
-    return !existing || !existing.compare(key);
+    // Return true if this is a new key or key has changed (compare returns 0 if equal)
+    return !existing || existing.compare(key) !== 0;
   }
 
   async isTrustedIdentity(
@@ -378,7 +391,8 @@ class InMemoryIdentityKeyStore extends SignalClient.IdentityKeyStore {
       return true; // Trust on first use (TOFU)
     }
 
-    return trusted.compare(key);
+    // compare returns 0 if keys are equal
+    return trusted.compare(key) === 0;
   }
 
   async getIdentity(
@@ -431,6 +445,31 @@ class InMemorySignedPreKeyStore extends SignalClient.SignedPreKeyStore {
   }
 }
 
+class InMemoryKyberPreKeyStore extends SignalClient.KyberPreKeyStore {
+  private kyberPreKeys: Map<number, SignalClient.KyberPreKeyRecord> = new Map();
+
+  async saveKyberPreKey(
+    kyberPreKeyId: number,
+    record: SignalClient.KyberPreKeyRecord
+  ): Promise<void> {
+    this.kyberPreKeys.set(kyberPreKeyId, record);
+  }
+
+  async getKyberPreKey(kyberPreKeyId: number): Promise<SignalClient.KyberPreKeyRecord> {
+    const kyberPreKey = this.kyberPreKeys.get(kyberPreKeyId);
+    if (!kyberPreKey) {
+      throw new Error(`KyberPreKey ${kyberPreKeyId} not found`);
+    }
+    return kyberPreKey;
+  }
+
+  async markKyberPreKeyUsed(kyberPreKeyId: number): Promise<void> {
+    // In a real implementation, this would mark the key as used
+    // For the in-memory store, we just remove it after use
+    this.kyberPreKeys.delete(kyberPreKeyId);
+  }
+}
+
 // ============================================================================
 // EXPORTS
 // ============================================================================
@@ -440,6 +479,7 @@ export {
   InMemoryIdentityKeyStore,
   InMemoryPreKeyStore,
   InMemorySignedPreKeyStore,
+  InMemoryKyberPreKeyStore,
 };
 
 export const signalClient = {

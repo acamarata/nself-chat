@@ -48,48 +48,48 @@ export class WebhooksResource extends BaseResource {
    * Create a new webhook
    */
   async create(options: CreateWebhookOptions): Promise<Webhook> {
-    return this.post<Webhook>('/api/webhooks', options)
+    return this._post<Webhook>('/api/webhooks', options)
   }
 
   /**
    * Get a webhook by ID
    */
   async get(webhookId: UUID): Promise<Webhook> {
-    return this.get<Webhook>(`/api/webhooks/${webhookId}`)
+    return this._get<Webhook>(`/api/webhooks/${webhookId}`)
   }
 
   /**
    * List all webhooks
    */
   async list(options?: ListOptions): Promise<PaginatedResult<Webhook>> {
-    return this.get<PaginatedResult<Webhook>>('/api/webhooks', options)
+    return this._get<PaginatedResult<Webhook>>('/api/webhooks', options)
   }
 
   /**
    * Update a webhook
    */
   async update(webhookId: UUID, options: UpdateWebhookOptions): Promise<Webhook> {
-    return this.patch<Webhook>(`/api/webhooks/${webhookId}`, options)
+    return this._patch<Webhook>(`/api/webhooks/${webhookId}`, options)
   }
 
   /**
    * Delete a webhook
    */
   async delete(webhookId: UUID): Promise<void> {
-    return this.delete<void>(`/api/webhooks/${webhookId}`)
+    return this._delete<void>(`/api/webhooks/${webhookId}`)
   }
 
   /**
    * Test a webhook
    */
   async test(webhookId: UUID): Promise<{ success: boolean; response?: unknown }> {
-    return this.post<{ success: boolean; response?: unknown }>(`/api/webhooks/${webhookId}/test`)
+    return this._post<{ success: boolean; response?: unknown }>(`/api/webhooks/${webhookId}/test`)
   }
 
   /**
    * Regenerate webhook secret
    */
   async regenerateSecret(webhookId: UUID): Promise<{ secret: string }> {
-    return this.post<{ secret: string }>(`/api/webhooks/${webhookId}/regenerate-secret`)
+    return this._post<{ secret: string }>(`/api/webhooks/${webhookId}/regenerate-secret`)
   }
 }

@@ -11,7 +11,7 @@ import { Star, Trash2, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { formatDistanceToNow } from 'date-fns'
 
-interface SavedSearch {
+export interface SavedSearch {
   id: string
   name: string
   query: string
@@ -22,10 +22,13 @@ interface SavedSearch {
 }
 
 export interface SavedSearchesProps {
-  onLoadSearch: (query: string, filters: Record<string, unknown>) => void
+  onLoadSearch?: (query: string, filters: Record<string, unknown>) => void
+  onSelect?: (search: SavedSearch) => void
+  onExport?: (searches: SavedSearch[]) => void
+  onImport?: (searches: SavedSearch[]) => void
 }
 
-export function SavedSearches({ onLoadSearch }: SavedSearchesProps) {
+export function SavedSearches({ onLoadSearch, onSelect, onExport, onImport }: SavedSearchesProps) {
   const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -64,7 +67,8 @@ export function SavedSearches({ onLoadSearch }: SavedSearchesProps) {
     setSavedSearches(updated)
     localStorage.setItem('saved_searches', JSON.stringify(updated))
 
-    onLoadSearch(search.query, search.filters)
+    onLoadSearch?.(search.query, search.filters)
+    onSelect?.(search)
   }
 
   if (isLoading) {

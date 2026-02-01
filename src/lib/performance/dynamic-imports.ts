@@ -6,7 +6,7 @@
  */
 
 import dynamic from 'next/dynamic'
-import { ComponentType } from 'react'
+import React, { ComponentType, ReactNode } from 'react'
 
 // Loading components
 import { ChartSkeleton } from '@/components/ui/loading-skeletons'
@@ -22,7 +22,7 @@ import { ChartSkeleton } from '@/components/ui/loading-skeletons'
 export const DynamicActivityChart = dynamic(
   () => import('@/components/admin/activity-chart').then((mod) => ({ default: mod.ActivityChart })),
   {
-    loading: () => ChartSkeleton({}),
+    loading: () => React.createElement(ChartSkeleton),
     ssr: false, // Charts often rely on window measurements
   }
 )
@@ -168,7 +168,7 @@ export const DynamicSettingsSecurity = dynamic(
  * Create Channel Modal
  */
 export const DynamicCreateChannelModal = dynamic(
-  () => import('@/components/modals/create-channel-modal'),
+  () => import('@/components/modals/create-channel-modal').then((mod) => ({ default: mod.CreateChannelModal })),
   {
     ssr: false,
   }
@@ -178,7 +178,7 @@ export const DynamicCreateChannelModal = dynamic(
  * User Profile Modal
  */
 export const DynamicUserProfileModal = dynamic(
-  () => import('@/components/modals/user-profile-modal'),
+  () => import('@/components/modals/user-profile-modal').then((mod) => ({ default: mod.UserProfileModal })),
   {
     ssr: false,
   }
@@ -219,7 +219,7 @@ export function createDynamicComponent<T extends ComponentType<any>>(
   config: DynamicComponentConfig = {}
 ): T {
   return dynamic(importFn, {
-    loading: config.loading,
+    loading: config.loading ? () => React.createElement(config.loading!) : undefined,
     ssr: config.ssr ?? true,
   }) as unknown as T
 }

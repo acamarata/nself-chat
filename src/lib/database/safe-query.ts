@@ -94,7 +94,7 @@ export interface SafeQueryOptions {
  * )
  * ```
  */
-export async function executeQuery<T = any>(
+export async function executeQuery<T extends Record<string, any> = Record<string, any>>(
   pool: Pool,
   query: string,
   values: any[] = []

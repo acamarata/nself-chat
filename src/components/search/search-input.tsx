@@ -136,7 +136,8 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
             'bg-muted/50 border-transparent focus:border-input focus:bg-background',
             'transition-colors duration-200'
           )}
-          {...props}
+          aria-invalid={props['aria-invalid'] === true || props['aria-invalid'] === 'true' ? true : undefined}
+          {...(({ 'aria-invalid': _, ...rest }) => rest)(props)}
         />
 
         {/* Right side: clear button or shortcut hint */}

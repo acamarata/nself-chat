@@ -19,7 +19,6 @@ export function createMockMessage(overrides?: Partial<Message>): Message {
     content: 'This is a test message',
     userId: 'user-123',
     userName: 'Test User',
-    channelId: 'channel-1',
     createdAt: new Date().toISOString(),
     ...overrides,
   }
@@ -67,7 +66,6 @@ export function createMockThread(
       content: `${options?.contentPrefix || 'Message'} ${i + 1}`,
       userId,
       userName: `User ${userId}`,
-      channelId: 'channel-1',
       createdAt: timestamp.toISOString(),
     })
   }
@@ -85,7 +83,6 @@ export function createRealisticThread(): Message[] {
       content: 'Hey team, we need to discuss the new feature release',
       userId: 'user-1',
       userName: 'Alice',
-      channelId: 'channel-1',
       createdAt: new Date('2024-01-30T10:00:00Z').toISOString(),
     },
     {
@@ -93,7 +90,6 @@ export function createRealisticThread(): Message[] {
       content: "Sure, what's the timeline?",
       userId: 'user-2',
       userName: 'Bob',
-      channelId: 'channel-1',
       createdAt: new Date('2024-01-30T10:01:00Z').toISOString(),
     },
     {
@@ -101,7 +97,6 @@ export function createRealisticThread(): Message[] {
       content: 'We need to ship by end of week. The main tasks are: 1) Fix the authentication bug, 2) Add new dashboard widgets, 3) Write documentation',
       userId: 'user-1',
       userName: 'Alice',
-      channelId: 'channel-1',
       createdAt: new Date('2024-01-30T10:02:00Z').toISOString(),
     },
     {
@@ -109,7 +104,6 @@ export function createRealisticThread(): Message[] {
       content: 'I can take the auth bug. Bob, can you handle the widgets?',
       userId: 'user-3',
       userName: 'Charlie',
-      channelId: 'channel-1',
       createdAt: new Date('2024-01-30T10:03:00Z').toISOString(),
     },
     {
@@ -117,7 +111,6 @@ export function createRealisticThread(): Message[] {
       content: 'Sounds good! I will work on the dashboard widgets today',
       userId: 'user-2',
       userName: 'Bob',
-      channelId: 'channel-1',
       createdAt: new Date('2024-01-30T10:04:00Z').toISOString(),
     },
     {
@@ -125,7 +118,6 @@ export function createRealisticThread(): Message[] {
       content: "Great! I'll handle the documentation once the features are done",
       userId: 'user-1',
       userName: 'Alice',
-      channelId: 'channel-1',
       createdAt: new Date('2024-01-30T10:05:00Z').toISOString(),
     },
     {
@@ -133,7 +125,6 @@ export function createRealisticThread(): Message[] {
       content: 'Perfect, we have a plan. Thanks everyone!',
       userId: 'user-1',
       userName: 'Alice',
-      channelId: 'channel-1',
       createdAt: new Date('2024-01-30T10:06:00Z').toISOString(),
     },
   ]

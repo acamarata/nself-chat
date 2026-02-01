@@ -4,13 +4,27 @@ Release documentation, migration guides, and version-specific information for ns
 
 ## Contents
 
-### Current Release (v0.5.0)
+### Current Release (v0.7.0)
+
+- **[v0.7.0 Release Notes](v0.7.0/RELEASE-NOTES.md)** - AI & Intelligence features
+- **[v0.7.0 Changelog](v0.7.0/CHANGELOG.md)** - Complete changelog for v0.7.0
+- **[v0.7.0 Upgrade Guide](v0.7.0/UPGRADE-GUIDE.md)** - How to upgrade from v0.6.0
+
+### Previous Releases
+
+#### v0.6.0 - Enterprise Communication Suite
+
+- **[v0.6.0 Release Notes](v0.6.0/RELEASE-NOTES.md)** - What's new in v0.6.0
+- **[v0.6.0 Changelog](v0.6.0/CHANGELOG.md)** - Complete changelog
+- **[v0.6.0 Upgrade Guide](v0.6.0/UPGRADE-GUIDE.md)** - How to upgrade from v0.5.0
+
+#### v0.5.0 - Multi-Tenant SaaS
 
 - **[v0.5.0 Plan](v0.5.0-PLAN.md)** - Detailed release plan and feature breakdown
 - **[v0.5.0 Changelog](CHANGELOG-v0.5.0.md)** - Complete changelog for v0.5.0
 - **[v0.5.0 Compliance Summary](v0.5.0-COMPLIANCE-SUMMARY.md)** - Compliance features and certifications
 
-### Previous Release (v0.4.0)
+#### v0.4.0 - Security & Communication
 
 - **[v0.4.0 Release Notes](v0.4.0-RELEASE-NOTES.md)** - What's new in v0.4.0
 - **[v0.4.0 Upgrade Guide](v0.4.0-UPGRADE-GUIDE.md)** - How to upgrade from v0.3.x
@@ -22,21 +36,27 @@ Release documentation, migration guides, and version-specific information for ns
 ### For Users
 
 **What's New:**
-- Latest features: [v0.5.0 Changelog](CHANGELOG-v0.5.0.md)
-- Previous release: [v0.4.0 Release Notes](v0.4.0-RELEASE-NOTES.md)
+- Latest features: [v0.7.0 Release Notes](v0.7.0/RELEASE-NOTES.md)
+- Previous release: [v0.6.0 Release Notes](v0.6.0/RELEASE-NOTES.md)
+- Version comparison: [Version Comparison](../VERSION-COMPARISON.md)
 
 **Upgrading:**
-- From v0.4.x to v0.5.0: Coming soon
+- From v0.6.0 to v0.7.0: [v0.7.0 Upgrade Guide](v0.7.0/UPGRADE-GUIDE.md)
+- From v0.5.0 to v0.6.0: [v0.6.0 Upgrade Guide](v0.6.0/UPGRADE-GUIDE.md)
+- From v0.4.x to v0.5.0: [v0.5.0 Plan](v0.5.0-PLAN.md)
 - From v0.3.x to v0.4.0: [v0.4.0 Upgrade Guide](v0.4.0-UPGRADE-GUIDE.md)
 
 ### For Developers
 
 **Migration:**
+- v0.7.0 changes: [v0.7.0 Changelog](v0.7.0/CHANGELOG.md) (no breaking changes)
+- v0.6.0 changes: [v0.6.0 Changelog](v0.6.0/CHANGELOG.md) (no breaking changes)
 - v0.4.0 breaking changes: [v0.4.0 Breaking Changes](v0.4.0-BREAKING-CHANGES.md)
 - Step-by-step migration: [v0.4.0 Migration Guide](v0.4.0-MIGRATION-GUIDE.md)
 
 **Planning:**
-- Future features: [v0.5.0 Plan](v0.5.0-PLAN.md)
+- Version comparison: [Version Comparison](../VERSION-COMPARISON.md)
+- Future roadmap: See individual release notes
 
 ### For Compliance Teams
 
@@ -45,17 +65,67 @@ Release documentation, migration guides, and version-specific information for ns
 
 ## Version Overview
 
-### v0.5.0 (Current) - January 2026
+### v0.7.0 (Current) - January 31, 2026
 
-**Status:** In Development
+**Status:** ✅ Stable
+
+**Major Features:**
+- AI Message Summarization (thread & channel digests)
+- Smart Semantic Search (pgvector embeddings)
+- Bot Framework & SDK (5 pre-built templates)
+- Auto-Moderation AI (toxicity detection, spam filtering)
+- AI Infrastructure (rate limiting, cost tracking, caching)
+- Vector Database (HNSW index, background workers)
+- Bot Management UI (visual editor, testing sandbox)
+- Search UI (command palette, visual query builder)
+
+**Stats:**
+- 29,600+ lines of code
+- 101 files created/modified
+- 285+ comprehensive tests
+- 15+ documentation pages
+
+**Documentation:**
+- [v0.7.0 Release Notes](v0.7.0/RELEASE-NOTES.md) - Complete AI features
+- [v0.7.0 Changelog](v0.7.0/CHANGELOG.md) - Detailed changelog
+- [v0.7.0 Upgrade Guide](v0.7.0/UPGRADE-GUIDE.md) - Upgrade from v0.6.0
+
+### v0.6.0 - January 31, 2026
+
+**Status:** ✅ Stable
+
+**Major Features:**
+- Voice Messages (audio recording/playback)
+- Video Conferencing (WebRTC, up to 50 participants)
+- Live Status & Presence (typing indicators, online status)
+- Push & Email Notifications (digests, real-time alerts)
+- Stickers & GIFs (Giphy, Tenor integration)
+- Social Embeds (Twitter, YouTube, GitHub, LinkedIn)
+- Integrations (Slack, GitHub, JIRA, Google Drive)
+- Webhooks (incoming/outgoing)
+
+**Stats:**
+- 50,000+ lines of code
+- 250+ files created/modified
+- 185 documentation pages
+- 94/100 quality score
+
+**Documentation:**
+- [v0.6.0 Release Notes](v0.6.0/RELEASE-NOTES.md) - Full release notes
+- [v0.6.0 Changelog](v0.6.0/CHANGELOG.md) - Complete changelog
+- [v0.6.0 Upgrade Guide](v0.6.0/UPGRADE-GUIDE.md) - Upgrade from v0.5.0
+
+### v0.5.0 - January 2026
+
+**Status:** Legacy
 
 **Major Features:**
 - Multi-tenant SaaS architecture
 - Billing and subscription management (Stripe)
-- Advanced AI moderation (TensorFlow.js)
+- Advanced moderation (manual + rules-based)
 - Analytics and telemetry (OpenTelemetry)
 - Compliance features (GDPR, data retention)
-- Enhanced integrations (Slack, GitHub, Jira, Google Drive)
+- Enhanced integrations foundation
 
 **Documentation:**
 - [v0.5.0 Plan](v0.5.0-PLAN.md) - Complete feature breakdown
@@ -64,7 +134,7 @@ Release documentation, migration guides, and version-specific information for ns
 
 ### v0.4.0 - January 2026
 
-**Status:** Stable
+**Status:** Legacy
 
 **Major Features:**
 - End-to-end encryption (E2EE)
@@ -83,7 +153,7 @@ Release documentation, migration guides, and version-specific information for ns
 
 ### v0.3.0 - January 2026
 
-**Status:** Legacy
+**Status:** Deprecated
 
 **Major Features:**
 - Core messaging platform
@@ -101,10 +171,13 @@ Release documentation, migration guides, and version-specific information for ns
 ### Supported Upgrade Paths
 
 ```
-v0.3.x → v0.4.0 → v0.5.0 (supported)
-v0.3.x → v0.5.0 (not recommended, use incremental)
-v0.4.x → v0.5.0 (coming soon)
+v0.6.0 → v0.7.0 (direct upgrade, zero breaking changes)
+v0.5.0 → v0.6.0 → v0.7.0 (recommended incremental)
+v0.4.x → v0.5.0 → v0.6.0 → v0.7.0 (full upgrade path)
+v0.3.x → v0.4.0 → v0.5.0 → v0.6.0 → v0.7.0 (complete migration)
 ```
+
+**Note:** All upgrades from v0.5.0+ have **zero breaking changes** and are backward compatible.
 
 ### Migration Strategy
 
@@ -155,9 +228,10 @@ A breaking change is any modification that:
 - Deprecation warnings are included 1 major version before removal
 
 **Support Window:**
-- Current version (v0.5.x): Full support
-- Previous major version (v0.4.x): Security patches only
-- Older versions (< v0.4.x): No support
+- Current version (v0.7.x): Full support
+- Previous version (v0.6.x): Security patches + critical fixes
+- v0.5.x: Security patches only
+- Older versions (< v0.5.x): No support (upgrade recommended)
 
 ## Changelog Format
 
@@ -173,17 +247,20 @@ All changelogs follow the [Keep a Changelog](https://keepachangelog.com/) format
 
 **Example:**
 ```markdown
-## [0.5.0] - 2026-01-31
+## [0.7.0] - 2026-01-31
 
 ### Added
-- Multi-tenant SaaS architecture
-- Stripe billing integration
+- AI Message Summarization
+- Smart Semantic Search
+- Bot Framework & SDK
 
 ### Changed
-- Improved performance for large channels
+- Enhanced search with vector embeddings
+- Improved moderation with AI detection
 
 ### Fixed
-- Voice calling connection issues
+- Embedding generation race conditions
+- Bot state persistence issues
 ```
 
 ## Version Numbering
@@ -205,10 +282,11 @@ nself-chat follows [Semantic Versioning 2.0.0](https://semver.org/):
 
 ## Related Documentation
 
-- [Changelog](../about/Changelog.md) - Complete version history
+- **[Version Comparison](../VERSION-COMPARISON.md)** - Compare v0.6.0, v0.7.0, v0.8.0 features
+- [Changelog](../CHANGELOG.md) - Complete version history
 - [Roadmap](../about/Roadmap.md) - Future plans
-- [Contributing](../about/Contributing.md) - How to contribute
-- [Upgrade Guide](../about/UPGRADE-GUIDE.md) - General upgrade instructions
+- [Contributing](../CONTRIBUTING.md) - How to contribute
+- Individual release upgrade guides for detailed instructions
 
 ## Support
 
@@ -229,10 +307,11 @@ Found a bug in a release?
 
 ## Version Information
 
-**Current Version:** 0.5.0 (in development)
-**Stable Version:** 0.4.0
-**Documentation Version:** 0.5.0
-**Last Updated:** January 31, 2026
+**Current Version:** 0.7.0
+**Stable Version:** 0.7.0
+**Previous Version:** 0.6.0
+**Documentation Version:** 0.7.0
+**Last Updated:** February 1, 2026
 
 ---
 

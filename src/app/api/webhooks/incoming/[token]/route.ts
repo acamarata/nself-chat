@@ -11,6 +11,7 @@ import {
   withErrorHandler,
   withRateLimit,
   compose,
+  type RouteContext,
 } from '@/lib/api/middleware'
 import {
   successResponse,
@@ -31,9 +32,9 @@ const RATE_LIMIT = { limit: 60, window: 60 }
  */
 async function handleWebhookPost(
   request: NextRequest,
-  context: { params: Promise<{ token: string }> }
+  context: RouteContext
 ): Promise<NextResponse> {
-  const params = await context.params
+  const params = await context.params as { token: string }
   try {
     const token = params.token
 
@@ -80,10 +81,10 @@ export const POST = compose(
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { token: string } }
+  { params }: { params: Promise<{ token: string }> }
 ) {
   try {
-    const token = params.token
+    const { token } = await params
 
     if (!token) {
       return NextResponse.json(

@@ -10,7 +10,7 @@
  * - Rules display option
  */
 
-import { bot, embed, text, button, success } from '../bot-sdk'
+import { bot, embed, text, button, success, response } from '../bot-sdk'
 import type { BotInstance } from '../bot-runtime'
 
 export interface WelcomeBotConfig {
@@ -77,36 +77,43 @@ export function createWelcomeBot(): BotInstance {
 
     .command('testwelcome', 'Test the welcome message', async (ctx, api) => {
       const config = api.getBotConfig()
-      const message = config.settings?.welcomeMessage || DEFAULT_MESSAGE
+      const settings = (config.settings || {}) as WelcomeBotConfig
+      const message = settings.welcomeMessage || DEFAULT_MESSAGE
 
-      return embed()
-        .title('🧪 Welcome Message Preview')
-        .description(formatMessage(message, ctx))
-        .footer('This is how new members will be greeted')
-        .color(config.settings?.embedColor || '#22c55e')
+      return response()
+        .embed(
+          embed()
+            .title('🧪 Welcome Message Preview')
+            .description(formatMessage(message, ctx))
+            .footer('This is how new members will be greeted')
+            .color(settings.embedColor || '#22c55e')
+        )
         .build()
     })
 
     .command('welcomesettings', 'View current welcome settings', async (ctx, api) => {
       const config = api.getBotConfig()
-      const settings = config.settings || {}
+      const settings = (config.settings || {}) as WelcomeBotConfig & { enabled?: boolean }
 
-      return embed()
-        .title('⚙️ Welcome Bot Settings')
-        .field('Status', settings.enabled ? '🟢 Enabled' : '🔴 Disabled', true)
-        .field('Send DM', settings.sendDM ? 'Yes' : 'No', true)
-        .field('Show Rules', settings.showRules ? 'Yes' : 'No', true)
-        .field('Assign Role', settings.assignRole || 'None', true)
-        .field('Embed Color', settings.embedColor || '#22c55e', true)
-        .field('Current Message', (settings.welcomeMessage || DEFAULT_MESSAGE).substring(0, 200) + '...')
-        .color('#6366f1')
+      return response()
+        .embed(
+          embed()
+            .title('⚙️ Welcome Bot Settings')
+            .field('Status', settings.enabled ? '🟢 Enabled' : '🔴 Disabled', true)
+            .field('Send DM', settings.sendDM ? 'Yes' : 'No', true)
+            .field('Show Rules', settings.showRules ? 'Yes' : 'No', true)
+            .field('Assign Role', settings.assignRole || 'None', true)
+            .field('Embed Color', settings.embedColor || '#22c55e', true)
+            .field('Current Message', (settings.welcomeMessage || DEFAULT_MESSAGE).substring(0, 200) + '...')
+            .color('#6366f1')
+        )
         .build()
     })
 
     // User join handler
     .onUserJoin(async (ctx, api) => {
       const config = api.getBotConfig()
-      const settings = config.settings || {}
+      const settings = (config.settings || {}) as WelcomeBotConfig & { enabled?: boolean }
 
       if (!settings.enabled) {
         return
@@ -117,23 +124,26 @@ export function createWelcomeBot(): BotInstance {
         ctx
       )
 
-      const response = embed()
+      const embedContent = embed()
         .title('👋 Welcome!')
         .description(message)
         .color(settings.embedColor || '#22c55e')
 
+      // Build response with optional rules button
+      const responseBuilder = response().embed(embedContent)
+
       // Add rules button if enabled
       if (settings.showRules) {
-        response.button('view-rules', 'View Rules', 'secondary')
+        responseBuilder.buttons(button('view-rules').label('View Rules').secondary())
       }
 
       // Send DM if enabled
       if (settings.sendDM) {
         // In production, this would send a DM to the user
-        // await api.sendDirectMessage(ctx.user.id, response.build())
+        // await api.sendDirectMessage(ctx.user.id, responseBuilder.build())
       }
 
-      return response.build()
+      return responseBuilder.build()
     })
 
     // Initialization

@@ -69,6 +69,11 @@ export type FileAction =
 
 export type AdminAction =
   | 'role_change'
+  | 'role_created'
+  | 'role_updated'
+  | 'role_deleted'
+  | 'role_assigned'
+  | 'role_unassigned'
   | 'permission_change'
   | 'settings_change'
   | 'user_ban'
@@ -96,6 +101,12 @@ export type SecurityAction =
   | 'mfa_disable'
   | 'ip_blocked'
   | 'rate_limit_exceeded'
+  | 'sso_connection_created'
+  | 'sso_connection_updated'
+  | 'sso_connection_deleted'
+  | 'sso_login_initiated'
+  | 'sso_login_success'
+  | 'sso_login_failed'
 
 export type IntegrationAction =
   | 'app_install'

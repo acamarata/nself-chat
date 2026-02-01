@@ -231,7 +231,8 @@ export function AnalyticsHeader({
                   <p className="text-xs text-muted-foreground">
                     {selectedChannelIds.length === 0
                       ? 'All channels'
-                      : `${selectedChannelIds.length} selected`}
+                      : // eslint-disable-next-line no-restricted-syntax
+                        `${selectedChannelIds.length} selected`}
                   </p>
                   {/* Channel selector would go here */}
                 </div>
@@ -242,7 +243,8 @@ export function AnalyticsHeader({
                   <p className="text-xs text-muted-foreground">
                     {selectedUserIds.length === 0
                       ? 'All users'
-                      : `${selectedUserIds.length} selected`}
+                      : // eslint-disable-next-line no-restricted-syntax
+                        `${selectedUserIds.length} selected`}
                   </p>
                   {/* User selector would go here */}
                 </div>

@@ -50,18 +50,18 @@ export interface AuthenticatedRequest extends NextRequest {
   user: AuthenticatedUser
 }
 
-export interface RouteContext {
-  params: Promise<Record<string, string>>
+export interface RouteContext<TParams extends Record<string, string> = Record<string, string>> {
+  params: Promise<TParams>
 }
 
-export type ApiHandler<TRequest = NextRequest> = (
+export type ApiHandler<TRequest = NextRequest, TParams extends Record<string, string> = Record<string, string>> = (
   request: TRequest,
-  context: RouteContext
+  context: RouteContext<TParams>
 ) => Promise<NextResponse> | NextResponse
 
 export type Middleware<TIn = NextRequest, TOut = NextRequest> = (
-  handler: ApiHandler<TOut>
-) => ApiHandler<TIn>
+  handler: ApiHandler<TOut, any>
+) => ApiHandler<TIn, any>
 
 // ============================================================================
 // Rate Limiting

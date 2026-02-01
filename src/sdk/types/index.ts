@@ -159,6 +159,8 @@ export interface ListOptions extends PaginationOptions {
   orderBy?: string
   orderDirection?: 'asc' | 'desc'
   filter?: Record<string, unknown>
+  /** Index signature to allow passing to URLSearchParams */
+  [key: string]: unknown
 }
 
 /**

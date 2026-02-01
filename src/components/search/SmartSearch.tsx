@@ -69,8 +69,9 @@ export function SmartSearch({
   const [selectedResult, setSelectedResult] = useState<number>(-1)
   const [showResults, setShowResults] = useState(false)
 
-  // Filters
-  const [filters, setFilters] = useState<SearchOptions['filters']>({})
+  // Filters - use NonNullable to ensure filters is never undefined
+  type FilterType = NonNullable<SearchOptions['filters']>
+  const [filters, setFilters] = useState<FilterType>({})
   const [rankBy, setRankBy] = useState<SearchOptions['rankBy']>('relevance')
   const [limit, setLimit] = useState(20)
 
@@ -182,7 +183,7 @@ export function SmartSearch({
     }
   }, [selectedResult])
 
-  const clearFilter = (key: keyof SearchOptions['filters']) => {
+  const clearFilter = (key: keyof FilterType) => {
     setFilters((prev) => {
       const newFilters = { ...prev }
       delete newFilters[key]

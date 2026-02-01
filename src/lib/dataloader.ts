@@ -244,21 +244,21 @@ export class DataLoaderService {
     this.userLoader = new DataLoader<string, User | null>(batchLoadUsers, {
       cache: true,
       maxBatchSize: 100,
-      batchScheduleFn: (callback) => setTimeout(callback, 10), // 10ms batching window
+      batchScheduleFn: (callback: () => void) => setTimeout(callback, 10), // 10ms batching window
     })
 
     // Channel loader with caching
     this.channelLoader = new DataLoader<string, Channel | null>(batchLoadChannels, {
       cache: true,
       maxBatchSize: 100,
-      batchScheduleFn: (callback) => setTimeout(callback, 10),
+      batchScheduleFn: (callback: () => void) => setTimeout(callback, 10),
     })
 
     // Message loader with caching
     this.messageLoader = new DataLoader<string, Message | null>(batchLoadMessages, {
       cache: true,
       maxBatchSize: 100,
-      batchScheduleFn: (callback) => setTimeout(callback, 10),
+      batchScheduleFn: (callback: () => void) => setTimeout(callback, 10),
     })
 
     // Reactions loader (by message ID)
@@ -267,7 +267,7 @@ export class DataLoaderService {
       {
         cache: true,
         maxBatchSize: 100,
-        batchScheduleFn: (callback) => setTimeout(callback, 10),
+        batchScheduleFn: (callback: () => void) => setTimeout(callback, 10),
       }
     )
 
@@ -277,7 +277,7 @@ export class DataLoaderService {
       {
         cache: true,
         maxBatchSize: 50,
-        batchScheduleFn: (callback) => setTimeout(callback, 10),
+        batchScheduleFn: (callback: () => void) => setTimeout(callback, 10),
       }
     )
   }
@@ -290,7 +290,7 @@ export class DataLoaderService {
     return this.userLoader.load(id)
   }
 
-  async loadUsers(ids: string[]): Promise<(User | null)[]> {
+  async loadUsers(ids: string[]): Promise<(User | null | Error)[]> {
     return this.userLoader.loadMany(ids)
   }
 
@@ -298,7 +298,7 @@ export class DataLoaderService {
     return this.channelLoader.load(id)
   }
 
-  async loadChannels(ids: string[]): Promise<(Channel | null)[]> {
+  async loadChannels(ids: string[]): Promise<(Channel | null | Error)[]> {
     return this.channelLoader.loadMany(ids)
   }
 
@@ -306,7 +306,7 @@ export class DataLoaderService {
     return this.messageLoader.load(id)
   }
 
-  async loadMessages(ids: string[]): Promise<(Message | null)[]> {
+  async loadMessages(ids: string[]): Promise<(Message | null | Error)[]> {
     return this.messageLoader.loadMany(ids)
   }
 

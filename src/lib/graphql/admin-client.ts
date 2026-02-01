@@ -182,10 +182,10 @@ export function resetAdminClient(): void {
  * @param variables - Query variables
  * @returns Query result
  */
-export async function adminQuery<TData = any, TVariables = any>(
+export async function adminQuery<TData = any, TVariables extends Record<string, any> = Record<string, any>>(
   query: any,
   variables?: TVariables
-): Promise<{ data: TData | null; errors?: any[] }> {
+): Promise<{ data: TData | null; errors?: readonly any[] }> {
   enforceServerSide()
 
   const client = getAdminClient()
@@ -209,10 +209,10 @@ export async function adminQuery<TData = any, TVariables = any>(
  * @param variables - Mutation variables
  * @returns Mutation result
  */
-export async function adminMutate<TData = any, TVariables = any>(
+export async function adminMutate<TData = any, TVariables extends Record<string, any> = Record<string, any>>(
   mutation: any,
   variables?: TVariables
-): Promise<{ data: TData | null; errors?: any[] }> {
+): Promise<{ data: TData | null; errors?: readonly any[] }> {
   enforceServerSide()
 
   const client = getAdminClient()
@@ -234,14 +234,14 @@ export async function adminMutate<TData = any, TVariables = any>(
 /**
  * Check if a GraphQL result has errors
  */
-export function hasGraphQLErrors(result: { errors?: any[] }): result is { errors: any[] } {
+export function hasGraphQLErrors(result: { errors?: readonly any[] }): result is { errors: readonly any[] } {
   return Array.isArray(result.errors) && result.errors.length > 0
 }
 
 /**
  * Get error message from GraphQL errors
  */
-export function getGraphQLErrorMessage(result: { errors?: any[] }): string {
+export function getGraphQLErrorMessage(result: { errors?: readonly any[] }): string {
   if (!hasGraphQLErrors(result)) {
     return 'Unknown error'
   }

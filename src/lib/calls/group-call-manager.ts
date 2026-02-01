@@ -9,7 +9,12 @@
  */
 
 import * as mediasoupClient from 'mediasoup-client'
-import type { Device, Transport, Producer, Consumer } from 'mediasoup-client'
+import type { Device, types } from 'mediasoup-client'
+
+// Re-export types from mediasoup-client for local use
+type Transport = types.Transport
+type Producer = types.Producer
+type Consumer = types.Consumer
 
 // =============================================================================
 // Types
@@ -380,10 +385,12 @@ export class GroupCallManager {
         this.consumers.delete(participantId)
       })
 
-      // Emit audio level events
-      consumer.observer.on('layerschange', (layers: any) => {
-        // Handle layers change (layers parameter unused)
-        void layers
+      // Handle consumer pause/resume events for audio level tracking
+      consumer.observer.on('pause', () => {
+        // Consumer paused - update participant mute state if needed
+      })
+      consumer.observer.on('resume', () => {
+        // Consumer resumed - update participant mute state if needed
       })
     } catch (error) {
       this.callbacks.onError?.(error instanceof Error ? error : new Error(String(error)))

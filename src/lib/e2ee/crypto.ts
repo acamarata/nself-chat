@@ -130,7 +130,7 @@ export async function encryptAESGCM(
   const iv = generateRandomBytes(IV_LENGTH);
   const cryptoKey = await window.crypto.subtle.importKey(
     'raw',
-    key,
+    key as BufferSource,
     { name: 'AES-GCM' },
     false,
     ['encrypt']
@@ -139,11 +139,11 @@ export async function encryptAESGCM(
   const encrypted = await window.crypto.subtle.encrypt(
     {
       name: 'AES-GCM',
-      iv,
+      iv: iv as BufferSource,
       tagLength: AUTH_TAG_LENGTH * 8,
     },
     cryptoKey,
-    plaintext
+    plaintext as BufferSource
   );
 
   return {
@@ -166,7 +166,7 @@ export async function decryptAESGCM(
 
   const cryptoKey = await window.crypto.subtle.importKey(
     'raw',
-    key,
+    key as BufferSource,
     { name: 'AES-GCM' },
     false,
     ['decrypt']
@@ -175,11 +175,11 @@ export async function decryptAESGCM(
   const decrypted = await window.crypto.subtle.decrypt(
     {
       name: 'AES-GCM',
-      iv,
+      iv: iv as BufferSource,
       tagLength: AUTH_TAG_LENGTH * 8,
     },
     cryptoKey,
-    ciphertext
+    ciphertext as BufferSource
   );
 
   return new Uint8Array(decrypted);

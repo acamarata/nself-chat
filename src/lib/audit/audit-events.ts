@@ -541,6 +541,87 @@ export const auditEventConfigs: Record<AuditAction, AuditActionConfig> = {
     description: 'Sync failed',
     requiresResource: true,
   },
+
+  // Role Management Events (Admin)
+  role_created: {
+    action: 'role_created',
+    category: 'admin',
+    defaultSeverity: 'info',
+    description: 'New role created',
+    requiresResource: true,
+  },
+  role_updated: {
+    action: 'role_updated',
+    category: 'admin',
+    defaultSeverity: 'info',
+    description: 'Role updated',
+    requiresResource: true,
+  },
+  role_deleted: {
+    action: 'role_deleted',
+    category: 'admin',
+    defaultSeverity: 'warning',
+    description: 'Role deleted',
+    requiresResource: true,
+  },
+  role_assigned: {
+    action: 'role_assigned',
+    category: 'admin',
+    defaultSeverity: 'info',
+    description: 'Role assigned to user',
+    requiresResource: true,
+  },
+  role_unassigned: {
+    action: 'role_unassigned',
+    category: 'admin',
+    defaultSeverity: 'info',
+    description: 'Role unassigned from user',
+    requiresResource: true,
+  },
+
+  // SSO Events (Security)
+  sso_connection_created: {
+    action: 'sso_connection_created',
+    category: 'security',
+    defaultSeverity: 'info',
+    description: 'SSO connection created',
+    requiresResource: true,
+  },
+  sso_connection_updated: {
+    action: 'sso_connection_updated',
+    category: 'security',
+    defaultSeverity: 'info',
+    description: 'SSO connection updated',
+    requiresResource: true,
+  },
+  sso_connection_deleted: {
+    action: 'sso_connection_deleted',
+    category: 'security',
+    defaultSeverity: 'warning',
+    description: 'SSO connection deleted',
+    requiresResource: true,
+  },
+  sso_login_initiated: {
+    action: 'sso_login_initiated',
+    category: 'security',
+    defaultSeverity: 'info',
+    description: 'SSO login initiated',
+    requiresResource: false,
+  },
+  sso_login_success: {
+    action: 'sso_login_success',
+    category: 'security',
+    defaultSeverity: 'info',
+    description: 'SSO login successful',
+    requiresResource: false,
+  },
+  sso_login_failed: {
+    action: 'sso_login_failed',
+    category: 'security',
+    defaultSeverity: 'warning',
+    description: 'SSO login failed',
+    requiresResource: false,
+  },
 }
 
 // ============================================================================

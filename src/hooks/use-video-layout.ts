@@ -21,7 +21,7 @@ import {
 // =============================================================================
 
 export interface UseVideoLayoutOptions {
-  containerRef: React.RefObject<HTMLElement>
+  containerRef: React.RefObject<HTMLElement | null>
   participantIds: string[]
   initialMode?: LayoutMode
   speakingParticipantId?: string

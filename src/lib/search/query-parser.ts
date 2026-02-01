@@ -75,10 +75,10 @@ export function parseQuery(query: string): ParsedQuery {
   // Extract 'has:' operators
   operatorRegexes.has.lastIndex = 0
   while ((match = operatorRegexes.has.exec(query)) !== null) {
-    const value = match[1].toLowerCase() as 'link' | 'file' | 'image'
+    const value = match[1].toLowerCase() as 'link' | 'file' | 'image' | 'attachment'
     operators.push({ type: 'has', value })
     // Map 'attachment' to 'file'
-    const mappedValue = value === 'attachment' ? 'file' : value
+    const mappedValue: 'link' | 'file' | 'image' = value === 'attachment' ? 'file' : value
     if (!filters.has!.includes(mappedValue)) {
       filters.has!.push(mappedValue)
     }

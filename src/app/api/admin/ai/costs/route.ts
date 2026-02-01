@@ -43,9 +43,14 @@ export async function GET(request: NextRequest) {
     }
 
     // Get top users (if no userId specified)
-    let topUsers = []
+    let topUsers: Array<{ userId: string; totalCost: number; requestCount: number }> = []
     if (!userId) {
-      topUsers = await costTracker.getTopUsers(start, end, 10)
+      const topUsersStats = await costTracker.getTopUsers(start, end, 10)
+      topUsers = topUsersStats.map(({ userId, stats }) => ({
+        userId,
+        totalCost: stats.totalCost,
+        requestCount: stats.totalRequests,
+      }))
     }
 
     // Get model pricing for reference

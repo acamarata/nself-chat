@@ -36,7 +36,8 @@ import {
 import { useBots } from '@/lib/bots/use-bots'
 import { useFeature } from '@/lib/features/hooks/use-feature'
 import { FEATURES } from '@/lib/features/feature-flags'
-import type { Bot } from '@/types/bot'
+import type { Bot, BotCategory, BotPermissionScope } from '@/types/bot'
+import type { BotPermission } from '@/graphql/bots'
 
 type ViewMode =
   | 'list'
@@ -77,17 +78,45 @@ export default function BotManagementPage() {
   })
 
   // Convert bot installations to bot list
+  // Map graphql bot status to types/bot BotStatus
+  const mapBotStatus = (graphqlStatus: string | undefined): 'online' | 'offline' | 'maintenance' | 'disabled' => {
+    switch (graphqlStatus) {
+      case 'active': return 'online'
+      case 'inactive': return 'offline'
+      case 'suspended': return 'disabled'
+      case 'pending': return 'maintenance'
+      default: return 'offline'
+    }
+  }
+
+  // Map graphql BotPermission to types/bot BotPermissionScope
+  const mapBotPermission = (permission: BotPermission): BotPermissionScope => {
+    const mapping: Record<BotPermission, BotPermissionScope> = {
+      'read_messages': 'messages.read',
+      'send_messages': 'messages.write',
+      'manage_channels': 'channels.manage',
+      'manage_users': 'admin.write',
+      'read_files': 'files.read',
+      'upload_files': 'files.write',
+      'use_slash_commands': 'messages.write',
+      'send_notifications': 'messages.write',
+      'access_user_data': 'users.read',
+      'manage_webhooks': 'webhooks.write',
+    }
+    return mapping[permission] || 'messages.read'
+  }
+
   const bots: Bot[] = installedBots.map((installation) => ({
     id: installation.botId,
     username: installation.bot?.name || 'unknown',
     displayName: installation.bot?.name || 'Unknown Bot',
     description: installation.bot?.description || '',
     avatarUrl: installation.bot?.avatarUrl,
-    category: (installation.bot as any)?.category || 'utility',
+    category: (((installation.bot as unknown as Record<string, unknown>)?.category as BotCategory) || 'utility') as BotCategory,
     visibility: 'public' as const,
-    status: installation.bot?.status || 'offline',
+    status: mapBotStatus(installation.bot?.status),
     permissions: {
-      scopes: installation.permissions || [],
+      scopes: (installation.permissions || []).map(mapBotPermission),
     },
     commands: [],
     ownerId: installation.installedBy,

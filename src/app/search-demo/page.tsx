@@ -18,6 +18,7 @@ import { SavedSearches } from '@/components/search/SavedSearches';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
 import { SearchAnalytics } from '@/components/admin/search/SearchAnalytics';
 import type { MessageSearchResult } from '@/stores/search-store';
+import type { DateRange } from '@/components/ui/date-range-picker';
 
 // Mock data
 const mockResult: MessageSearchResult = {
@@ -43,7 +44,7 @@ const mockResult: MessageSearchResult = {
 };
 
 export default function SearchDemoPage() {
-  const [dateRange, setDateRange] = React.useState({ from: null, to: null });
+  const [dateRange, setDateRange] = React.useState<DateRange>({ from: null, to: null });
   const [query, setQuery] = React.useState('');
 
   return (

@@ -10,7 +10,7 @@
  * - Analytics tracking
  */
 
-import { bot, embed, list, text, success, error, info } from '../bot-sdk'
+import { bot, embed, text, success, error, info, response } from '../bot-sdk'
 import type { BotInstance } from '../bot-runtime'
 
 export interface FAQItem {
@@ -45,7 +45,7 @@ export function createFAQBot(): BotInstance {
       const faqs = (config.settings?.faqs || []) as FAQItem[]
 
       if (faqs.length === 0) {
-        return info('No FAQs configured yet. Use `/addfaq` to add one.')
+        return info('No FAQs', 'No FAQs configured yet. Use `/addfaq` to add one.')
       }
 
       // Group by category
@@ -56,7 +56,7 @@ export function createFAQBot(): BotInstance {
         return acc
       }, {} as Record<string, FAQItem[]>)
 
-      const response = embed()
+      const embedBuilder = embed()
         .title('❓ Frequently Asked Questions')
         .color('#3b82f6')
 
@@ -65,10 +65,10 @@ export function createFAQBot(): BotInstance {
           .map((faq, i) => `${i + 1}. **${faq.question}**\n   ${faq.answer.substring(0, 100)}...`)
           .join('\n\n')
 
-        response.field(category, itemsText)
+        embedBuilder.field(category, itemsText)
       })
 
-      return response.build()
+      return response().embed(embedBuilder).build()
     })
 
     .command('addfaq', 'Add a new FAQ', async (ctx, api) => {
@@ -151,34 +151,35 @@ export function createFAQBot(): BotInstance {
         .slice(0, 5)
 
       if (results.length === 0) {
-        return info('No matching FAQs found.')
+        return info('No Results', 'No matching FAQs found.')
       }
 
-      const response = embed()
+      const embedBuilder = embed()
         .title('🔍 Search Results')
         .description(`Found ${results.length} result(s) for "${ctx.args.query}"`)
         .color('#10b981')
 
       results.forEach(({ faq, score }) => {
-        response.field(
+        embedBuilder.field(
           faq.question,
           `${faq.answer}\n\n_Match: ${Math.round(score * 100)}%_`,
           false
         )
       })
 
-      return response.build()
+      return response().embed(embedBuilder).build()
     })
 
     // Auto-respond to questions
     .onMessage(async (ctx, api) => {
       const config = api.getBotConfig()
+      const settings = (config.settings || {}) as { autoRespond?: boolean; faqs?: FAQItem[]; minMatchScore?: number }
 
-      if (!config.settings?.autoRespond) {
+      if (!settings.autoRespond) {
         return
       }
 
-      const faqs = (config.settings?.faqs || []) as FAQItem[]
+      const faqs = (settings.faqs || []) as FAQItem[]
       const message = ctx.message.content.toLowerCase()
 
       // Check if message is a question
@@ -187,12 +188,13 @@ export function createFAQBot(): BotInstance {
       }
 
       // Find best matching FAQ
+      const minScore = typeof settings.minMatchScore === 'number' ? settings.minMatchScore : 0.6
       const matches = faqs
         .map(faq => ({
           faq,
           score: calculateMatchScore(message, faq),
         }))
-        .filter(r => r.score >= (config.settings?.minMatchScore || 0.6))
+        .filter(r => r.score >= minScore)
         .sort((a, b) => b.score - a.score)
 
       if (matches.length === 0) {
@@ -205,11 +207,14 @@ export function createFAQBot(): BotInstance {
       best.faq.useCount++
       await api.setStorage('faqs', faqs)
 
-      return embed()
-        .title(`💡 ${best.faq.question}`)
-        .description(best.faq.answer)
-        .footer(`${best.faq.category || 'General'} • Used ${best.faq.useCount} times`)
-        .color('#8b5cf6')
+      return response()
+        .embed(
+          embed()
+            .title(`💡 ${best.faq.question}`)
+            .description(best.faq.answer)
+            .footer(`${best.faq.category || 'General'} • Used ${best.faq.useCount} times`)
+            .color('#8b5cf6')
+        )
         .build()
     })
 

@@ -45,16 +45,23 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : 'button'
 
     if (animated && !asChild && !props.disabled) {
+      // Extract conflicting event handlers that have different signatures in React vs Framer Motion
+      const { onDrag, onDragEnd, onDragStart, onAnimationStart, ...safeProps } = props as ButtonProps & {
+        onDrag?: unknown;
+        onDragEnd?: unknown;
+        onDragStart?: unknown;
+        onAnimationStart?: unknown;
+      }
       return (
         <motion.button
           className={cn(buttonVariants({ variant, size, className }))}
           ref={ref}
-          type={props.type || 'button'}
+          type={safeProps.type || 'button'}
           variants={buttonPress}
           initial="rest"
           whileHover="hover"
           whileTap="tap"
-          {...props}
+          {...safeProps}
         />
       )
     }

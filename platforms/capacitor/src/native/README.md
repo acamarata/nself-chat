@@ -77,18 +77,231 @@ This directory contains other native plugins:
 - `share.ts` - Native share sheet
 - `offline-sync.ts` - Background sync
 
+---
+
+## v0.9.0 Enhanced Features
+
+### Widget Data Provider
+
+**Purpose**: Data synchronization between the main app and widget extensions (iOS/Android)
+
+**Files**:
+- `widget-data.ts` - Widget data service and React hooks
+- `widget-data-web.ts` - Web fallback implementation
+
+**Usage**:
+```typescript
+import { widgetData, useWidgetData } from './widget-data'
+
+// Update unread messages widget
+await widgetData.updateUnreadMessagesWidget(channels, directMessages)
+
+// Update recent chats widget
+await widgetData.updateRecentChatsWidget(chats)
+
+// React hook
+const { data, isLoading, refresh } = useWidgetData('unread_messages')
+```
+
+### Watch Connectivity (iOS)
+
+**Purpose**: Bidirectional communication between iOS app and Apple Watch
+
+**Files**:
+- `watch-connectivity.ts` - WatchConnectivity wrapper and hooks
+- `watch-connectivity-web.ts` - Web fallback
+
+**Usage**:
+```typescript
+import { watchConnectivity, useWatchConnectivity } from './watch-connectivity'
+
+// Initialize
+await watchConnectivity.initialize()
+
+// Sync data to watch
+await watchConnectivity.syncUnreadCounts(total, channels, dms)
+await watchConnectivity.syncRecentConversations(conversations)
+
+// Send message to watch
+const reply = await watchConnectivity.sendMessage('new_message', payload)
+
+// React hook
+const { isAvailable, isReachable, sendMessage } = useWatchConnectivity()
+```
+
+### Android Widgets
+
+**Purpose**: Native Android App Widget support
+
+**Files**:
+- `android-widgets.ts` - Android widget service and hooks
+- `android-widgets-web.ts` - Web fallback
+
+**Usage**:
+```typescript
+import { androidWidgets, useAndroidWidgets } from './android-widgets'
+
+// Update unread counter widget
+await androidWidgets.updateUnreadCounterWidget({
+  totalUnread: 5,
+  channelUnread: 3,
+  dmUnread: 2,
+  mentionCount: 1,
+})
+
+// Pin widget to home screen
+await androidWidgets.pinWidget('unread_counter')
+
+// React hook
+const { isSupported, widgets, updateUnreadCounter } = useAndroidWidgets()
+```
+
+### Deep Linking
+
+**Purpose**: Handle URL schemes, Universal Links (iOS), and App Links (Android)
+
+**Files**:
+- `deep-linking.ts` - Deep link handler and route matching
+
+**Usage**:
+```typescript
+import { deepLinking, useDeepLink } from './deep-linking'
+
+// Initialize
+await deepLinking.initialize({
+  urlScheme: 'nchat',
+  universalLinkDomains: ['nchat.nself.org'],
+})
+
+// Register route handler
+deepLinking.registerRouteHandler('channel', (params) => {
+  navigateToChannel(params.params.channelId)
+})
+
+// Create deep link
+const url = deepLinking.createDeepLink('channel', { channelId: '123' })
+
+// React hook
+const { deepLinkParams, createDeepLink } = useDeepLink((params) => {
+  handleDeepLink(params)
+})
+```
+
+### Enhanced Push Notifications
+
+**Purpose**: Rich notifications with actions, channels, and silent push
+
+**Files**:
+- `push-notifications-v2.ts` - Enhanced push notification service
+
+**Usage**:
+```typescript
+import { enhancedPushNotifications, usePushNotifications } from './push-notifications-v2'
+
+// Initialize with channels
+await enhancedPushNotifications.initialize({
+  channels: DEFAULT_NOTIFICATION_CHANNELS,
+  categories: DEFAULT_NOTIFICATION_CATEGORIES,
+})
+
+// Show rich notification
+await enhancedPushNotifications.showLocalNotification({
+  title: 'New Message',
+  body: 'Hello!',
+  imageUrl: 'https://...',
+  actions: [
+    { id: 'reply', title: 'Reply', input: true },
+    { id: 'mark_read', title: 'Mark Read' },
+  ],
+})
+
+// React hook
+const { token, lastNotification, setBadgeCount } = usePushNotifications()
+```
+
+### Background Sync
+
+**Purpose**: Background fetch and sync for offline-first functionality
+
+**Files**:
+- `background-sync.ts` - Background sync service
+- `background-sync-web.ts` - Web fallback (Service Worker)
+
+**Usage**:
+```typescript
+import { backgroundSync, useBackgroundSync } from './background-sync'
+
+// Initialize
+await backgroundSync.initialize({
+  minimumInterval: 900, // 15 minutes
+  requiresNetworkConnectivity: true,
+})
+
+// Add task to queue
+const taskId = await backgroundSync.addTask('send_message', {
+  channelId: '123',
+  content: 'Hello!',
+}, { priority: 'high' })
+
+// Register task handler
+backgroundSync.registerTaskHandler('send_message', async (task) => {
+  await api.sendMessage(task.data)
+  return true
+})
+
+// React hook
+const { status, queueSize, addTask, triggerSync } = useBackgroundSync()
+```
+
+### Enhanced Biometric Authentication
+
+**Purpose**: Full biometric auth with secure storage
+
+**Files**:
+- `biometrics-v2.ts` - Enhanced biometric service
+- `biometrics-v2-web.ts` - WebAuthn fallback
+
+**Usage**:
+```typescript
+import { biometricAuth, useBiometricAuth } from './biometrics-v2'
+
+// Initialize
+await biometricAuth.initialize()
+
+// Authenticate
+const result = await biometricAuth.authenticate({
+  reason: 'Sign in to nChat',
+})
+
+// Store credentials securely
+await biometricAuth.storeCredentials(userId, token)
+
+// Retrieve with biometric auth
+const creds = await biometricAuth.getCredentials(userId)
+
+// React hook
+const { isAvailable, biometryTypeName, authenticate, enable } = useBiometricAuth()
+```
+
+---
+
 ## Platform Support
 
 | Plugin | iOS | Android | Web |
 |--------|-----|---------|-----|
 | CallKit | ✅ Native | ✅ Native | ⚠️ Fallback |
-| Biometrics | ✅ Face ID/Touch ID | ✅ Fingerprint | ❌ |
+| Biometrics | ✅ Face ID/Touch ID | ✅ Fingerprint | ✅ WebAuthn |
 | Camera | ✅ | ✅ | ✅ |
 | File Picker | ✅ | ✅ | ✅ |
 | Haptics | ✅ | ✅ | ⚠️ Limited |
 | Push | ✅ APNs | ✅ FCM | ✅ Web Push |
 | Share | ✅ | ✅ | ⚠️ Limited |
 | Offline Sync | ✅ | ✅ | ✅ |
+| Widget Data | ✅ WidgetKit | ✅ App Widgets | ⚠️ Storage only |
+| Watch Connectivity | ✅ WatchOS | ❌ | ❌ |
+| Android Widgets | ❌ | ✅ | ❌ |
+| Deep Linking | ✅ Universal Links | ✅ App Links | ⚠️ Limited |
+| Background Sync | ✅ BGTaskScheduler | ✅ WorkManager | ⚠️ SW Sync |
 
 ## Development
 

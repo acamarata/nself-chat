@@ -7,6 +7,9 @@
 import { captureError, addSentryBreadcrumb } from '@/lib/sentry-utils'
 import type { Message } from './message-summarizer'
 
+// Re-export Message type for consumers
+export type { Message }
+
 export interface ChannelDigestResult {
   digest: string
   topMessages: TopMessage[]

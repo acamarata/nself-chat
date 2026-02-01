@@ -155,14 +155,14 @@ export function MobileDeployHelper({ onDeploy, className }: MobileDeployHelperPr
   }
 
   const getStatusBadge = (status: DeploymentStatus['status']) => {
-    const variants = {
+    const variants: Record<DeploymentStatus['status'], 'default' | 'secondary' | 'destructive' | 'outline'> = {
       'not-started': 'secondary',
       building: 'default',
       uploading: 'default',
       processing: 'default',
-      complete: 'success',
+      complete: 'default',
       error: 'destructive',
-    } as const
+    }
 
     return (
       <Badge variant={variants[status] || 'secondary'}>

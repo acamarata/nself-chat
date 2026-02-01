@@ -21,12 +21,12 @@ export async function GET(request: NextRequest) {
     const category = searchParams.get('category')
     const featured = searchParams.get('featured')
 
-    let templates = allTemplates
+    let templates: readonly typeof allTemplates[number][] = allTemplates
 
     if (featured === 'true') {
-      templates = getFeaturedTemplates() as typeof allTemplates
+      templates = getFeaturedTemplates()
     } else if (category) {
-      templates = getTemplatesByCategory(category) as typeof allTemplates
+      templates = getTemplatesByCategory(category)
     }
 
     // In production: Also query custom templates from database

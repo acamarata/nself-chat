@@ -63,13 +63,14 @@ export function createPollBot(): BotInstance {
       const options = optionsStr.split(',').map(o => o.trim()).filter(o => o.length > 0)
 
       const config = api.getBotConfig()
+      const maxOptions = typeof config.settings?.maxOptions === 'number' ? config.settings.maxOptions : 10
 
       if (options.length < 2) {
         return error('A poll must have at least 2 options.')
       }
 
-      if (options.length > (config.settings?.maxOptions || 10)) {
-        return error(`Maximum ${config.settings?.maxOptions || 10} options allowed.`)
+      if (options.length > maxOptions) {
+        return error(`Maximum ${maxOptions} options allowed.`)
       }
 
       const pollId = Math.random().toString(36).substring(7)

@@ -20,7 +20,7 @@ export const dynamic = 'force-dynamic'
 export async function POST(request: NextRequest) {
   try {
     // Get webhook headers
-    const headersList = headers()
+    const headersList = await headers()
 
     // Read raw payload
     const rawBody = await request.text()

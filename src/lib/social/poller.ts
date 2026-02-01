@@ -103,6 +103,9 @@ export async function pollAccount(apolloClient: any, account: SocialAccount): Pr
     }
 
     // Decrypt access token
+    if (!account.access_token_encrypted) {
+      throw new Error('Account has no access token')
+    }
     const accessToken = decryptToken(account.access_token_encrypted)
 
     // Get last poll time to fetch only new posts
@@ -378,8 +381,8 @@ async function savePost(apolloClient: any, accountId: string, post: SocialPost):
     mutation: SAVE_POST,
     variables: {
       post: {
+        ...post,
         account_id: accountId,
-        ...post
       }
     }
   })

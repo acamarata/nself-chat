@@ -82,7 +82,7 @@ function isRetweet(post: SocialPost): boolean {
  * Check if a post is a reply (Twitter)
  */
 function isReply(post: SocialPost): boolean {
-  return post.content.startsWith('@') && post.mentions && post.mentions.length > 0
+  return post.content.startsWith('@') && !!post.mentions && post.mentions.length > 0
 }
 
 /**

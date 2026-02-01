@@ -45,7 +45,13 @@
     "@capacitor/share": "^6.0.3",
     "@capacitor/splash-screen": "^6.0.3",
     "@capacitor/status-bar": "^6.0.2",
-    "@capacitor/toast": "^6.0.3"
+    "@capacitor/toast": "^6.0.3",
+    "@capacitor-firebase/analytics": "^6.1.0",
+    "@capacitor-firebase/app": "^6.1.0",
+    "@capacitor-firebase/crashlytics": "^6.1.0",
+    "@capacitor-firebase/performance": "^6.1.0",
+    "@sentry/capacitor": "^0.18.0",
+    "firebase": "^10.8.0"
   },
   "devDependencies": {
     "@capacitor/assets": "^3.0.7"

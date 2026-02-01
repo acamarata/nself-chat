@@ -1,6 +1,9 @@
-# nchat Electron Desktop App
+# nchat Desktop Application
 
-This directory contains the Electron desktop application for nchat, providing native desktop capabilities for Windows, macOS, and Linux.
+Cross-platform desktop application for nchat, built with Electron and Next.js.
+
+**Version**: 0.8.0
+**Last Updated**: January 31, 2026
 
 ## Features
 

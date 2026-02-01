@@ -230,18 +230,17 @@ export const sheetSlide = (side: 'left' | 'right' | 'top' | 'bottom' = 'right'):
   const axis = side === 'left' || side === 'right' ? 'x' : 'y'
   const direction = side === 'left' || side === 'top' ? -100 : 100
 
+  if (axis === 'x') {
+    return {
+      initial: { x: `${direction}%` },
+      animate: { x: 0, transition: spring },
+      exit: { x: `${direction}%`, transition: easeOut },
+    }
+  }
   return {
-    initial: {
-      [axis]: `${direction}%`,
-    },
-    animate: {
-      [axis]: 0,
-      transition: spring,
-    },
-    exit: {
-      [axis]: `${direction}%`,
-      transition: easeOut,
-    },
+    initial: { y: `${direction}%` },
+    animate: { y: 0, transition: spring },
+    exit: { y: `${direction}%`, transition: easeOut },
   }
 }
 
@@ -725,10 +724,17 @@ export const slide = (
   const axis = direction === 'left' || direction === 'right' ? 'x' : 'y'
   const value = direction === 'left' || direction === 'up' ? -distance : distance
 
+  if (axis === 'x') {
+    return {
+      initial: { x: value, opacity: 0 },
+      animate: { x: 0, opacity: 1, transition: springSmooth },
+      exit: { x: value, opacity: 0, transition: easeFast },
+    }
+  }
   return {
-    initial: { [axis]: value, opacity: 0 },
-    animate: { [axis]: 0, opacity: 1, transition: springSmooth },
-    exit: { [axis]: value, opacity: 0, transition: easeFast },
+    initial: { y: value, opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: springSmooth },
+    exit: { y: value, opacity: 0, transition: easeFast },
   }
 }
 

@@ -67,7 +67,7 @@ export class ProfanityFilter {
   private buildPatterns(): RegExp[] {
     const patterns: RegExp[] = []
 
-    for (const word of this.blockedWords) {
+    for (const word of Array.from(this.blockedWords)) {
       // Skip if in allowed list
       if (this.allowedWords.has(word)) continue
 
@@ -139,7 +139,7 @@ export class ProfanityFilter {
 
     // Check each pattern
     for (const pattern of this.patterns) {
-      const matches = text.matchAll(pattern)
+      const matches = Array.from(text.matchAll(pattern))
 
       for (const match of matches) {
         if (match[0] && match.index !== undefined) {
@@ -204,7 +204,7 @@ export class ProfanityFilter {
     }
 
     // Try to find closest match
-    for (const blockedWord of this.blockedWords) {
+    for (const blockedWord of Array.from(this.blockedWords)) {
       if (this.isSimilar(normalized, blockedWord)) {
         return blockedWord
       }

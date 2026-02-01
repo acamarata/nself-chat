@@ -386,6 +386,44 @@ export class VectorStore {
   }
 
   /**
+   * Get embedding queue statistics
+   */
+  async getQueueStats(): Promise<{
+    pendingCount: number;
+    processingCount: number;
+    failedCount: number;
+    completedToday: number;
+    avgProcessingTimeSeconds: number;
+  }> {
+    // TODO: Implement actual queue stats from database
+    return {
+      pendingCount: 0,
+      processingCount: 0,
+      failedCount: 0,
+      completedToday: 0,
+      avgProcessingTimeSeconds: 0,
+    };
+  }
+
+  /**
+   * Get embedding coverage statistics
+   */
+  async getCoverageStats(): Promise<{
+    totalMessages: number;
+    messagesWithEmbeddings: number;
+    messagesNeedingEmbeddings: number;
+    coveragePercentage: number;
+  }> {
+    const coverage = await this.getCoverage();
+    return {
+      totalMessages: coverage.totalMessages,
+      messagesWithEmbeddings: coverage.messagesWithEmbeddings,
+      messagesNeedingEmbeddings: coverage.pendingEmbeddings,
+      coveragePercentage: coverage.coveragePercentage,
+    };
+  }
+
+  /**
    * Get vector index health metrics
    */
   async getIndexHealth(): Promise<VectorIndexHealth> {
@@ -504,7 +542,158 @@ export class VectorStore {
 
     return result.map((val) => val / vectors.length);
   }
+
+  // ========================================
+  // Queue Management Methods
+  // ========================================
+
+  /**
+   * Get a batch of items from the embedding queue
+   * Returns messages that need embeddings generated
+   */
+  async getQueueBatch(
+    batchSize: number
+  ): Promise<
+    Array<{
+      id: string;
+      messageId: string;
+      priority: number;
+      status: string;
+      retryCount: number;
+    }>
+  > {
+    try {
+      const { data, errors } = await this.client.query({
+        query: gql`
+          query GetEmbeddingQueueBatch($limit: Int!) {
+            nchat_embedding_queue(
+              where: {
+                status: { _in: ["pending", "retry"] }
+                retry_count: { _lt: 3 }
+              }
+              order_by: [{ priority: desc }, { created_at: asc }]
+              limit: $limit
+            ) {
+              id
+              message_id
+              priority
+              status
+              retry_count
+            }
+          }
+        `,
+        variables: { limit: batchSize },
+        fetchPolicy: 'network-only',
+      });
+
+      if (errors) {
+        throw new Error(`Get queue batch failed: ${errors[0].message}`);
+      }
+
+      return (data.nchat_embedding_queue || []).map((item: any) => ({
+        id: item.id,
+        messageId: item.message_id,
+        priority: item.priority,
+        status: item.status,
+        retryCount: item.retry_count,
+      }));
+    } catch (error) {
+      console.error('Get queue batch error:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Mark a queue item as failed
+   */
+  async markQueueFailed(id: string, error: string): Promise<void> {
+    try {
+      const { errors } = await this.client.mutate({
+        mutation: gql`
+          mutation MarkQueueFailed($id: uuid!, $error: String!) {
+            update_nchat_embedding_queue_by_pk(
+              pk_columns: { id: $id }
+              _set: { status: "failed", error: $error }
+              _inc: { retry_count: 1 }
+            ) {
+              id
+            }
+          }
+        `,
+        variables: {
+          id,
+          error: error.substring(0, 500),
+        },
+      });
+
+      if (errors) {
+        console.error('Failed to mark queue item as failed:', errors[0].message);
+      }
+    } catch (err) {
+      console.error('Mark queue failed error:', err);
+    }
+  }
+
+  /**
+   * Mark a queue item as completed
+   */
+  async markQueueCompleted(id: string): Promise<void> {
+    try {
+      const { errors } = await this.client.mutate({
+        mutation: gql`
+          mutation MarkQueueCompleted($id: uuid!) {
+            update_nchat_embedding_queue_by_pk(
+              pk_columns: { id: $id }
+              _set: { status: "completed", completed_at: "now()" }
+            ) {
+              id
+            }
+          }
+        `,
+        variables: { id },
+      });
+
+      if (errors) {
+        console.error('Failed to mark queue item as completed:', errors[0].message);
+      }
+    } catch (err) {
+      console.error('Mark queue completed error:', err);
+    }
+  }
+
+  /**
+   * Store batch embeddings with model information
+   */
+  async storeBatchEmbeddings(
+    embeddings: Array<{
+      messageId: string;
+      embedding: number[];
+      model: string;
+    }>
+  ): Promise<number> {
+    if (embeddings.length === 0) {
+      return 0;
+    }
+
+    const operations = embeddings.map((e) => ({
+      messageId: e.messageId,
+      embedding: e.embedding,
+      metadata: {
+        model: e.model,
+        version: '1.0',
+      },
+    }));
+
+    return this.batchInsertEmbeddings(operations);
+  }
 }
 
 // Export singleton instance
 export const vectorStore = new VectorStore();
+
+/**
+ * Get the vector store singleton instance
+ */
+export function getVectorStore(): VectorStore {
+  return vectorStore;
+}

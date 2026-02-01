@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { motion } from 'framer-motion'
-import { useScrollAnimation } from '@/hooks/use-scroll-animation'
+import { useScrollAnimation, useParallax } from '@/hooks/use-scroll-animation'
 import { scrollReveal, staggerContainer, staggerItem } from '@/lib/animations'
 import { cn } from '@/lib/utils'
 
@@ -86,14 +86,13 @@ export function ParallaxContainer({
   className?: string
   offset?: number
 }) {
-  const ref = React.useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScrollAnimation({ once: false })
+  const { ref, y } = useParallax(offset)
 
   return (
     <motion.div
       ref={ref}
       style={{
-        y: scrollYProgress,
+        y,
       }}
       className={className}
     >

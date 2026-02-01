@@ -358,7 +358,7 @@ export class AIModerator {
     // Toxicity issues
     if (toxicity.isToxic) {
       for (const label of toxicity.detectedLabels) {
-        const score = toxicity.categories[label] || 0
+        const score = toxicity.categories[label as keyof typeof toxicity.categories] || 0
         issues.push({
           category: 'toxicity',
           severity: this.scoreToSeverity(score),
@@ -394,7 +394,7 @@ export class AIModerator {
     // NSFW issues
     if (nsfw?.isNSFW) {
       for (const label of nsfw.detectedLabels) {
-        const score = nsfw.categories[label] || 0
+        const score = nsfw.categories[label as keyof typeof nsfw.categories] || 0
         issues.push({
           category: 'nsfw',
           severity: this.scoreToSeverity(score),
@@ -475,7 +475,7 @@ export class AIModerator {
     // Check user history for ban decision
     const shouldBan = overall >= thresholds.banThreshold ||
                       (userHistory && userHistory.totalViolations >= thresholds.maxViolationsTotal) ||
-                      (userHistory && userHistory.violationsThisWeek >= thresholds.maxViolationsWeek) ||
+                      (userHistory && userHistory.violationsThisWeek >= thresholds.maxViolationsPerWeek) ||
                       false
 
     // Determine action (in order of severity)
@@ -735,7 +735,7 @@ export class AIModerator {
       hasProfanity: false,
       score: 0,
       detectedWords: [],
-      sanitizedText: '',
+      filteredText: '',
     }
   }
 

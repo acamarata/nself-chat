@@ -12,7 +12,10 @@
 import { v4 as uuidv4 } from 'uuid'
 import type { AuditLogEntry, AuditAction, AuditCategory } from './audit-types'
 import { logAuditEvent } from './audit-logger'
-import { captureError } from '@/lib/sentry-utils'
+// Note: captureError is defined locally to avoid circular dependencies
+function captureError(error: Error, context?: { tags?: Record<string, string> }): void {
+  console.error('[TamperProofAudit]', error.message, context?.tags)
+}
 
 // ============================================================================
 // Types & Interfaces
@@ -462,7 +465,7 @@ export class TamperProofAuditService {
     this.chainMetadata.totalEntries = this.chain.length
 
     await logAuditEvent({
-      action: 'audit_retention_applied',
+      action: 'retention_policy_change',
       actor: { type: 'system', id: 'system' },
       category: 'admin',
       severity: 'info',

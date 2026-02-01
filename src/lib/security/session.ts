@@ -434,7 +434,7 @@ export function getFormattedTimeSinceActivity(): string {
 /**
  * Force lock (for testing)
  */
-export function forceLock(reason: LockState['lockReason'] = 'manual'): void {
+export function forceLock(reason: NonNullable<LockState['lockReason']> = 'manual'): void {
   lockSession(reason)
 }
 

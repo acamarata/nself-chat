@@ -255,7 +255,7 @@ export function validateCsrfToken(request: NextRequest): boolean {
  * ```
  */
 export function withCsrfProtection(
-  handler: (request: NextRequest, context: any) => Promise<NextResponse>
+  handler: (request: NextRequest, context: any) => Promise<NextResponse> | NextResponse
 ): (request: NextRequest, context: any) => Promise<NextResponse> {
   return async (request, context) => {
     // Validate CSRF token
@@ -263,7 +263,7 @@ export function withCsrfProtection(
       throw new ApiError('Invalid or missing CSRF token', 'CSRF_VALIDATION_FAILED', 403)
     }
 
-    // Call handler
+    // Call handler (await to handle both sync and async handlers)
     const response = await handler(request, context)
 
     // Ensure CSRF token is set in response

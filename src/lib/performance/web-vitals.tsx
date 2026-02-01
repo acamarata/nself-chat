@@ -15,7 +15,14 @@ import { onCLS, onINP, onFCP, onLCP, onTTFB, type Metric } from 'web-vitals'
 // Types
 // =============================================================================
 
-export interface WebVitalMetric extends Metric {
+export interface WebVitalMetric {
+  name: string
+  value: number
+  rating: 'good' | 'needs-improvement' | 'poor'
+  delta: number
+  id: string
+  navigationType: 'navigate' | 'reload' | 'back-forward' | 'back-forward-cache' | 'prerender' | 'restore'
+  entries: PerformanceEntry[]
   route?: string
   category?: string
 }
@@ -152,7 +159,8 @@ export function trackCustomMetric(
     delta: value,
     id: `custom-${Date.now()}`,
     navigationType: 'navigate',
-    route: window.location.pathname,
+    entries: [], // Custom metrics don't have associated performance entries
+    route: typeof window !== 'undefined' ? window.location.pathname : undefined,
   }
 
   handleMetric(metric, {
@@ -262,10 +270,14 @@ export function startPerformanceObserver() {
   try {
     const layoutShiftObserver = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
-        // @ts-ignore - Layout shift entry
-        if (entry.hadRecentInput) continue
+        // Layout shift entries have hadRecentInput and value properties
+        const layoutShiftEntry = entry as PerformanceEntry & {
+          hadRecentInput?: boolean
+          value?: number
+        }
+        if (layoutShiftEntry.hadRecentInput) continue
 
-        trackCustomMetric('layout_shift', entry.value as number, {
+        trackCustomMetric('layout_shift', layoutShiftEntry.value ?? 0, {
           category: 'Layout Stability',
         })
       }

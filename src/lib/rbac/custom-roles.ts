@@ -626,6 +626,7 @@ export class CustomRoleService {
         baseRole: template.baseRole,
         color: '#6B7280',
         isSystem: false,
+        isDefault: false,
         priority: 50,
         ...overrides,
       },

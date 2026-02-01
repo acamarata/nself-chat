@@ -69,9 +69,9 @@ export function AccessibilityMenu({
 
   const { appearance, accessibility } = settings;
 
-  // Font size cycle: small -> medium -> large -> small
+  // Font size cycle: small -> medium -> large -> extra-large -> small
   const cycleFontSize = () => {
-    const sizes = ['small', 'medium', 'large'] as const;
+    const sizes: ('small' | 'medium' | 'large' | 'extra-large')[] = ['small', 'medium', 'large', 'extra-large'];
     const currentIndex = sizes.indexOf(appearance.fontSize);
     const nextIndex = (currentIndex + 1) % sizes.length;
     setFontSize(sizes[nextIndex]);
@@ -239,9 +239,9 @@ export function AccessibilityMenu({
           </DropdownMenuCheckboxItem>
 
           <DropdownMenuCheckboxItem
-            checked={accessibility.disableAnimations}
+            checked={accessibility.reduceMotion}
             onCheckedChange={(checked) =>
-              updateAccessibility({ disableAnimations: checked })
+              updateAccessibility({ reduceMotion: checked })
             }
           >
             <div className="flex items-center gap-2">

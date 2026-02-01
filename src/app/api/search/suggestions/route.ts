@@ -98,6 +98,7 @@ export async function GET(request: NextRequest) {
         suggestions.push({
           query: query.trim(),
           count: 0,
+          lastUsed: undefined,
         })
       }
 

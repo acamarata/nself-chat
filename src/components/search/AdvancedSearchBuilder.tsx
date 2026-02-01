@@ -250,10 +250,10 @@ export function AdvancedSearchBuilder({
               ))}
 
               <Button
-                variant="dashed"
+                variant="outline"
                 size="sm"
                 onClick={addQueryPart}
-                className="w-full"
+                className="w-full border-dashed"
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Add condition
