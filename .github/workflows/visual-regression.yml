@@ -1,18 +1,7 @@
 name: Visual Regression Tests
 
 on:
-  pull_request:
-    branches: [main, develop]
-    paths:
-      - 'src/components/**'
-      - 'src/styles/**'
-      - 'public/**'
-  push:
-    branches: [main]
-    paths:
-      - 'src/components/**'
-      - 'src/styles/**'
-      - 'public/**'
+  workflow_dispatch: {}
 
 jobs:
   chromatic:

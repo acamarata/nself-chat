@@ -7,10 +7,6 @@
 name: Docker Build
 
 on:
-  push:
-    branches:
-      - main
-      - develop
   workflow_dispatch:
     inputs:
       tag:

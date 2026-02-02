@@ -7,9 +7,6 @@
 name: Deploy to Staging
 
 on:
-  push:
-    branches:
-      - develop
   workflow_dispatch:
     inputs:
       image_tag:

@@ -1,16 +1,6 @@
 name: Desktop Build & Deploy
 
 on:
-  push:
-    branches: [main, develop]
-    paths:
-      - 'platforms/electron/**'
-      - 'platforms/tauri/**'
-      - 'src/**'
-      - 'package.json'
-      - '.github/workflows/desktop-build.yml'
-  pull_request:
-    branches: [main, develop]
   workflow_dispatch:
     inputs:
       platform:
