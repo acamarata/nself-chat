@@ -172,7 +172,7 @@ function mergeViewerData(
     const joinedAt = dbViewer.joined_at
     const leftAt = dbViewer.left_at
     // ParticipantInfo.state is an enum, check if it's ACTIVE (value 0)
-    const isActive = !leftAt && livekitViewer && livekitViewer.state === 0
+    const isActive = !leftAt && !!livekitViewer && livekitViewer.state === 0
 
     const viewer: ViewerInfo = {
       id: dbViewer.id,
@@ -185,9 +185,9 @@ function mergeViewerData(
         ? Math.floor((new Date(leftAt).getTime() - new Date(joinedAt).getTime()) / 1000)
         : calculateDuration(joinedAt),
       isActive,
-      isAudioEnabled: dbViewer.is_audio_enabled || false,
-      isVideoEnabled: dbViewer.is_video_enabled || false,
-      isScreenSharing: dbViewer.is_screen_sharing || false,
+      isAudioEnabled: !!dbViewer.is_audio_enabled,
+      isVideoEnabled: !!dbViewer.is_video_enabled,
+      isScreenSharing: !!dbViewer.is_screen_sharing,
       connectionQuality: dbViewer.connection_quality,
     }
 

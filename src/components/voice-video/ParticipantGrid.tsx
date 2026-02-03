@@ -46,20 +46,25 @@ export interface LocalParticipant {
   stream?: MediaStream
 }
 
-export interface CallParticipant extends BaseCallParticipant {
+// Extend CallParticipant with additional UI properties
+export interface UICallParticipant extends BaseCallParticipant {
   /** Participant stream */
   stream?: MediaStream
   /** Whether this is the host */
   isHost?: boolean
   /** Pinned by current user */
   isPinned?: boolean
+  /** Display name (derived from user) */
+  name?: string
+  /** Avatar URL (derived from user) */
+  avatarUrl?: string
 }
 
 export type GridLayout = 'auto' | 'grid' | 'spotlight' | 'sidebar'
 
 export interface ParticipantGridProps {
   /** All call participants */
-  participants: CallParticipant[]
+  participants: UICallParticipant[]
   /** Local participant (current user) */
   localParticipant: LocalParticipant
   /** Layout mode */
@@ -98,7 +103,7 @@ function calculateGridLayout(participantCount: number): string {
 // ============================================================================
 
 interface ParticipantTileProps {
-  participant: CallParticipant | LocalParticipant
+  participant: UICallParticipant | LocalParticipant
   isLocal?: boolean
   isHost?: boolean
   isPinned?: boolean
@@ -132,15 +137,15 @@ function ParticipantTile({
     }
   }, [participant.stream])
 
-  const initials = participant.name
+  const initials = (participant.name || 'User')
     .split(' ')
-    .map((n) => n[0])
+    .map((n: string) => n[0])
     .join('')
     .toUpperCase()
     .slice(0, 2)
 
   const showVideo = !participant.isVideoOff && participant.stream
-  const participantData = participant as CallParticipant
+  const participantData = participant as UICallParticipant
 
   return (
     <div
@@ -171,7 +176,7 @@ function ParticipantTile({
       ) : (
         <div className="flex h-full items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
           <Avatar className={cn('h-20 w-20', isSpotlight && 'h-32 w-32')}>
-            <AvatarImage src={participant.avatarUrl} alt={participant.name} />
+            <AvatarImage src={participant.avatarUrl || ''} alt={participant.name || 'User'} />
             <AvatarFallback className="bg-gray-700 text-2xl">{initials}</AvatarFallback>
           </Avatar>
         </div>
@@ -183,7 +188,7 @@ function ParticipantTile({
           {/* Name and Badges */}
           <div className="flex items-center gap-2 overflow-hidden">
             <span className="truncate text-sm font-medium text-white">
-              {participant.name}
+              {participant.name || 'User'}
               {isLocal && ' (You)'}
             </span>
             {participantData.isHost && (
@@ -328,7 +333,7 @@ export function ParticipantGrid({
 
   // Combine local participant with remote participants
   const allParticipants = useMemo(
-    () => [localParticipant, ...participants] as (LocalParticipant | CallParticipant)[],
+    () => [localParticipant, ...participants] as (LocalParticipant | UICallParticipant)[],
     [localParticipant, participants]
   )
 
