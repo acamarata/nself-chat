@@ -149,7 +149,7 @@ export function ScreenShareView({
             <div className="absolute left-4 top-4 flex items-center gap-2">
               <Badge className="bg-blue-600 text-white">
                 <MonitorUp className="mr-1 h-3 w-3" />
-                {participant.user?.name || 'Unknown'} is presenting
+                {(participant.user as any)?.name || participant.user?.displayName || 'Unknown'} is presenting
               </Badge>
             </div>
 
@@ -199,7 +199,7 @@ export function ScreenShareView({
                     <VideoTile
                       key={p.id}
                       participantId={p.id}
-                      name={p.user?.name || 'Unknown'}
+                      name={(p.user as any)?.name || p.user?.displayName || 'Unknown'}
                       avatarUrl={p.user?.avatarUrl}
                       stream={null}
                       isMuted={p.isMuted}
@@ -207,7 +207,7 @@ export function ScreenShareView({
                       isScreenSharing={false}
                       isSpeaking={p.isSpeaking || false}
                       isLocal={p.isLocal}
-                      connectionQuality={p.connectionQuality}
+                      connectionQuality={p.connectionQuality ? (p.connectionQuality > 80 ? 'excellent' : p.connectionQuality > 60 ? 'good' : p.connectionQuality > 40 ? 'fair' : 'poor') : undefined}
                       onPin={onPinParticipant}
                       className="h-36"
                     />
@@ -240,7 +240,7 @@ export function ScreenShareView({
               <div className="absolute left-4 top-4 flex items-center gap-2">
                 <Badge className="bg-blue-600 text-white">
                   <MonitorUp className="mr-1 h-3 w-3" />
-                  {participant.user?.name || 'Unknown'} is presenting
+                  {(participant.user as any)?.name || participant.user?.displayName || 'Unknown'} is presenting
                 </Badge>
               </div>
 
@@ -283,13 +283,13 @@ export function ScreenShareView({
             {/* Bottom bar with participant thumbnails */}
             {showThumbnails && otherParticipants.length > 0 && (
               <div className="border-t border-gray-700 bg-gray-900">
-                <ScrollArea orientation="horizontal" className="w-full">
+                <ScrollArea className="w-full">
                   <div className="flex gap-2 p-2">
                     {otherParticipants.map((p) => (
                       <VideoTile
                         key={p.id}
                         participantId={p.id}
-                        name={p.user?.name || 'Unknown'}
+                        name={(p.user as any)?.name || p.user?.displayName || 'Unknown'}
                         avatarUrl={p.user?.avatarUrl}
                         stream={null}
                         isMuted={p.isMuted}
@@ -297,7 +297,7 @@ export function ScreenShareView({
                         isScreenSharing={false}
                         isSpeaking={p.isSpeaking || false}
                         isLocal={p.isLocal}
-                        connectionQuality={p.connectionQuality}
+                        connectionQuality={p.connectionQuality ? (p.connectionQuality > 80 ? 'excellent' : p.connectionQuality > 60 ? 'good' : p.connectionQuality > 40 ? 'fair' : 'poor') : undefined}
                         onPin={onPinParticipant}
                         className="h-24 w-32 flex-shrink-0"
                       />

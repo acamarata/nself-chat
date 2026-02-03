@@ -1,7 +1,7 @@
 {
   "name": "nself-chat",
-  "version": "0.9.0",
-  "description": "ɳChat - Multi-platform team communication with mobile apps (iOS/Android), desktop apps (Windows/macOS/Linux), AI features, and offline support. Powered by ɳSelf.",
+  "version": "0.9.1",
+  "description": "ɳChat v0.9.1 - Full-featured team communication platform with WebRTC, OAuth, channels, and comprehensive test coverage. Powered by ɳSelf.",
   "private": true,
   "packageManager": "pnpm@9.15.4",
   "keywords": [
@@ -64,6 +64,9 @@
     "test:load:files": "k6 run tests/load/file-uploads.js",
     "test:load:search": "k6 run tests/load/search-queries.js",
     "test:all": "./scripts/test-all.sh",
+    "test:oauth": "tsx scripts/test-oauth-providers.ts",
+    "test:coverage:analyze": "tsx scripts/analyze-coverage.ts",
+    "test:generate-stubs": "tsx scripts/generate-test-stubs.ts",
     "lighthouse": "lhci autorun",
     "lighthouse:collect": "lhci collect",
     "lighthouse:assert": "lhci assert",

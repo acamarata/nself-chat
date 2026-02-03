@@ -33,9 +33,6 @@ export default function CallPage() {
   const {
     activeCall,
     incomingCalls,
-    isLocalMuted,
-    isLocalVideoEnabled,
-    isScreenSharing,
     toggleLocalMute,
     toggleLocalVideo,
     setLocalScreenSharing,
@@ -43,6 +40,11 @@ export default function CallPage() {
     acceptCall,
     declineCall,
   } = useCallStore()
+
+  // Get local media states from active call
+  const isLocalMuted = activeCall?.isLocalMuted || false
+  const isLocalVideoEnabled = activeCall?.isLocalVideoEnabled || false
+  const isScreenSharing = activeCall?.isLocalScreenSharing || false
 
   // Local state
   const [isConnecting, setIsConnecting] = useState(true)

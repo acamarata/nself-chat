@@ -47,17 +47,11 @@ export interface LiveKitCallbacks {
 // =============================================================================
 
 const DEFAULT_ROOM_OPTIONS: RoomOptions = {
-  // Auto subscribe to remote tracks
-  autoSubscribe: true,
-
   // Adaptive stream (automatic quality adjustment)
   adaptiveStream: true,
 
   // Dynacast (selective forward based on layer subscription)
   dynacast: true,
-
-  // Video codec preferences
-  videoCodec: 'vp8',
 
   // Publish defaults
   publishDefaults: {
@@ -68,12 +62,6 @@ const DEFAULT_ROOM_OPTIONS: RoomOptions = {
     dtx: true, // Discontinuous transmission for audio
     red: true, // Redundant encoding for audio
   },
-
-  // Reconnection attempts
-  maxRetries: 3,
-
-  // Automatic reconnection
-  autoReconnect: true,
 }
 
 // =============================================================================
