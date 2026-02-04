@@ -34,3 +34,8 @@ export { FontSelector, FontPairingSelector } from './FontSelector'
 // Export/Import components
 export { BrandingExport } from './BrandingExport'
 export { BrandingImport } from './BrandingImport'
+
+// Phase 15: Complete White Label System
+export { BrandingDashboard } from './branding-dashboard'
+export { ThemeEditor } from './theme-editor'
+export { TemplateSelector } from './template-selector'

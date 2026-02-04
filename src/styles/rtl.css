@@ -1,0 +1,227 @@
+/**
+ * RTL (Right-to-Left) Support Styles
+ *
+ * Styles for supporting RTL languages like Arabic, Hebrew, and Persian.
+ */
+
+/* RTL Direction Support */
+[dir='rtl'] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir='ltr'] {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Logical Properties for RTL Support */
+.rtl-ml-auto {
+  margin-inline-start: auto;
+}
+
+.rtl-mr-auto {
+  margin-inline-end: auto;
+}
+
+.rtl-pl-4 {
+  padding-inline-start: 1rem;
+}
+
+.rtl-pr-4 {
+  padding-inline-end: 1rem;
+}
+
+/* Flip margins and padding */
+[dir='rtl'] .ml-2 {
+  margin-right: 0.5rem;
+  margin-left: 0;
+}
+
+[dir='rtl'] .mr-2 {
+  margin-left: 0.5rem;
+  margin-right: 0;
+}
+
+[dir='rtl'] .pl-4 {
+  padding-right: 1rem;
+  padding-left: 0;
+}
+
+[dir='rtl'] .pr-4 {
+  padding-left: 1rem;
+  padding-right: 0;
+}
+
+/* Flip flex direction */
+[dir='rtl'] .flex-row {
+  flex-direction: row-reverse;
+}
+
+/* Flip text alignment */
+[dir='rtl'] .text-left {
+  text-align: right;
+}
+
+[dir='rtl'] .text-right {
+  text-align: left;
+}
+
+/* Flip border radius */
+[dir='rtl'] .rounded-l {
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+[dir='rtl'] .rounded-r {
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Flip borders */
+[dir='rtl'] .border-l {
+  border-right-width: 1px;
+  border-left-width: 0;
+}
+
+[dir='rtl'] .border-r {
+  border-left-width: 1px;
+  border-right-width: 0;
+}
+
+/* Icons in RTL */
+[dir='rtl'] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* Transform translate for RTL */
+[dir='rtl'] .translate-x-full {
+  transform: translateX(-100%);
+}
+
+[dir='rtl'] .-translate-x-full {
+  transform: translateX(100%);
+}
+
+/* Dropdowns and Menus */
+[dir='rtl'] [data-radix-dropdown-menu-content] {
+  left: auto !important;
+  right: 0;
+}
+
+[dir='rtl'] [data-radix-popover-content] {
+  left: auto !important;
+  right: 0;
+}
+
+/* Tooltips */
+[dir='rtl'] [data-radix-tooltip-content] {
+  left: auto !important;
+  right: 0;
+}
+
+/* Dialogs */
+[dir='rtl'] [data-radix-dialog-content] {
+  left: auto;
+  right: 50%;
+  transform: translate(50%, -50%);
+}
+
+/* Forms */
+[dir='rtl'] input[type='checkbox'],
+[dir='rtl'] input[type='radio'] {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+/* Lists */
+[dir='rtl'] ul,
+[dir='rtl'] ol {
+  padding-right: 1.5rem;
+  padding-left: 0;
+}
+
+/* Navigation */
+[dir='rtl'] .nav-item {
+  text-align: right;
+}
+
+/* Tables */
+[dir='rtl'] table {
+  direction: rtl;
+}
+
+[dir='rtl'] th {
+  text-align: right;
+}
+
+/* Code blocks */
+[dir='rtl'] pre,
+[dir='rtl'] code {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Emojis and special characters */
+[dir='rtl'] .emoji {
+  display: inline-block;
+  direction: ltr;
+}
+
+/* Chat messages */
+[dir='rtl'] .message-content {
+  text-align: right;
+}
+
+[dir='rtl'] .message-timestamp {
+  left: auto;
+  right: 0;
+}
+
+/* Sidebar */
+[dir='rtl'] .sidebar {
+  left: auto;
+  right: 0;
+}
+
+[dir='rtl'] .sidebar-toggle {
+  left: auto;
+  right: 1rem;
+}
+
+/* Scrollbar */
+[dir='rtl'] ::-webkit-scrollbar {
+  left: 0;
+  right: auto;
+}
+
+/* Custom RTL utilities */
+.rtl\\:flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+.rtl\\:space-x-reverse > * + * {
+  margin-right: var(--tw-space-x-reverse);
+  margin-left: calc(var(--tw-space-x-reverse) * -1);
+}
+
+/* Transitions for direction changes */
+[dir] * {
+  transition: margin 150ms ease, padding 150ms ease, border-radius 150ms ease;
+}
+
+/* Prevent direction change on specific elements */
+[dir] input[type='email'],
+[dir] input[type='url'],
+[dir] input[type='tel'] {
+  direction: ltr;
+}
+
+/* Number inputs */
+[dir='rtl'] input[type='number'] {
+  direction: ltr;
+}

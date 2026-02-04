@@ -306,4 +306,355 @@ self.addEventListener('message', (event) => {
   }
 })
 
-console.log('[SW] Service worker loaded with push notification support')
+// =============================================================================
+// Background Sync
+// =============================================================================
+
+/**
+ * Background Sync event handler
+ * Syncs pending data when network connection is restored
+ */
+self.addEventListener('sync', (event) => {
+  console.log('[SW] Background sync triggered:', event.tag)
+
+  if (event.tag === 'sync-messages') {
+    event.waitUntil(syncMessages())
+  } else if (event.tag === 'sync-uploads') {
+    event.waitUntil(syncUploads())
+  } else if (event.tag === 'sync-settings') {
+    event.waitUntil(syncSettings())
+  } else if (event.tag === 'sync-all') {
+    event.waitUntil(syncAll())
+  }
+})
+
+/**
+ * Sync pending messages
+ */
+async function syncMessages() {
+  try {
+    console.log('[SW] Syncing messages...')
+
+    // Notify clients that sync is starting
+    await notifyClients({
+      type: 'SYNC_STARTED',
+      category: 'messages',
+    })
+
+    // Get pending messages from IndexedDB
+    const db = await openIndexedDB()
+    const messages = await getQueuedMessages(db)
+
+    if (messages.length === 0) {
+      console.log('[SW] No pending messages to sync')
+      return
+    }
+
+    let successCount = 0
+    let failureCount = 0
+
+    // Sync each message
+    for (const message of messages) {
+      try {
+        const response = await fetch('/api/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(message.data),
+        })
+
+        if (response.ok) {
+          await removeQueuedMessage(db, message.id)
+          successCount++
+        } else {
+          failureCount++
+        }
+      } catch (error) {
+        console.error('[SW] Failed to sync message:', error)
+        failureCount++
+      }
+    }
+
+    console.log(`[SW] Message sync complete: ${successCount} succeeded, ${failureCount} failed`)
+
+    // Notify clients of sync completion
+    await notifyClients({
+      type: 'SYNC_COMPLETED',
+      category: 'messages',
+      success: successCount,
+      failed: failureCount,
+    })
+  } catch (error) {
+    console.error('[SW] Message sync failed:', error)
+    await notifyClients({
+      type: 'SYNC_FAILED',
+      category: 'messages',
+      error: error.message,
+    })
+  }
+}
+
+/**
+ * Sync pending uploads
+ */
+async function syncUploads() {
+  try {
+    console.log('[SW] Syncing uploads...')
+
+    await notifyClients({
+      type: 'SYNC_STARTED',
+      category: 'uploads',
+    })
+
+    const db = await openIndexedDB()
+    const uploads = await getQueuedUploads(db)
+
+    if (uploads.length === 0) {
+      console.log('[SW] No pending uploads to sync')
+      return
+    }
+
+    let successCount = 0
+    let failureCount = 0
+
+    for (const upload of uploads) {
+      try {
+        const formData = new FormData()
+        formData.append('file', upload.file)
+        formData.append('channelId', upload.channelId)
+
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        })
+
+        if (response.ok) {
+          await removeQueuedUpload(db, upload.id)
+          successCount++
+        } else {
+          failureCount++
+        }
+      } catch (error) {
+        console.error('[SW] Failed to sync upload:', error)
+        failureCount++
+      }
+    }
+
+    console.log(`[SW] Upload sync complete: ${successCount} succeeded, ${failureCount} failed`)
+
+    await notifyClients({
+      type: 'SYNC_COMPLETED',
+      category: 'uploads',
+      success: successCount,
+      failed: failureCount,
+    })
+  } catch (error) {
+    console.error('[SW] Upload sync failed:', error)
+    await notifyClients({
+      type: 'SYNC_FAILED',
+      category: 'uploads',
+      error: error.message,
+    })
+  }
+}
+
+/**
+ * Sync user settings
+ */
+async function syncSettings() {
+  try {
+    console.log('[SW] Syncing settings...')
+
+    await notifyClients({
+      type: 'SYNC_STARTED',
+      category: 'settings',
+    })
+
+    const db = await openIndexedDB()
+    const settings = await getPendingSettings(db)
+
+    if (!settings) {
+      console.log('[SW] No pending settings to sync')
+      return
+    }
+
+    const response = await fetch(`/api/users/${settings.userId}/settings`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(settings),
+    })
+
+    if (response.ok) {
+      await clearPendingSettings(db)
+      console.log('[SW] Settings synced successfully')
+
+      await notifyClients({
+        type: 'SYNC_COMPLETED',
+        category: 'settings',
+        success: 1,
+        failed: 0,
+      })
+    } else {
+      throw new Error('Failed to sync settings')
+    }
+  } catch (error) {
+    console.error('[SW] Settings sync failed:', error)
+    await notifyClients({
+      type: 'SYNC_FAILED',
+      category: 'settings',
+      error: error.message,
+    })
+  }
+}
+
+/**
+ * Sync all pending data
+ */
+async function syncAll() {
+  try {
+    console.log('[SW] Syncing all data...')
+    await Promise.all([syncMessages(), syncUploads(), syncSettings()])
+  } catch (error) {
+    console.error('[SW] Full sync failed:', error)
+  }
+}
+
+/**
+ * Open IndexedDB connection
+ */
+async function openIndexedDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open('nchat-offline', 1)
+
+    request.onerror = () => reject(request.error)
+    request.onsuccess = () => resolve(request.result)
+
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result
+
+      if (!db.objectStoreNames.contains('messageQueue')) {
+        db.createObjectStore('messageQueue', { keyPath: 'id' })
+      }
+
+      if (!db.objectStoreNames.contains('uploadQueue')) {
+        db.createObjectStore('uploadQueue', { keyPath: 'id' })
+      }
+
+      if (!db.objectStoreNames.contains('settings')) {
+        db.createObjectStore('settings', { keyPath: 'userId' })
+      }
+    }
+  })
+}
+
+/**
+ * Get queued messages from IndexedDB
+ */
+async function getQueuedMessages(db) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction('messageQueue', 'readonly')
+    const store = transaction.objectStore('messageQueue')
+    const request = store.getAll()
+
+    request.onsuccess = () => resolve(request.result)
+    request.onerror = () => reject(request.error)
+  })
+}
+
+/**
+ * Remove synced message from queue
+ */
+async function removeQueuedMessage(db, id) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction('messageQueue', 'readwrite')
+    const store = transaction.objectStore('messageQueue')
+    const request = store.delete(id)
+
+    request.onsuccess = () => resolve()
+    request.onerror = () => reject(request.error)
+  })
+}
+
+/**
+ * Get queued uploads from IndexedDB
+ */
+async function getQueuedUploads(db) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction('uploadQueue', 'readonly')
+    const store = transaction.objectStore('uploadQueue')
+    const request = store.getAll()
+
+    request.onsuccess = () => resolve(request.result)
+    request.onerror = () => reject(request.error)
+  })
+}
+
+/**
+ * Remove synced upload from queue
+ */
+async function removeQueuedUpload(db, id) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction('uploadQueue', 'readwrite')
+    const store = transaction.objectStore('uploadQueue')
+    const request = store.delete(id)
+
+    request.onsuccess = () => resolve()
+    request.onerror = () => reject(request.error)
+  })
+}
+
+/**
+ * Get pending settings
+ */
+async function getPendingSettings(db) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction('settings', 'readonly')
+    const store = transaction.objectStore('settings')
+    const request = store.getAll()
+
+    request.onsuccess = () => {
+      const settings = request.result
+      resolve(settings.length > 0 ? settings[0] : null)
+    }
+    request.onerror = () => reject(request.error)
+  })
+}
+
+/**
+ * Clear synced settings
+ */
+async function clearPendingSettings(db) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction('settings', 'readwrite')
+    const store = transaction.objectStore('settings')
+    const request = store.clear()
+
+    request.onsuccess = () => resolve()
+    request.onerror = () => reject(request.error)
+  })
+}
+
+/**
+ * Notify all clients of sync events
+ */
+async function notifyClients(message) {
+  const clients = await self.clients.matchAll({ type: 'window' })
+  clients.forEach((client) => client.postMessage(message))
+}
+
+// =============================================================================
+// Periodic Background Sync (if supported)
+// =============================================================================
+
+/**
+ * Periodic sync event handler
+ * Runs periodic background syncs
+ */
+self.addEventListener('periodicsync', (event) => {
+  console.log('[SW] Periodic sync triggered:', event.tag)
+
+  if (event.tag === 'periodic-sync') {
+    event.waitUntil(syncAll())
+  }
+})
+
+console.log('[SW] Service worker loaded with push notification and background sync support')

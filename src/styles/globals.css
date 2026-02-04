@@ -5,6 +5,9 @@
 /* Mobile-specific styles */
 @import './mobile.css';
 
+/* RTL (Right-to-Left) support */
+@import './rtl.css';
+
 @layer base {
   :root {
     /* Theme colors will be injected by ThemeInjector - default to dark theme */
