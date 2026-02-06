@@ -134,20 +134,23 @@ export function MessageListWithBulk({
               onEnterSelectionMode={selection.enterSelectionMode}
               isSelected={isSelected}
             >
-              <div
-                className={cn(
-                  'relative',
-                  isSelected && 'bg-primary/5',
-                  selection.isSelectionMode && 'cursor-pointer'
-                )}
-                onClick={() => {
-                  if (selection.isSelectionMode) {
-                    selection.toggleSelection(message.id)
-                  }
-                }}
-              >
-                {/* Selection checkbox */}
-                {selection.isSelectionMode && (
+              {selection.isSelectionMode ? (
+                <div
+                  className={cn(
+                    'relative cursor-pointer',
+                    isSelected && 'bg-primary/5'
+                  )}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => selection.toggleSelection(message.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      selection.toggleSelection(message.id)
+                    }
+                  }}
+                >
+                  {/* Selection checkbox */}
                   <div className="absolute left-2 top-4 z-10">
                     <input
                       type="checkbox"
@@ -156,13 +159,13 @@ export function MessageListWithBulk({
                       className="h-4 w-4 rounded border-gray-300"
                     />
                   </div>
-                )}
-
-                <MessageItem
-                  message={message}
-                  className={cn(selection.isSelectionMode && 'ml-8')}
-                />
-              </div>
+                  <MessageItem message={message} className="ml-8" />
+                </div>
+              ) : (
+                <div className={cn('relative', isSelected && 'bg-primary/5')}>
+                  <MessageItem message={message} />
+                </div>
+              )}
             </MessageContextMenu>
           )
         })}

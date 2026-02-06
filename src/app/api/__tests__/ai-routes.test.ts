@@ -1,4 +1,8 @@
 /**
+ * @jest-environment node
+ */
+
+/**
  * AI API Routes Tests
  *
  * Comprehensive test suite for all AI API routes:
@@ -293,7 +297,7 @@ describe('AI API Routes', () => {
 
       expect(response.status).toBe(400)
       expect(data.success).toBe(false)
-      expect(data.error).toContain('Message required for single sentiment analysis')
+      expect(data.error).toContain('message or messages array required')
     })
 
     it('should successfully analyze single message sentiment', async () => {

@@ -161,6 +161,12 @@ export function EveryoneMentionCompact({
     <span
       className={cn('text-warning cursor-pointer font-semibold hover:underline', className)}
       onClick={onClick}
+      onKeyDown={onClick ? (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick()
+        }
+      } : undefined}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
       title={config.description}

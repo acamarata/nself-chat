@@ -263,7 +263,9 @@ export function VideoPlayer({
         onEnded={handleEnded}
         onWaiting={handleWaiting}
         onPlaying={handlePlaying}
-      />
+      >
+        <track kind="captions" src="" label="Captions" default />
+      </video>
 
       {/* Buffering indicator */}
       {isBuffering && (

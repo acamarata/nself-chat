@@ -69,10 +69,13 @@ export function SavedIndicator({
               isStarred
                 ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200'
                 : 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200',
+              onClick && 'cursor-pointer',
               className
             )}
             onClick={onClick}
             role={onClick ? 'button' : undefined}
+            tabIndex={onClick ? 0 : undefined}
+            onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } : undefined}
           >
             <Icon className={sizeClasses.sm} fill="currentColor" />
             <span>{isStarred ? 'Starred' : 'Saved'}</span>
@@ -82,9 +85,11 @@ export function SavedIndicator({
       case 'inline':
         return (
           <span
-            className={cn('inline-flex items-center gap-1 text-xs', colorClass, className)}
+            className={cn('inline-flex items-center gap-1 text-xs', colorClass, onClick && 'cursor-pointer', className)}
             onClick={onClick}
             role={onClick ? 'button' : undefined}
+            tabIndex={onClick ? 0 : undefined}
+            onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } : undefined}
           >
             <Icon className={sizeClasses.sm} fill="currentColor" />
           </span>
@@ -102,6 +107,8 @@ export function SavedIndicator({
             )}
             onClick={onClick}
             role={onClick ? 'button' : undefined}
+            tabIndex={onClick ? 0 : undefined}
+            onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } : undefined}
           >
             <Icon className={sizeClasses[size]} fill="currentColor" />
           </span>

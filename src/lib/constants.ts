@@ -26,7 +26,7 @@ export const APP_CONFIG = {
   /** Application description */
   DESCRIPTION: 'Team communication platform',
   /** Application version */
-  VERSION: process.env.NEXT_PUBLIC_APP_VERSION || '0.1.0',
+  VERSION: process.env.NEXT_PUBLIC_APP_VERSION || '0.9.1',
   /** Default locale */
   DEFAULT_LOCALE: 'en-US',
   /** Support email */

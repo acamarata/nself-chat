@@ -36,9 +36,9 @@ export function SimpleColorChanger() {
 
       <div className="space-y-4">
         <div className="flex items-center gap-4">
-          <label htmlFor="color-input">Primary Color:</label>
+          <label htmlFor="primary-color-input">Primary Color:</label>
           <input
-            id="color-input"
+            id="primary-color-input"
             type="color"
             value={theme.colors.primaryColor}
             onChange={(e) => handleColorChange(e.target.value)}
@@ -106,8 +106,9 @@ export function FontCustomizer() {
       <div className="space-y-4">
         {/* Font Family */}
         <div>
-          <label className="mb-2 block text-sm font-medium">Font Family</label>
+          <label htmlFor="font-family-select" className="mb-2 block text-sm font-medium">Font Family</label>
           <select
+            id="font-family-select"
             value={theme.fontFamily}
             onChange={(e) => setFontFamily(e.target.value)}
             className="w-full rounded border p-2"
@@ -207,8 +208,9 @@ export function ThemeImportExport() {
 
         {/* Import */}
         <div>
-          <label className="mb-2 block text-sm font-medium">Import Theme JSON</label>
+          <label htmlFor="import-theme-json" className="mb-2 block text-sm font-medium">Import Theme JSON</label>
           <textarea
+            id="import-theme-json"
             value={importText}
             onChange={(e) => setImportText(e.target.value)}
             placeholder='{"colors": {...}, ...}'

@@ -303,6 +303,7 @@ export const MobileSearchHeader = memo(function MobileSearchHeader({
             value={value}
             onChange={(e) => onChange?.(e.target.value)}
             placeholder={placeholder}
+            // eslint-disable-next-line jsx-a11y/no-autofocus -- Intentional UX for search focus
             autoFocus={autoFocus}
             className={cn(
               'h-10 w-full pl-10 pr-10',

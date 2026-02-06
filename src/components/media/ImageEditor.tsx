@@ -280,8 +280,11 @@ export function ImageEditor({
       {/* Canvas and Controls */}
       <div className="flex flex-1 overflow-hidden">
         {/* Canvas Area */}
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Application role manages own interaction */}
         <div
           ref={containerRef}
+          role="application"
+          aria-label="Image editor canvas"
           className="flex flex-1 items-center justify-center bg-muted p-8"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
@@ -341,7 +344,7 @@ export function ImageEditor({
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-medium">Zoom</label>
+                <span className="mb-2 block text-sm font-medium">Zoom</span>
                 <div className="flex items-center gap-2">
                   <Button
                     size="icon"

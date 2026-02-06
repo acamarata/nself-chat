@@ -56,64 +56,136 @@ process.env.NEXT_PUBLIC_USE_DEV_AUTH = 'true'
 process.env.NEXT_PUBLIC_ENV = 'test'
 
 // ============================================================================
-// Mock Browser APIs
+// Mock Browser APIs (only in jsdom environment)
 // ============================================================================
 
-// Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: jest.fn().mockImplementation((query) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
-})
+if (typeof window !== 'undefined') {
+  // Mock window.matchMedia
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: jest.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  })
 
-// Mock ResizeObserver
-global.ResizeObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
-}))
+  // Mock scrollTo
+  window.scrollTo = jest.fn()
+}
 
-// Mock IntersectionObserver
-global.IntersectionObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
-  root: null,
-  rootMargin: '',
-  thresholds: [],
-  takeRecords: jest.fn(() => []),
-}))
+if (typeof Element !== 'undefined') {
+  Element.prototype.scrollTo = jest.fn()
+  Element.prototype.scrollIntoView = jest.fn()
+  // Mock pointer capture methods for Radix UI compatibility in jsdom
+  Element.prototype.hasPointerCapture = jest.fn(() => false)
+  Element.prototype.setPointerCapture = jest.fn()
+  Element.prototype.releasePointerCapture = jest.fn()
+}
 
-// Mock scrollTo
-window.scrollTo = jest.fn()
-Element.prototype.scrollTo = jest.fn()
-Element.prototype.scrollIntoView = jest.fn()
+if (typeof navigator !== 'undefined') {
+  // Mock clipboard API
+  Object.defineProperty(navigator, 'clipboard', {
+    writable: true,
+    value: {
+      writeText: jest.fn().mockResolvedValue(undefined),
+      readText: jest.fn().mockResolvedValue(''),
+      write: jest.fn().mockResolvedValue(undefined),
+      read: jest.fn().mockResolvedValue([]),
+    },
+  })
 
-// Mock clipboard API
-Object.defineProperty(navigator, 'clipboard', {
-  writable: true,
-  value: {
-    writeText: jest.fn().mockResolvedValue(undefined),
-    readText: jest.fn().mockResolvedValue(''),
-    write: jest.fn().mockResolvedValue(undefined),
-    read: jest.fn().mockResolvedValue([]),
-  },
-})
+  // Mock serviceWorker API for push notifications
+  Object.defineProperty(navigator, 'serviceWorker', {
+    writable: true,
+    configurable: true,
+    value: {
+      ready: Promise.resolve({
+        pushManager: {
+          getSubscription: jest.fn().mockResolvedValue(null),
+          subscribe: jest.fn().mockResolvedValue({
+            endpoint: 'https://push.example.com/mock',
+            expirationTime: null,
+            getKey: jest.fn(),
+            toJSON: jest.fn().mockReturnValue({
+              endpoint: 'https://push.example.com/mock',
+              keys: { p256dh: 'mock-key', auth: 'mock-auth' },
+            }),
+            unsubscribe: jest.fn().mockResolvedValue(true),
+          }),
+        },
+        active: { postMessage: jest.fn() },
+      }),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      register: jest.fn().mockResolvedValue({
+        scope: '/',
+        active: { postMessage: jest.fn() },
+      }),
+      getRegistration: jest.fn().mockResolvedValue(undefined),
+      getRegistrations: jest.fn().mockResolvedValue([]),
+      controller: null,
+    },
+  })
+}
 
-// Mock URL.createObjectURL
-global.URL.createObjectURL = jest.fn(() => 'blob:mock-url')
-global.URL.revokeObjectURL = jest.fn()
+// Mock Notification API
+if (typeof global.Notification === 'undefined') {
+  global.Notification = class MockNotification {
+    static permission = 'default'
+    static requestPermission = jest.fn().mockResolvedValue('granted')
+    static maxActions = 2
 
-// Mock Blob methods
-if (typeof Blob !== 'undefined') {
+    constructor(title, options = {}) {
+      this.title = title
+      this.options = options
+      this.body = options.body || ''
+      this.icon = options.icon || ''
+      this.tag = options.tag || ''
+      this.data = options.data || null
+    }
+
+    close() {}
+    addEventListener() {}
+    removeEventListener() {}
+  }
+}
+
+// Mock ResizeObserver (global, works in both environments)
+global.ResizeObserver =
+  global.ResizeObserver ||
+  jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+  }))
+
+// Mock IntersectionObserver (global, works in both environments)
+global.IntersectionObserver =
+  global.IntersectionObserver ||
+  jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+    root: null,
+    rootMargin: '',
+    thresholds: [],
+    takeRecords: jest.fn(() => []),
+  }))
+
+// Mock URL.createObjectURL (only if URL exists)
+if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'undefined') {
+  global.URL.createObjectURL = jest.fn(() => 'blob:mock-url')
+  global.URL.revokeObjectURL = jest.fn()
+}
+
+// Mock Blob methods (only if Blob exists)
+if (typeof Blob !== 'undefined' && typeof Blob.prototype.arrayBuffer === 'undefined') {
   Blob.prototype.arrayBuffer = jest.fn(async function () {
     // Return a mock ArrayBuffer with audio data
     const buffer = new ArrayBuffer(44100 * 2) // 1 second of 16-bit audio at 44.1kHz
@@ -159,17 +231,45 @@ Object.defineProperty(global, 'crypto', {
 })
 
 // ============================================================================
-// Mock requestAnimationFrame
+// Mock TextEncoder/TextDecoder (needed for crypto operations)
 // ============================================================================
 
-global.requestAnimationFrame = (callback) => setTimeout(callback, 0)
-global.cancelAnimationFrame = (id) => clearTimeout(id)
+if (typeof global.TextEncoder === 'undefined') {
+  global.TextEncoder = class TextEncoder {
+    encode(str) {
+      const buf = new ArrayBuffer(str.length)
+      const bufView = new Uint8Array(buf)
+      for (let i = 0; i < str.length; i++) {
+        bufView[i] = str.charCodeAt(i)
+      }
+      return bufView
+    }
+  }
+}
+
+if (typeof global.TextDecoder === 'undefined') {
+  global.TextDecoder = class TextDecoder {
+    decode(arr) {
+      return String.fromCharCode.apply(null, new Uint8Array(arr))
+    }
+  }
+}
 
 // ============================================================================
-// Mock AudioContext
+// Mock requestAnimationFrame (only if not already defined)
 // ============================================================================
 
-global.AudioContext = jest.fn().mockImplementation(() => ({
+if (typeof global.requestAnimationFrame === 'undefined') {
+  global.requestAnimationFrame = (callback) => setTimeout(callback, 0)
+  global.cancelAnimationFrame = (id) => clearTimeout(id)
+}
+
+// ============================================================================
+// Mock AudioContext (only if not already defined)
+// ============================================================================
+
+if (typeof global.AudioContext === 'undefined') {
+  global.AudioContext = jest.fn().mockImplementation(() => ({
   createBufferSource: jest.fn(() => ({
     connect: jest.fn(),
     disconnect: jest.fn(),
@@ -226,8 +326,57 @@ global.AudioContext = jest.fn().mockImplementation(() => ({
   close: jest.fn().mockResolvedValue(undefined),
 }))
 
-// Also mock webkitAudioContext for Safari
-global.webkitAudioContext = global.AudioContext
+  // Also mock webkitAudioContext for Safari
+  global.webkitAudioContext = global.AudioContext
+}
+
+// ============================================================================
+// Mock MediaStream and MediaStreamTrack (for WebRTC tests)
+// ============================================================================
+
+if (typeof global.MediaStream === 'undefined') {
+  global.MediaStreamTrack = class MockMediaStreamTrack {
+    constructor(kind = 'audio') {
+      this.id = `track-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+      this.kind = kind
+      this.enabled = true
+      this.muted = false
+      this.readyState = 'live'
+      this.label = `Mock ${kind} track`
+    }
+    stop() {}
+    clone() { return new MockMediaStreamTrack(this.kind) }
+    getSettings() { return {} }
+    getCapabilities() { return {} }
+    getConstraints() { return {} }
+    applyConstraints() { return Promise.resolve() }
+    addEventListener() {}
+    removeEventListener() {}
+    dispatchEvent() { return true }
+  }
+
+  global.MediaStream = class MockMediaStream {
+    constructor(tracksOrStream = []) {
+      this.id = `stream-${Date.now()}`
+      this.active = true
+      this._tracks = Array.isArray(tracksOrStream)
+        ? tracksOrStream
+        : tracksOrStream._tracks || []
+    }
+    getTracks() { return this._tracks }
+    getAudioTracks() { return this._tracks.filter(t => t.kind === 'audio') }
+    getVideoTracks() { return this._tracks.filter(t => t.kind === 'video') }
+    addTrack(track) { this._tracks.push(track) }
+    removeTrack(track) {
+      const index = this._tracks.indexOf(track)
+      if (index > -1) this._tracks.splice(index, 1)
+    }
+    clone() { return new MockMediaStream(this._tracks.map(t => t.clone())) }
+    addEventListener() {}
+    removeEventListener() {}
+    dispatchEvent() { return true }
+  }
+}
 
 // ============================================================================
 // Console Error Suppression for Expected Errors

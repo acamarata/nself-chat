@@ -1,4 +1,8 @@
 /**
+ * @jest-environment node
+ */
+
+/**
  * Messages API Tests
  *
  * Tests for /api/messages endpoints

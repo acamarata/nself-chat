@@ -11,7 +11,7 @@
  * - Monitor sync progress
  *
  * @module components/offline/offline-queue-viewer
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { useState, useEffect } from 'react'
@@ -104,7 +104,7 @@ export function OfflineQueueViewer({
       const newStats: QueueStats = {
         total: queueItems.length,
         pending: queueItems.filter((i) => i.status === 'pending').length,
-        processing: queueItems.filter((i) => i.status === 'processing').length,
+        processing: queueItems.filter((i) => i.status === 'syncing').length,
         failed: queueItems.filter((i) => i.status === 'failed').length,
         completed: queueItems.filter((i) => i.status === 'completed').length,
       }
@@ -120,7 +120,8 @@ export function OfflineQueueViewer({
   const handleRetry = async (itemId: string) => {
     try {
       const syncQueue = getSyncQueue()
-      await syncQueue.retry(itemId)
+      // Reset the item to pending status so it will be retried
+      await syncQueue.updateStatus(itemId, 'pending')
       await loadQueue()
     } catch (error) {
       console.error('Failed to retry item:', error)
@@ -141,8 +142,7 @@ export function OfflineQueueViewer({
   const handleRetryAll = async () => {
     try {
       const syncQueue = getSyncQueue()
-      const failedItems = items.filter((i) => i.status === 'failed')
-      await Promise.all(failedItems.map((i) => syncQueue.retry(i.id)))
+      await syncQueue.retryFailed()
       await loadQueue()
     } catch (error) {
       console.error('Failed to retry all:', error)
@@ -261,7 +261,7 @@ export function OfflineQueueViewer({
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Attempts</p>
                 <p className="font-medium">
-                  {selectedItem.attempts} / {selectedItem.maxRetries}
+                  {selectedItem.retryCount} / {selectedItem.maxRetries}
                 </p>
               </div>
 
@@ -279,10 +279,10 @@ export function OfflineQueueViewer({
                 <p className="font-medium">{formatDate(selectedItem.createdAt)}</p>
               </div>
 
-              {selectedItem.lastAttempt && (
+              {selectedItem.updatedAt && (
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Last Attempt</p>
-                  <p className="font-medium">{formatDate(selectedItem.lastAttempt)}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Last Updated</p>
+                  <p className="font-medium">{formatDate(selectedItem.updatedAt)}</p>
                 </div>
               )}
             </div>
@@ -346,7 +346,7 @@ function QueueItem({ item, onSelect }: QueueItemProps) {
     switch (item.type) {
       case 'message':
         return <MessageSquare className="h-5 w-5" />
-      case 'attachment':
+      case 'reaction':
         return <Upload className="h-5 w-5" />
       default:
         return <Clock className="h-5 w-5" />
@@ -359,7 +359,7 @@ function QueueItem({ item, onSelect }: QueueItemProps) {
         return <CheckCircle2 className="h-5 w-5 text-green-500" />
       case 'failed':
         return <XCircle className="h-5 w-5 text-red-500" />
-      case 'processing':
+      case 'syncing':
         return <RefreshCw className="h-5 w-5 animate-spin text-blue-500" />
       default:
         return <Clock className="h-5 w-5 text-gray-500" />
@@ -392,15 +392,8 @@ function QueueItem({ item, onSelect }: QueueItemProps) {
 
             <div className="mt-1 flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
               <span>{formatTimeAgo(item.createdAt)}</span>
-              {item.attempts > 0 && <span>{item.attempts} attempts</span>}
+              {item.retryCount > 0 && <span>{item.retryCount} attempts</span>}
             </div>
-
-            {item.status === 'processing' && item.progress !== undefined && (
-              <div className="mt-2">
-                <Progress value={item.progress} className="h-2" />
-                <p className="mt-1 text-xs text-gray-500">{item.progress}% complete</p>
-              </div>
-            )}
           </div>
         </div>
 
@@ -414,16 +407,16 @@ function QueueItem({ item, onSelect }: QueueItemProps) {
 // Utilities
 // =============================================================================
 
-function getStatusVariant(status: SyncQueueItem['status']) {
+function getStatusVariant(status: SyncQueueItem['status']): 'default' | 'secondary' | 'destructive' | 'outline' {
   switch (status) {
     case 'completed':
-      return 'success' as const
+      return 'secondary'
     case 'failed':
-      return 'destructive' as const
-    case 'processing':
-      return 'default' as const
+      return 'destructive'
+    case 'syncing':
+      return 'default'
     default:
-      return 'secondary' as const
+      return 'outline'
   }
 }
 

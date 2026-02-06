@@ -73,23 +73,33 @@ export const EditIndicator = memo(function EditIndicator({
     <p>Edited</p>
   )
 
-  const indicator = (
+  const indicator = onViewHistory ? (
     <span
       className={cn(
-        'inline-flex cursor-default items-center gap-0.5 text-muted-foreground transition-colors',
-        onViewHistory && 'cursor-pointer hover:text-foreground hover:underline',
+        'inline-flex cursor-pointer items-center gap-0.5 text-muted-foreground transition-colors hover:text-foreground hover:underline',
         size === 'sm' ? 'text-[10px]' : 'text-xs',
         className
       )}
       onClick={onViewHistory}
-      role={onViewHistory ? 'button' : undefined}
-      tabIndex={onViewHistory ? 0 : undefined}
+      role="button"
+      tabIndex={0}
+      aria-label="View edit history"
       onKeyDown={(e) => {
-        if (onViewHistory && (e.key === 'Enter' || e.key === ' ')) {
+        if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault()
           onViewHistory()
         }
       }}
+    >
+      (edited)
+    </span>
+  ) : (
+    <span
+      className={cn(
+        'inline-flex cursor-default items-center gap-0.5 text-muted-foreground transition-colors',
+        size === 'sm' ? 'text-[10px]' : 'text-xs',
+        className
+      )}
     >
       (edited)
     </span>
@@ -148,23 +158,40 @@ export const CompactEditIndicator = memo(function CompactEditIndicator({
     <p>Edited</p>
   )
 
+  const spanElement = onViewHistory ? (
+    <span
+      className={cn(
+        'inline-flex cursor-pointer text-muted-foreground transition-colors hover:text-foreground',
+        className
+      )}
+      onClick={onViewHistory}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onViewHistory()
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label="View edit history"
+    >
+      <Pencil className="h-3 w-3" />
+    </span>
+  ) : (
+    <span
+      className={cn(
+        'inline-flex cursor-default text-muted-foreground transition-colors',
+        className
+      )}
+    >
+      <Pencil className="h-3 w-3" />
+    </span>
+  )
+
   return (
     <TooltipProvider>
       <Tooltip delayDuration={300}>
-        <TooltipTrigger asChild>
-          <span
-            className={cn(
-              'inline-flex cursor-default text-muted-foreground transition-colors',
-              onViewHistory && 'cursor-pointer hover:text-foreground',
-              className
-            )}
-            onClick={onViewHistory}
-            role={onViewHistory ? 'button' : undefined}
-            tabIndex={onViewHistory ? 0 : undefined}
-          >
-            <Pencil className="h-3 w-3" />
-          </span>
-        </TooltipTrigger>
+        <TooltipTrigger asChild>{spanElement}</TooltipTrigger>
         <TooltipContent side="top">{tooltipContent}</TooltipContent>
       </Tooltip>
     </TooltipProvider>

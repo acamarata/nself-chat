@@ -205,52 +205,81 @@ function ImageAttachment({
     )
   }
 
-  return (
-    <div className={cn('group relative inline-block', className)}>
-      {/* Image */}
-      <div
-        className={cn('relative overflow-hidden rounded-lg bg-muted', onClick && 'cursor-pointer')}
-        style={displayStyle}
-        onClick={onClick}
-      >
-        {/* Loading skeleton */}
-        {!loaded && <div className="absolute inset-0 animate-pulse bg-muted" />}
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      onClick?.()
+    }
+  }
 
-        <img
-          src={file.thumbnailUrl || file.url}
-          alt={file.name}
-          className={cn(
-            'h-full w-full object-cover transition-opacity',
-            loaded ? 'opacity-100' : 'opacity-0'
-          )}
-          onLoad={() => setLoaded(true)}
-          onError={() => setError(true)}
-        />
+  const imageContent = (
+    <>
+      {/* Loading skeleton */}
+      {!loaded && <div className="absolute inset-0 animate-pulse bg-muted" />}
 
-        {/* Hover overlay */}
-        {onClick && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/30">
-            <Maximize2 className="h-6 w-6 text-white opacity-0 transition-opacity group-hover:opacity-100" />
-          </div>
+      <img
+        src={file.thumbnailUrl || file.url}
+        alt={file.name}
+        className={cn(
+          'h-full w-full object-cover transition-opacity',
+          loaded ? 'opacity-100' : 'opacity-0'
         )}
-      </div>
+        onLoad={() => setLoaded(true)}
+        onError={() => setError(true)}
+      />
 
-      {/* File info */}
-      {(showFileName || showFileSize || showDownload) && !compact && (
-        <div className="mt-1 flex items-center justify-between gap-2">
-          <div className="min-w-0 flex-1">
-            {showFileName && (
-              <p className="truncate text-xs text-muted-foreground" title={file.name}>
-                {file.name}
-              </p>
-            )}
-            {showFileSize && (
-              <p className="text-xs text-muted-foreground">{formatFileSize(file.size)}</p>
-            )}
-          </div>
-          {showDownload && <DownloadButton url={file.url} name={file.name} size="sm" />}
+      {/* Hover overlay */}
+      {onClick && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/30">
+          <Maximize2 className="h-6 w-6 text-white opacity-0 transition-opacity group-hover:opacity-100" />
         </div>
       )}
+    </>
+  )
+
+  const fileInfo = (showFileName || showFileSize || showDownload) && !compact && (
+    <div className="mt-1 flex items-center justify-between gap-2">
+      <div className="min-w-0 flex-1">
+        {showFileName && (
+          <p className="truncate text-xs text-muted-foreground" title={file.name}>
+            {file.name}
+          </p>
+        )}
+        {showFileSize && (
+          <p className="text-xs text-muted-foreground">{formatFileSize(file.size)}</p>
+        )}
+      </div>
+      {showDownload && <DownloadButton url={file.url} name={file.name} size="sm" />}
+    </div>
+  )
+
+  if (onClick) {
+    return (
+      <div className={cn('group relative inline-block', className)}>
+        <div
+          className="relative overflow-hidden rounded-lg bg-muted cursor-pointer"
+          style={displayStyle}
+          role="button"
+          tabIndex={0}
+          onClick={onClick}
+          onKeyDown={handleKeyDown}
+        >
+          {imageContent}
+        </div>
+        {fileInfo}
+      </div>
+    )
+  }
+
+  return (
+    <div className={cn('group relative inline-block', className)}>
+      <div
+        className="relative overflow-hidden rounded-lg bg-muted"
+        style={displayStyle}
+      >
+        {imageContent}
+      </div>
+      {fileInfo}
     </div>
   )
 }
@@ -314,7 +343,9 @@ function VideoAttachment({
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
           onEnded={() => setIsPlaying(false)}
-        />
+        >
+          <track kind="captions" />
+        </video>
 
         {/* Controls overlay */}
         <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/30">
@@ -430,7 +461,9 @@ function AudioAttachment({
         onEnded={() => setIsPlaying(false)}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={(e) => setDuration((e.target as HTMLAudioElement).duration)}
-      />
+      >
+        <track kind="captions" />
+      </audio>
 
       {/* Play button */}
       <button

@@ -435,7 +435,7 @@ export function TwoFactorSetup() {
               onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
               placeholder="000000"
               className="text-center font-mono text-2xl tracking-widest"
-              autoFocus
+              autoFocus // eslint-disable-line jsx-a11y/no-autofocus
             />
           </div>
 

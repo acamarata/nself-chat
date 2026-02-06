@@ -256,7 +256,15 @@ export function SessionManagement() {
                   'hover:bg-accent/50 flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors',
                   !notification.read && 'bg-accent/30'
                 )}
+                role="button"
+                tabIndex={0}
                 onClick={() => markNotificationRead(notification.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    markNotificationRead(notification.id)
+                  }
+                }}
               >
                 <div
                   className={cn(

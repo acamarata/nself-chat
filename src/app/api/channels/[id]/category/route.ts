@@ -193,9 +193,10 @@ async function reorderCategoryChannels(
 // PUT /api/channels/[id]/category - Assign channel to category
 // ============================================================================
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   try {
-    const channelId = params.id
+    const channelId = id
 
     logger.info('PUT /api/channels/[id]/category - Assign channel to category', {
       channelId,
@@ -317,9 +318,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 // DELETE /api/channels/[id]/category - Remove channel from category
 // ============================================================================
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   try {
-    const channelId = params.id
+    const channelId = id
 
     logger.info('DELETE /api/channels/[id]/category - Remove channel from category', {
       channelId,

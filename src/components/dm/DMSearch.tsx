@@ -53,6 +53,7 @@ export function DMSearch({
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         className="h-9 pl-8 pr-8 text-sm"
+        // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus={autoFocus}
       />
       {value && (

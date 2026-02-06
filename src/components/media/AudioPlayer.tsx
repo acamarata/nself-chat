@@ -193,7 +193,9 @@ export function AudioPlayer({
           onLoadedMetadata={handleLoadedMetadata}
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleEnded}
-        />
+        >
+          <track kind="captions" src="" label="Captions" default />
+        </audio>
 
         <Button variant="ghost" size="icon" className="h-8 w-8" onClick={togglePlay}>
           {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
@@ -235,7 +237,9 @@ export function AudioPlayer({
         onLoadedMetadata={handleLoadedMetadata}
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleEnded}
-      />
+      >
+        <track kind="captions" src="" label="Captions" default />
+      </audio>
 
       {/* Album art / Icon */}
       <div className="flex h-32 w-32 items-center justify-center rounded-lg bg-muted">

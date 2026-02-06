@@ -235,8 +235,9 @@ export function BotResponses({ actions, onAdd, onRemove, error, className }: Bot
 
           {/* Action Type */}
           <div>
-            <label className="mb-2 block text-sm font-medium">Action Type</label>
+            <label htmlFor="action-type" className="mb-2 block text-sm font-medium">Action Type</label>
             <select
+              id="action-type"
               value={draft.type}
               onChange={(e) => setDraft({ type: e.target.value as BuilderActionType })}
               className="w-full rounded-md border border-input bg-background px-3 py-2"
@@ -252,8 +253,9 @@ export function BotResponses({ actions, onAdd, onRemove, error, className }: Bot
           {/* Send/Reply Message */}
           {(draft.type === 'send_message' || draft.type === 'reply_message') && (
             <div>
-              <label className="mb-1 block text-sm font-medium">Message</label>
+              <label htmlFor="response-message" className="mb-1 block text-sm font-medium">Message</label>
               <textarea
+                id="response-message"
                 value={draft.message || ''}
                 onChange={(e) => setDraft((prev) => ({ ...prev, message: e.target.value }))}
                 placeholder="Enter your message..."
@@ -289,8 +291,9 @@ export function BotResponses({ actions, onAdd, onRemove, error, className }: Bot
           {/* Add Reaction */}
           {draft.type === 'add_reaction' && (
             <div>
-              <label className="mb-1 block text-sm font-medium">Reactions</label>
+              <label htmlFor="response-reactions" className="mb-1 block text-sm font-medium">Reactions</label>
               <input
+                id="response-reactions"
                 type="text"
                 value={draft.reactions || ''}
                 onChange={(e) => setDraft((prev) => ({ ...prev, reactions: e.target.value }))}
@@ -306,8 +309,9 @@ export function BotResponses({ actions, onAdd, onRemove, error, className }: Bot
           {/* Call Webhook */}
           {draft.type === 'call_webhook' && (
             <div>
-              <label className="mb-1 block text-sm font-medium">Webhook URL</label>
+              <label htmlFor="response-webhook-url" className="mb-1 block text-sm font-medium">Webhook URL</label>
               <input
+                id="response-webhook-url"
                 type="url"
                 value={draft.webhookUrl || ''}
                 onChange={(e) => setDraft((prev) => ({ ...prev, webhookUrl: e.target.value }))}
@@ -321,8 +325,9 @@ export function BotResponses({ actions, onAdd, onRemove, error, className }: Bot
           {draft.type === 'store_data' && (
             <>
               <div>
-                <label className="mb-1 block text-sm font-medium">Data Key</label>
+                <label htmlFor="response-data-key" className="mb-1 block text-sm font-medium">Data Key</label>
                 <input
+                  id="response-data-key"
                   type="text"
                   value={draft.dataKey || ''}
                   onChange={(e) => setDraft((prev) => ({ ...prev, dataKey: e.target.value }))}
@@ -331,8 +336,9 @@ export function BotResponses({ actions, onAdd, onRemove, error, className }: Bot
                 />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium">Data Value</label>
+                <label htmlFor="response-data-value" className="mb-1 block text-sm font-medium">Data Value</label>
                 <input
+                  id="response-data-value"
                   type="text"
                   value={draft.dataValue || ''}
                   onChange={(e) => setDraft((prev) => ({ ...prev, dataValue: e.target.value }))}

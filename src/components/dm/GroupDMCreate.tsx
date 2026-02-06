@@ -275,6 +275,7 @@ export function GroupDMCreate() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9"
+                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
               />
             </div>
@@ -328,7 +329,7 @@ export function GroupDMCreate() {
           <>
             {/* Group Avatar Placeholder */}
             <div className="flex justify-center">
-              <button className="group relative">
+              <button type="button" className="group relative" aria-label="Change group avatar">
                 <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
                   <Users className="h-8 w-8 text-muted-foreground" />
                 </div>
@@ -347,6 +348,7 @@ export function GroupDMCreate() {
                 value={groupName}
                 onChange={(e) => setGroupName(e.target.value)}
                 maxLength={100}
+                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
               />
               <p className="text-right text-xs text-muted-foreground">{groupName.length}/100</p>

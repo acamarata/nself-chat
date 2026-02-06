@@ -622,6 +622,7 @@ interface SourceCardProps {
 
 function SourceCard({ title, description, icon, selected, onClick }: SourceCardProps) {
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <Card
       className={cn(
         'cursor-pointer transition-all hover:border-primary',
@@ -683,6 +684,15 @@ function FileUploader({ source, onFileSelect, isProcessing, file }: FileUploader
       onDrop={handleDrop}
       onDragOver={(e) => e.preventDefault()}
       onClick={() => inputRef.current?.click()}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          inputRef.current?.click()
+        }
+      }}
+      aria-label="Upload file"
     >
       <input
         ref={inputRef}
@@ -691,6 +701,7 @@ function FileUploader({ source, onFileSelect, isProcessing, file }: FileUploader
         onChange={handleChange}
         className="hidden"
         disabled={isProcessing}
+        aria-label="Select file to upload"
       />
       {isProcessing ? (
         <div className="space-y-2">

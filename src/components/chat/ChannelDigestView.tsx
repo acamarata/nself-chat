@@ -291,7 +291,15 @@ export function ChannelDigestView({
                         <div
                           key={msg.messageId}
                           className="cursor-pointer rounded-lg border bg-card p-3 transition-colors hover:bg-accent"
+                          role="button"
+                          tabIndex={0}
                           onClick={() => onMessageClick?.(msg.messageId)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault()
+                              onMessageClick?.(msg.messageId)
+                            }
+                          }}
                         >
                           <div className="mb-2 flex items-start justify-between gap-2">
                             <div className="flex items-center gap-2">

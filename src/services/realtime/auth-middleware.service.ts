@@ -6,7 +6,7 @@
  * join rooms and receive realtime events.
  *
  * @module services/realtime/auth-middleware.service
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { realtimeClient, RealtimeConnectionState } from './realtime-client'

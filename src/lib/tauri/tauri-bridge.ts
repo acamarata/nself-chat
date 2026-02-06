@@ -112,7 +112,7 @@ export async function getPlatform(): Promise<'macos' | 'windows' | 'linux' | 'we
  */
 export async function getAppVersion(): Promise<string> {
   if (!isTauri()) {
-    return process.env.NEXT_PUBLIC_APP_VERSION || '0.0.0'
+    return process.env.NEXT_PUBLIC_APP_VERSION || '0.9.1'
   }
   return invoke<string>('get_app_version')
 }

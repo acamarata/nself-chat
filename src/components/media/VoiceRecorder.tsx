@@ -378,7 +378,9 @@ export function VoiceRecorder({
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleEnded}
           className="hidden"
-        />
+        >
+          <track kind="captions" src="" label="Captions" default />
+        </audio>
       )}
     </div>
   )

@@ -8,7 +8,7 @@
  * GET /api/threads/[id]/typing - Get users currently typing in thread
  *
  * @module app/api/threads/[id]/typing
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { NextRequest, NextResponse } from 'next/server'

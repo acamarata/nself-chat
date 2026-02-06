@@ -231,7 +231,19 @@ const MemberListSection = React.forwardRef<HTMLDivElement, MemberListSectionProp
         onToggle && 'cursor-pointer transition-colors hover:text-foreground',
         className
       )}
-      onClick={onToggle}
+      {...(onToggle
+        ? {
+            onClick: onToggle,
+            onKeyDown: (e: React.KeyboardEvent) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                onToggle()
+              }
+            },
+            role: 'button' as const,
+            tabIndex: 0,
+          }
+        : {})}
       {...props}
     >
       {onToggle && (

@@ -192,7 +192,7 @@ export function MentionHighlight({
 
   if (!clickable) {
     return (
-      <span className={cn(styles, className)} role="text">
+      <span className={cn(styles, className)}>
         {icon}
         {displayText}
       </span>

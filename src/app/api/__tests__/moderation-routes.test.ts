@@ -1,4 +1,8 @@
 /**
+ * @jest-environment node
+ */
+
+/**
  * Moderation API Routes Tests
  *
  * Comprehensive test suite for all Moderation API routes:

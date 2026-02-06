@@ -11,9 +11,10 @@ import { nhost } from '@/lib/nhost.server'
 
 import { logger } from '@/lib/logger'
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   try {
-    const streamId = params.id
+    const streamId = id
 
     // Get stream details
     const { data, error } = await nhost.graphql.request(
@@ -68,7 +69,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   try {
     // Get user from session
     const session = await nhost.auth.getSession()
@@ -76,7 +78,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const streamId = params.id
+    const streamId = id
     const userId = session.user?.id
 
     if (!userId) {
@@ -149,7 +151,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   try {
     // Get user from session
     const session = await nhost.auth.getSession()
@@ -157,7 +160,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const streamId = params.id
+    const streamId = id
 
     // Delete stream (will cascade delete related records)
     const { data, error } = await nhost.graphql.request(

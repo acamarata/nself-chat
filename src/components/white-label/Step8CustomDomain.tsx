@@ -139,13 +139,14 @@ export function Step8CustomDomain({ onValidChange, className }: Step8CustomDomai
       <div className="mx-auto max-w-xl space-y-6">
         {/* Domain input */}
         <div className="space-y-3">
-          <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+          <label htmlFor="custom-domain" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
             Domain Name
           </label>
           <div className="flex gap-3">
             <div className="relative flex-1">
               <Globe className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
               <input
+                id="custom-domain"
                 type="text"
                 value={domainInput}
                 onChange={handleDomainChange}

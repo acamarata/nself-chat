@@ -13,7 +13,7 @@
  * This is the single entry point for initializing and managing all realtime features.
  *
  * @module services/realtime/realtime-integration
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { realtimeClient, type RealtimeClientConfig } from './realtime-client'
@@ -417,7 +417,7 @@ class RealtimeIntegrationService {
    */
   private setupConnectionMonitoring(): void {
     const unsub = realtimeClient.onConnectionStateChange((state) => {
-      logger.info('[RealtimeIntegration] Connection state changed:', state)
+      logger.info('[RealtimeIntegration] Connection state changed:', { state })
 
       // Handle state-specific logic
       switch (state) {
@@ -449,7 +449,7 @@ class RealtimeIntegrationService {
    */
   private setupReconnectionHandling(): void {
     const unsub = realtimeClient.onReconnection((attemptNumber, wasOffline) => {
-      logger.info('[RealtimeIntegration] Reconnected after', attemptNumber, 'attempts, was offline:', wasOffline)
+      logger.info('[RealtimeIntegration] Reconnected', { attemptNumber, wasOffline })
 
       // Sync presence after reconnection
       if (this.config.enablePresence) {
@@ -477,7 +477,7 @@ class RealtimeIntegrationService {
    */
   private setupOfflineDetection(): void {
     const unsub = realtimeClient.onOfflineStatusChange((isOnline) => {
-      logger.info('[RealtimeIntegration] Online status changed:', isOnline)
+      logger.info('[RealtimeIntegration] Online status changed:', { isOnline })
 
       if (isOnline) {
         logger.info('[RealtimeIntegration] Back online, attempting reconnection')

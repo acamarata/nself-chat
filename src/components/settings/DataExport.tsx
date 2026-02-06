@@ -339,7 +339,7 @@ export function DataExport() {
 
         {/* Scope Selection */}
         <div className="space-y-2">
-          <label className="text-sm font-medium">Export Scope</label>
+          <label htmlFor="export-scope" className="text-sm font-medium">Export Scope</label>
           <Select value={scope} onValueChange={(v) => setScope(v as ExportScope)}>
             <SelectTrigger>
               <SelectValue />
@@ -375,7 +375,7 @@ export function DataExport() {
 
         {/* Format Selection */}
         <div className="space-y-2">
-          <label className="text-sm font-medium">Export Format</label>
+          <span className="text-sm font-medium">Export Format</span>
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
             {(['json', 'csv', 'html', 'pdf'] as ExportFormat[]).map((fmt) => {
               const Icon = getFormatIcon(fmt)
@@ -401,10 +401,11 @@ export function DataExport() {
         {/* Date Range */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <label className="text-sm font-medium">From Date</label>
+            <label htmlFor="from-date" className="text-sm font-medium">From Date</label>
             <div className="relative">
               <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
+                id="from-date"
                 type="date"
                 value={fromDate}
                 onChange={(e) => setFromDate(e.target.value)}
@@ -413,10 +414,11 @@ export function DataExport() {
             </div>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">To Date</label>
+            <label htmlFor="to-date" className="text-sm font-medium">To Date</label>
             <div className="relative">
               <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
+                id="to-date"
                 type="date"
                 value={toDate}
                 onChange={(e) => setToDate(e.target.value)}
@@ -428,7 +430,7 @@ export function DataExport() {
 
         {/* Include Options */}
         <div className="space-y-3">
-          <label className="text-sm font-medium">Include in Export</label>
+          <span className="text-sm font-medium">Include in Export</span>
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <label className="flex cursor-pointer items-center gap-2">
               <input

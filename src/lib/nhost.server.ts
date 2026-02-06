@@ -5,11 +5,10 @@
  * React context code on the server side.
  */
 
-import { NhostClient } from '@nhost/nextjs'
+import { NhostClient } from '@nhost/nhost-js'
 
 // Create nhost client with proper configuration for self-hosted backend
-// Note: We're creating a fresh instance here rather than importing the shared
-// client to avoid React context issues in API routes
+// Note: We're using @nhost/nhost-js instead of @nhost/nextjs to avoid React context issues
 export const nhost = new NhostClient({
   // For self-hosted nhost, we use explicit URLs instead of subdomain
   authUrl: 'https://auth.localhost',

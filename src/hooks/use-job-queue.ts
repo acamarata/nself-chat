@@ -7,7 +7,7 @@
  * Provides methods to create, list, and manage background jobs.
  *
  * @module hooks/use-job-queue
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { useState, useCallback } from 'react'

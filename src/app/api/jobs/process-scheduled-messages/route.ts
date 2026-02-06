@@ -393,8 +393,8 @@ export async function GET(request: NextRequest) {
 
     // Get stats
     const pendingResult = await scheduledMessageService.getScheduledMessages({
+      userId: 'system',
       isSent: false,
-      isCancelled: false,
       limit: 1,
       offset: 0,
     })

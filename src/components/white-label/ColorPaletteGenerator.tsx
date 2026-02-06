@@ -147,9 +147,9 @@ export function ColorPaletteGenerator({
       {/* Primary color picker */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+          <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
             Primary Color
-          </label>
+          </span>
           <Button type="button" variant="outline" size="sm" onClick={handleRandomPrimary}>
             <Shuffle className="mr-1 h-3 w-3" />
             Random
@@ -165,9 +165,9 @@ export function ColorPaletteGenerator({
 
       {/* Harmony suggestions */}
       <div className="space-y-2">
-        <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+        <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
           Color Harmony
-        </label>
+        </span>
         <div className="flex flex-wrap gap-2">
           {(['custom', 'complementary', 'analogous', 'triadic'] as const).map((type) => (
             <button
@@ -216,9 +216,9 @@ export function ColorPaletteGenerator({
 
       {/* Semantic colors */}
       <div className="space-y-2">
-        <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+        <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
           Semantic Colors
-        </label>
+        </span>
         <div className="flex gap-2">
           {semanticColors.map(({ key, label, value }) => (
             <button
@@ -238,7 +238,7 @@ export function ColorPaletteGenerator({
 
       {/* Preview card */}
       <div className="space-y-2">
-        <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Preview</label>
+        <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Preview</span>
         <div
           className="rounded-xl p-4 transition-colors"
           style={{ backgroundColor: palette.background, color: palette.foreground }}

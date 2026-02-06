@@ -347,11 +347,15 @@ export function ImageGallery({
   if (currentIndex < 0 || !currentImage) return null
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <div
       ref={containerRef}
       className={cn('fixed inset-0 z-50 flex flex-col bg-black/95', className)}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Image gallery"
     >
       {/* Header */}
       <div className="flex h-14 items-center justify-between px-4">
@@ -450,6 +454,7 @@ export function ImageGallery({
         onTouchEnd={handleTouchEnd}
         onWheel={handleWheel}
         style={{ cursor: zoom > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default' }}
+        role="presentation"
       >
         {/* Loading indicator */}
         {isLoading && (

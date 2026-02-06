@@ -476,9 +476,9 @@ export function ThemeEditor({
               {/* Link Example */}
               <p className="text-sm" style={{ color: activeColors.textMutedColor }}>
                 This is body text with a{' '}
-                <a href="#" style={{ color: activeColors.linkColor }}>
+                <span className="cursor-pointer underline" style={{ color: activeColors.linkColor }}>
                   link example
-                </a>
+                </span>
                 .
               </p>
             </div>

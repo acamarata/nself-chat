@@ -299,7 +299,9 @@ export function VideoPlayer({
         onWaiting={handleWaiting}
         onPlaying={handlePlaying}
         data-testid="video-element"
-      />
+      >
+        <track kind="captions" src="" label="Captions" default />
+      </video>
 
       {/* Buffering indicator */}
       {isBuffering && (
@@ -344,8 +346,23 @@ export function VideoPlayer({
               </span>
               <div
                 ref={progressRef}
+                role="button"
+                tabIndex={0}
+                aria-label="Video progress - click to seek"
                 className="relative h-1 flex-1 cursor-pointer overflow-hidden rounded-full bg-white/30"
                 onClick={handleProgressClick}
+                onKeyDown={(e) => {
+                  if (e.key === 'ArrowRight') {
+                    e.preventDefault()
+                    seekForward()
+                  } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault()
+                    seekBackward()
+                  } else if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    togglePlay()
+                  }
+                }}
                 data-testid="progress-bar"
               >
                 <div

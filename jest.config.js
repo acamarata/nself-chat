@@ -13,6 +13,12 @@ const customJestConfig = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@/test-utils$': '<rootDir>/src/test-utils',
     '^@/test-utils/(.*)$': '<rootDir>/src/test-utils/$1',
+    // Mock ESM packages to avoid compatibility issues with pnpm
+    '^uuid$': '<rootDir>/src/__tests__/mocks/uuid.ts',
+    '^isomorphic-dompurify$': '<rootDir>/src/__tests__/mocks/isomorphic-dompurify.ts',
+    '^marked$': '<rootDir>/src/__tests__/mocks/marked.ts',
+    '^livekit-server-sdk$': '<rootDir>/src/__tests__/mocks/livekit-server-sdk.ts',
+    '^bullmq$': '<rootDir>/src/__tests__/mocks/bullmq.ts',
   },
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
@@ -82,7 +88,10 @@ const customJestConfig = {
   haste: {
     forceNodeFilesystemAPI: true,
   },
-  transformIgnorePatterns: ['node_modules/(?!(uuid|@apollo/client|graphql|graphql-ws)/)'],
+  // Handle pnpm's nested node_modules structure for ESM packages
+  transformIgnorePatterns: [
+    'node_modules/(?!(\\.pnpm|uuid|@apollo|graphql|graphql-ws|@nhost|nhost|jose|livekit-server-sdk|bullmq)/)',
+  ],
   // Performance optimizations
   maxWorkers: '50%',
   // Reporters for CI

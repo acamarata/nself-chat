@@ -177,6 +177,15 @@ export function MeetingCalendar({
                           e.stopPropagation()
                           onMeetingClick?.(meeting)
                         }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            onMeetingClick?.(meeting)
+                          }
+                        }}
+                        role="button"
+                        tabIndex={0}
                       >
                         {formatTime(meeting.scheduledStartAt)} {meeting.title}
                       </div>

@@ -8,28 +8,9 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createLogger } from '@/lib/logger'
+import { type Bot, getAllBots, getFilteredBots, addBot } from '@/services/bots/mock-store'
 
 const logger = createLogger('BotAPI')
-
-// Mock database (replace with actual database queries)
-interface Bot {
-  id: string
-  name: string
-  description: string
-  code: string
-  version: string
-  template_id?: string
-  config: Record<string, unknown>
-  enabled: boolean
-  created_by: string
-  created_at: Date
-  updated_at: Date
-  sandbox_enabled: boolean
-  rate_limit_per_minute: number
-  timeout_ms: number
-}
-
-const mockBots: Bot[] = []
 
 /**
  * GET /api/bots
@@ -38,24 +19,19 @@ const mockBots: Bot[] = []
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
-    const enabled = searchParams.get('enabled')
-    const template_id = searchParams.get('template_id')
-    const created_by = searchParams.get('created_by')
+    const enabledParam = searchParams.get('enabled')
+    const template_id = searchParams.get('template_id') || undefined
+    const created_by = searchParams.get('created_by') || undefined
 
-    let bots = mockBots
-
-    // Apply filters
-    if (enabled !== null) {
-      bots = bots.filter((b) => b.enabled === (enabled === 'true'))
-    }
-
-    if (template_id) {
-      bots = bots.filter((b) => b.template_id === template_id)
-    }
-
-    if (created_by) {
-      bots = bots.filter((b) => b.created_by === created_by)
-    }
+    // Use filtered query or get all
+    const bots =
+      enabledParam !== null || template_id || created_by
+        ? getFilteredBots({
+            enabled: enabledParam !== null ? enabledParam === 'true' : undefined,
+            template_id,
+            created_by,
+          })
+        : getAllBots()
 
     logger.info('Retrieved bots', { count: bots.length })
 
@@ -121,7 +97,7 @@ export async function POST(request: NextRequest) {
     }
 
     // In production, insert into database
-    mockBots.push(bot)
+    addBot(bot)
 
     // Create initial version
     // In production: INSERT INTO nchat_bot_versions

@@ -234,6 +234,7 @@ export function NotificationFiltersPanel({
             return (
               <label
                 key={type.value}
+                htmlFor={`notification-type-${type.value}`}
                 className={cn(
                   'flex cursor-pointer items-center gap-3 rounded-lg border p-2.5 transition-colors',
                   checked
@@ -241,7 +242,7 @@ export function NotificationFiltersPanel({
                     : 'hover:bg-accent/50 border-transparent'
                 )}
               >
-                <Checkbox checked={checked} onCheckedChange={() => toggleType(type.value)} />
+                <Checkbox id={`notification-type-${type.value}`} checked={checked} onCheckedChange={() => toggleType(type.value)} />
                 <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
                   <span className="text-sm font-medium">{type.label}</span>

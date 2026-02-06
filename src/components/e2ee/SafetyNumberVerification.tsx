@@ -269,7 +269,7 @@ export function SafetyNumberVerification({
           {/* Safety Number Tab */}
           <TabsContent value="number" className="space-y-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Your Safety Number</label>
+              <span className="text-sm font-medium">Your Safety Number</span>
               <div className="relative">
                 <div className="select-all rounded-lg border bg-gray-50 p-4 text-center font-mono text-lg tracking-wider">
                   {safetyNumberData.formattedSafetyNumber.split(' ').map((group, i) => (

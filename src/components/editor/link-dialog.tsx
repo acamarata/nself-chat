@@ -186,6 +186,7 @@ export function LinkDialog({
                 value={url}
                 onChange={handleUrlChange}
                 className={cn(error && 'border-destructive')}
+                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
               />
               {error && <p className="text-sm text-destructive">{error}</p>}

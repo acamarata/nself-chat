@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid'
 import {
   S3Client,
   PutObjectCommand,
+  DeleteObjectCommand,
   CreateMultipartUploadCommand,
   UploadPartCommand,
   CompleteMultipartUploadCommand,
@@ -138,6 +139,11 @@ export class UploadService {
     const { file, channelId, messageId, operations, metadata } = request
     const userId = metadata?.userId as string | undefined
 
+    // Check if file exists
+    if (!file) {
+      throw new Error('No file provided')
+    }
+
     // Validate file
     const validation = validateFile(file, this.fileConfig)
     if (!validation.valid) {
@@ -243,6 +249,7 @@ export class UploadService {
       onProgress?.(progress)
 
       return {
+        success: true,
         file: fileRecord,
         jobId,
       }
@@ -371,6 +378,24 @@ export class UploadService {
       } catch (error) {
         logger.error('Failed to abort multipart upload:', error)
       }
+    }
+  }
+
+  /**
+   * Delete a file from storage
+   */
+  async deleteFile(storagePath: string): Promise<void> {
+    try {
+      await this.s3Client.send(
+        new DeleteObjectCommand({
+          Bucket: this.storageConfig.bucket,
+          Key: storagePath,
+        })
+      )
+      logger.info(`File deleted from storage: ${storagePath}`)
+    } catch (error) {
+      logger.error('Failed to delete file from storage:', error)
+      throw error
     }
   }
 

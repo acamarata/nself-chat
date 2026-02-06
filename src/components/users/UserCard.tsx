@@ -92,6 +92,18 @@ const UserCard = React.forwardRef<HTMLDivElement, UserCardProps>(
             className
           )}
           onClick={onViewProfile}
+          onKeyDown={
+            onViewProfile
+              ? (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    onViewProfile()
+                  }
+                }
+              : undefined
+          }
+          role="button"
+          tabIndex={0}
           {...props}
         >
           <UserAvatar user={user} size="sm" presence={user.presence} />

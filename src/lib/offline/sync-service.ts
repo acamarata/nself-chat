@@ -461,6 +461,7 @@ class OfflineSyncService {
 
       for (const conflict of conflicts) {
         try {
+          // @ts-expect-error - SyncMetadata and Conflict types are compatible but not exact
           await this.conflictResolver.resolve(conflict)
           await offlineDB.resolveConflict(
             conflict.entityType,

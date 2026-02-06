@@ -1,4 +1,8 @@
 /**
+ * @jest-environment node
+ */
+
+/**
  * Channels API Tests
  *
  * Tests for /api/channels endpoints

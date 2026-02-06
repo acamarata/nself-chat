@@ -134,6 +134,7 @@ export function FilePreviewModal({ open, onOpenChange, file, onDownload }: FileP
         return (
           <div className="flex items-center justify-center overflow-hidden rounded-lg bg-black">
             <video src={file.url} controls className="max-h-[500px] max-w-full" preload="metadata">
+              <track kind="captions" />
               Your browser does not support video playback.
             </video>
           </div>
@@ -146,6 +147,7 @@ export function FilePreviewModal({ open, onOpenChange, file, onDownload }: FileP
               <Music className="h-12 w-12 text-primary" />
             </div>
             <audio src={file.url} controls className="w-full max-w-md">
+              <track kind="captions" />
               Your browser does not support audio playback.
             </audio>
           </div>

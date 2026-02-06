@@ -98,6 +98,7 @@ export function GifPicker({ onSelect, onClose, className }: GifPickerProps) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10 pr-10"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
           />
           {(searchQuery || selectedCategory) && (

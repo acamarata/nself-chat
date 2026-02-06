@@ -155,7 +155,15 @@ export function BotList({
                     <TableCell>
                       <div
                         className="flex cursor-pointer items-center gap-3"
+                        role="button"
+                        tabIndex={0}
                         onClick={() => onViewDetails?.(bot)}
+                        onKeyDown={(e) => {
+                          if (onViewDetails && (e.key === 'Enter' || e.key === ' ')) {
+                            e.preventDefault()
+                            onViewDetails(bot)
+                          }
+                        }}
                       >
                         <Avatar className="h-10 w-10">
                           <AvatarImage src={bot.avatarUrl} alt={bot.name} />
@@ -361,7 +369,15 @@ export function BotListCards({
             <div className="flex items-start justify-between">
               <div
                 className="flex cursor-pointer items-center gap-3"
+                role="button"
+                tabIndex={0}
                 onClick={() => onViewDetails?.(bot)}
+                onKeyDown={(e) => {
+                  if (onViewDetails && (e.key === 'Enter' || e.key === ' ')) {
+                    e.preventDefault()
+                    onViewDetails(bot)
+                  }
+                }}
               >
                 <Avatar className="h-10 w-10">
                   <AvatarImage src={bot.avatarUrl} alt={bot.name} />

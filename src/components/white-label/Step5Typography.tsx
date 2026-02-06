@@ -175,7 +175,7 @@ export function Step5Typography({ onValidChange, className }: Step5TypographyPro
           <div className="grid grid-cols-2 gap-6">
             {/* Base font size */}
             <div className="space-y-2">
-              <label className="text-xs text-zinc-500">Base Font Size</label>
+              <span className="text-xs text-zinc-500">Base Font Size</span>
               <div className="flex items-center gap-3">
                 <Button
                   type="button"
@@ -203,7 +203,7 @@ export function Step5Typography({ onValidChange, className }: Step5TypographyPro
 
             {/* Line height */}
             <div className="space-y-2">
-              <label className="text-xs text-zinc-500">Line Height</label>
+              <span className="text-xs text-zinc-500">Line Height</span>
               <div className="flex items-center gap-3">
                 <Button
                   type="button"

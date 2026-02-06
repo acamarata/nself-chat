@@ -135,13 +135,13 @@ export function CommandInput({
         </>
       )}
 
-      {/* Input */}
+      {/* Input - autoFocus is intentional for command palette UX */}
       <CommandPrimitive.Input
         ref={inputRef}
         value={value}
         onValueChange={onChange}
         placeholder={displayPlaceholder}
-        autoFocus={autoFocus}
+        autoFocus={autoFocus} // eslint-disable-line jsx-a11y/no-autofocus
         className={cn(
           'flex h-11 w-full bg-transparent py-3 text-sm outline-none',
           'placeholder:text-muted-foreground',

@@ -245,6 +245,15 @@ export function DiscordImport({ onImportComplete, onCancel }: DiscordImportProps
               handleFileSelect(e.dataTransfer.files)
             }}
             onDragOver={(e) => e.preventDefault()}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                inputRef.current?.click()
+              }
+            }}
+            aria-label="Upload Discord export files"
           >
             <input
               ref={inputRef}
@@ -258,6 +267,7 @@ export function DiscordImport({ onImportComplete, onCancel }: DiscordImportProps
               }}
               className="hidden"
               disabled={isProcessing}
+              aria-label="Select Discord export JSON files"
             />
             {isProcessing ? (
               <div className="space-y-4">
@@ -422,6 +432,8 @@ export function DiscordImport({ onImportComplete, onCancel }: DiscordImportProps
               {data?.channels.map((channel) => (
                 <div
                   key={channel.id}
+                  role="button"
+                  tabIndex={0}
                   className={cn(
                     'flex cursor-pointer items-center justify-between rounded-lg border p-3 transition-colors',
                     selectedChannels.has(channel.id)
@@ -429,6 +441,12 @@ export function DiscordImport({ onImportComplete, onCancel }: DiscordImportProps
                       : 'hover:bg-muted'
                   )}
                   onClick={() => toggleChannel(channel.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      toggleChannel(channel.id)
+                    }
+                  }}
                 >
                   <div className="flex items-center gap-3">
                     <div

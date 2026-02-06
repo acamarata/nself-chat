@@ -283,11 +283,20 @@ const ImageAnimation = memo(function ImageAnimation({
   }
 
   if (isVideo) {
+    const handleVideoClick = onClick || togglePlayback
     return (
       <div
         className={cn('relative', className)}
         style={{ width, height }}
-        onClick={onClick || togglePlayback}
+        role="button"
+        tabIndex={0}
+        onClick={handleVideoClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            handleVideoClick?.()
+          }
+        }}
       >
         {isLoading && (
           <div className="bg-muted/30 absolute inset-0 flex items-center justify-center rounded">
@@ -312,8 +321,17 @@ const ImageAnimation = memo(function ImageAnimation({
   }
 
   // GIF or APNG (use img tag)
-  return (
-    <div className={cn('relative', className)} style={{ width, height }} onClick={onClick}>
+  const handleKeyDown = onClick
+    ? (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick()
+        }
+      }
+    : undefined
+
+  const imgElement = (
+    <>
       {isLoading && (
         <div className="bg-muted/30 absolute inset-0 flex items-center justify-center rounded">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -330,6 +348,27 @@ const ImageAnimation = memo(function ImageAnimation({
         className={cn('h-full w-full object-contain', isLoading && 'opacity-0')}
         loading="lazy"
       />
+    </>
+  )
+
+  if (onClick) {
+    return (
+      <div
+        className={cn('relative', className)}
+        style={{ width, height }}
+        role="button"
+        tabIndex={0}
+        onClick={onClick}
+        onKeyDown={handleKeyDown}
+      >
+        {imgElement}
+      </div>
+    )
+  }
+
+  return (
+    <div className={cn('relative', className)} style={{ width, height }}>
+      {imgElement}
     </div>
   )
 })
@@ -426,40 +465,66 @@ export const AnimatedSticker = memo(function AnimatedSticker({
     )
   }
 
+  const containerStyle = {
+    width: typeof width === 'number' ? `${width}px` : width,
+    height: typeof height === 'number' ? `${height}px` : height,
+  }
+
+  const playPauseControls = showControls && isLoaded && (
+    <button
+      onClick={togglePlayback}
+      className={cn(
+        'absolute inset-0 flex items-center justify-center',
+        'bg-black/0 transition-colors hover:bg-black/20',
+        'opacity-0 hover:opacity-100 focus:opacity-100',
+        'rounded'
+      )}
+      aria-label={isPlaying ? 'Pause' : 'Play'}
+    >
+      {isPlaying ? (
+        <Pause className="h-8 w-8 text-white drop-shadow-lg" />
+      ) : (
+        <Play className="h-8 w-8 text-white drop-shadow-lg" />
+      )}
+    </button>
+  )
+
+  // Interactive clickable version
+  if (!showControls && onClick) {
+    return (
+      <div
+        className={cn(
+          'relative inline-flex items-center justify-center cursor-pointer',
+          className
+        )}
+        style={containerStyle}
+        role="button"
+        tabIndex={0}
+        onClick={onClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onClick()
+          }
+        }}
+      >
+        {renderSticker()}
+        {playPauseControls}
+      </div>
+    )
+  }
+
+  // Non-interactive version
   return (
     <div
       className={cn(
         'relative inline-flex items-center justify-center',
-        onClick && 'cursor-pointer',
         className
       )}
-      style={{
-        width: typeof width === 'number' ? `${width}px` : width,
-        height: typeof height === 'number' ? `${height}px` : height,
-      }}
-      onClick={showControls ? undefined : onClick}
+      style={containerStyle}
     >
       {renderSticker()}
-
-      {/* Play/Pause Controls */}
-      {showControls && isLoaded && (
-        <button
-          onClick={togglePlayback}
-          className={cn(
-            'absolute inset-0 flex items-center justify-center',
-            'bg-black/0 transition-colors hover:bg-black/20',
-            'opacity-0 hover:opacity-100 focus:opacity-100',
-            'rounded'
-          )}
-          aria-label={isPlaying ? 'Pause' : 'Play'}
-        >
-          {isPlaying ? (
-            <Pause className="h-8 w-8 text-white drop-shadow-lg" />
-          ) : (
-            <Play className="h-8 w-8 text-white drop-shadow-lg" />
-          )}
-        </button>
-      )}
+      {playPauseControls}
     </div>
   )
 })

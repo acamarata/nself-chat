@@ -6,7 +6,7 @@
  * Includes offline detection and connection quality monitoring.
  *
  * @module services/realtime/realtime-client
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { io, Socket, ManagerOptions, SocketOptions } from 'socket.io-client'

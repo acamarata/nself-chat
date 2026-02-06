@@ -201,19 +201,39 @@ function PermissionItem({ permission, interactive, isSelected, onToggle }: Permi
   const isRequired = permission.level === 'required'
   const riskLevel = getPermissionRiskLevel(permission.scope)
 
+  const isClickable = interactive && !isRequired
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault()
+      onToggle(!isSelected)
+    }
+  }
+
+  const handleClick = () => {
+    if (isClickable) {
+      onToggle(!isSelected)
+    }
+  }
+
+  const interactiveProps = isClickable
+    ? {
+        role: 'button' as const,
+        tabIndex: 0,
+        onClick: handleClick,
+        onKeyDown: handleKeyDown,
+      }
+    : {}
+
   const content = (
     <div
       className={cn(
         'flex items-start gap-3 rounded-lg p-2 transition-colors',
-        interactive && !isRequired && 'cursor-pointer hover:bg-muted',
+        isClickable && 'cursor-pointer hover:bg-muted',
         interactive && isSelected && 'bg-primary/5',
         !interactive && 'bg-muted/50'
       )}
-      onClick={() => {
-        if (interactive && !isRequired) {
-          onToggle(!isSelected)
-        }
-      }}
+      {...interactiveProps}
     >
       {interactive && (
         <div className="pt-0.5">

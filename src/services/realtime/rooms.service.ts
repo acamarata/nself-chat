@@ -5,7 +5,7 @@
  * Integrates with the nself-plugins realtime server.
  *
  * @module services/realtime/rooms.service
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { realtimeClient, RealtimeError } from './realtime-client'

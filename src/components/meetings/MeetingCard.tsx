@@ -124,6 +124,18 @@ export function MeetingCard({
           isLive && 'border-green-500/50 bg-green-500/5'
         )}
         onClick={onClick}
+        onKeyDown={
+          onClick
+            ? (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onClick()
+                }
+              }
+            : undefined
+        }
+        role={onClick ? 'button' : undefined}
+        tabIndex={onClick ? 0 : undefined}
       >
         <div
           className={cn(
@@ -166,6 +178,18 @@ export function MeetingCard({
         onClick && 'cursor-pointer'
       )}
       onClick={onClick}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                onClick()
+              }
+            }
+          : undefined
+      }
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
     >
       {/* Header */}
       <div className="mb-3 flex items-start justify-between">

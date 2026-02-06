@@ -100,7 +100,16 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       {mobileMenuOpen && (
         <div
           className="fixed inset-0 z-40 bg-black/50 md:hidden"
+          role="button"
+          tabIndex={0}
           onClick={() => setMobileMenuOpen(false)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              setMobileMenuOpen(false)
+            }
+          }}
+          aria-label="Close sidebar"
         />
       )}
 

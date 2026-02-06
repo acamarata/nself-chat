@@ -362,6 +362,7 @@ export function VideoModal({
             className={cn('relative mx-auto w-full max-w-5xl', isFullscreen && 'h-full max-w-none')}
           >
             {/* Video element */}
+            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <video
               ref={videoRef}
               src={src}

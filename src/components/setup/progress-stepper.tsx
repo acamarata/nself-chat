@@ -87,15 +87,8 @@ export function ProgressStepper({
               }
             }
 
-            return (
-              <div
-                key={index}
-                className={cn(
-                  'relative z-10 flex flex-col items-center transition-all duration-300',
-                  isClickable && 'cursor-pointer hover:scale-105'
-                )}
-                onClick={handleClick}
-              >
+            const stepContent = (
+              <>
                 {/* Step circle - centered on the progress line */}
                 <div
                   className={cn(
@@ -156,6 +149,34 @@ export function ProgressStepper({
                 >
                   {label}
                 </div>
+              </>
+            )
+
+            // Use conditional rendering to avoid undefined role attribute
+            if (isClickable && onStepClick) {
+              return (
+                <div
+                  key={index}
+                  className={cn(
+                    'relative z-10 flex flex-col items-center cursor-pointer',
+                    isClickable && 'hover:scale-105'
+                  )}
+                  role="button"
+                  tabIndex={0}
+                  onClick={handleClick}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(); } }}
+                >
+                  {stepContent}
+                </div>
+              )
+            }
+
+            return (
+              <div
+                key={index}
+                className="relative z-10 flex flex-col items-center"
+              >
+                {stepContent}
               </div>
             )
           })}

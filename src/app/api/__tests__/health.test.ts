@@ -1,4 +1,8 @@
 /**
+ * @jest-environment node
+ */
+
+/**
  * Health Check API Route Tests
  *
  * Integration tests for health check endpoints
@@ -18,7 +22,7 @@ describe('Health Check Endpoints', () => {
 
       expect(response.status).toBe(200)
       expect(data).toHaveProperty('status')
-      expect(data.status).toBe('ok')
+      expect(data.status).toBe('healthy')
     })
 
     it('should include timestamp', async () => {

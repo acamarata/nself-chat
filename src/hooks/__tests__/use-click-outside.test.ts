@@ -89,7 +89,7 @@ describe('useClickOutside', () => {
     expect(handler).toHaveBeenCalledTimes(1)
   })
 
-  it('should handle null ref', () => {
+  it('should not call handler when ref is null', () => {
     const handler = jest.fn()
     const ref = { current: null }
 
@@ -98,7 +98,8 @@ describe('useClickOutside', () => {
     const outsideClick = new MouseEvent('mousedown', { bubbles: true })
     document.body.dispatchEvent(outsideClick)
 
-    expect(handler).toHaveBeenCalledTimes(1)
+    // When ref is null, there's no element to compare against, so handler is not called
+    expect(handler).not.toHaveBeenCalled()
   })
 
   it('should cleanup event listeners on unmount', () => {

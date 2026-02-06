@@ -7,7 +7,7 @@
  * Provides visual feedback and actions for offline/online transitions.
  *
  * @module components/ui/offline-indicator
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { useState, useEffect } from 'react'

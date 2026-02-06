@@ -157,10 +157,17 @@ export function NotificationToast({
         'cursor-pointer',
         className
       )}
+      role="button"
+      tabIndex={0}
       onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          handleClick()
+        }
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      role="alert"
       aria-live="polite"
       {...props}
     >

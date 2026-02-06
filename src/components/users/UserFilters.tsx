@@ -325,7 +325,7 @@ function FilterContent({
     <div className="space-y-4">
       {/* Role */}
       <div className="space-y-2">
-        <label className="text-sm font-medium">Role</label>
+        <span className="text-sm font-medium" id="filter-role-label">Role</span>
         <Select
           value={roleFilter}
           onValueChange={(value) => setRoleFilter(value as UserRole | 'all')}
@@ -345,7 +345,7 @@ function FilterContent({
 
       {/* Status */}
       <div className="space-y-2">
-        <label className="text-sm font-medium">Status</label>
+        <span className="text-sm font-medium" id="filter-status-label">Status</span>
         <Select
           value={presenceFilter}
           onValueChange={(value) => setPresenceFilter(value as PresenceStatus | 'all')}
@@ -369,7 +369,7 @@ function FilterContent({
       {/* Department */}
       {showDepartmentFilter && departments.length > 0 && (
         <div className="space-y-2">
-          <label className="text-sm font-medium">Department</label>
+          <span className="text-sm font-medium" id="filter-department-label">Department</span>
           <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select department" />
@@ -389,7 +389,7 @@ function FilterContent({
       {/* Team */}
       {showTeamFilter && teams.length > 0 && (
         <div className="space-y-2">
-          <label className="text-sm font-medium">Team</label>
+          <span className="text-sm font-medium" id="filter-team-label">Team</span>
           <Select value={teamFilter} onValueChange={setTeamFilter}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select team" />
@@ -409,7 +409,7 @@ function FilterContent({
       {/* Location */}
       {showLocationFilter && locations.length > 0 && (
         <div className="space-y-2">
-          <label className="text-sm font-medium">Location</label>
+          <span className="text-sm font-medium" id="filter-location-label">Location</span>
           <Select value={locationFilter} onValueChange={setLocationFilter}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select location" />

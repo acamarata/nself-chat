@@ -134,6 +134,16 @@ export function StickerPackItem({
         onClick={onClick ? handleClick : undefined}
         role={onClick ? 'button' : undefined}
         tabIndex={onClick ? 0 : undefined}
+        onKeyDown={
+          onClick
+            ? (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  handleClick()
+                }
+              }
+            : undefined
+        }
       >
         {/* Thumbnail */}
         <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-muted">
@@ -216,6 +226,16 @@ export function StickerPackItem({
       onClick={onClick ? handleClick : undefined}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                handleClick()
+              }
+            }
+          : undefined
+      }
     >
       {/* Thumbnail */}
       <div className="relative aspect-square w-full bg-muted">

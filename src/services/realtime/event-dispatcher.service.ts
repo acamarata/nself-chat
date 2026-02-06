@@ -6,7 +6,7 @@
  * to all subscribed clients in real-time.
  *
  * @module services/realtime/event-dispatcher.service
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { v4 as uuidv4 } from 'uuid'

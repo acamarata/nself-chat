@@ -300,6 +300,7 @@ export const PinchZoom = memo(function PinchZoom({
   }
 
   return (
+    /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex, jsx-a11y/click-events-have-key-events */
     <div
       ref={containerRef}
       className={cn(
@@ -308,7 +309,17 @@ export const PinchZoom = memo(function PinchZoom({
       )}
       onTouchStart={handleDoubleTap as any}
       onClick={resetControlsTimeout}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          resetControlsTimeout()
+        }
+      }}
+      role="application"
+      tabIndex={0}
+      aria-label="Pinch to zoom image viewer"
     >
+      {/* eslint-enable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex, jsx-a11y/click-events-have-key-events */}
       {/* Zoomable content */}
       <motion.div
         ref={contentRef}

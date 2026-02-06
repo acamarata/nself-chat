@@ -6,7 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import type { CreateCategoryInput } from '@/types/advanced-channels'
+import type { CreateCategoryInput, ChannelCategory } from '@/types/advanced-channels'
 
 const DEFAULT_WORKSPACE_ID = 'ffffffff-ffff-ffff-ffff-ffffffffffff'
 
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     const includeChannels = searchParams.get('includeChannels') === 'true'
 
     // TODO: Fetch from database via GraphQL
-    const categories = []
+    const categories: ChannelCategory[] = []
 
     return NextResponse.json(categories)
   } catch (error) {

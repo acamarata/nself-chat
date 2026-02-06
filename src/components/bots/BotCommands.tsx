@@ -188,10 +188,11 @@ export function BotCommands({ actions, onAdd, onRemove, className }: BotCommands
 
           {/* Command Name */}
           <div>
-            <label className="mb-1 block text-sm font-medium">Command Name</label>
+            <label htmlFor="command-name" className="mb-1 block text-sm font-medium">Command Name</label>
             <div className="flex items-center">
               <span className="mr-1 text-muted-foreground">/</span>
               <input
+                id="command-name"
                 type="text"
                 value={draft.name}
                 onChange={(e) =>
@@ -212,8 +213,9 @@ export function BotCommands({ actions, onAdd, onRemove, className }: BotCommands
 
           {/* Description */}
           <div>
-            <label className="mb-1 block text-sm font-medium">Description</label>
+            <label htmlFor="command-description" className="mb-1 block text-sm font-medium">Description</label>
             <input
+              id="command-description"
               type="text"
               value={draft.description}
               onChange={(e) => setDraft((prev) => ({ ...prev, description: e.target.value }))}
@@ -231,7 +233,7 @@ export function BotCommands({ actions, onAdd, onRemove, className }: BotCommands
           {/* Arguments */}
           <div>
             <div className="mb-2 flex items-center justify-between">
-              <label className="block text-sm font-medium">Arguments (optional)</label>
+              <span className="block text-sm font-medium">Arguments (optional)</span>
               <Button variant="outline" size="sm" onClick={addArgument}>
                 Add Argument
               </Button>
@@ -244,11 +246,13 @@ export function BotCommands({ actions, onAdd, onRemove, className }: BotCommands
                   value={arg.name}
                   onChange={(e) => updateArgument(index, 'name', e.target.value)}
                   placeholder="name"
+                  aria-label={`Argument ${index + 1} name`}
                   className="flex-1 rounded border border-input bg-background px-2 py-1 text-sm"
                 />
                 <select
                   value={arg.type}
                   onChange={(e) => updateArgument(index, 'type', e.target.value)}
+                  aria-label={`Argument ${index + 1} type`}
                   className="rounded border border-input bg-background px-2 py-1 text-sm"
                 >
                   {ARGUMENT_TYPES.map((type) => (
@@ -275,8 +279,9 @@ export function BotCommands({ actions, onAdd, onRemove, className }: BotCommands
 
           {/* Response */}
           <div>
-            <label className="mb-1 block text-sm font-medium">Response Message</label>
+            <label htmlFor="command-response" className="mb-1 block text-sm font-medium">Response Message</label>
             <textarea
+              id="command-response"
               value={draft.response}
               onChange={(e) => setDraft((prev) => ({ ...prev, response: e.target.value }))}
               placeholder="The message to send when this command is used"

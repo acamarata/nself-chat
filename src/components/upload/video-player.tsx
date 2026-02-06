@@ -330,6 +330,7 @@ export function VideoPlayer({
 
   // Progress percentage
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0
+  const progressPercentRounded = Math.round(progressPercent)
 
   return (
     <div
@@ -337,9 +338,11 @@ export function VideoPlayer({
       className={cn('group relative overflow-hidden rounded-lg bg-black', className)}
       onMouseMove={showControlsTemporarily}
       onMouseLeave={() => isPlaying && setShowControls(false)}
-      tabIndex={0}
+      role="region"
+      aria-label={title || 'Video player'}
     >
       {/* Video Element */}
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <video
         ref={videoRef}
         src={src}
@@ -404,6 +407,16 @@ export function VideoPlayer({
             ref={progressRef}
             className="group/progress relative mb-3 h-1 cursor-pointer rounded-full bg-white/30"
             onClick={handleSeek}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowLeft') skip(-SKIP_SECONDS)
+              if (e.key === 'ArrowRight') skip(SKIP_SECONDS)
+            }}
+            role="slider"
+            aria-label="Video progress"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={progressPercentRounded}
+            tabIndex={0}
           >
             {/* Buffered */}
             <div

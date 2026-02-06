@@ -5,7 +5,7 @@
  * Handles cron-based job scheduling with timezone support.
  *
  * @module services/jobs/scheduler.service
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { Queue, Job } from 'bullmq'

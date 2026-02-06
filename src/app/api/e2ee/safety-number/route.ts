@@ -4,11 +4,11 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getE2EEManager } from '@/lib/e2ee'
-import { getApolloClient } from '@/lib/apollo-client'
 import { gql } from '@apollo/client'
+import { logger } from '@/lib/logger.server'
 
-import { logger } from '@/lib/logger'
+// Force dynamic rendering - E2EE uses native modules that can't be built statically
+export const dynamic = 'force-dynamic'
 
 const GET_USER_IDENTITY_KEY = gql`
   query GetUserIdentityKey($userId: uuid!, $deviceId: String!) {
@@ -27,6 +27,12 @@ export async function POST(request: NextRequest) {
     if (!action || !localUserId || !peerUserId) {
       return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 })
     }
+
+    // Dynamic import to avoid loading native modules during build
+    const [{ getApolloClient }, { getE2EEManager }] = await Promise.all([
+      import('@/lib/apollo-client'),
+      import('@/lib/e2ee'),
+    ])
 
     const apolloClient = getApolloClient()
     const e2eeManager = getE2EEManager(apolloClient)

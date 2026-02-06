@@ -131,7 +131,7 @@ export function WalletModal() {
 
             {/* Address */}
             <div className="space-y-2">
-              <label className="text-sm font-medium">Address</label>
+              <span className="text-sm font-medium">Address</span>
               <div className="flex items-center gap-2">
                 <div className="flex-1 rounded-md border bg-muted px-3 py-2 font-mono text-sm">
                   {formatAddress(address, 10, 8)}
@@ -160,7 +160,7 @@ export function WalletModal() {
             {/* Balance */}
             {balance && (
               <div className="space-y-2">
-                <label className="text-sm font-medium">Balance</label>
+                <span className="text-sm font-medium">Balance</span>
                 <div className="rounded-md border bg-muted px-3 py-2 font-mono text-sm">
                   {parseFloat(weiToEther(balance)).toFixed(4)} ETH
                 </div>
@@ -170,7 +170,7 @@ export function WalletModal() {
             {/* Chain */}
             {chainId && (
               <div className="space-y-2">
-                <label className="text-sm font-medium">Network</label>
+                <span className="text-sm font-medium">Network</span>
                 <div className="rounded-md border bg-muted px-3 py-2 text-sm">
                   {chainId === '0x1' && 'Ethereum Mainnet'}
                   {chainId === '0x5' && 'Goerli Testnet'}

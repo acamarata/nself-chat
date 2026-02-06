@@ -173,7 +173,7 @@ export function SearchInChannel({
           onChange={(e) => setLocalQuery(e.target.value)}
           placeholder={channelName ? `Search in #${channelName}...` : 'Search in this channel...'}
           className="h-8 border-0 bg-transparent px-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-          autoFocus
+          autoFocus // eslint-disable-line jsx-a11y/no-autofocus
         />
       </div>
 

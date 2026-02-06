@@ -5,7 +5,7 @@
  * Integrates with the jobs system for delayed message delivery.
  *
  * @module services/messages/scheduled.service
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
@@ -59,6 +59,7 @@ export interface GetScheduledMessagesOptions {
   userId: string
   status?: ScheduledMessageStatus
   channelId?: string
+  isSent?: boolean
   limit?: number
   offset?: number
 }

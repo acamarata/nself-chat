@@ -11,7 +11,7 @@
  * - Error handling with detailed logging
  *
  * @module lib/jobs/handlers/scheduled-messages
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { Job } from 'bullmq'

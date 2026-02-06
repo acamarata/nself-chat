@@ -48,6 +48,7 @@ const UserSearch = React.forwardRef<HTMLDivElement, UserSearchProps>(
           placeholder={placeholder}
           isLoading={isSearching}
           shortcutHint="/K"
+          // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
           size="md"
         />

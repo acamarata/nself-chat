@@ -162,6 +162,7 @@ export function ShortcutsModal({ open, onOpenChange }: ShortcutsModalProps) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
+            // eslint-disable-next-line jsx-a11y/no-autofocus -- Intentional UX for modal focus
             autoFocus
           />
         </div>

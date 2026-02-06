@@ -374,6 +374,7 @@ class OfflineDB {
   }
 
   async getConflicts(): Promise<SyncMetadata[]> {
+    // @ts-expect-error - IndexedDB accepts boolean but types expect IDBValidKey
     return this.getByIndex(STORES.SYNC_METADATA, 'hasConflict', true)
   }
 

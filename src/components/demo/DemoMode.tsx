@@ -145,9 +145,9 @@ function DemoControls() {
 
       {/* Template Selector */}
       <div className="mb-3">
-        <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <span className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
           Template
-        </label>
+        </span>
         <div className="flex gap-1">
           {templateOptions.map((option) => (
             <button
@@ -168,10 +168,11 @@ function DemoControls() {
 
       {/* Channel Selector */}
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label htmlFor="demo-channel-select" className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
           Channel
         </label>
         <select
+          id="demo-channel-select"
           value={activeChannelId || ''}
           onChange={(e) => setActiveChannelId(e.target.value || null)}
           className="w-full rounded border border-gray-300 bg-white px-2 py-1 text-sm dark:border-gray-600 dark:bg-gray-800"

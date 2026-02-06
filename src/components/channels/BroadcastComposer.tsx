@@ -16,7 +16,7 @@ import * as React from 'react'
 import { useState } from 'react'
 import {
   Send,
-  Image,
+  Image as ImageIcon,
   Paperclip,
   Calendar,
   BellOff,
@@ -261,7 +261,7 @@ export function BroadcastComposer({
                     size="icon"
                     onClick={() => fileInputRef.current?.click()}
                   >
-                    <Image className="h-4 w-4" />
+                    <ImageIcon className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Attach media</TooltipContent>

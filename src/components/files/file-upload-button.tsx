@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { useDropzone, type DropzoneOptions, type FileRejection } from 'react-dropzone'
-import { Paperclip, Plus, Image, FileText, Film, Music, Folder } from 'lucide-react'
+import { Paperclip, Plus, Image as ImageIcon, FileText, Film, Music, Folder } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button, type ButtonProps } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -80,7 +80,7 @@ const FILE_TYPE_OPTIONS = [
   {
     id: 'images',
     label: 'Images',
-    icon: Image,
+    icon: ImageIcon,
     accept: { 'image/*': [] },
     description: 'JPG, PNG, GIF, WebP',
   },
@@ -384,7 +384,7 @@ export function ImageUploadButton(props: ImageUploadButtonProps) {
     <FileUploadButton
       {...props}
       accept={{ 'image/*': [] }}
-      icon={<Image className="h-4 w-4" />}
+      icon={<ImageIcon className="h-4 w-4" />}
       tooltip={props.tooltip || 'Upload image'}
     />
   )

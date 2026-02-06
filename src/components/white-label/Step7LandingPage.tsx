@@ -140,8 +140,9 @@ export function Step7LandingPage({ onValidChange, className }: Step7LandingPageP
                   <h3 className="font-medium text-zinc-900 dark:text-white">Hero Section</h3>
 
                   <div>
-                    <label className="mb-1 block text-sm text-zinc-500">Headline</label>
+                    <label htmlFor="hero-headline" className="mb-1 block text-sm text-zinc-500">Headline</label>
                     <input
+                      id="hero-headline"
                       type="text"
                       value={config.landingPage.hero.headline}
                       onChange={(e) => handleHeroChange('headline', e.target.value)}
@@ -150,8 +151,9 @@ export function Step7LandingPage({ onValidChange, className }: Step7LandingPageP
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm text-zinc-500">Subheadline</label>
+                    <label htmlFor="hero-subheadline" className="mb-1 block text-sm text-zinc-500">Subheadline</label>
                     <textarea
+                      id="hero-subheadline"
                       value={config.landingPage.hero.subheadline}
                       onChange={(e) => handleHeroChange('subheadline', e.target.value)}
                       rows={2}
@@ -161,8 +163,9 @@ export function Step7LandingPage({ onValidChange, className }: Step7LandingPageP
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="mb-1 block text-sm text-zinc-500">Button Text</label>
+                      <label htmlFor="hero-button-text" className="mb-1 block text-sm text-zinc-500">Button Text</label>
                       <input
+                        id="hero-button-text"
                         type="text"
                         value={config.landingPage.hero.ctaText}
                         onChange={(e) => handleHeroChange('ctaText', e.target.value)}
@@ -170,8 +173,9 @@ export function Step7LandingPage({ onValidChange, className }: Step7LandingPageP
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-sm text-zinc-500">Button Link</label>
+                      <label htmlFor="hero-button-link" className="mb-1 block text-sm text-zinc-500">Button Link</label>
                       <input
+                        id="hero-button-link"
                         type="text"
                         value={config.landingPage.hero.ctaLink}
                         onChange={(e) => handleHeroChange('ctaLink', e.target.value)}
@@ -206,8 +210,9 @@ export function Step7LandingPage({ onValidChange, className }: Step7LandingPageP
                         <div className="flex-1 space-y-3">
                           <div className="grid grid-cols-[80px,1fr] gap-3">
                             <div>
-                              <label className="mb-1 block text-xs text-zinc-500">Icon</label>
+                              <label htmlFor={`feature-icon-${index}`} className="mb-1 block text-xs text-zinc-500">Icon</label>
                               <select
+                                id={`feature-icon-${index}`}
                                 value={feature.icon}
                                 onChange={(e) => handleFeatureChange(index, 'icon', e.target.value)}
                                 className="w-full rounded-lg border border-zinc-200 bg-white px-2 py-1.5 text-sm dark:border-zinc-700 dark:bg-zinc-800"
@@ -220,8 +225,9 @@ export function Step7LandingPage({ onValidChange, className }: Step7LandingPageP
                               </select>
                             </div>
                             <div>
-                              <label className="mb-1 block text-xs text-zinc-500">Title</label>
+                              <label htmlFor={`feature-title-${index}`} className="mb-1 block text-xs text-zinc-500">Title</label>
                               <input
+                                id={`feature-title-${index}`}
                                 type="text"
                                 value={feature.title}
                                 onChange={(e) =>
@@ -232,8 +238,9 @@ export function Step7LandingPage({ onValidChange, className }: Step7LandingPageP
                             </div>
                           </div>
                           <div>
-                            <label className="mb-1 block text-xs text-zinc-500">Description</label>
+                            <label htmlFor={`feature-desc-${index}`} className="mb-1 block text-xs text-zinc-500">Description</label>
                             <input
+                              id={`feature-desc-${index}`}
                               type="text"
                               value={feature.description}
                               onChange={(e) =>
@@ -263,8 +270,9 @@ export function Step7LandingPage({ onValidChange, className }: Step7LandingPageP
                   <h3 className="font-medium text-zinc-900 dark:text-white">Call to Action</h3>
 
                   <div>
-                    <label className="mb-1 block text-sm text-zinc-500">Headline</label>
+                    <label htmlFor="cta-headline" className="mb-1 block text-sm text-zinc-500">Headline</label>
                     <input
+                      id="cta-headline"
                       type="text"
                       value={config.landingPage.cta.headline}
                       onChange={(e) => handleCtaChange('headline', e.target.value)}
@@ -273,8 +281,9 @@ export function Step7LandingPage({ onValidChange, className }: Step7LandingPageP
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm text-zinc-500">Description</label>
+                    <label htmlFor="cta-description" className="mb-1 block text-sm text-zinc-500">Description</label>
                     <textarea
+                      id="cta-description"
                       value={config.landingPage.cta.description}
                       onChange={(e) => handleCtaChange('description', e.target.value)}
                       rows={2}
@@ -284,8 +293,9 @@ export function Step7LandingPage({ onValidChange, className }: Step7LandingPageP
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="mb-1 block text-sm text-zinc-500">Button Text</label>
+                      <label htmlFor="cta-button-text" className="mb-1 block text-sm text-zinc-500">Button Text</label>
                       <input
+                        id="cta-button-text"
                         type="text"
                         value={config.landingPage.cta.buttonText}
                         onChange={(e) => handleCtaChange('buttonText', e.target.value)}
@@ -293,8 +303,9 @@ export function Step7LandingPage({ onValidChange, className }: Step7LandingPageP
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-sm text-zinc-500">Button Link</label>
+                      <label htmlFor="cta-button-link" className="mb-1 block text-sm text-zinc-500">Button Link</label>
                       <input
+                        id="cta-button-link"
                         type="text"
                         value={config.landingPage.cta.buttonLink}
                         onChange={(e) => handleCtaChange('buttonLink', e.target.value)}

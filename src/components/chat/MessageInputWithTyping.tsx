@@ -163,6 +163,7 @@ export function MessageInputWithTyping({
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
             disabled={disabled || isSending}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={autoFocus}
             className={cn(
               'max-h-[200px] min-h-[44px] resize-none pr-12',

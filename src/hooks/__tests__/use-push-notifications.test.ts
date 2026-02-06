@@ -70,19 +70,16 @@ const mockRemoveFromServer = pushSubscription.removeSubscriptionFromServer as je
   typeof pushSubscription.removeSubscriptionFromServer
 >
 
-// Mock service worker
+// Mock service worker - reuse the global mock from jest.setup.js but track event listeners
 const mockAddEventListener = jest.fn()
 const mockRemoveEventListener = jest.fn()
 
-Object.defineProperty(global, 'navigator', {
-  value: {
-    serviceWorker: {
-      addEventListener: mockAddEventListener,
-      removeEventListener: mockRemoveEventListener,
-    },
-  },
-  writable: true,
-  configurable: true,
+// Override the serviceWorker addEventListener/removeEventListener for testing
+beforeEach(() => {
+  if (typeof navigator !== 'undefined' && navigator.serviceWorker) {
+    jest.spyOn(navigator.serviceWorker, 'addEventListener').mockImplementation(mockAddEventListener)
+    jest.spyOn(navigator.serviceWorker, 'removeEventListener').mockImplementation(mockRemoveEventListener)
+  }
 })
 
 // ============================================================================
@@ -535,13 +532,15 @@ describe('usePushNotifications', () => {
     })
 
     it('should handle check state error', async () => {
-      mockGetSubscriptionState.mockRejectedValue(new Error('Check failed'))
-
+      // Let initialization succeed first
       const { result } = renderHook(() => usePushNotifications())
 
       await waitFor(() => {
         expect(result.current.isSupported).toBe(true)
       })
+
+      // Now mock rejection for the explicit checkState() call
+      mockGetSubscriptionState.mockRejectedValueOnce(new Error('Check failed'))
 
       let state: pushSubscription.PushSubscriptionState
       await act(async () => {

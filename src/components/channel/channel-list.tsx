@@ -136,7 +136,15 @@ export function ChannelList({ className, onChannelSelect }: ChannelListProps) {
       <div className="mb-4">
         <div
           className="hover:bg-accent/50 group flex cursor-pointer items-center justify-between rounded-md px-2 py-1 transition-colors"
+          role="button"
+          tabIndex={0}
           onClick={onToggle}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              onToggle?.()
+            }
+          }}
         >
           <div className="flex items-center gap-1.5">
             <button className="p-0.5">

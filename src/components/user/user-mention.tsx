@@ -154,6 +154,16 @@ const EveryoneMention = React.forwardRef<HTMLSpanElement, EveryoneMentionProps>(
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                onClick()
+              }
+            }
+          : undefined
+      }
       {...props}
     >
       @everyone
@@ -181,6 +191,16 @@ const HereMention = React.forwardRef<HTMLSpanElement, HereMentionProps>(
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                onClick()
+              }
+            }
+          : undefined
+      }
       {...props}
     >
       @here
@@ -228,6 +248,16 @@ const ChannelMention = React.forwardRef<
     onClick={() => onClick?.(channelId)}
     role={onClick ? 'button' : undefined}
     tabIndex={onClick ? 0 : undefined}
+    onKeyDown={
+      onClick
+        ? (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              onClick(channelId)
+            }
+          }
+        : undefined
+    }
     {...props}
   >
     #{channelName}

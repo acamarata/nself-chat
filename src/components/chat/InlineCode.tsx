@@ -30,7 +30,8 @@ export const InlineCode = memo(function InlineCode({ children, className }: Inli
   }
 
   return (
-    <code
+    <button
+      type="button"
       onClick={handleClick}
       className={cn(
         'inline-flex items-center gap-1 rounded bg-muted px-1.5 py-0.5 font-mono text-xs transition-colors',
@@ -41,8 +42,8 @@ export const InlineCode = memo(function InlineCode({ children, className }: Inli
       )}
       title="Click to copy"
     >
-      {children}
-    </code>
+      <code>{children}</code>
+    </button>
   )
 })
 

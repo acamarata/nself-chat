@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Globe, Image, AlertCircle } from 'lucide-react'
+import { Globe, Image as ImageIcon, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useWhiteLabelStore } from '@/stores/white-label-store'
@@ -102,9 +102,9 @@ export function Step3FaviconGenerator({ onValidChange, className }: Step3Favicon
       <div className="mx-auto max-w-lg space-y-6">
         {/* Source selection */}
         <div className="space-y-4">
-          <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+          <span className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
             Favicon Source
-          </label>
+          </span>
 
           {config.logo.original ? (
             <div className="grid grid-cols-2 gap-3">
@@ -139,7 +139,7 @@ export function Step3FaviconGenerator({ onValidChange, className }: Step3Favicon
                 )}
               >
                 <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800">
-                  <Image className="h-6 w-6 text-zinc-400" />
+                  <ImageIcon className="h-6 w-6 text-zinc-400" />
                 </div>
                 <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                   Custom Icon

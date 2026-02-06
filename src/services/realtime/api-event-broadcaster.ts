@@ -9,7 +9,7 @@
  * with the realtime server via HTTP or internal messaging.
  *
  * @module services/realtime/api-event-broadcaster
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { logger } from '@/lib/logger'

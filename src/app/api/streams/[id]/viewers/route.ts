@@ -236,9 +236,10 @@ function sortViewers(
 // GET /api/streams/[id]/viewers - List stream viewers
 // ============================================================================
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   try {
-    const streamId = params.id
+    const streamId = id
 
     logger.info('GET /api/streams/[id]/viewers - List viewers', { streamId })
 

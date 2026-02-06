@@ -138,6 +138,7 @@ export function FontSelector({
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search fonts..."
                 className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2 pl-9 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 dark:border-zinc-700 dark:bg-zinc-800"
+                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
               />
             </div>

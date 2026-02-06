@@ -38,6 +38,8 @@ const categoryIcons: Record<AuditCategory, React.ReactNode> = {
   message: <MessageSquare className="h-4 w-4" />,
   channel: <Hash className="h-4 w-4" />,
   file: <File className="h-4 w-4" />,
+  attachment: <File className="h-4 w-4" />,
+  moderation: <Shield className="h-4 w-4" />,
   admin: <Shield className="h-4 w-4" />,
   security: <Lock className="h-4 w-4" />,
   integration: <Puzzle className="h-4 w-4" />,
@@ -100,6 +102,22 @@ function TimelineItem({ entry, onClick, showConnector = true, isLast = false }: 
   const actorName =
     entry.actor.displayName || entry.actor.username || entry.actor.email || entry.actor.id
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault()
+      onClick()
+    }
+  }
+
+  const interactiveProps = onClick
+    ? {
+        role: 'button' as const,
+        tabIndex: 0,
+        onClick,
+        onKeyDown: handleKeyDown,
+      }
+    : {}
+
   return (
     <div className="relative flex gap-4">
       {/* Connector Line */}
@@ -118,7 +136,10 @@ function TimelineItem({ entry, onClick, showConnector = true, isLast = false }: 
       </div>
 
       {/* Content */}
-      <div className={cn('min-w-0 flex-1 pb-6', onClick && 'cursor-pointer')} onClick={onClick}>
+      <div
+        className={cn('min-w-0 flex-1 pb-6', onClick && 'cursor-pointer')}
+        {...interactiveProps}
+      >
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">

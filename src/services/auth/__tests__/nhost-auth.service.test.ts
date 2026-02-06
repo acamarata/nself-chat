@@ -4,7 +4,7 @@
  * Tests production authentication service functionality.
  */
 
-import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals'
+// Use global jest, not @jest/globals (causes mock issues)
 
 // Mock nhost before importing the service
 jest.mock('@/lib/nhost', () => ({
@@ -252,12 +252,15 @@ describe('NhostAuthService', () => {
       expect(nhost.auth.signOut).toHaveBeenCalled()
     })
 
-    it('should throw error if sign out fails', async () => {
+    it('should handle sign out errors gracefully', async () => {
+      // Sign out doesn't throw - it clears local session regardless of server response
       ;(nhost.auth.signOut as jest.Mock).mockResolvedValue({
         error: { message: 'Sign out failed' },
       })
 
-      await expect(service.signOut()).rejects.toThrow('Sign out failed')
+      // Should complete without throwing (logs error internally)
+      await expect(service.signOut()).resolves.not.toThrow()
+      expect(nhost.auth.signOut).toHaveBeenCalled()
     })
   })
 

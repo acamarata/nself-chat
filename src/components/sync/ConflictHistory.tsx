@@ -215,8 +215,16 @@ export function ConflictHistory({
               {history.map((entry) => (
                 <div
                   key={entry.id}
+                  role="button"
+                  tabIndex={0}
                   className="flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors hover:bg-accent"
                   onClick={() => handleEntryClick(entry)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      handleEntryClick(entry)
+                    }
+                  }}
                 >
                   <div className="mt-0.5">{getStrategyIcon(entry.strategy)}</div>
 

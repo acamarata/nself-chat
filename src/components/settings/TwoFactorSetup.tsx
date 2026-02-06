@@ -350,7 +350,7 @@ export function TwoFactorSetup() {
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value.replace(/[^0-9]/g, ''))}
                   className="text-center text-2xl font-semibold tracking-widest"
-                  autoFocus
+                  autoFocus // eslint-disable-line jsx-a11y/no-autofocus
                 />
                 <p className="text-xs text-muted-foreground">
                   Enter the 6-digit code from your authenticator app
@@ -460,7 +460,7 @@ export function TwoFactorSetup() {
                 value={disableCode}
                 onChange={(e) => setDisableCode(e.target.value.replace(/[^0-9]/g, ''))}
                 className="text-center text-2xl font-semibold tracking-widest"
-                autoFocus
+                autoFocus // eslint-disable-line jsx-a11y/no-autofocus
               />
             </div>
           </div>

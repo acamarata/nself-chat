@@ -257,20 +257,23 @@ function ChannelItem({
   return (
     <div
       className={cn(
-        'group mx-2 flex items-center justify-between rounded px-2 py-1.5 cursor-pointer',
+        'group mx-2 flex items-center justify-between rounded px-2 py-1.5',
         isActive
           ? 'bg-primary/10 text-primary'
           : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
       )}
-      onClick={onClick}
     >
-      <div className="flex items-center gap-2">
+      <button
+        type="button"
+        onClick={onClick}
+        className="flex flex-1 items-center gap-2 cursor-pointer bg-transparent border-none p-0 text-left"
+      >
         {icon}
         <span className="text-sm font-medium">{channel.name}</span>
         {channel.isDefault && (
           <span className="text-xs text-muted-foreground">(default)</span>
         )}
-      </div>
+      </button>
       {canManage && (
         <button
           onClick={(e) => {

@@ -205,7 +205,7 @@ export function AnalyticsHeader({
 
                 {/* Channel Filter */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Channels</label>
+                  <span className="text-sm font-medium">Channels</span>
                   <p className="text-xs text-muted-foreground">
                     {selectedChannelIds.length === 0
                       ? 'All channels'
@@ -217,7 +217,7 @@ export function AnalyticsHeader({
 
                 {/* User Filter */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Users</label>
+                  <span className="text-sm font-medium">Users</span>
                   <p className="text-xs text-muted-foreground">
                     {selectedUserIds.length === 0
                       ? 'All users'
@@ -229,7 +229,7 @@ export function AnalyticsHeader({
 
                 {/* Include Bots Toggle */}
                 <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium">Include bots</label>
+                  <span className="text-sm font-medium">Include bots</span>
                   <Badge variant={includeBots ? 'default' : 'outline'}>
                     {includeBots ? 'Yes' : 'No'}
                   </Badge>

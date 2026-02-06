@@ -127,6 +127,7 @@ export function AppSearch({
           onFocus={() => localQuery.length >= 2 && setShowSuggestions(true)}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
+          // eslint-disable-next-line jsx-a11y/no-autofocus -- autoFocus is intentional for search UX
           autoFocus={autoFocus}
           className="pl-10 pr-10"
         />

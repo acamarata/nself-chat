@@ -527,3 +527,49 @@ export function generateSafeFilename(originalName: string, fileId: string): stri
 
   return `${fileId}-${sanitized}`
 }
+
+// ============================================================================
+// Service Instance
+// ============================================================================
+
+/**
+ * Validation Service class for API compatibility
+ */
+class ValidationService {
+  validateFile(file: { name: string; type: string; size: number }, options?: FileValidationOptions): ValidationResult {
+    // Convert plain object to File-like object for validation
+    const fileObject = new File([], file.name, { type: file.type })
+    Object.defineProperty(fileObject, 'size', { value: file.size })
+    return validateFile(fileObject, options)
+  }
+
+  validateImageFile(file: { name: string; type: string; size: number }, options?: { maxSize?: number; allowedFormats?: string[]; userTier?: 'guest' | 'member' | 'premium' | 'admin' }): ValidationResult {
+    const fileObject = new File([], file.name, { type: file.type })
+    Object.defineProperty(fileObject, 'size', { value: file.size })
+    return validateImageFile(fileObject, options)
+  }
+
+  validateVideoFile(file: { name: string; type: string; size: number }, options?: { maxSize?: number; allowedFormats?: string[]; userTier?: 'guest' | 'member' | 'premium' | 'admin' }): ValidationResult {
+    const fileObject = new File([], file.name, { type: file.type })
+    Object.defineProperty(fileObject, 'size', { value: file.size })
+    return validateVideoFile(fileObject, options)
+  }
+
+  validateDocumentFile(file: { name: string; type: string; size: number }, options?: { maxSize?: number; allowedFormats?: string[]; userTier?: 'guest' | 'member' | 'premium' | 'admin' }): ValidationResult {
+    const fileObject = new File([], file.name, { type: file.type })
+    Object.defineProperty(fileObject, 'size', { value: file.size })
+    return validateDocumentFile(fileObject, options)
+  }
+}
+
+let validationServiceInstance: ValidationService | null = null
+
+/**
+ * Get validation service singleton
+ */
+export function getValidationService(): ValidationService {
+  if (!validationServiceInstance) {
+    validationServiceInstance = new ValidationService()
+  }
+  return validationServiceInstance
+}

@@ -162,9 +162,9 @@ export function BrandingExport({ config, favicons = [], className }: BrandingExp
     <div className={cn('space-y-6', className)}>
       {/* Format selection */}
       <div className="space-y-3">
-        <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+        <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
           Export Format
-        </label>
+        </span>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
           {EXPORT_OPTIONS.map((option) => (
             <button
@@ -197,7 +197,7 @@ export function BrandingExport({ config, favicons = [], className }: BrandingExp
       {selectedFormat !== 'zip' && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Preview</label>
+            <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Preview</span>
             <Button
               type="button"
               variant="ghost"
@@ -234,9 +234,9 @@ export function BrandingExport({ config, favicons = [], className }: BrandingExp
       {/* ZIP contents preview */}
       {selectedFormat === 'zip' && (
         <div className="space-y-2">
-          <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+          <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
             Package Contents
-          </label>
+          </span>
           <div className="rounded-xl bg-zinc-50 p-4 dark:bg-zinc-800">
             <ul className="space-y-2 text-sm">
               {[

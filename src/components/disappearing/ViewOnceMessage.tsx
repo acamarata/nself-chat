@@ -172,6 +172,7 @@ export function ViewOnceMessage({
   return (
     <>
       {/* Message Preview */}
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
       <div
         className={cn(
           'relative cursor-pointer overflow-hidden rounded-lg',
@@ -299,7 +300,7 @@ export function ViewOnceMessage({
             {media?.type === 'image' && viewContent && (
               <img
                 src={viewContent}
-                alt="View once image"
+                alt="View once content"
                 className="mx-auto max-h-[60vh] max-w-full rounded-lg"
               />
             )}
@@ -309,7 +310,9 @@ export function ViewOnceMessage({
                 controls
                 autoPlay
                 className="mx-auto max-h-[60vh] max-w-full rounded-lg"
-              />
+              >
+                <track kind="captions" />
+              </video>
             )}
             {(!media || media.type === 'file') && viewContent && (
               <p className="p-4 text-center">{viewContent}</p>

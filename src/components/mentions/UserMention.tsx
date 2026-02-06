@@ -128,6 +128,12 @@ export function UserMentionCompact({
     <span
       className={cn('cursor-pointer font-medium text-primary hover:underline', className)}
       onClick={onClick}
+      onKeyDown={onClick ? (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick()
+        }
+      } : undefined}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
     >

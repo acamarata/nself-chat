@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { Image, Upload, Sparkles, Edit2 } from 'lucide-react'
+import { Image as ImageIcon, Upload, Sparkles, Edit2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useWhiteLabelStore } from '@/stores/white-label-store'
@@ -128,7 +128,7 @@ export function Step2LogoBuilder({ onValidChange, className }: Step2LogoBuilderP
       {/* Header */}
       <div className="text-center">
         <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 shadow-lg">
-          <Image className="h-6 w-6 text-white" />
+          <ImageIcon className="h-6 w-6 text-white" />
         </div>
         <h2 className="mb-2 text-2xl font-bold text-zinc-900 dark:text-white">Logo Builder</h2>
         <p className="mx-auto max-w-md text-zinc-600 dark:text-zinc-400">

@@ -182,14 +182,23 @@ const CoverPhotoUpload = React.forwardRef<HTMLDivElement, CoverPhotoUploadProps>
             !disabled && !isUploading && 'cursor-pointer'
           )}
           onClick={triggerFileSelect}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              triggerFileSelect()
+            }
+          }}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
+          role="button"
+          tabIndex={disabled || isUploading ? -1 : 0}
+          aria-label="Upload cover photo"
         >
           {/* Background */}
           {displayUrl ? (
-            <img src={displayUrl} alt="Cover photo" className="h-full w-full object-cover" />
+            <img src={displayUrl} alt="Cover" className="h-full w-full object-cover" />
           ) : (
             <div className="from-primary/20 via-primary/10 to-primary/5 flex h-full w-full items-center justify-center bg-gradient-to-r">
               <div className="text-center">
@@ -257,6 +266,7 @@ const CoverPhotoUpload = React.forwardRef<HTMLDivElement, CoverPhotoUploadProps>
           onChange={handleFileSelect}
           className="hidden"
           disabled={disabled || isUploading}
+          aria-label="Upload cover photo file"
         />
       </div>
     )

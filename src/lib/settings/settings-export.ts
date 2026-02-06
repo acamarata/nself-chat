@@ -38,7 +38,7 @@ export function exportSettings(categories?: (keyof UserSettings)[]): string {
     settings: settingsToExport,
     metadata: {
       exportedCategories: categories || Object.keys(settings),
-      appVersion: process.env.NEXT_PUBLIC_APP_VERSION || '0.0.0',
+      appVersion: process.env.NEXT_PUBLIC_APP_VERSION || '0.9.1',
     },
   }
 

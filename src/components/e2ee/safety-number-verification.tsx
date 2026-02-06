@@ -49,7 +49,7 @@ export function SafetyNumberVerification({
   peerName = 'Unknown User',
 }: SafetyNumberVerificationProps) {
   const { toast } = useToast()
-  const { generateSafetyNumber, formatSafetyNumber, generateSafetyNumberQR } = useE2EEContext()
+  const { generateSafetyNumber, formatSafetyNumber } = useE2EEContext()
 
   const [safetyNumber, setSafetyNumber] = useState<string>('')
   const [formattedSafetyNumber, setFormattedSafetyNumber] = useState<string>('')

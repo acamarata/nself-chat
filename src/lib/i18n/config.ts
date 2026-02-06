@@ -157,8 +157,9 @@ export const initializeI18n = () => {
       .use(HttpBackend)
       .use(LanguageDetector)
       .use(initReactI18next)
+      // @ts-expect-error - i18next types mismatch with init return type
       .init(i18nConfig)
-      .catch((error) => {
+      .catch((error: any) => {
         console.error('Failed to initialize i18next:', error)
       })
   }

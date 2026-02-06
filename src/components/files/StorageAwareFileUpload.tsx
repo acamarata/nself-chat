@@ -202,6 +202,7 @@ export function StorageAwareFileUpload({
             disabled={uploading || quotaStatus === 'exceeded'}
           />
           <label htmlFor="file-upload" className="flex-1">
+            <span className="sr-only">Choose file to upload</span>
             <Button
               variant="outline"
               className="w-full"
@@ -320,6 +321,7 @@ export function CompactStorageUpload({
         disabled={uploading}
       />
       <label htmlFor="compact-upload">
+        <span className="sr-only">Upload file</span>
         <Button variant="outline" size="sm" asChild disabled={uploading}>
           <div className="cursor-pointer">
             <Upload className="mr-2 h-4 w-4" />

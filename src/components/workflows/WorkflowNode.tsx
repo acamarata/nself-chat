@@ -191,9 +191,19 @@ export function WorkflowNode({ step, isSelected, className }: WorkflowNodeProps)
         left: step.position.x,
         top: step.position.y,
       }}
+      role="button"
+      tabIndex={0}
+      aria-label={`Workflow step: ${step.name}`}
+      aria-pressed={isSelected ? 'true' : 'false'}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
       onMouseDown={handleMouseDown}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          handleClick(e as unknown as React.MouseEvent)
+        }
+      }}
     >
       {/* Input handle */}
       {inputHandles.length > 0 && (
@@ -203,7 +213,16 @@ export function WorkflowNode({ step, isSelected, className }: WorkflowNodeProps)
             'h-3 w-3 rounded-full border-2 border-muted-foreground bg-background',
             'cursor-crosshair transition-colors hover:border-primary hover:bg-primary'
           )}
+          role="button"
+          tabIndex={0}
+          aria-label="Input connection handle"
           onClick={(e) => handleInputClick(e)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              handleInputClick(e as unknown as React.MouseEvent)
+            }
+          }}
         />
       )}
 
@@ -224,7 +243,7 @@ export function WorkflowNode({ step, isSelected, className }: WorkflowNodeProps)
       {/* Output handles */}
       {outputHandles.length > 0 && (
         <div className="absolute bottom-0 right-0 top-0 flex translate-x-1/2 flex-col justify-center gap-2 py-4">
-          {outputHandles.map((handle, index) => (
+          {outputHandles.map((handle) => (
             <div
               key={handle}
               className={cn(
@@ -241,7 +260,16 @@ export function WorkflowNode({ step, isSelected, className }: WorkflowNodeProps)
                   handle === 'default' && 'border-muted-foreground',
                   handle === 'timeout' && 'border-amber-500'
                 )}
+                role="button"
+                tabIndex={0}
+                aria-label={`Output connection handle: ${handle}`}
                 onClick={(e) => handleOutputClick(e, handle)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    handleOutputClick(e as unknown as React.MouseEvent, handle)
+                  }
+                }}
               />
               {outputHandles.length > 1 && (
                 <span className="absolute left-4 whitespace-nowrap text-[10px] text-muted-foreground">

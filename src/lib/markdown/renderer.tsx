@@ -427,17 +427,35 @@ interface MentionProps {
 }
 
 function Mention({ userId, username, onClick }: MentionProps) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      onClick?.(userId, username)
+    }
+  }
+
+  const className = cn(
+    'mention mention-user bg-primary/10 inline-flex items-center rounded px-1.5 py-0.5 font-medium text-primary transition-colors',
+    onClick && 'hover:bg-primary/20 cursor-pointer'
+  )
+
+  if (onClick) {
+    return (
+      <span
+        className={className}
+        data-id={userId}
+        onClick={() => onClick(userId, username)}
+        onKeyDown={handleKeyDown}
+        role="button"
+        tabIndex={0}
+      >
+        @{username}
+      </span>
+    )
+  }
+
   return (
-    <span
-      className={cn(
-        'mention mention-user bg-primary/10 hover:bg-primary/20 inline-flex cursor-pointer items-center rounded px-1.5 py-0.5 font-medium text-primary transition-colors',
-        onClick && 'cursor-pointer'
-      )}
-      data-id={userId}
-      onClick={() => onClick?.(userId, username)}
-      role={onClick ? 'button' : undefined}
-      tabIndex={onClick ? 0 : undefined}
-    >
+    <span className={className} data-id={userId}>
       @{username}
     </span>
   )
@@ -454,17 +472,35 @@ interface ChannelMentionProps {
 }
 
 function ChannelMention({ channelId, channelName, onClick }: ChannelMentionProps) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      onClick?.(channelId, channelName)
+    }
+  }
+
+  const className = cn(
+    'mention mention-channel text-accent-foreground inline-flex items-center rounded bg-accent px-1.5 py-0.5 font-medium transition-colors',
+    onClick && 'hover:bg-accent/80 cursor-pointer'
+  )
+
+  if (onClick) {
+    return (
+      <span
+        className={className}
+        data-id={channelId}
+        onClick={() => onClick(channelId, channelName)}
+        onKeyDown={handleKeyDown}
+        role="button"
+        tabIndex={0}
+      >
+        #{channelName}
+      </span>
+    )
+  }
+
   return (
-    <span
-      className={cn(
-        'mention mention-channel text-accent-foreground inline-flex items-center rounded bg-accent px-1.5 py-0.5 font-medium transition-colors',
-        onClick && 'hover:bg-accent/80 cursor-pointer'
-      )}
-      data-id={channelId}
-      onClick={() => onClick?.(channelId, channelName)}
-      role={onClick ? 'button' : undefined}
-      tabIndex={onClick ? 0 : undefined}
-    >
+    <span className={className} data-id={channelId}>
       #{channelName}
     </span>
   )

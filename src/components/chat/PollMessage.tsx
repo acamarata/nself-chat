@@ -527,6 +527,7 @@ export function PollMessage({
                   onKeyDown={(e) => e.key === 'Enter' && handleAddOption()}
                   disabled={isManaging}
                   maxLength={100}
+                  // eslint-disable-next-line jsx-a11y/no-autofocus
                   autoFocus
                 />
                 <Button

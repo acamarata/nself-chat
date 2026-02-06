@@ -5,7 +5,7 @@
  * Provides room join/leave, message handling, and member tracking.
  *
  * @module hooks/use-realtime-rooms
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 'use client'

@@ -252,6 +252,12 @@ function CompactMentionNotification({
         className
       )}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick?.()
+        }
+      }}
       role="button"
       tabIndex={0}
     >

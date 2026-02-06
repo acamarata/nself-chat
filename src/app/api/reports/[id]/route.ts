@@ -11,10 +11,11 @@ import { defaultReportQueue } from '@/lib/moderation/report-system'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const report = defaultReportQueue.getReport(params.id)
+    const { id } = await params
+    const report = defaultReportQueue.getReport(id)
 
     if (!report) {
       return NextResponse.json({ error: 'Report not found' }, { status: 404 })
@@ -29,9 +30,10 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const body = await request.json()
     const { status, priority, assigned_to, assigned_to_name, resolution, updated_by } = body
 
@@ -40,7 +42,7 @@ export async function PATCH(
     }
 
     const result = defaultReportQueue.updateReport(
-      params.id,
+      id,
       {
         status,
         priority,
@@ -64,10 +66,11 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const success = defaultReportQueue.deleteReport(params.id)
+    const { id } = await params
+    const success = defaultReportQueue.deleteReport(id)
 
     if (!success) {
       return NextResponse.json({ error: 'Report not found' }, { status: 404 })

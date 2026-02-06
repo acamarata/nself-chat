@@ -35,17 +35,18 @@ describe('Logger', () => {
   })
 
   describe('debug', () => {
-    it('should log in development', () => {
+    it('should not log (debug disabled for performance)', () => {
+      // Debug logging is intentionally disabled to reduce noise
       process.env.NODE_ENV = 'development'
       logger.debug('Test message')
-      expect(consoleSpy.debug).toHaveBeenCalledWith('[DEBUG] Test message', '')
+      expect(consoleSpy.debug).not.toHaveBeenCalled()
     })
 
-    it('should log with context', () => {
+    it('should not log with context (debug disabled)', () => {
       process.env.NODE_ENV = 'development'
       const context = { userId: '123' }
       logger.debug('Test message', context)
-      expect(consoleSpy.debug).toHaveBeenCalledWith('[DEBUG] Test message', context)
+      expect(consoleSpy.debug).not.toHaveBeenCalled()
     })
 
     it('should not log in production', () => {
@@ -104,10 +105,11 @@ describe('Logger', () => {
   })
 
   describe('log', () => {
-    it('should route to debug', () => {
+    it('should route to debug (disabled)', () => {
+      // Debug is disabled, so nothing should be logged
       process.env.NODE_ENV = 'development'
       logger.log('debug', 'Test message')
-      expect(consoleSpy.debug).toHaveBeenCalled()
+      expect(consoleSpy.debug).not.toHaveBeenCalled()
     })
 
     it('should route to info', () => {
@@ -133,11 +135,12 @@ describe('Logger', () => {
       expect(scopedLogger).toBeDefined()
     })
 
-    it('should prefix messages with scope', () => {
+    it('should prefix messages with scope (debug disabled)', () => {
+      // Debug is disabled, so nothing should be logged
       process.env.NODE_ENV = 'development'
       const scopedLogger = logger.scope('TestModule')
       scopedLogger.debug('Test message')
-      expect(consoleSpy.debug).toHaveBeenCalledWith('[DEBUG] [TestModule] Test message', '')
+      expect(consoleSpy.debug).not.toHaveBeenCalled()
     })
 
     it('should work with all log levels', () => {
@@ -149,7 +152,8 @@ describe('Logger', () => {
       scopedLogger.warn('Warn')
       scopedLogger.error('Error', new Error('test'))
 
-      expect(consoleSpy.debug).toHaveBeenCalled()
+      // Debug is disabled
+      expect(consoleSpy.debug).not.toHaveBeenCalled()
       expect(consoleSpy.info).toHaveBeenCalled()
       expect(consoleSpy.warn).toHaveBeenCalled()
       expect(consoleSpy.error).toHaveBeenCalled()

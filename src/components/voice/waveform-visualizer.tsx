@@ -177,10 +177,24 @@ export const WaveformVisualizer = memo(function WaveformVisualizer({
         backgroundColor,
       }}
       onClick={handleClick}
+      onKeyDown={
+        interactive && onSeek
+          ? (e) => {
+              if (e.key === 'ArrowLeft') {
+                e.preventDefault()
+                onSeek(Math.max(0, progress - 5))
+              } else if (e.key === 'ArrowRight') {
+                e.preventDefault()
+                onSeek(Math.min(100, progress + 5))
+              }
+            }
+          : undefined
+      }
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       role={interactive ? 'slider' : 'presentation'}
+      tabIndex={interactive ? 0 : undefined}
       aria-label={interactive ? 'Audio progress' : 'Audio waveform'}
       aria-valuemin={interactive ? 0 : undefined}
       aria-valuemax={interactive ? 100 : undefined}

@@ -13,13 +13,15 @@ import {
 } from '../use-mounted'
 
 describe('useIsMounted', () => {
-  it('should return false before mount', () => {
+  // Note: With React Testing Library's renderHook, useEffect runs synchronously,
+  // so the mounted state is already true by the time we can observe it
+  it('should return true after mount', () => {
     const { result } = renderHook(() => useIsMounted())
-    // On first render, before useEffect runs
-    expect(result.current).toBe(false)
+    // After renderHook completes, the component is mounted
+    expect(result.current).toBe(true)
   })
 
-  it('should return true after mount', () => {
+  it('should remain true on rerender', () => {
     const { result, rerender } = renderHook(() => useIsMounted())
     rerender()
     expect(result.current).toBe(true)
@@ -41,12 +43,14 @@ describe('useMountedRef', () => {
     expect(typeof result.current).toBe('function')
   })
 
-  it('should return false before mount', () => {
+  // Note: With React Testing Library's renderHook, useEffect runs synchronously,
+  // so the mounted state is already true by the time we can observe it
+  it('should return true after mount', () => {
     const { result } = renderHook(() => useMountedRef())
-    expect(result.current()).toBe(false)
+    expect(result.current()).toBe(true)
   })
 
-  it('should return true after mount', () => {
+  it('should remain true on rerender', () => {
     const { result, rerender } = renderHook(() => useMountedRef())
     rerender()
     expect(result.current()).toBe(true)

@@ -131,6 +131,7 @@ export function ScreenShareView({
           <div className="relative flex-1">
             <div className="flex h-full items-center justify-center bg-black">
               {stream ? (
+                // eslint-disable-next-line jsx-a11y/media-has-caption
                 <video
                   ref={videoRef}
                   autoPlay
@@ -223,6 +224,7 @@ export function ScreenShareView({
           <div className="relative flex flex-1 flex-col">
             <div className="relative flex-1 bg-black">
               {stream ? (
+                // eslint-disable-next-line jsx-a11y/media-has-caption
                 <video
                   ref={videoRef}
                   autoPlay

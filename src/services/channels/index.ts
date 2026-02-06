@@ -40,10 +40,5 @@ export {
 // Category Service
 export {
   CategoryService,
-  getCategoryService,
-  createCategoryService,
-  type Category,
-  type CategoryListOptions,
-  type CategoryListResult,
-  type MoveChannelOptions,
+  categoryService,
 } from './category.service'

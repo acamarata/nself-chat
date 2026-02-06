@@ -182,15 +182,19 @@ function AttachmentPreviewItem({
           isUploading && 'opacity-75',
           isFailed && 'border-destructive/50 bg-destructive/5'
         )}
-        onClick={() => !isFailed && onClick?.(id)}
-        role={onClick && !isFailed ? 'button' : undefined}
-        tabIndex={onClick && !isFailed ? 0 : undefined}
-        onKeyDown={(e) => {
-          if (onClick && !isFailed && (e.key === 'Enter' || e.key === ' ')) {
-            e.preventDefault()
-            onClick(id)
-          }
-        }}
+        {...(onClick && !isFailed
+          ? {
+              onClick: () => onClick(id),
+              onKeyDown: (e: React.KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onClick(id)
+                }
+              },
+              role: 'button' as const,
+              tabIndex: 0,
+            }
+          : {})}
       >
         {/* Image Preview */}
         {canShowImagePreview && (
@@ -454,9 +458,19 @@ export function AttachmentStrip({
               'flex h-12 w-12 items-center justify-center overflow-hidden rounded border bg-muted',
               onClick && 'hover:border-primary/50 cursor-pointer'
             )}
-            onClick={() => onClick?.(attachment.id)}
-            role={onClick ? 'button' : undefined}
-            tabIndex={onClick ? 0 : undefined}
+            {...(onClick
+              ? {
+                  onClick: () => onClick(attachment.id),
+                  onKeyDown: (e: React.KeyboardEvent) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      onClick(attachment.id)
+                    }
+                  },
+                  role: 'button' as const,
+                  tabIndex: 0,
+                }
+              : {})}
           >
             {attachment.fileType === 'image' &&
             (attachment.thumbnailUrl || attachment.previewUrl) ? (
@@ -499,9 +513,19 @@ export function AttachmentStrip({
             'flex h-12 w-12 flex-shrink-0 items-center justify-center rounded border bg-muted text-sm font-medium text-muted-foreground',
             onClick && 'hover:bg-muted/80 cursor-pointer'
           )}
-          onClick={() => onClick?.(attachments[maxVisible].id)}
-          role={onClick ? 'button' : undefined}
-          tabIndex={onClick ? 0 : undefined}
+          {...(onClick
+            ? {
+                onClick: () => onClick(attachments[maxVisible].id),
+                onKeyDown: (e: React.KeyboardEvent) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    onClick(attachments[maxVisible].id)
+                  }
+                },
+                role: 'button' as const,
+                tabIndex: 0,
+              }
+            : {})}
         >
           +{overflowCount}
         </div>

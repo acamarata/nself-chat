@@ -182,6 +182,7 @@ export function BotDeployment({ bot, onDeploy, className }: BotDeploymentProps) 
           {MOCK_CHANNELS.map((channel) => (
             <label
               key={channel.id}
+              htmlFor={`channel-${channel.id}`}
               className={cn(
                 'flex cursor-pointer items-center gap-2 rounded-md border p-3 transition-colors',
                 deployConfig.channels.includes(channel.id)
@@ -190,6 +191,7 @@ export function BotDeployment({ bot, onDeploy, className }: BotDeploymentProps) 
               )}
             >
               <input
+                id={`channel-${channel.id}`}
                 type="checkbox"
                 checked={deployConfig.channels.includes(channel.id)}
                 onChange={() => toggleChannel(channel.id)}
@@ -208,8 +210,10 @@ export function BotDeployment({ bot, onDeploy, className }: BotDeploymentProps) 
         <h4 className="mb-3 font-medium">Permissions</h4>
         <div className="space-y-2">
           {PERMISSIONS.map((permission) => (
+            // eslint-disable-next-line jsx-a11y/label-has-associated-control -- label has htmlFor pointing to input id
             <label
               key={permission.id}
+              htmlFor={`permission-${permission.id}`}
               className={cn(
                 'flex cursor-pointer items-start gap-3 rounded-md border p-3 transition-colors',
                 deployConfig.permissions.includes(permission.id)
@@ -218,6 +222,7 @@ export function BotDeployment({ bot, onDeploy, className }: BotDeploymentProps) 
               )}
             >
               <input
+                id={`permission-${permission.id}`}
                 type="checkbox"
                 checked={deployConfig.permissions.includes(permission.id)}
                 onChange={() => togglePermission(permission.id)}
@@ -234,7 +239,8 @@ export function BotDeployment({ bot, onDeploy, className }: BotDeploymentProps) 
 
       {/* Enable Toggle */}
       <Card className="p-4">
-        <label className="flex cursor-pointer items-center justify-between">
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control -- label has htmlFor pointing to input id */}
+        <label htmlFor="bot-enabled" className="flex cursor-pointer items-center justify-between">
           <div>
             <span className="font-medium">Enable Bot</span>
             <p className="text-sm text-muted-foreground">
@@ -242,6 +248,7 @@ export function BotDeployment({ bot, onDeploy, className }: BotDeploymentProps) 
             </p>
           </div>
           <input
+            id="bot-enabled"
             type="checkbox"
             checked={deployConfig.enabled}
             onChange={(e) => setDeployConfig((prev) => ({ ...prev, enabled: e.target.checked }))}

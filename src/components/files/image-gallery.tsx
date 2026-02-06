@@ -358,9 +358,12 @@ export function ImageGallery({
         </div>
 
         {/* Main image area */}
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
         <div
           ref={imageRef}
           className="flex flex-1 items-center justify-center overflow-hidden"
+          role="img"
+          aria-label={`Image ${currentIndex + 1} of ${images.length}: ${currentImage.name}`}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}

@@ -107,6 +107,7 @@ export const TouchButton = forwardRef<HTMLButtonElement, TouchButtonProps>(funct
 export interface TouchLinkProps
   extends AnchorHTMLAttributes<HTMLAnchorElement>, VariantProps<typeof touchButtonVariants> {
   hapticFeedback?: boolean
+  children?: React.ReactNode
 }
 
 /**
@@ -121,6 +122,7 @@ export const TouchLink = forwardRef<HTMLAnchorElement, TouchLinkProps>(function 
     rounded,
     hapticFeedback = false,
     onClick,
+    children,
     ...props
   },
   ref
@@ -138,11 +140,20 @@ export const TouchLink = forwardRef<HTMLAnchorElement, TouchLinkProps>(function 
       ref={ref}
       className={cn(touchButtonVariants({ variant, size, rounded }), className)}
       onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleClick(e as unknown as React.MouseEvent<HTMLAnchorElement>)
+        }
+      }}
+      role="button"
+      tabIndex={0}
       style={{
         WebkitTapHighlightColor: 'transparent',
       }}
       {...props}
-    />
+    >
+      {children}
+    </a>
   )
 })
 
@@ -237,7 +248,13 @@ export const TouchListItem = memo(function TouchListItem({
 
   if (href && !disabled) {
     return (
-      <a href={href} className={baseClassName} style={style} onClick={handleClick}>
+      <a
+        href={href}
+        className={baseClassName}
+        style={style}
+        onClick={handleClick}
+        aria-label={typeof children === 'string' ? children : undefined}
+      >
         {children}
       </a>
     )

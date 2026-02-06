@@ -101,7 +101,15 @@ export function SearchResults({ results, query, type, onClose }: SearchResultsPr
             {items.map((result) => (
               <div
                 key={result.id}
+                role="button"
+                tabIndex={0}
                 onClick={() => handleResultClick(result)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    handleResultClick(result)
+                  }
+                }}
                 className="cursor-pointer rounded-lg border bg-card p-3 transition-colors hover:bg-accent"
               >
                 <div className="flex items-start gap-3">

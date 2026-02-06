@@ -5,7 +5,7 @@
  */
 
 import * as React from 'react'
-import { FileText, Image, Video, Music, Archive, File, Upload, HardDrive } from 'lucide-react'
+import { FileText, Image as ImageIcon, Video, Music, Archive, File, Upload, HardDrive } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -42,7 +42,7 @@ function formatFileSize(bytes: number): string {
 function getFileTypeIcon(type: string) {
   switch (type.toLowerCase()) {
     case 'images':
-      return <Image className="h-4 w-4" />
+      return <ImageIcon className="h-4 w-4" />
     case 'videos':
       return <Video className="h-4 w-4" />
     case 'audio':

@@ -68,6 +68,7 @@ function ParticipantVideo({ participant, callType, layout, className }: Particip
     >
       {/* Video Stream */}
       {showVideo ? (
+        // eslint-disable-next-line jsx-a11y/media-has-caption
         <video ref={videoRef} autoPlay playsInline className="h-full w-full object-cover" />
       ) : (
         /* Avatar Fallback */

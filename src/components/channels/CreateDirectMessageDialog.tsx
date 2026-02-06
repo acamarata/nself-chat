@@ -187,6 +187,7 @@ export function CreateDirectMessageDialog({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9"
+                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
               />
             </div>
@@ -290,9 +291,11 @@ export function CreateDirectMessageDialog({
                 ) : (
                   availableUsers.map((user) => {
                     const isSelected = selectedUsers.has(user.id)
+                    const checkboxId = `group-user-checkbox-${user.id}`
                     return (
                       <label
                         key={user.id}
+                        htmlFor={checkboxId}
                         className={cn(
                           'flex cursor-pointer items-center gap-3 rounded-lg p-3',
                           'transition-colors hover:bg-accent',
@@ -300,6 +303,7 @@ export function CreateDirectMessageDialog({
                         )}
                       >
                         <Checkbox
+                          id={checkboxId}
                           checked={isSelected}
                           onCheckedChange={() => toggleUser(user.id)}
                         />

@@ -237,6 +237,7 @@ export function CallInterface({
         {/* Video Container */}
         <div className="relative flex-1 bg-gray-950">
           {/* Remote Video */}
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption -- Live video call does not have captions */}
           <video
             ref={remoteVideoRef}
             autoPlay
@@ -368,6 +369,7 @@ export function CallInterface({
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       {/* Hidden audio element for remote stream */}
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption -- Live audio call does not have captions */}
       <audio ref={remoteAudioRef} autoPlay />
 
       {/* Background pattern */}

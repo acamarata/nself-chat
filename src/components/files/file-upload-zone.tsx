@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { useDropzone, type DropzoneOptions, type FileRejection } from 'react-dropzone'
-import { Upload, FileUp, AlertCircle, Image, Film, File } from 'lucide-react'
+import { Upload, FileUp, AlertCircle, Image as ImageIcon, Film, File } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
   validateFile,
@@ -261,7 +261,7 @@ export function FileUploadZone({
             {showAcceptedTypes && (
               <div className="flex items-center gap-4 text-xs text-muted-foreground">
                 <span className="flex items-center gap-1">
-                  <Image className="h-3.5 w-3.5" /> Images
+                  <ImageIcon className="h-3.5 w-3.5" /> Images
                 </span>
                 <span className="flex items-center gap-1">
                   <Film className="h-3.5 w-3.5" /> Videos

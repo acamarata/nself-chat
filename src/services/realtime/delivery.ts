@@ -5,7 +5,7 @@
  * Processes message sent, delivered, read, and failed events.
  *
  * @module services/realtime/delivery
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { socketManager } from '@/lib/realtime/socket-manager'

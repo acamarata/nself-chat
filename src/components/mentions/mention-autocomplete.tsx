@@ -192,8 +192,15 @@ function UserSuggestionItem({ user, isSelected, onClick, onMouseEnter }: UserSug
   return (
     <div
       role="option"
+      tabIndex={0}
       aria-selected={isSelected}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick?.()
+        }
+      }}
       onMouseEnter={onMouseEnter}
       className={cn(
         'flex cursor-pointer items-center gap-3 px-3 py-2',
@@ -241,9 +248,16 @@ function SpecialMentionItem({
   return (
     <div
       role="option"
+      tabIndex={isDisabled ? -1 : 0}
       aria-selected={isSelected}
       aria-disabled={isDisabled}
       onClick={isDisabled ? undefined : onClick}
+      onKeyDown={isDisabled ? undefined : (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick?.()
+        }
+      }}
       onMouseEnter={onMouseEnter}
       className={cn(
         'flex items-center gap-3 px-3 py-2',

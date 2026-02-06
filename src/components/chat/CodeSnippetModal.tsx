@@ -195,6 +195,7 @@ export function CodeSnippetModal({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               maxLength={100}
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
             />
           </div>

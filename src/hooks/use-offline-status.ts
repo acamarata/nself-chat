@@ -5,7 +5,7 @@
  * Integrates with OfflineQueueService and SyncService for full offline support.
  *
  * @module hooks/use-offline-status
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 'use client'

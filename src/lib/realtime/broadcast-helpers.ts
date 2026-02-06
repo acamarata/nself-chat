@@ -6,7 +6,7 @@
  * of data changes.
  *
  * @module lib/realtime/broadcast-helpers
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { getAPIEventBroadcaster } from '@/services/realtime/api-event-broadcaster'

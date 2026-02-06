@@ -14,6 +14,8 @@ export type AuditCategory =
   | 'message'
   | 'channel'
   | 'file'
+  | 'attachment'
+  | 'moderation'
   | 'admin'
   | 'security'
   | 'integration'
@@ -44,6 +46,8 @@ export type MessageAction =
   | 'reply'
   | 'mention'
   | 'bulk_delete'
+  | 'forward'
+  | 'send_scheduled'
 
 export type ChannelAction =
   | 'create'
@@ -66,6 +70,7 @@ export type FileAction =
   | 'unshare'
   | 'preview'
   | 'rename'
+  | 'access'
 
 export type AdminAction =
   | 'role_change'
@@ -121,6 +126,20 @@ export type IntegrationAction =
   | 'sync_complete'
   | 'sync_failed'
 
+export type ModerationAction =
+  | 'content_flagged'
+  | 'content_deleted'
+  | 'content_hidden'
+  | 'user_warned'
+  | 'user_muted'
+  | 'user_banned'
+  | 'user_shadowbanned'
+  | 'moderation_action_reversed'
+  | 'appeal_submitted'
+  | 'appeal_assigned'
+  | 'appeal_resolved'
+  | 'appeal_withdrawn'
+
 export type AuditAction =
   | UserAction
   | MessageAction
@@ -129,6 +148,7 @@ export type AuditAction =
   | AdminAction
   | SecurityAction
   | IntegrationAction
+  | ModerationAction
 
 // ============================================================================
 // Severity Levels
@@ -140,7 +160,7 @@ export type AuditSeverity = 'info' | 'warning' | 'error' | 'critical'
 // Actor Types
 // ============================================================================
 
-export type ActorType = 'user' | 'system' | 'bot' | 'integration' | 'anonymous'
+export type ActorType = 'user' | 'system' | 'bot' | 'integration' | 'anonymous' | 'admin' | 'moderator'
 
 export interface AuditActor {
   id: string
@@ -162,6 +182,8 @@ export type ResourceType =
   | 'message'
   | 'channel'
   | 'file'
+  | 'attachment'
+  | 'scheduled_message'
   | 'role'
   | 'permission'
   | 'setting'
@@ -345,6 +367,8 @@ export const categoryDisplayNames: Record<AuditCategory, string> = {
   message: 'Message',
   channel: 'Channel',
   file: 'File',
+  attachment: 'Attachment',
+  moderation: 'Moderation',
   admin: 'Admin',
   security: 'Security',
   integration: 'Integration',
@@ -369,6 +393,8 @@ export const categoryColors: Record<AuditCategory, string> = {
   message: '#10B981',
   channel: '#8B5CF6',
   file: '#F59E0B',
+  attachment: '#F59E0B',
+  moderation: '#EC4899',
   admin: '#EF4444',
   security: '#DC2626',
   integration: '#06B6D4',

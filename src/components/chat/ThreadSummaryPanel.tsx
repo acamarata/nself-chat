@@ -295,7 +295,15 @@ export function ThreadSummaryPanel({
                           'cursor-pointer rounded-lg border bg-card p-3 transition-colors hover:bg-accent',
                           item.status === 'completed' && 'opacity-60'
                         )}
+                        role="button"
+                        tabIndex={0}
                         onClick={() => onActionItemClick?.(item.id)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            onActionItemClick?.(item.id)
+                          }
+                        }}
                       >
                         <div className="flex items-start gap-3">
                           <div className="mt-0.5">

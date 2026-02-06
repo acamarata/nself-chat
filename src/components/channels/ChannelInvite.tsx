@@ -142,29 +142,34 @@ export function ChannelInvite({
 
             <ScrollArea className="h-[200px]">
               <div className="space-y-1">
-                {filteredUsers.map((user) => (
-                  <label
-                    key={user.id}
-                    className={cn(
-                      'flex cursor-pointer items-center gap-3 rounded-md p-2',
-                      'hover:bg-accent',
-                      selectedUsers.has(user.id) && 'bg-accent'
-                    )}
-                  >
-                    <Checkbox
-                      checked={selectedUsers.has(user.id)}
-                      onCheckedChange={() => toggleUser(user.id)}
-                    />
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src={user.avatarUrl} alt={user.displayName} />
-                      <AvatarFallback>{user.displayName.slice(0, 2).toUpperCase()}</AvatarFallback>
-                    </Avatar>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium">{user.displayName}</p>
-                      <p className="text-xs text-muted-foreground">@{user.username}</p>
-                    </div>
-                  </label>
-                ))}
+                {filteredUsers.map((user) => {
+                  const checkboxId = `user-checkbox-${user.id}`
+                  return (
+                    <label
+                      key={user.id}
+                      htmlFor={checkboxId}
+                      className={cn(
+                        'flex cursor-pointer items-center gap-3 rounded-md p-2',
+                        'hover:bg-accent',
+                        selectedUsers.has(user.id) && 'bg-accent'
+                      )}
+                    >
+                      <Checkbox
+                        id={checkboxId}
+                        checked={selectedUsers.has(user.id)}
+                        onCheckedChange={() => toggleUser(user.id)}
+                      />
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={user.avatarUrl} alt={user.displayName} />
+                        <AvatarFallback>{user.displayName.slice(0, 2).toUpperCase()}</AvatarFallback>
+                      </Avatar>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium">{user.displayName}</p>
+                        <p className="text-xs text-muted-foreground">@{user.username}</p>
+                      </div>
+                    </label>
+                  )
+                })}
 
                 {filteredUsers.length === 0 && (
                   <p className="py-8 text-center text-sm text-muted-foreground">No users found</p>

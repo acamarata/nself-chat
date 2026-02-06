@@ -1,4 +1,8 @@
 /**
+ * @jest-environment node
+ */
+
+/**
  * Bot API Routes Tests
  *
  * Comprehensive test suite for all Bot API routes:

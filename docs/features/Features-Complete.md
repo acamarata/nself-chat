@@ -268,9 +268,16 @@ This document provides a complete reference of all features configurable through
 
 ## Feature Implementation Status
 
-### v1.0.0 - Production Ready
+**Current Version**: v0.9.1-beta
+**Status**: ~80% Complete for v1.0.0
+**Build**: ✅ Passing (0 TypeScript errors)
+**Tests**: ✅ 98%+ passing (1,000+ tests)
 
-✅ **Fully Implemented (100+ Features)**:
+### Implementation Categories
+
+#### ✅ Production Ready (60-70% of features)
+
+These features are fully implemented, tested, and ready for production use:
 
 **Messaging (14 features)**
 
@@ -470,16 +477,80 @@ This document provides a complete reference of all features configurable through
 - Performance testing (Lighthouse CI)
 - 100% pass rate
 
-### Quality Metrics (v1.0.0)
+#### ⚠️ MVP / Partial Implementation (20-25% of features)
 
-- TypeScript Errors: **0**
-- Test Coverage: **860+ tests**
-- Accessibility: **WCAG 2.1 AA compliant**
+**Payments (Stripe)**
+- ✅ Server integration: Real
+- ⚠️ Client integration: Mocked payment intents
+- **Impact**: Payment UI shows but doesn't process real cards
+- **To Fix**: 8-12 hours
+
+**Media Processing**
+- ✅ Images: Full support (Sharp.js)
+- ⚠️ Videos: Not implemented (uploads accepted, no transcoding)
+- **Impact**: Video uploads work but not optimized
+- **To Fix**: 16-24 hours (FFmpeg integration)
+
+**End-to-End Encryption**
+- ✅ Complete Double Ratchet algorithm
+- ℹ️ Uses Web Crypto API (not Signal Protocol library)
+- **Note**: Documentation claimed "Signal Protocol library" but implementation uses Web Crypto API with Double Ratchet. Both are secure.
+
+**WebRTC Voice/Video**
+- ✅ 10,000+ LOC fully implemented
+- ⚠️ Not tested on real mobile devices
+- **To Fix**: 8-12 hours device testing
+
+**Mobile Apps**
+- ✅ iOS/Android configured and buildable
+- ⚠️ Not tested on real devices
+- **To Fix**: 8-12 hours device testing
+
+**Desktop Apps**
+- ✅ Electron/Tauri working
+- ⚠️ Missing app icons
+- **To Fix**: 4-6 hours with designer
+
+#### ❌ Not Implemented (5-10% of features)
+
+- Advanced analytics dashboard UI (metrics collection exists)
+- Bot marketplace (SDK exists, no public marketplace)
+- ML-based toxicity detection (basic profanity filter exists)
+- Rich social media embeds (link previews work)
+- Workflow automation builder (webhooks exist)
+
+### Quality Metrics (v0.9.1-beta)
+
+- TypeScript Errors: **✅ 0** (down from ~1,900)
+- Tests: **1,014 tests** (~98-99% passing)
+- Test Breakdown: ~600 unit, ~250 integration, ~150 E2E
+- Accessibility: **✅ WCAG 2.1 AA compliant**
 - Bundle Size: **103 KB** (optimized)
-- Lighthouse Scores: **90+** (all metrics)
-- Time to Interactive: **<3s**
-- Build Success Rate: **100%**
+- Build Success Rate: **✅ 100%**
+- Lighthouse Scores: Not measured yet
+- Time to Interactive: ~2-3s
+
+### Documentation Corrections
+
+**Previous Claims** → **Reality**:
+- "v1.0.0 Production Ready" → Actually v0.9.1-beta (~80% complete)
+- "100% feature parity" → Actually ~80% (still impressive!)
+- "Signal Protocol library" → Uses Web Crypto API with Double Ratchet (equally secure)
+- "All features complete" → Core complete, some MVP/mocked
+
+### Path to v1.0.0
+
+**Critical Items** (~60-100 hours):
+1. ✅ Fix TypeScript errors → DONE
+2. ✅ Working builds → DONE
+3. ⚠️ Real Stripe.js client → 8-12 hours
+4. ⚠️ Device testing → 8-12 hours
+5. ⚠️ Security audit → 40-80 hours
+
+**Timeline**: 4-6 weeks for v1.0.0 production release
 
 ---
 
-This document reflects the complete implementation status as of v1.0.0 (2026-01-29) and should be updated with each major release.
+**See Also**: [Known Limitations](../KNOWN-LIMITATIONS.md) for complete details on implementation status and limitations.
+
+This document reflects the honest implementation status as of v0.9.1-beta (2026-02-05) and should be updated with each major release.

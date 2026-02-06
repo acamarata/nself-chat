@@ -5,7 +5,7 @@
  * Handles synchronization between local state and background processing.
  *
  * @module lib/jobs/message-jobs
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import {

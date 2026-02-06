@@ -6,7 +6,7 @@
  * as well as channel-wide default TTL settings.
  *
  * @module services/messages/ephemeral
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { ApolloClient, NormalizedCacheObject, ApolloError } from '@apollo/client'

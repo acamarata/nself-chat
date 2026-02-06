@@ -412,7 +412,11 @@ export function ImageLightbox({
       {/* Main image area */}
       <div
         className="relative flex flex-1 items-center justify-center overflow-hidden"
+        role="button"
+        tabIndex={0}
+        aria-label={`Image ${currentIndex + 1} of ${images.length}: ${currentImage.name}`}
         onClick={handleBackdropClick}
+        onKeyDown={(e) => { if (e.key === 'Escape') onClose(); }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}

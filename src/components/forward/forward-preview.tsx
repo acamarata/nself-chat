@@ -209,15 +209,15 @@ export const ForwardPreview = React.forwardRef<HTMLDivElement, ForwardPreviewPro
       <div ref={ref} className={cn('flex flex-col gap-4', className)} {...props}>
         {/* Message Preview */}
         <div>
-          <label className="mb-2 block text-sm font-medium">Forwarding message</label>
+          <span className="mb-2 block text-sm font-medium">Forwarding message</span>
           <MessagePreview message={message} />
         </div>
 
         {/* Selected Destinations */}
         <div>
-          <label className="mb-2 block text-sm font-medium">
+          <span className="mb-2 block text-sm font-medium">
             To ({selectedDestinations.length})
-          </label>
+          </span>
           <ScrollArea className="max-h-24">
             <div className="flex flex-wrap gap-1.5">
               {selectedDestinations.map((destination) => (

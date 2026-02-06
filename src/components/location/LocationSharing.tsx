@@ -287,7 +287,7 @@ export function LocationSharing({
 
               {/* Duration Selection */}
               <div className="space-y-2">
-                <label className="text-sm font-medium">Share for:</label>
+                <span className="text-sm font-medium">Share for:</span>
                 <LocationDuration
                   value={selectedDuration}
                   onChange={setSelectedDuration}

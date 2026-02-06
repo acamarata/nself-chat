@@ -201,6 +201,15 @@ const EditProfileForm = React.forwardRef<HTMLFormElement, EditProfileFormProps>(
               <div
                 className="group relative h-32 cursor-pointer overflow-hidden rounded-lg bg-muted"
                 onClick={() => coverInputRef.current?.click()}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    coverInputRef.current?.click()
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label="Upload cover image"
                 style={{
                   backgroundImage: displayCoverUrl ? `url(${displayCoverUrl})` : undefined,
                   backgroundSize: 'cover',

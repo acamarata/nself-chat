@@ -172,6 +172,12 @@ export function LogoUploader({
       ) : (
         <div
           onClick={handleClick}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              handleClick()
+            }
+          }}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -182,6 +188,9 @@ export function LogoUploader({
               : 'border-zinc-300 hover:border-sky-400 dark:border-zinc-600 dark:hover:border-sky-500',
             isLoading && 'pointer-events-none opacity-50'
           )}
+          role="button"
+          tabIndex={isLoading ? -1 : 0}
+          aria-label="Upload logo"
         >
           {isLoading ? (
             <Loader2 className="mx-auto h-10 w-10 animate-spin text-sky-500" />

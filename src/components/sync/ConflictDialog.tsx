@@ -179,7 +179,7 @@ export function ConflictDialog({
 
           {/* Resolution Strategy Selection */}
           <div className="space-y-3">
-            <label className="text-sm font-medium">Resolution Strategy:</label>
+            <span className="text-sm font-medium">Resolution Strategy:</span>
 
             <div className="grid gap-2">
               {/* Server Wins */}

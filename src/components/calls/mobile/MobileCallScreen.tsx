@@ -70,6 +70,7 @@ function VideoTile({ stream, name, isMuted, isSpeaking, isLocal }: VideoTileProp
 
   return (
     <div className="relative aspect-video overflow-hidden rounded-lg bg-gray-900">
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption -- Live video call does not have captions */}
       <video
         ref={videoRef}
         autoPlay
@@ -374,7 +375,19 @@ export function MobileCallScreen({
       </motion.div>
 
       {/* Video Grid */}
-      <div className="relative flex-1" onClick={handleScreenTap} onTouchStart={handleScreenTap}>
+      <div
+        role="button"
+        tabIndex={0}
+        className="relative flex-1"
+        onClick={handleScreenTap}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            handleScreenTap()
+          }
+        }}
+        onTouchStart={handleScreenTap}
+      >
         {isVideoCall ? (
           <div
             className={cn('h-full w-full p-2', isPortrait ? 'flex flex-col gap-2' : 'flex gap-2')}

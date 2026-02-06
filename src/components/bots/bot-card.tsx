@@ -74,6 +74,13 @@ export function BotCard({
     onViewDetails?.(bot)
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (onViewDetails && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault()
+      onViewDetails(bot)
+    }
+  }
+
   if (compact) {
     return (
       <div
@@ -81,7 +88,10 @@ export function BotCard({
           'hover:bg-accent/50 flex cursor-pointer items-center gap-3 rounded-lg border bg-card p-3 transition-colors',
           className
         )}
+        role="button"
+        tabIndex={0}
         onClick={handleCardClick}
+        onKeyDown={handleKeyDown}
       >
         <Avatar className="h-10 w-10">
           <AvatarImage src={bot.avatarUrl} alt={bot.name} />
@@ -117,7 +127,10 @@ export function BotCard({
         'hover:border-primary/50 cursor-pointer transition-all hover:shadow-md',
         className
       )}
+      role="button"
+      tabIndex={0}
       onClick={handleCardClick}
+      onKeyDown={handleKeyDown}
     >
       <CardHeader className="pb-3">
         <div className="flex items-start gap-3">

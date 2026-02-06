@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Coffee, Heart, Image, Smile, Music } from 'lucide-react'
+import { Coffee, Heart, Image as ImageIcon, Smile, Music } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -56,7 +56,7 @@ export function SocialChannel({ isSelected = false, onClick, className }: Social
               Reactions
             </Badge>
             <Badge variant="outline" className="gap-1 text-xs">
-              <Image className="h-3 w-3" />
+              <ImageIcon className="h-3 w-3" />
               Media sharing
             </Badge>
             <Badge variant="outline" className="gap-1 text-xs">

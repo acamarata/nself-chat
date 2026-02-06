@@ -308,6 +308,7 @@ export function ChannelNotificationSettings({
                 onChange={() => handleLevelChange(option.value)}
                 className="mt-1"
                 disabled={!overrideGlobal}
+                aria-label={option.label}
               />
               <div>
                 <span className="text-sm font-medium">{option.label}</span>

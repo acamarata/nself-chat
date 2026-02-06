@@ -172,6 +172,7 @@ export function ScreenSharePanel({
       <div className="relative h-full w-full">
         {isScreenSharing && screenStream ? (
           <>
+            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <video ref={videoRef} autoPlay playsInline className="h-full w-full object-contain" />
             {/* Annotation Canvas Overlay */}
             {showAnnotations && (

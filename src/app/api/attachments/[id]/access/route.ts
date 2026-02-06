@@ -130,7 +130,7 @@ function checkPermissions(
   }
 
   // Check if user is channel member
-  const isMember = members.some((m: Record<string, unknown>) => m.user_id === userId)
+  const isMember = members.some((m: any) => m.user_id === userId)
   if (!isMember) {
     return { allowed: false, reason: 'Not a channel member' }
   }

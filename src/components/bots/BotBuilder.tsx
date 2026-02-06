@@ -228,8 +228,9 @@ export function BotBuilder({ onSave, onCancel, initialBot, className }: BotBuild
         return (
           <div className="space-y-4">
             <div>
-              <label className="mb-1 block text-sm font-medium">Bot Name</label>
+              <label htmlFor="bot-name" className="mb-1 block text-sm font-medium">Bot Name</label>
               <input
+                id="bot-name"
                 type="text"
                 value={bot.name || ''}
                 onChange={(e) => updateBot('name', e.target.value)}
@@ -243,8 +244,9 @@ export function BotBuilder({ onSave, onCancel, initialBot, className }: BotBuild
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-medium">Description</label>
+              <label htmlFor="bot-description" className="mb-1 block text-sm font-medium">Description</label>
               <textarea
+                id="bot-description"
                 value={bot.description || ''}
                 onChange={(e) => updateBot('description', e.target.value)}
                 placeholder="What does this bot do?"
@@ -260,8 +262,9 @@ export function BotBuilder({ onSave, onCancel, initialBot, className }: BotBuild
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-medium">Icon (optional)</label>
+              <label htmlFor="bot-icon" className="mb-1 block text-sm font-medium">Icon (optional)</label>
               <input
+                id="bot-icon"
                 type="text"
                 value={bot.icon || ''}
                 onChange={(e) => updateBot('icon', e.target.value)}

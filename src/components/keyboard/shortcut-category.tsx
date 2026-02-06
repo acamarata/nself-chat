@@ -157,6 +157,18 @@ export function ShortcutCategory({
       <div
         className={cn('mb-3 flex items-center gap-2', collapsible && 'cursor-pointer select-none')}
         onClick={collapsible ? () => setIsCollapsed(!isCollapsed) : undefined}
+        onKeyDown={
+          collapsible
+            ? (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  setIsCollapsed(!isCollapsed)
+                }
+              }
+            : undefined
+        }
+        role={collapsible ? 'button' : undefined}
+        tabIndex={collapsible ? 0 : undefined}
       >
         {collapsible && (
           <span className="text-muted-foreground">

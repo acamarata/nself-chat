@@ -245,10 +245,17 @@ export function NotificationItem({
         compact && 'py-2',
         className
       )}
+      role="button"
+      tabIndex={0}
       onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          handleClick()
+        }
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      role="article"
       aria-label={`Notification: ${notification.title}`}
       {...props}
     >

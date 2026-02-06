@@ -11,11 +11,12 @@ import { getAppealQueue } from '@/lib/moderation/appeal-system'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const appealQueue = getAppealQueue()
-    const appeal = appealQueue.getAppeal(params.id)
+    const appeal = appealQueue.getAppeal(id)
 
     if (!appeal) {
       return NextResponse.json({ error: 'Appeal not found' }, { status: 404 })
@@ -30,9 +31,10 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const body = await request.json()
     const { action, moderator_id, moderator_name, decision, resolution, outcome } = body
 
@@ -43,7 +45,7 @@ export async function PATCH(
         return NextResponse.json({ error: 'moderator_id is required' }, { status: 400 })
       }
 
-      const result = await appealQueue.assignAppeal(params.id, moderator_id, moderator_name)
+      const result = await appealQueue.assignAppeal(id, moderator_id, moderator_name)
 
       if (!result.success) {
         return NextResponse.json({ error: result.error }, { status: 400 })
@@ -59,7 +61,7 @@ export async function PATCH(
       }
 
       const result = await appealQueue.resolveAppeal(
-        params.id,
+        id,
         moderator_id,
         decision,
         resolution,
@@ -82,7 +84,7 @@ export async function PATCH(
       }
 
       const result = await appealQueue.addReviewNote(
-        params.id,
+        id,
         author_id,
         content,
         is_internal ?? true,
@@ -105,9 +107,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const { searchParams } = new URL(request.url)
     const userId = searchParams.get('user_id')
 
@@ -116,7 +119,7 @@ export async function DELETE(
     }
 
     const appealQueue = getAppealQueue()
-    const result = await appealQueue.withdrawAppeal(params.id, userId)
+    const result = await appealQueue.withdrawAppeal(id, userId)
 
     if (!result.success) {
       return NextResponse.json({ error: result.error }, { status: 400 })

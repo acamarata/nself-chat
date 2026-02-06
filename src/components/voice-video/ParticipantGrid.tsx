@@ -163,6 +163,7 @@ function ParticipantTile({
     >
       {/* Video or Avatar */}
       {showVideo ? (
+        // eslint-disable-next-line jsx-a11y/media-has-caption
         <video
           ref={videoRef}
           autoPlay

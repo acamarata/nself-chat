@@ -95,9 +95,19 @@ export function PermissionGroup({
           </span>
 
           <div
+            role="button"
+            tabIndex={0}
+            aria-label="Toggle all permissions"
             onClick={(e) => {
               e.stopPropagation()
               toggleAll()
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                e.stopPropagation()
+                toggleAll()
+              }
             }}
             className="flex items-center"
           >

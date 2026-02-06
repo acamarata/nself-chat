@@ -84,12 +84,13 @@ describe('useTyping', () => {
         isTyping: true,
       })
 
-      // Wait for debounce (300ms)
+      // Wait for debounce - implementation uses 2x debounce (handleTyping -> stopTyping -> emit)
+      // First 300ms triggers stopTyping, then another 300ms triggers the actual emit
       act(() => {
-        jest.advanceTimersByTime(300)
+        jest.advanceTimersByTime(600)
       })
 
-      // Should emit stop typing after debounce
+      // Should emit stop typing after both debounce periods
       expect(mockEmit).toHaveBeenCalledTimes(2)
       expect(mockEmit).toHaveBeenLastCalledWith('message:typing', {
         channelId,
@@ -99,7 +100,8 @@ describe('useTyping', () => {
     })
 
     it('should throttle typing events', () => {
-      const { result } = renderHook(() => useTyping(channelId, { throttleMs: 2000 }))
+      // Use longer throttle and shorter debounce to make test clearer
+      const { result } = renderHook(() => useTyping(channelId, { throttleMs: 2000, debounceMs: 100 }))
 
       // First typing event
       act(() => {
@@ -108,23 +110,36 @@ describe('useTyping', () => {
 
       expect(mockEmit).toHaveBeenCalledTimes(1)
 
-      // Second typing event within throttle period
+      // Call typing again immediately (within throttle period) - should NOT emit start again
+      // because startTyping() checks throttle
       act(() => {
-        jest.advanceTimersByTime(1000)
         result.current.handleTyping()
       })
 
-      // Should not emit again (still in throttle period)
+      // Still should only be 1 emit (the first start typing)
       expect(mockEmit).toHaveBeenCalledTimes(1)
 
-      // Wait for throttle to expire
+      // Wait for debounce to fire the stop typing (100 + 100 = 200ms for the double debounce)
       act(() => {
-        jest.advanceTimersByTime(1000)
+        jest.advanceTimersByTime(200)
+      })
+
+      // Now we have start + stop = 2 emits
+      expect(mockEmit).toHaveBeenCalledTimes(2)
+
+      // Wait for throttle to expire (2000ms total from first emit, we're at 200ms)
+      act(() => {
+        jest.advanceTimersByTime(1800)
         result.current.handleTyping()
       })
 
-      // Should emit again after throttle expires
-      expect(mockEmit).toHaveBeenCalledTimes(2)
+      // Should emit start again after throttle expires
+      expect(mockEmit).toHaveBeenCalledTimes(3)
+      expect(mockEmit).toHaveBeenLastCalledWith('message:typing', {
+        channelId,
+        userId: mockUser.id,
+        isTyping: true,
+      })
     })
 
     it('should force stop typing immediately', () => {

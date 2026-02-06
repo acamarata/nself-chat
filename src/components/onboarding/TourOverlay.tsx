@@ -93,6 +93,10 @@ export function TourOverlay({
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
         onClick={handleDismiss}
+        onKeyDown={(e) => e.key === 'Escape' && handleDismiss()}
+        role="button"
+        tabIndex={0}
+        aria-label="Dismiss tour"
       />
 
       {/* Highlight */}

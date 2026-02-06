@@ -282,7 +282,6 @@ export async function POST(
         const result = await linkUnfurlService.unfurlUrl(url, {
           timeout: 10000,
           maxRedirects: 3,
-          validateSsl: true,
         })
 
         if (!result.success) {
@@ -306,11 +305,11 @@ export async function POST(
               publishedAt: null,
               metadata: {},
               fetchStatus: 'failed',
-              fetchError: result.error?.message || 'Unknown error',
+              fetchError: typeof result.error === 'string' ? result.error : (result.error as any)?.message || 'Unknown error',
             },
           })
 
-          errors.push({ url, error: result.error?.message })
+          errors.push({ url, error: typeof result.error === 'string' ? result.error : (result.error as any)?.message || 'Unknown error' })
           continue
         }
 
@@ -327,7 +326,7 @@ export async function POST(
             description: preview.description,
             imageUrl: preview.imageUrl,
             siteName: preview.siteName,
-            faviconUrl: preview.favicon,
+            faviconUrl: preview.faviconUrl,
             themeColor: preview.themeColor,
             videoUrl: preview.videoUrl,
             author: preview.author,

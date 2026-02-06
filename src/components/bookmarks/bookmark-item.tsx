@@ -236,12 +236,20 @@ export function BookmarkItem({
   if (compact) {
     return (
       <div
+        role="button"
+        tabIndex={0}
         className={cn(
           'group flex cursor-pointer items-start gap-2 rounded-md p-2',
           'transition-colors hover:bg-accent',
           className
         )}
         onClick={handleJumpToMessage}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            handleJumpToMessage()
+          }
+        }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

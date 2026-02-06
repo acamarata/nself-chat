@@ -22,10 +22,11 @@ const analyticsQuerySchema = z.object({
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const streamId = params.id
+    const { id } = await params
+    const streamId = id
 
     // Validate stream ID
     if (!streamId || !z.string().uuid().safeParse(streamId).success) {

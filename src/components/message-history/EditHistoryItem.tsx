@@ -64,6 +64,18 @@ export function EditHistoryItem({
         className
       )}
       onClick={onSelect}
+      onKeyDown={
+        onSelect
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                onSelect()
+              }
+            }
+          : undefined
+      }
+      role={onSelect ? 'button' : undefined}
+      tabIndex={onSelect ? 0 : undefined}
     >
       {/* Timeline connector */}
       {!isFirst && <div className="absolute -top-4 left-6 h-4 w-0.5 bg-border" />}

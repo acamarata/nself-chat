@@ -5,7 +5,7 @@
  * Connects various features to the jobs queue system.
  *
  * @module lib/jobs
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 // ============================================================================

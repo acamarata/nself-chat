@@ -195,6 +195,13 @@ export function FilePreview({
     }
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      handleClick()
+    }
+  }
+
   return (
     <>
       <motion.div
@@ -203,9 +210,12 @@ export function FilePreview({
           sizeClasses[size],
           className
         )}
+        role="button"
+        tabIndex={0}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleClick}
+        onKeyDown={handleKeyDown}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
@@ -341,7 +351,9 @@ function FilePreviewDialog({ attachment, open, onOpenChange }: FilePreviewDialog
               className="max-h-[80vh] max-w-full"
               controls={false}
               onEnded={() => setIsPlaying(false)}
-            />
+            >
+              <track kind="captions" />
+            </video>
             <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full bg-black/60 px-4 py-2">
               <Button
                 variant="ghost"
@@ -369,7 +381,9 @@ function FilePreviewDialog({ attachment, open, onOpenChange }: FilePreviewDialog
             <div className="rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 p-8">
               <Music className="h-16 w-16 text-purple-600 dark:text-purple-400" />
             </div>
-            <audio ref={audioRef} src={attachment.url} onEnded={() => setIsPlaying(false)} />
+            <audio ref={audioRef} src={attachment.url} onEnded={() => setIsPlaying(false)}>
+              <track kind="captions" />
+            </audio>
             <div className="flex items-center gap-4">
               <Button variant="outline" size="icon" onClick={togglePlay}>
                 {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}

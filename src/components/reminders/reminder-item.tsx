@@ -222,6 +222,20 @@ function DefaultReminderItem({
   const isPending = reminder.status === 'pending'
   const isCompleted = reminder.status === 'completed'
 
+  const interactiveProps = onClick
+    ? {
+        onClick: () => onClick(reminder),
+        onKeyDown: (e: React.KeyboardEvent) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onClick(reminder)
+          }
+        },
+        role: 'button' as const,
+        tabIndex: 0,
+      }
+    : {}
+
   return (
     <div
       className={cn(
@@ -231,7 +245,7 @@ function DefaultReminderItem({
         onClick && 'cursor-pointer',
         className
       )}
-      onClick={() => onClick?.(reminder)}
+      {...interactiveProps}
     >
       {/* Status Icon / Checkbox */}
       <div className="flex-shrink-0 pt-0.5">
@@ -409,7 +423,19 @@ function CompactReminderItem({
         onClick && 'cursor-pointer',
         className
       )}
-      onClick={() => onClick?.(reminder)}
+      {...(onClick
+        ? {
+            onClick: () => onClick(reminder),
+            onKeyDown: (e: React.KeyboardEvent) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                onClick(reminder)
+              }
+            },
+            role: 'button' as const,
+            tabIndex: 0,
+          }
+        : {})}
     >
       {/* Checkbox */}
       {isPending && onComplete && (
@@ -419,6 +445,7 @@ function CompactReminderItem({
             onComplete(reminder.id)
           }}
           disabled={isLoading}
+          aria-label="Mark reminder as complete"
           className={cn(
             'border-muted-foreground/50 flex h-4 w-4 items-center justify-center rounded border',
             'hover:bg-primary/10 hover:border-primary',
@@ -493,7 +520,19 @@ function NotificationReminderItem({
         onClick && 'hover:bg-accent/50 cursor-pointer',
         className
       )}
-      onClick={() => onClick?.(reminder)}
+      {...(onClick
+        ? {
+            onClick: () => onClick(reminder),
+            onKeyDown: (e: React.KeyboardEvent) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                onClick(reminder)
+              }
+            },
+            role: 'button' as const,
+            tabIndex: 0,
+          }
+        : {})}
     >
       <div className="bg-primary/10 flex-shrink-0 rounded-full p-2">
         <Bell className="h-4 w-4 text-primary" />

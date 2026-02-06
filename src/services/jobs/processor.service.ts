@@ -5,7 +5,7 @@
  * Handles scheduled messages, email digests, cleanup, indexing, etc.
  *
  * @module services/jobs/processor.service
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { Worker, Job, Processor } from 'bullmq'

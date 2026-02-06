@@ -15,7 +15,7 @@
  * - Offline queue integration
  *
  * @module hooks/use-optimistic-messages
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 'use client'
@@ -26,7 +26,7 @@ import { getSyncQueue } from '@/lib/offline'
 import { offlineDB } from '@/lib/offline/indexeddb'
 import { useToast } from './use-toast'
 import { logger } from '@/lib/logger'
-import type { Message } from '@/types/message'
+import type { Message, AttachmentType, MessageType } from '@/types/message'
 
 // =============================================================================
 // Types
@@ -128,18 +128,19 @@ export function useOptimisticMessages(channelId?: string) {
         channelId: targetChannelId,
         userId: user.id,
         content: options.content,
-        contentType: options.contentType || 'text',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        type: (options.contentType as MessageType) || 'text',
+        createdAt: new Date(),
+        updatedAt: new Date(),
         user: {
           id: user.id,
+          username: user.email || user.id,
           displayName: user.displayName || user.email,
           avatarUrl: user.avatarUrl,
         },
         isOptimistic: true,
         status: 'sending',
-        replyTo: options.replyTo,
-        metadata: options.metadata,
+        replyToId: options.replyTo,
+        isEdited: false,
         reactions: [],
         attachments: [],
       }
@@ -151,13 +152,24 @@ export function useOptimisticMessages(channelId?: string) {
         // Handle attachments first if any
         if (options.attachments && options.attachments.length > 0) {
           const uploadedUrls = await uploadAttachments(options.attachments, targetChannelId, tempId)
-          optimisticMsg.attachments = uploadedUrls.map((url, index) => ({
-            id: `${tempId}_attachment_${index}`,
-            url,
-            name: options.attachments![index].name,
-            type: options.attachments![index].type,
-            size: options.attachments![index].size,
-          }))
+          optimisticMsg.attachments = uploadedUrls.map((url, index) => {
+            const file = options.attachments![index]
+            const mimeType = file.type
+            // Map MIME type to AttachmentType
+            let attachmentType: AttachmentType = 'file'
+            if (mimeType.startsWith('image/')) attachmentType = 'image'
+            else if (mimeType.startsWith('video/')) attachmentType = 'video'
+            else if (mimeType.startsWith('audio/')) attachmentType = 'audio'
+
+            return {
+              id: `${tempId}_attachment_${index}`,
+              url,
+              name: file.name,
+              type: attachmentType,
+              size: file.size,
+              mimeType,
+            }
+          })
           updateOptimisticMessage(tempId, { attachments: optimisticMsg.attachments })
         }
 
@@ -222,10 +234,6 @@ export function useOptimisticMessages(channelId?: string) {
           title: 'Failed to send message',
           description: error instanceof Error ? error.message : 'Unknown error',
           variant: 'destructive',
-          action: {
-            label: 'Retry',
-            onClick: () => retryMessage(tempId),
-          },
         })
 
         throw error
@@ -273,10 +281,10 @@ export function useOptimisticMessages(channelId?: string) {
         id: message.tempId,
         channelId: message.channelId,
         content: message.content,
-        contentType: message.contentType,
+        contentType: message.type === 'text' || message.type === 'voice' ? 'text' : message.type as 'text' | 'markdown' | 'code',
         attachments: message.attachments?.map((a) => a.url),
-        replyTo: message.replyTo,
-        metadata: message.metadata,
+        replyTo: message.replyToId,
+        metadata: {},
         createdAt: Date.now(),
         attempts: 0,
         status: 'pending',
@@ -285,6 +293,7 @@ export function useOptimisticMessages(channelId?: string) {
       // Register background sync if supported
       if ('serviceWorker' in navigator && 'sync' in ServiceWorkerRegistration.prototype) {
         const registration = await navigator.serviceWorker.ready
+        // @ts-ignore - sync is not in ServiceWorkerRegistration types yet
         await registration.sync.register('sync-messages')
       }
     } catch (error) {
@@ -314,10 +323,10 @@ export function useOptimisticMessages(channelId?: string) {
           body: JSON.stringify({
             channelId: message.channelId,
             content: message.content,
-            contentType: message.contentType,
+            contentType: message.type,
             attachments: message.attachments,
-            replyTo: message.replyTo,
-            metadata: message.metadata,
+            replyTo: message.replyToId,
+            metadata: {},
             tempId,
           }),
         })

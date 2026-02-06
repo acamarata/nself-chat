@@ -15,10 +15,10 @@ export const dynamic = 'force-dynamic'
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: tenantId } = params
+    const { id: tenantId } = await params
 
     // TODO: Fetch from database
     // For now, return mock data
@@ -69,10 +69,11 @@ export async function GET(
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: tenantId } = params
+    const { id: tenantId } = await params
+
     const { updates, userId } = await request.json()
 
     // TODO: Validate updates

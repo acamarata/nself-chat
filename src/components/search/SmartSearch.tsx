@@ -242,8 +242,9 @@ export function SmartSearch({
               <PopoverContent className="w-80" align="start">
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Channel</label>
+                    <label htmlFor="smart-search-channel" className="text-sm font-medium">Channel</label>
                     <Input
+                      id="smart-search-channel"
                       placeholder="Channel ID"
                       value={filters.channelId || ''}
                       onChange={(e) =>
@@ -253,8 +254,9 @@ export function SmartSearch({
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">User</label>
+                    <label htmlFor="smart-search-user" className="text-sm font-medium">User</label>
                     <Input
+                      id="smart-search-user"
                       placeholder="User ID"
                       value={filters.userId || ''}
                       onChange={(e) => setFilters((prev) => ({ ...prev, userId: e.target.value }))}
@@ -262,7 +264,7 @@ export function SmartSearch({
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Has Thread</label>
+                    <label htmlFor="smart-search-thread" className="text-sm font-medium">Has Thread</label>
                     <Select
                       value={
                         filters.hasThread === undefined ? 'any' : filters.hasThread ? 'yes' : 'no'

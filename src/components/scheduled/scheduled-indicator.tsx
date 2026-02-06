@@ -163,17 +163,9 @@ export function ScheduledIndicator({
 
   // Inline variant - minimal styling
   if (variant === 'inline') {
-    return (
-      <span
-        className={cn(
-          'inline-flex items-center gap-1.5 text-sm',
-          isPast ? 'text-destructive' : 'text-muted-foreground',
-          onClick && !disabled && 'cursor-pointer hover:text-foreground',
-          disabled && 'opacity-50',
-          className
-        )}
-        onClick={handleClick}
-      >
+    const isInteractive = onClick && !disabled
+    const inlineContent = (
+      <>
         {isPast ? (
           <AlertTriangle className="h-3.5 w-3.5" />
         ) : (
@@ -185,22 +177,45 @@ export function ScheduledIndicator({
             <X className="h-3 w-3" />
           </button>
         )}
+      </>
+    )
+
+    if (isInteractive) {
+      return (
+        <span
+          className={cn(
+            'inline-flex items-center gap-1.5 text-sm cursor-pointer hover:text-foreground',
+            isPast ? 'text-destructive' : 'text-muted-foreground',
+            className
+          )}
+          role="button"
+          tabIndex={0}
+          onClick={handleClick}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(); } }}
+        >
+          {inlineContent}
+        </span>
+      )
+    }
+
+    return (
+      <span
+        className={cn(
+          'inline-flex items-center gap-1.5 text-sm',
+          isPast ? 'text-destructive' : 'text-muted-foreground',
+          disabled && 'opacity-50',
+          className
+        )}
+      >
+        {inlineContent}
       </span>
     )
   }
 
   // Default variant - full indicator bar
-  return (
-    <div
-      className={cn(
-        'flex items-center gap-3 rounded-lg border px-3 py-2',
-        isPast ? 'bg-destructive/10 border-destructive/30' : 'bg-primary/5 border-primary/20',
-        onClick && !disabled && 'hover:bg-primary/10 cursor-pointer',
-        disabled && 'cursor-not-allowed opacity-50',
-        className
-      )}
-      onClick={handleClick}
-    >
+  const isDefaultInteractive = onClick && !disabled
+  const defaultContent = (
+    <>
       <div
         className={cn(
           'flex h-8 w-8 items-center justify-center rounded-full',
@@ -231,6 +246,37 @@ export function ScheduledIndicator({
           </Button>
         )}
       </div>
+    </>
+  )
+
+  if (isDefaultInteractive) {
+    return (
+      <div
+        className={cn(
+          'flex items-center gap-3 rounded-lg border px-3 py-2 cursor-pointer hover:bg-primary/10',
+          isPast ? 'bg-destructive/10 border-destructive/30' : 'bg-primary/5 border-primary/20',
+          className
+        )}
+        role="button"
+        tabIndex={0}
+        onClick={handleClick}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(); } }}
+      >
+        {defaultContent}
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className={cn(
+        'flex items-center gap-3 rounded-lg border px-3 py-2',
+        isPast ? 'bg-destructive/10 border-destructive/30' : 'bg-primary/5 border-primary/20',
+        disabled && 'cursor-not-allowed opacity-50',
+        className
+      )}
+    >
+      {defaultContent}
     </div>
   )
 }

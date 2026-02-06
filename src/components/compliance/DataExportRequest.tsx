@@ -263,24 +263,25 @@ export function DataExportRequest() {
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               {EXPORT_CATEGORIES.map((cat) => (
-                <div
+                <label
                   key={cat.category}
+                  htmlFor={`export-cat-${cat.category}`}
                   className={`flex cursor-pointer items-start space-x-3 rounded-lg border p-3 transition-colors ${
                     selectedCategories.includes(cat.category)
                       ? 'bg-primary/5 border-primary'
                       : 'hover:bg-muted/50'
                   }`}
-                  onClick={() => handleCategoryToggle(cat.category)}
                 >
                   <Checkbox
+                    id={`export-cat-${cat.category}`}
                     checked={selectedCategories.includes(cat.category)}
                     onCheckedChange={() => handleCategoryToggle(cat.category)}
                   />
                   <div className="flex-1">
-                    <Label className="cursor-pointer font-medium">{cat.label}</Label>
+                    <span className="cursor-pointer font-medium">{cat.label}</span>
                     <p className="mt-0.5 text-xs text-muted-foreground">{cat.description}</p>
                   </div>
-                </div>
+                </label>
               ))}
             </div>
           </div>

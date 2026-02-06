@@ -312,7 +312,7 @@ export const apolloClient = new ApolloClient({
   // Updated for Apollo Client v3.14.0+ - use clientAwareness instead of name/version
   clientAwareness: {
     name: 'nchat-web',
-    version: process.env.NEXT_PUBLIC_APP_VERSION || '0.2.0',
+    version: process.env.NEXT_PUBLIC_APP_VERSION || '0.9.1',
   },
 })
 

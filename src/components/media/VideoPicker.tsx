@@ -301,7 +301,9 @@ export function VideoPicker({
               className="w-full"
               onTimeUpdate={handleTimeUpdate}
               onEnded={() => setIsPlaying(false)}
-            />
+            >
+              <track kind="captions" src="" label="Captions" default />
+            </video>
 
             {/* Play button overlay */}
             {!isPlaying && (

@@ -5,12 +5,47 @@
  * Replaces console.log statements across the codebase
  */
 
-import * as Sentry from '@sentry/nextjs'
-
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error'
 
 export interface LogContext {
   [key: string]: unknown
+}
+
+/**
+ * Helper to safely capture with Sentry (only in production runtime)
+ */
+async function captureSentryError(error: Error, extra?: LogContext): Promise<void> {
+  if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
+    try {
+      // Use dynamic import to avoid bundling issues
+      const { captureException } = await import('@sentry/nextjs')
+      captureException(error, { extra })
+    } catch {
+      // Sentry not available or failed to load
+    }
+  }
+}
+
+async function captureSentryMessage(message: string, level: 'info' | 'warning', extra?: LogContext): Promise<void> {
+  if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
+    try {
+      const { captureMessage } = await import('@sentry/nextjs')
+      captureMessage(message, { level, extra })
+    } catch {
+      // Sentry not available or failed to load
+    }
+  }
+}
+
+async function addSentryBreadcrumb(message: string, data?: LogContext): Promise<void> {
+  if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
+    try {
+      const { addBreadcrumb } = await import('@sentry/nextjs')
+      addBreadcrumb({ level: 'info', message, data })
+    } catch {
+      // Sentry not available or failed to load
+    }
+  }
 }
 
 /**
@@ -41,11 +76,8 @@ class Logger {
     if (this.isDevelopment) {
       console.info(`[INFO] ${message}`, context || '')
     } else if (this.isProduction && context) {
-      Sentry.addBreadcrumb({
-        level: 'info',
-        message,
-        data: context,
-      })
+      // Fire and forget - don't block on Sentry
+      addSentryBreadcrumb(message, context).catch(() => {})
     }
   }
 
@@ -56,10 +88,8 @@ class Logger {
     console.warn(`[WARN] ${message}`, context || '')
 
     if (this.isProduction) {
-      Sentry.captureMessage(message, {
-        level: 'warning',
-        extra: context,
-      })
+      // Fire and forget - don't block on Sentry
+      captureSentryMessage(message, 'warning', context).catch(() => {})
     }
   }
 
@@ -72,12 +102,8 @@ class Logger {
     console.error(`[ERROR] ${message}`, errorObj, context || '')
 
     if (this.isProduction) {
-      Sentry.captureException(errorObj, {
-        extra: {
-          message,
-          ...context,
-        },
-      })
+      // Fire and forget - don't block on Sentry
+      captureSentryError(errorObj, { message, ...context }).catch(() => {})
     }
   }
 
@@ -106,11 +132,8 @@ class Logger {
     console.warn(`[SECURITY] ${event}`, securityContext)
 
     if (this.isProduction) {
-      Sentry.captureMessage(`SECURITY: ${event}`, {
-        level: 'warning',
-        extra: securityContext,
-        tags: { type: 'security' },
-      })
+      // Fire and forget - don't block on Sentry
+      captureSentryMessage(`SECURITY: ${event}`, 'warning', securityContext).catch(() => {})
     }
   }
 

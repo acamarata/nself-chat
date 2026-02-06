@@ -222,13 +222,17 @@ function AttachmentPreview({ attachment }: AttachmentPreviewProps) {
         controls
         className="max-h-48 max-w-xs rounded-lg border"
         preload="metadata"
-      />
+      >
+        <track kind="captions" src="" label="Captions" default />
+      </video>
     )
   }
 
   if (isAudio) {
     return (
-      <audio src={attachment.file_url} controls className="w-full max-w-xs" preload="metadata" />
+      <audio src={attachment.file_url} controls className="w-full max-w-xs" preload="metadata">
+        <track kind="captions" src="" label="Captions" default />
+      </audio>
     )
   }
 

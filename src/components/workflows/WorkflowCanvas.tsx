@@ -109,6 +109,7 @@ export function WorkflowCanvas({ className }: WorkflowCanvasProps) {
   if (!workflow) return null
 
   return (
+    /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */
     <div
       ref={canvasRef}
       className={cn(
@@ -116,6 +117,9 @@ export function WorkflowCanvas({ className }: WorkflowCanvasProps) {
         isPanning && 'cursor-grabbing',
         className
       )}
+      role="application"
+      aria-label="Workflow canvas"
+      tabIndex={0}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}

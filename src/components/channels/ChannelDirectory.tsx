@@ -140,7 +140,15 @@ export function ChannelDirectory({
     <div
       key={channel.id}
       className="group flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 hover:bg-accent"
+      role="button"
+      tabIndex={0}
       onClick={() => handleChannelClick(channel)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          handleChannelClick(channel)
+        }
+      }}
     >
       {channel.type === 'private' ? (
         <Lock className="h-4 w-4 flex-shrink-0 text-muted-foreground" />

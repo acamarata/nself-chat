@@ -5,7 +5,7 @@
  * Integrates with the nself-plugins realtime server (Socket.io).
  *
  * @module services/realtime
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 // Core client and connection

@@ -16,6 +16,7 @@ import { z } from 'zod'
 import { getThreadService } from '@/services/messages/thread.service'
 import { apolloClient } from '@/lib/apollo-client'
 import { getMentionService } from '@/services/messages/mention.service'
+import { getNotificationService } from '@/services/notifications/notification.service'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -26,6 +27,7 @@ export const dynamic = 'force-dynamic'
 
 const ThreadReplySchema = z.object({
   userId: z.string().uuid('Invalid user ID'),
+  channelId: z.string().uuid('Invalid channel ID'),
   content: z
     .string()
     .min(1, 'Message content is required')
@@ -50,6 +52,7 @@ const ThreadReplySchema = z.object({
 
 const threadService = getThreadService(apolloClient)
 const mentionService = getMentionService(apolloClient)
+const notificationService = getNotificationService()
 
 // ============================================================================
 // POST - Reply to thread
@@ -98,10 +101,9 @@ export async function POST(
     // Reply to thread via service
     const result = await threadService.replyToThread({
       threadId,
+      channelId: data.channelId,
       userId: data.userId,
       content: data.content,
-      mentions: mentionedUserIds,
-      metadata: data.metadata,
     })
 
     if (!result.success || !result.data) {
@@ -122,7 +124,6 @@ export async function POST(
           actorId: data.userId,
           actorName: reply.user.displayName,
           messagePreview: data.content.substring(0, 100),
-          threadId,
         })
         .catch((err) => {
           logger.warn('Failed to send mention notifications in thread', { error: err })
@@ -132,16 +133,61 @@ export async function POST(
     // Get thread participants to notify
     const threadResult = await threadService.getThread(threadId)
     if (threadResult.success && threadResult.data) {
-      const participantIds = threadResult.data.participants
+      const thread = threadResult.data
+      const participantIds = thread.participants
         .map((p) => p.id)
         .filter((id) => id !== data.userId) // Don't notify the author
 
       // Send thread reply notifications (async)
       if (participantIds.length > 0) {
-        // TODO: Implement notification service call
-        logger.debug('Would notify thread participants', {
+        // Notify each participant of the new reply
+        // Cast to any to work around Thread.participants type mismatch
+        const threadParticipants = thread.participants as any[]
+        Promise.all(
+          threadParticipants
+            .filter((p) => p.userId !== data.userId && p.notificationsEnabled)
+            .map(async (participant) => {
+              try {
+                await notificationService.send({
+                  userId: participant.userId,
+                  channel: 'push',
+                  category: 'transactional',
+                  template: 'nchat_thread_reply',
+                  to: {
+                    // Push token would come from user preferences
+                    pushToken: undefined,
+                  },
+                  variables: {
+                    actor_name: reply.user.displayName,
+                    actor_avatar: reply.user.avatarUrl,
+                    channel_name: thread.rootMessage?.channelId || '',
+                    message_preview: data.content.substring(0, 100),
+                    action_url: `/chat/${reply.channelId}?thread=${threadId}`,
+                  },
+                  metadata: {
+                    event_type: 'thread.reply',
+                    actor_id: data.userId,
+                    channel_id: reply.channelId,
+                    message_id: reply.id,
+                    thread_id: threadId,
+                  },
+                  tags: ['thread.reply', `thread:${threadId}`],
+                })
+              } catch (err) {
+                logger.warn('Failed to send thread reply notification to participant', {
+                  error: err,
+                  participantId: participant.userId,
+                  threadId,
+                })
+              }
+            })
+        ).catch((err) => {
+          logger.warn('Failed to send some thread reply notifications', { error: err, threadId })
+        })
+
+        logger.debug('Sending thread reply notifications', {
           threadId,
-          participantIds,
+          participantCount: participantIds.length,
           replyId: reply.id,
         })
       }

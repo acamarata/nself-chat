@@ -17,8 +17,9 @@ const PLUGIN_ENDPOINTS = {
   fileProcessing: process.env.NEXT_PUBLIC_FILE_PROCESSING_URL || 'http://files.localhost:3104',
 }
 
-// Skip tests if plugins are not enabled (e.g., in CI without Docker)
-const PLUGINS_ENABLED = process.env.PLUGINS_ENABLED !== 'false'
+// Skip tests if plugins are not enabled - default to false for unit tests
+// These are integration tests that require real plugin services
+const PLUGINS_ENABLED = process.env.PLUGINS_ENABLED === 'true'
 
 describe('Plugin Health Checks', () => {
   const describeIf = PLUGINS_ENABLED ? describe : describe.skip

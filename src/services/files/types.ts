@@ -197,7 +197,12 @@ export interface OptimizationResult {
 // ============================================================================
 
 export interface UploadRequest {
-  file: File
+  file?: File
+  buffer?: Buffer
+  fileName?: string
+  fileType?: string
+  storageKey?: string
+  isPublic?: boolean
   channelId?: string
   messageId?: string
   operations?: ProcessingOperation[]
@@ -205,7 +210,14 @@ export interface UploadRequest {
 }
 
 export interface UploadResponse {
-  file: FileRecord
+  success: boolean
+  error?: { message: string; code?: string }
+  data?: {
+    url: string
+    storageKey?: string
+    fileId?: string
+  }
+  file?: FileRecord
   uploadUrl?: string
   fields?: Record<string, string>
   jobId?: string

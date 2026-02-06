@@ -167,7 +167,19 @@ export function ReminderNotification({
       {/* Content */}
       <div
         className={cn('space-y-3 p-4', onClick && 'hover:bg-accent/50 cursor-pointer')}
-        onClick={() => onClick?.(reminder)}
+        {...(onClick
+          ? {
+              onClick: () => onClick(reminder),
+              onKeyDown: (e: React.KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onClick(reminder)
+                }
+              },
+              role: 'button' as const,
+              tabIndex: 0,
+            }
+          : {})}
       >
         {/* Reminder Content */}
         <div className="space-y-1">

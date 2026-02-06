@@ -183,7 +183,9 @@ export function StreamBroadcaster({ channelId, onStreamEnded }: StreamBroadcaste
             muted
             playsInline
             className="h-full w-full object-contain"
-          />
+          >
+            <track kind="captions" src="" label="Captions" default />
+          </video>
         ) : (
           <div className="flex h-full w-full items-center justify-center text-muted-foreground">
             <Video className="h-16 w-16" />

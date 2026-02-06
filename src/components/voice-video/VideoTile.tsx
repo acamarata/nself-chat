@@ -148,6 +148,7 @@ export function VideoTile({
     >
       {/* Video stream or avatar */}
       {!isVideoOff && stream ? (
+        // eslint-disable-next-line jsx-a11y/media-has-caption
         <video
           ref={videoRef}
           autoPlay

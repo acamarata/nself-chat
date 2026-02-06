@@ -188,15 +188,10 @@ interface CommandRowProps {
 }
 
 function CommandRow({ command, isLast, onSelect }: CommandRowProps) {
-  return (
-    <div
-      className={cn(
-        'hover:bg-muted/30 flex items-center gap-4 px-4 py-3 transition-colors',
-        !isLast && 'border-b',
-        onSelect && 'cursor-pointer'
-      )}
-      onClick={() => onSelect?.(command)}
-    >
+  const handleClick = () => onSelect?.(command)
+
+  const rowContent = (
+    <>
       {/* Trigger */}
       <div className="w-28 shrink-0">
         <code className="font-mono text-sm text-primary">/{command.trigger}</code>
@@ -249,6 +244,34 @@ function CommandRow({ command, isLast, onSelect }: CommandRowProps) {
           </Tooltip>
         </TooltipProvider>
       </div>
+    </>
+  )
+
+  if (onSelect) {
+    return (
+      <div
+        className={cn(
+          'hover:bg-muted/30 flex items-center gap-4 px-4 py-3 transition-colors cursor-pointer',
+          !isLast && 'border-b'
+        )}
+        role="button"
+        tabIndex={0}
+        onClick={handleClick}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(); } }}
+      >
+        {rowContent}
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className={cn(
+        'hover:bg-muted/30 flex items-center gap-4 px-4 py-3 transition-colors',
+        !isLast && 'border-b'
+      )}
+    >
+      {rowContent}
     </div>
   )
 }

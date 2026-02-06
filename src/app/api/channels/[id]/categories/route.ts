@@ -19,10 +19,11 @@ const moveChannelSchema = z.object({
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const channelId = params.id
+    const { id } = await params
+    const channelId = id
 
     // Validate channel ID
     if (!channelId || !z.string().uuid().safeParse(channelId).success) {
@@ -101,10 +102,11 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const channelId = params.id
+    const { id } = await params
+    const channelId = id
 
     // Validate channel ID
     if (!channelId || !z.string().uuid().safeParse(channelId).success) {

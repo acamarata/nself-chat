@@ -165,15 +165,19 @@ export function UploadPreview({
           isUploading && 'opacity-75',
           isFailed && 'border-destructive/50'
         )}
-        onClick={() => onClick?.(id)}
-        role={onClick ? 'button' : undefined}
-        tabIndex={onClick ? 0 : undefined}
-        onKeyDown={(e) => {
-          if (onClick && (e.key === 'Enter' || e.key === ' ')) {
-            e.preventDefault()
-            onClick(id)
-          }
-        }}
+        {...(onClick
+          ? {
+              onClick: () => onClick(id),
+              onKeyDown: (e: React.KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onClick(id)
+                }
+              },
+              role: 'button' as const,
+              tabIndex: 0,
+            }
+          : {})}
       >
         {/* Image Preview */}
         {canShowImagePreview && (
@@ -313,6 +317,20 @@ export function UploadPreviewListItem({
   // Image preview for images
   const canShowImagePreview = fileType === 'image' && previewUrl
 
+  const interactiveProps = onClick
+    ? {
+        onClick: () => onClick(id),
+        onKeyDown: (e: React.KeyboardEvent) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onClick(id)
+          }
+        },
+        role: 'button' as const,
+        tabIndex: 0,
+      }
+    : {}
+
   return (
     <div
       className={cn(
@@ -322,9 +340,7 @@ export function UploadPreviewListItem({
         onClick && 'hover:bg-muted/50 cursor-pointer',
         className
       )}
-      onClick={() => onClick?.(id)}
-      role={onClick ? 'button' : undefined}
-      tabIndex={onClick ? 0 : undefined}
+      {...interactiveProps}
     >
       {/* Preview Thumbnail */}
       <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded bg-muted">

@@ -166,14 +166,32 @@ export function SettingsImport({ className }: SettingsImportProps) {
         </DialogHeader>
 
         <div className="space-y-4 py-4">
-          {/* File input */}
+          {/* Hidden file input */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json,application/json"
+            onChange={handleFileSelect}
+            className="hidden"
+            aria-hidden="true"
+          />
+          {/* File input trigger */}
           {!preview && !error && (
             <div
               className={cn(
                 'flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed p-8',
                 'hover:border-primary/50 hover:bg-muted/50 cursor-pointer transition-colors'
               )}
+              role="button"
+              tabIndex={0}
+              aria-label="Click to select a file"
               onClick={() => fileInputRef.current?.click()}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  fileInputRef.current?.click()
+                }
+              }}
             >
               <FileJson className="h-12 w-12 text-muted-foreground" />
               <div className="text-center">
@@ -182,13 +200,6 @@ export function SettingsImport({ className }: SettingsImportProps) {
                   or drag and drop your settings file here
                 </p>
               </div>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".json,application/json"
-                onChange={handleFileSelect}
-                className="hidden"
-              />
             </div>
           )}
 

@@ -605,6 +605,7 @@ export function CommandItem({
     <div
       role="option"
       aria-selected={isSelected}
+      tabIndex={0}
       className={cn(
         'flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 transition-colors',
         'hover:text-accent-foreground hover:bg-accent',
@@ -612,6 +613,12 @@ export function CommandItem({
         className
       )}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick?.()
+        }
+      }}
     >
       {/* Command Icon */}
       <div

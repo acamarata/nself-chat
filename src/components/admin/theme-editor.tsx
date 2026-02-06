@@ -124,7 +124,16 @@ function ColorPicker({ label, value, onChange, contrastWith, description }: Colo
         <div
           className="h-10 w-12 cursor-pointer rounded border"
           style={{ backgroundColor: value }}
+          role="button"
+          tabIndex={0}
+          aria-label={`Pick ${label} color`}
           onClick={() => document.getElementById(`${label}-input`)?.click()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              document.getElementById(`${label}-input`)?.click()
+            }
+          }}
         />
         <Input
           id={`${label}-input`}
@@ -300,7 +309,8 @@ export function ThemeEditor({ onSave, onExport }: ThemeEditorProps) {
             <Download className="mr-1 h-4 w-4" />
             Export
           </Button>
-          <label>
+          <label className="cursor-pointer">
+            <span className="sr-only">Import theme</span>
             <Button size="sm" variant="outline" asChild>
               <span>
                 <Upload className="mr-1 h-4 w-4" />
@@ -694,9 +704,12 @@ export function ThemeEditor({ onSave, onExport }: ThemeEditorProps) {
 
                   {/* Link */}
                   <p>
-                    <a href="#" style={{ color: colors.linkColor, textDecoration: 'underline' }}>
+                    <button
+                      type="button"
+                      style={{ color: colors.linkColor, textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                    >
                       This is a link
-                    </a>
+                    </button>
                   </p>
                 </div>
               </div>

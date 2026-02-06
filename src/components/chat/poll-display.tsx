@@ -311,6 +311,7 @@ export function PollDisplay({
                   onChange={(e) => setNewOptionText(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleAddOption()}
                   className="flex-1 rounded-md border px-3 py-2 text-sm"
+                  // eslint-disable-next-line jsx-a11y/no-autofocus
                   autoFocus
                   maxLength={100}
                 />

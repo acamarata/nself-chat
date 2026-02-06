@@ -219,6 +219,7 @@ export function CallWindow({
             </Avatar>
           </div>
         ) : (
+          // eslint-disable-next-line jsx-a11y/media-has-caption
           <video
             className="h-full w-full object-cover"
             autoPlay
@@ -309,6 +310,14 @@ export function CallWindow({
                 key={p.id}
                 className="w-32 cursor-pointer"
                 onClick={() => setActiveSpeakerId(p.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    setActiveSpeakerId(p.id)
+                  }
+                }}
+                role="button"
+                tabIndex={0}
               >
                 {renderParticipant(p, p.id === currentUserId)}
               </div>

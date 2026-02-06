@@ -14,7 +14,7 @@ import * as React from 'react'
 import { useCallback, useRef } from 'react'
 import {
   Paperclip,
-  Image,
+  Image as ImageIcon,
   FileVideo,
   FileAudio,
   FileText,
@@ -77,7 +77,7 @@ const FILE_CATEGORIES: Record<
   images: {
     accept: 'image/*',
     label: 'Images',
-    icon: <Image className="h-4 w-4" />,
+    icon: <ImageIcon className="h-4 w-4" />,
   },
   videos: {
     accept: 'video/*',
@@ -212,7 +212,7 @@ export function FileUploadButton({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-48">
           <DropdownMenuItem onClick={() => handleMenuItemClick('images')}>
-            <Image className="mr-2 h-4 w-4 text-blue-500" />
+            <ImageIcon className="mr-2 h-4 w-4 text-blue-500" />
             <span>Images</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleMenuItemClick('videos')}>

@@ -11,8 +11,9 @@
 
 import { describe, it, expect, beforeAll, afterAll } from '@jest/globals'
 
-// Skip tests if plugins are not enabled
-const PLUGINS_ENABLED = process.env.PLUGINS_ENABLED !== 'false'
+// Skip tests if plugins are not enabled - default to false for unit tests
+// These are integration tests that require real plugin services
+const PLUGINS_ENABLED = process.env.PLUGINS_ENABLED === 'true'
 
 const PLUGIN_ENDPOINTS = {
   realtime: process.env.NEXT_PUBLIC_REALTIME_URL || 'http://realtime.localhost:3101',

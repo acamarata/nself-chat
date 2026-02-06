@@ -358,6 +358,7 @@ export function ImageLightbox({
           </div>
 
           {/* Image container */}
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Application role manages own interaction */}
           <div
             ref={containerRef}
             className={cn(
@@ -370,6 +371,8 @@ export function ImageLightbox({
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
             onWheel={handleWheel}
+            role="application"
+            aria-label="Image viewer - use mouse to pan and zoom"
           >
             {/* Loading indicator */}
             {isLoading && (

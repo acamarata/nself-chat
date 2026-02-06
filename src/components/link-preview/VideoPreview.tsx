@@ -38,6 +38,7 @@ export function VideoPreview({ data, autoPlay = false, className, children }: Vi
       {/* Video or thumbnail */}
       <div className="relative aspect-video bg-black">
         {videoUrl && !data.image ? (
+          // eslint-disable-next-line jsx-a11y/media-has-caption
           <video
             src={videoUrl}
             controls

@@ -236,9 +236,12 @@ export function ImageViewer({
   }
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Application role manages own interaction
     <div
       ref={containerRef}
       data-testid="image-viewer"
+      role="application"
+      aria-label="Image viewer - use mouse or keyboard to pan and zoom"
       className={cn(
         'relative flex h-full w-full items-center justify-center overflow-hidden bg-black/95',
         className

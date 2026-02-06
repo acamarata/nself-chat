@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { nhost } from '@/lib/nhost.server'
 import { getLiveKitService } from '@/services/webrtc/livekit.service'
 
-import { logger } from '@/lib/logger'
+import { logger } from '@/lib/logger.server'
 
 export async function POST(
   request: NextRequest,

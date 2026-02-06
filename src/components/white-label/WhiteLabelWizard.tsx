@@ -238,7 +238,18 @@ export function WhiteLabelWizardModal({ isOpen, onClose, onComplete }: WhiteLabe
   return (
     <div className="fixed inset-0 z-50">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            onClose()
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label="Close wizard"
+      />
 
       {/* Modal */}
       <div className="absolute inset-4 overflow-hidden rounded-2xl bg-white shadow-2xl dark:bg-zinc-900 md:inset-8 lg:inset-12">

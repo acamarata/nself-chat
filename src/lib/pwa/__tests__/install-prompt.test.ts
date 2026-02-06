@@ -39,6 +39,9 @@ describe('InstallPromptManager', () => {
         removeItem: jest.fn((key: string) => {
           delete mockLocalStorage[key]
         }),
+        clear: jest.fn(() => {
+          mockLocalStorage = {}
+        }),
       },
       writable: true,
       configurable: true,

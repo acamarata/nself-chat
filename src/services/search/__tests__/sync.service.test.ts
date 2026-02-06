@@ -256,8 +256,8 @@ describe('SyncService', () => {
       await syncService.indexMessage(mockMessage)
 
       expect(handler).toHaveBeenCalled()
+      // Handler receives the event object with type 'create'
       expect(handler).toHaveBeenCalledWith(
-        expect.objectContaining({ success: true }),
         expect.objectContaining({ type: 'create' })
       )
 

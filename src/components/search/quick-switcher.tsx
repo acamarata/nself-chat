@@ -143,7 +143,16 @@ export function QuickSwitcher({
       {/* Backdrop */}
       <div
         className="bg-background/80 absolute inset-0 backdrop-blur-sm"
+        role="button"
+        tabIndex={0}
+        aria-label="Close quick switcher"
         onClick={() => setIsOpen(false)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            setIsOpen(false)
+          }
+        }}
       />
 
       {/* Command palette */}

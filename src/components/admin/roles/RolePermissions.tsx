@@ -137,9 +137,19 @@ export function RolePermissions({
                     {stats.enabled}/{stats.total}
                   </span>
                   <div
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Toggle all ${group.category} permissions`}
                     onClick={(e) => {
                       e.stopPropagation()
                       toggleCategoryPermissions(group.category)
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        toggleCategoryPermissions(group.category)
+                      }
                     }}
                     className="flex items-center"
                   >
@@ -207,6 +217,13 @@ function PermissionItem({
   showDescription = true,
   onToggle,
 }: PermissionItemProps) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault()
+      onToggle?.()
+    }
+  }
+
   return (
     <div
       className={cn(
@@ -214,7 +231,11 @@ function PermissionItem({
         !disabled && 'hover:bg-accent/50 cursor-pointer',
         disabled && 'opacity-50'
       )}
+      role="button"
+      tabIndex={disabled ? -1 : 0}
+      aria-disabled={disabled ? 'true' : undefined}
       onClick={disabled ? undefined : onToggle}
+      onKeyDown={handleKeyDown}
     >
       <Checkbox checked={isEnabled} disabled={disabled} className="mt-1" />
       <div className="min-w-0 flex-1">

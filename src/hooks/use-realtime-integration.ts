@@ -12,7 +12,7 @@
  * - Offline queue
  *
  * @module hooks/use-realtime-integration
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { useState, useEffect, useCallback } from 'react'

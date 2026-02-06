@@ -327,12 +327,19 @@ function ImageFullscreen({
   }, [onClose])
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Dialog backdrop click to close
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
       onClick={onClose}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') {
+          onClose()
+        }
+      }}
       role="dialog"
       aria-modal="true"
       aria-label="Image fullscreen view"
+      tabIndex={-1}
     >
       {/* Close button */}
       <button
@@ -375,6 +382,7 @@ function ImageFullscreen({
       </div>
 
       {/* Image */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- Click stops propagation to prevent modal close */}
       <img
         src={url}
         alt={alt}

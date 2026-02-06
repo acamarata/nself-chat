@@ -44,6 +44,8 @@ const categoryIcons: Record<AuditCategory, React.ReactNode> = {
   message: <MessageSquare className="h-4 w-4" />,
   channel: <Hash className="h-4 w-4" />,
   file: <File className="h-4 w-4" />,
+  attachment: <File className="h-4 w-4" />,
+  moderation: <Shield className="h-4 w-4" />,
   admin: <Shield className="h-4 w-4" />,
   security: <Lock className="h-4 w-4" />,
   integration: <Puzzle className="h-4 w-4" />,
@@ -80,6 +82,13 @@ export function AuditEventCard({
   const actorName =
     entry.actor.displayName || entry.actor.username || entry.actor.email || entry.actor.id
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault()
+      onClick()
+    }
+  }
+
   if (compact) {
     return (
       <div
@@ -87,7 +96,10 @@ export function AuditEventCard({
           'hover:bg-muted/50 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition-colors',
           className
         )}
+        role="button"
+        tabIndex={0}
         onClick={onClick}
+        onKeyDown={handleKeyDown}
       >
         <div className={cn('rounded p-1.5', getCategoryBadgeClass(entry.category))}>
           {categoryIcons[entry.category]}
@@ -113,7 +125,10 @@ export function AuditEventCard({
         !entry.success && 'border-red-200 dark:border-red-800',
         className
       )}
+      role="button"
+      tabIndex={0}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
     >
       <CardContent className="p-4">
         <div className="flex items-start gap-3">

@@ -205,11 +205,13 @@ export function BotTriggers({ triggers, onAdd, onRemove, error, className }: Bot
 
           {/* Trigger Type */}
           <div>
-            <label className="mb-2 block text-sm font-medium">Trigger Type</label>
-            <div className="grid gap-2">
+            <span className="mb-2 block text-sm font-medium">Trigger Type</span>
+            <div className="grid gap-2" role="radiogroup" aria-label="Trigger Type">
               {TRIGGER_OPTIONS.map((option) => (
+                // eslint-disable-next-line jsx-a11y/label-has-associated-control -- label has htmlFor pointing to input id
                 <label
                   key={option.value}
+                  htmlFor={`trigger-type-${option.value}`}
                   className={cn(
                     'flex cursor-pointer items-start gap-3 rounded-md border p-3 transition-colors',
                     draft.type === option.value
@@ -218,6 +220,7 @@ export function BotTriggers({ triggers, onAdd, onRemove, error, className }: Bot
                   )}
                 >
                   <input
+                    id={`trigger-type-${option.value}`}
                     type="radio"
                     name="trigger-type"
                     value={option.value}
@@ -241,8 +244,9 @@ export function BotTriggers({ triggers, onAdd, onRemove, error, className }: Bot
           {/* Keyword Config */}
           {draft.type === 'keyword' && (
             <div>
-              <label className="mb-1 block text-sm font-medium">Keywords</label>
+              <label htmlFor="trigger-keywords" className="mb-1 block text-sm font-medium">Keywords</label>
               <input
+                id="trigger-keywords"
                 type="text"
                 value={draft.keywords || ''}
                 onChange={(e) => setDraft((prev) => ({ ...prev, keywords: e.target.value }))}
@@ -258,8 +262,9 @@ export function BotTriggers({ triggers, onAdd, onRemove, error, className }: Bot
           {/* Schedule Config */}
           {draft.type === 'scheduled' && (
             <div>
-              <label className="mb-1 block text-sm font-medium">Schedule (Cron Expression)</label>
+              <label htmlFor="trigger-schedule" className="mb-1 block text-sm font-medium">Schedule (Cron Expression)</label>
               <input
+                id="trigger-schedule"
                 type="text"
                 value={draft.schedule || ''}
                 onChange={(e) => setDraft((prev) => ({ ...prev, schedule: e.target.value }))}

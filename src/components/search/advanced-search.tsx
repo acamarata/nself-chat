@@ -334,7 +334,7 @@ export function AdvancedSearch({
                     onChange={(e) => setSearchName(e.target.value)}
                     placeholder="Search name"
                     className="h-8 w-40"
-                    autoFocus
+                    autoFocus // eslint-disable-line jsx-a11y/no-autofocus
                   />
                   <Button
                     type="button"

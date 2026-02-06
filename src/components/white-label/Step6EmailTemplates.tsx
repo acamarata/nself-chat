@@ -99,9 +99,9 @@ export function Step6EmailTemplates({ onValidChange, className }: Step6EmailTemp
           <div className="space-y-6">
             {/* Email type selector */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                 Email Type
-              </label>
+              </span>
               <div className="space-y-1">
                 {EMAIL_TYPES.map((type) => (
                   <button
@@ -124,9 +124,9 @@ export function Step6EmailTemplates({ onValidChange, className }: Step6EmailTemp
 
             {/* Header logo */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                 Header Logo
-              </label>
+              </span>
               {config.emailTemplates.headerLogo ? (
                 <div className="relative rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
                   <img
@@ -173,7 +173,7 @@ export function Step6EmailTemplates({ onValidChange, className }: Step6EmailTemp
 
             {/* Colors */}
             <div className="space-y-3">
-              <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Colors</label>
+              <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Colors</span>
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <span className="mb-1 block text-xs text-zinc-500">Button</span>
@@ -196,10 +196,11 @@ export function Step6EmailTemplates({ onValidChange, className }: Step6EmailTemp
 
             {/* Footer text */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              <label htmlFor="email-footer-text" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                 Footer Text
               </label>
               <input
+                id="email-footer-text"
                 type="text"
                 value={config.emailTemplates.footerText || ''}
                 onChange={(e) => handleFooterTextChange(e.target.value)}

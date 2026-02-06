@@ -4,10 +4,10 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getE2EEManager } from '@/lib/e2ee'
-import { getApolloClient } from '@/lib/apollo-client'
+import { logger } from '@/lib/logger.server'
 
-import { logger } from '@/lib/logger'
+// Force dynamic rendering - E2EE uses native modules that can't be built statically
+export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,6 +16,12 @@ export async function POST(request: NextRequest) {
     if (!recoveryCode) {
       return NextResponse.json({ error: 'Recovery code is required' }, { status: 400 })
     }
+
+    // Dynamic import to avoid loading native modules during build
+    const [{ getApolloClient }, { getE2EEManager }] = await Promise.all([
+      import('@/lib/apollo-client'),
+      import('@/lib/e2ee'),
+    ])
 
     // Get Apollo client (with auth context)
     const apolloClient = getApolloClient()

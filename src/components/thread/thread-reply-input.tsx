@@ -343,6 +343,7 @@ export function ThreadReplyInput({
                 onKeyDown={handleKeyDown}
                 placeholder={placeholder}
                 disabled={disabled || sending}
+                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus={autoFocus}
                 className="max-h-[150px] min-h-[40px] resize-none py-2.5 pr-10"
                 rows={1}

@@ -83,8 +83,17 @@ export const DEFAULT_GUILD_CHANNELS = [
 export interface GuildTemplate {
   name: string
   description: string
-  categories: typeof DEFAULT_GUILD_CATEGORIES
-  channels: typeof DEFAULT_GUILD_CHANNELS
+  categories: ReadonlyArray<{ name: string; position: number; icon: string }>
+  channels: ReadonlyArray<{
+    name: string
+    categoryName: string
+    type: 'public' | 'private' | 'voice'
+    position: number
+    isDefault?: boolean
+    isReadonly?: boolean
+    topic?: string
+    maxMembers?: number
+  }>
 }
 
 export interface GuildCreationOptions {
@@ -369,15 +378,15 @@ export function createGuildStructure(
     organizationId: options.organizationId,
     name: options.name,
     slug,
-    description: options.description || null,
-    iconUrl: options.iconUrl || null,
-    bannerUrl: options.bannerUrl || null,
-    vanityUrl: options.vanityUrl || null,
+    description: options.description,
+    iconUrl: options.iconUrl,
+    bannerUrl: options.bannerUrl,
+    vanityUrl: options.vanityUrl,
     isDiscoverable: options.isDiscoverable ?? false,
     verificationLevel: options.verificationLevel ?? 0,
     explicitContentFilter: options.explicitContentFilter ?? 0,
-    systemChannelId: null, // Will be set after channel creation
-    rulesChannelId: null, // Will be set after channel creation
+    systemChannelId: undefined, // Will be set after channel creation
+    rulesChannelId: undefined, // Will be set after channel creation
     memberCount: 1, // Creator
     boostTier: 0,
     boostCount: 0,
@@ -397,9 +406,9 @@ export function createGuildStructure(
     id: `cat-${guild.id}-${idx}`,
     workspaceId: guild.id,
     name: cat.name,
-    description: null,
-    icon: cat.icon || null,
-    color: null,
+    description: undefined,
+    icon: cat.icon || undefined,
+    color: undefined,
     position: cat.position,
     defaultPermissions: 0n, // Base permissions
     syncPermissions: true,
@@ -419,16 +428,16 @@ export function createGuildStructure(
 
   // Create channels
   const channels: Channel[] = template.channels.map((ch, idx) => {
-    const categoryId = categoryMap.get(ch.categoryName) || null
+    const categoryId = categoryMap.get(ch.categoryName)
     return {
       id: `channel-${guild.id}-${idx}`,
       workspaceId: guild.id,
       categoryId,
       name: ch.name,
       slug: ch.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-      description: null,
-      topic: 'topic' in ch ? ch.topic : null,
-      icon: null,
+      description: undefined,
+      topic: 'topic' in ch ? ch.topic : undefined,
+      icon: undefined,
       type: ch.type,
       subtype: undefined,
       isPrivate: false,
@@ -438,17 +447,17 @@ export function createGuildStructure(
       isNsfw: false,
       maxMembers: 'maxMembers' in ch ? ch.maxMembers || 0 : 0,
       slowmodeSeconds: 0,
-      bannerUrl: null,
+      bannerUrl: undefined,
       position: ch.position,
-      permissionSyncId: categoryId || undefined,
+      permissionSyncId: categoryId,
       creatorId: options.ownerId,
-      lastMessageAt: null,
-      lastMessageId: null,
+      lastMessageAt: undefined,
+      lastMessageId: undefined,
       messageCount: 0,
       memberCount: 1,
       createdAt: now,
       updatedAt: now,
-      archivedAt: null,
+      archivedAt: undefined,
     }
   })
 
@@ -457,8 +466,8 @@ export function createGuildStructure(
   const rulesChannel = channels.find((ch) => ch.name === 'rules')
 
   // Update guild with system channels
-  guild.systemChannelId = defaultChannel?.id || null
-  guild.rulesChannelId = rulesChannel?.id || null
+  guild.systemChannelId = defaultChannel?.id
+  guild.rulesChannelId = rulesChannel?.id
 
   return {
     guild,

@@ -305,11 +305,19 @@ interface FolderItemProps {
 function FolderItem({ folder, isSelected, onSelect, onEdit, onDelete }: FolderItemProps) {
   return (
     <div
+      role="button"
+      tabIndex={0}
       className={cn(
         'group flex cursor-pointer items-center justify-between gap-2 rounded-md px-3 py-2 transition-colors',
         isSelected ? 'bg-primary/10 text-primary' : 'hover:bg-accent'
       )}
       onClick={onSelect}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onSelect()
+        }
+      }}
     >
       <div className="flex min-w-0 items-center gap-2">
         <FolderIcon
@@ -402,11 +410,19 @@ export function BookmarkFolders({ onFolderSelect, className }: BookmarkFoldersPr
     <div className={cn('space-y-1', className)}>
       {/* All Bookmarks */}
       <div
+        role="button"
+        tabIndex={0}
         className={cn(
           'flex cursor-pointer items-center justify-between gap-2 rounded-md px-3 py-2 transition-colors',
           selectedFolderId === null ? 'bg-primary/10 text-primary' : 'hover:bg-accent'
         )}
         onClick={() => handleSelectFolder(null)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            handleSelectFolder(null)
+          }
+        }}
       >
         <div className="flex items-center gap-2">
           <BookmarkIcon className="h-4 w-4" />
@@ -418,11 +434,19 @@ export function BookmarkFolders({ onFolderSelect, className }: BookmarkFoldersPr
       {/* Uncategorized */}
       {uncategorizedCount > 0 && uncategorizedCount !== totalCount && (
         <div
+          role="button"
+          tabIndex={0}
           className={cn(
             'flex cursor-pointer items-center justify-between gap-2 rounded-md px-3 py-2 transition-colors',
             selectedFolderId === 'uncategorized' ? 'bg-primary/10 text-primary' : 'hover:bg-accent'
           )}
           onClick={() => handleSelectFolder('uncategorized')}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              handleSelectFolder('uncategorized')
+            }
+          }}
         >
           <div className="flex items-center gap-2">
             <FolderOpenIcon className="h-4 w-4" />

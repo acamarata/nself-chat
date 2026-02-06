@@ -285,6 +285,7 @@ export function RealtimeDemo() {
               <CardHeader>
                 <CardTitle>Full Message Input</CardTitle>
               </CardHeader>
+              {/* eslint-disable jsx-a11y/no-autofocus */}
               <CardContent className="space-y-4">
                 <MessageInputWithTyping
                   channelId={channelId}
@@ -294,6 +295,7 @@ export function RealtimeDemo() {
                   maxLength={2000}
                   autoFocus
                 />
+                {/* eslint-enable jsx-a11y/no-autofocus */}
 
                 <Separator />
 

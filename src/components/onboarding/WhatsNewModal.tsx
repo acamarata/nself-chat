@@ -126,6 +126,14 @@ export function WhatsNewModal({
                 item.learnMoreUrl && 'cursor-pointer'
               )}
               onClick={() => handleItemClick(item)}
+              onKeyDown={(e) => {
+                if ((e.key === 'Enter' || e.key === ' ') && item.learnMoreUrl) {
+                  e.preventDefault()
+                  handleItemClick(item)
+                }
+              }}
+              role="button"
+              tabIndex={0}
             >
               {/* Header */}
               <div className="mb-2 flex items-start justify-between gap-3">

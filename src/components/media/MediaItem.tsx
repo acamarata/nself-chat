@@ -60,16 +60,23 @@ export function MediaItem({
 }: MediaItemProps) {
   const TypeIcon = MediaTypeIcons[item.fileType] || File
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent | React.KeyboardEvent) => {
     if (isSelectMode) {
       e.preventDefault()
       e.stopPropagation()
       onSelect?.(item)
-    } else if (e.shiftKey || e.metaKey || e.ctrlKey) {
+    } else if ('shiftKey' in e && (e.shiftKey || e.metaKey || e.ctrlKey)) {
       e.preventDefault()
       onSelect?.(item)
     } else {
       onClick?.(item)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      handleClick(e)
     }
   }
 
@@ -79,15 +86,24 @@ export function MediaItem({
     }
   }
 
-  const handleCheckboxClick = (e: React.MouseEvent) => {
+  const handleCheckboxClick = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.stopPropagation()
     onSelect?.(item)
+  }
+
+  const handleCheckboxKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      handleCheckboxClick(e)
+    }
   }
 
   // Grid view
   if (viewMode === 'grid' || viewMode === 'masonry') {
     return (
       <div
+        role="button"
+        tabIndex={0}
         className={cn(
           'group relative cursor-pointer overflow-hidden rounded-lg border bg-card transition-all',
           'hover:border-primary/50 hover:shadow-md',
@@ -95,6 +111,7 @@ export function MediaItem({
           className
         )}
         onClick={handleClick}
+        onKeyDown={handleKeyDown}
         onDoubleClick={handleDoubleClick}
       >
         {/* Thumbnail */}
@@ -130,7 +147,14 @@ export function MediaItem({
 
           {/* Selection checkbox */}
           {(isSelectMode || isSelected) && (
-            <div className="absolute left-2 top-2 z-10" onClick={handleCheckboxClick}>
+            <div
+              role="checkbox"
+              tabIndex={0}
+              aria-checked={isSelected ? 'true' : 'false'}
+              className="absolute left-2 top-2 z-10"
+              onClick={handleCheckboxClick}
+              onKeyDown={handleCheckboxKeyDown}
+            >
               <div
                 className={cn(
                   'flex h-5 w-5 items-center justify-center rounded-full border-2 transition-colors',
@@ -164,6 +188,8 @@ export function MediaItem({
   // List view
   return (
     <div
+      role="button"
+      tabIndex={0}
       className={cn(
         'group flex cursor-pointer items-center gap-3 rounded-lg border bg-card p-3 transition-all',
         'hover:border-primary/50 hover:bg-accent/50',
@@ -171,11 +197,18 @@ export function MediaItem({
         className
       )}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
       onDoubleClick={handleDoubleClick}
     >
       {/* Selection checkbox */}
       {(isSelectMode || isSelected) && (
-        <div onClick={handleCheckboxClick}>
+        <div
+          role="checkbox"
+          tabIndex={0}
+          aria-checked={isSelected ? 'true' : 'false'}
+          onClick={handleCheckboxClick}
+          onKeyDown={handleCheckboxKeyDown}
+        >
           <div
             className={cn(
               'flex h-5 w-5 items-center justify-center rounded-full border-2 transition-colors',

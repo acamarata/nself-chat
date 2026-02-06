@@ -217,6 +217,7 @@ export function CreateChannelModal({
                   placeholder="e.g., marketing"
                   className="pl-7"
                   maxLength={80}
+                  // eslint-disable-next-line jsx-a11y/no-autofocus
                   autoFocus
                 />
               </div>

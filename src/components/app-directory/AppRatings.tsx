@@ -259,12 +259,13 @@ function WriteReviewForm({ onCancel, onSubmit }: WriteReviewFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="mb-2 block text-sm font-medium">Your Rating</label>
+        <span className="mb-2 block text-sm font-medium">Your Rating</span>
         <StarRatingInput value={rating} onChange={setRating} />
       </div>
       <div>
-        <label className="mb-2 block text-sm font-medium">Your Review (optional)</label>
+        <label htmlFor="review-textarea" className="mb-2 block text-sm font-medium">Your Review (optional)</label>
         <Textarea
+          id="review-textarea"
           value={review}
           onChange={(e) => setReview(e.target.value)}
           placeholder="Tell others what you think about this app..."

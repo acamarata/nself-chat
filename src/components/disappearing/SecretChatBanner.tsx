@@ -92,7 +92,8 @@ export function SecretChatBanner({
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <div
+            <button
+              type="button"
               className={cn(
                 'flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 text-sm',
                 'transition-colors hover:opacity-80',
@@ -115,7 +116,7 @@ export function SecretChatBanner({
                   <span className="font-medium">Disappearing: {formatDuration(duration || 0)}</span>
                 </>
               )}
-            </div>
+            </button>
           </TooltipTrigger>
           <TooltipContent side="bottom">
             <p>Click for more information</p>

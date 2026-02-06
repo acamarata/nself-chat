@@ -65,7 +65,15 @@ export function PermissionToggle({
           inherited && 'opacity-75',
           className
         )}
+        role="button"
+        tabIndex={disabled || inherited ? -1 : 0}
         onClick={handleChange}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            handleChange()
+          }
+        }}
       >
         {/* Toggle */}
         {variant === 'switch' ? (

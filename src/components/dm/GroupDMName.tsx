@@ -73,6 +73,7 @@ export function GroupDMName({ dm, currentUserId, editable = true, className }: G
           placeholder="Enter group name"
           maxLength={100}
           className="h-8"
+          // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
         />
         <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleSave}>

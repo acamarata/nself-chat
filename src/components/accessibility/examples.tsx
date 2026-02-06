@@ -205,7 +205,7 @@ export function AccessibleChannelList({ channels, onSelectChannel }: AccessibleC
   })
 
   return (
-    <div ref={listRef} role="list" aria-label="Channels" className="space-y-1">
+    <nav ref={listRef} aria-label="Channels" className="space-y-1">
       {channels.map((channel, index) => {
         const label = getChannelLabel(channel.name, {
           unreadCount: channel.unreadCount,
@@ -218,7 +218,6 @@ export function AccessibleChannelList({ channels, onSelectChannel }: AccessibleC
             key={channel.id}
             href={`/channel/${channel.id}`}
             data-channel-id={channel.id}
-            role="listitem"
             tabIndex={index === 0 ? 0 : -1}
             aria-label={label}
             className="block rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -251,7 +250,7 @@ export function AccessibleChannelList({ channels, onSelectChannel }: AccessibleC
           </a>
         )
       })}
-    </div>
+    </nav>
   )
 }
 
@@ -322,22 +321,21 @@ export function AccessibleMessage({ message, onReply, onEdit, onDelete }: Access
 
       {/* Attachments */}
       {message.attachments.length > 0 && (
-        <div
-          role="list"
+        <ul
           aria-label={getCountLabel(message.attachments.length, 'attachment')}
-          className="mt-2 space-y-1"
+          className="mt-2 list-none space-y-1 pl-0"
         >
           {message.attachments.map((attachment) => (
-            <a
-              key={attachment.url}
-              href={attachment.url}
-              role="listitem"
-              className="block text-sm text-primary hover:underline"
-            >
-              📎 {attachment.name}
-            </a>
+            <li key={attachment.url}>
+              <a
+                href={attachment.url}
+                className="block text-sm text-primary hover:underline"
+              >
+                📎 {attachment.name}
+              </a>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
 
       {/* Actions */}

@@ -153,19 +153,38 @@ export const DeliveryStatus = memo(function DeliveryStatus({
     )
   }
 
-  const iconElement = (
+  const isRetryable = status === 'failed' && onRetry
+
+  const iconElement = isRetryable ? (
+    <span
+      className={cn(
+        'inline-flex items-center cursor-pointer hover:opacity-80',
+        sizeStyles.container,
+        config.color,
+        className
+      )}
+      onClick={onRetry}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onRetry?.()
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label={config.label}
+    >
+      <Icon className={sizeStyles.icon} />
+    </span>
+  ) : (
     <span
       className={cn(
         'inline-flex items-center',
         sizeStyles.container,
         status === 'read' ? config.colorFilled || config.color : config.color,
-        status === 'failed' && onRetry && 'cursor-pointer hover:opacity-80',
         status === 'sending' && 'animate-pulse',
         className
       )}
-      onClick={status === 'failed' && onRetry ? onRetry : undefined}
-      role={status === 'failed' && onRetry ? 'button' : undefined}
-      tabIndex={status === 'failed' && onRetry ? 0 : undefined}
       aria-label={config.label}
     >
       <Icon className={cn(sizeStyles.icon, status === 'sending' && 'animate-spin')} />

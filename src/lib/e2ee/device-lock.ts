@@ -313,13 +313,13 @@ export class DeviceLockManager {
       // Create credential
       const credential = await navigator.credentials.create({
         publicKey: {
-          challenge,
+          challenge: challenge as BufferSource,
           rp: {
             name: 'nself-chat',
             id: window.location.hostname,
           },
           user: {
-            id: crypto.stringToBytes(userId),
+            id: crypto.stringToBytes(userId) as BufferSource,
             name: userId,
             displayName: userId,
           },
@@ -381,7 +381,7 @@ export class DeviceLockManager {
       // Request authentication
       const assertion = await navigator.credentials.get({
         publicKey: {
-          challenge,
+          challenge: challenge as BufferSource,
           allowCredentials: [
             {
               type: 'public-key',

@@ -14,7 +14,9 @@ import type { FileTypeConfig } from '../types'
 describe('File Service Types', () => {
   describe('validateFile', () => {
     const createMockFile = (name: string, size: number, type: string): File => {
-      const blob = new Blob([''], { type })
+      // Create content of specified size (use ArrayBuffer for accurate size)
+      const content = new ArrayBuffer(size)
+      const blob = new Blob([content], { type })
       return new File([blob], name, { type })
     }
 

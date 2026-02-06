@@ -15,10 +15,11 @@ export const dynamic = 'force-dynamic'
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: tenantId } = params
+    const { id: tenantId } = await params
+
     const { domain, userId } = await request.json()
 
     // Validate domain format

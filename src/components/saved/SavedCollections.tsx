@@ -143,7 +143,13 @@ function CollectionCard({ collection, onSelect, onEdit, onDelete, onShare }: Col
   const hasMenu = onEdit || onDelete || onShare
 
   return (
-    <Card className="hover:bg-muted/30 group cursor-pointer transition-colors" onClick={onSelect}>
+    <Card
+      className="hover:bg-muted/30 group cursor-pointer transition-colors"
+      role="button"
+      tabIndex={0}
+      onClick={onSelect}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } }}
+    >
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">

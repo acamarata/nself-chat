@@ -185,7 +185,12 @@ export function StickerGridSection({
           <span className="text-xs text-muted-foreground">({stickers.length})</span>
         </div>
         {headerAction && !isCollapsed && (
-          <div onClick={(e) => e.stopPropagation()}>{headerAction}</div>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            role="presentation"
+          >
+            {headerAction}
+          </div>
         )}
       </div>
 

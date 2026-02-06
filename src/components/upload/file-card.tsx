@@ -275,9 +275,19 @@ export function FileCard({
           onClick && 'cursor-pointer hover:underline',
           className
         )}
-        onClick={() => onClick?.(id)}
-        role={onClick ? 'button' : undefined}
-        tabIndex={onClick ? 0 : undefined}
+        {...(onClick
+          ? {
+              onClick: () => onClick(id),
+              onKeyDown: (e: React.KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onClick(id)
+                }
+              },
+              role: 'button' as const,
+              tabIndex: 0,
+            }
+          : {})}
       >
         <FileIcon fileType={fileType} mimeType={mimeType} extension={extension} size="sm" />
         <span className="truncate">{fileName}</span>
@@ -296,9 +306,19 @@ export function FileCard({
           error && 'border-destructive/50 bg-destructive/5',
           className
         )}
-        onClick={() => onClick?.(id)}
-        role={onClick ? 'button' : undefined}
-        tabIndex={onClick ? 0 : undefined}
+        {...(onClick
+          ? {
+              onClick: () => onClick(id),
+              onKeyDown: (e: React.KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onClick(id)
+                }
+              },
+              role: 'button' as const,
+              tabIndex: 0,
+            }
+          : {})}
       >
         {/* Icon */}
         <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded bg-muted">
@@ -343,9 +363,19 @@ export function FileCard({
           error && 'border-destructive/50 bg-destructive/5',
           className
         )}
-        onClick={() => onClick?.(id)}
-        role={onClick ? 'button' : undefined}
-        tabIndex={onClick ? 0 : undefined}
+        {...(onClick
+          ? {
+              onClick: () => onClick(id),
+              onKeyDown: (e: React.KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onClick(id)
+                }
+              },
+              role: 'button' as const,
+              tabIndex: 0,
+            }
+          : {})}
       >
         {/* Thumbnail or Icon */}
         <div className="mb-3 flex h-16 w-16 items-center justify-center">

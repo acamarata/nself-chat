@@ -455,6 +455,7 @@ interface FormatCardProps {
 
 function FormatCard({ title, description, icon, selected, onClick }: FormatCardProps) {
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       className={cn(
         'cursor-pointer rounded-lg border p-4 transition-all hover:border-primary',

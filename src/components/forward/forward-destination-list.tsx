@@ -140,6 +140,7 @@ export const ForwardDestinationList = React.forwardRef<HTMLDivElement, ForwardDe
             onSubmit={onSearchSubmit}
             placeholder={searchPlaceholder}
             size="sm"
+            // eslint-disable-next-line jsx-a11y/no-autofocus -- Intentional UX for modal focus
             autoFocus
           />
         </div>

@@ -145,7 +145,15 @@ function HierarchyItem({
         isSelected && 'bg-primary/5 ring-2 ring-primary',
         !canEdit && 'opacity-75'
       )}
+      role="button"
+      tabIndex={0}
       onClick={onSelect}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onSelect?.()
+        }
+      }}
     >
       {/* Position indicator */}
       <div

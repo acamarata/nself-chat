@@ -70,6 +70,14 @@ export function TokenList({ className, onTokenSelect }: TokenListProps) {
                 key={`${token.token.chainId}-${token.token.address}`}
                 className="flex cursor-pointer items-center justify-between rounded-lg border bg-card p-3 transition-colors hover:bg-accent"
                 onClick={() => handleTokenClick(token.token.address)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    handleTokenClick(token.token.address)
+                  }
+                }}
+                role="button"
+                tabIndex={0}
               >
                 <div className="flex items-center gap-3">
                   {token.token.logoUri ? (

@@ -60,6 +60,7 @@ export function VideoTile({
     >
       {/* Video or Avatar */}
       {participant.isVideoEnabled && stream ? (
+        /* eslint-disable-next-line jsx-a11y/media-has-caption -- Live video call does not have captions */
         <video
           ref={videoRef}
           autoPlay

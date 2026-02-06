@@ -98,7 +98,10 @@ export function SavedMessageCard({
           'hover:bg-muted/50 group flex cursor-pointer items-start gap-2 rounded-md p-2',
           className
         )}
+        role="button"
+        tabIndex={0}
         onClick={handleJumpToMessage}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleJumpToMessage(); } }}
       >
         <Avatar className="h-6 w-6 flex-shrink-0">
           <AvatarImage src={message.user.avatarUrl} alt={message.user.displayName} />

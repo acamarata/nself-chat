@@ -8,28 +8,14 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createLogger } from '@/lib/logger'
+import {
+  getBotById,
+  getBotIndexById,
+  getAllBots,
+  removeBotByIndex,
+} from '@/services/bots/mock-store'
 
 const logger = createLogger('BotAPI')
-
-// Mock database
-interface Bot {
-  id: string
-  name: string
-  description: string
-  code: string
-  version: string
-  template_id?: string
-  config: Record<string, unknown>
-  enabled: boolean
-  created_by: string
-  created_at: Date
-  updated_at: Date
-  sandbox_enabled: boolean
-  rate_limit_per_minute: number
-  timeout_ms: number
-}
-
-const mockBots: Bot[] = []
 
 /**
  * GET /api/bots/[id]
@@ -38,7 +24,7 @@ const mockBots: Bot[] = []
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const bot = mockBots.find((b) => b.id === id)
+    const bot = getBotById(id)
 
     if (!bot) {
       return NextResponse.json(
@@ -79,7 +65,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     const { id } = await params
     const body = await request.json()
 
-    const botIndex = mockBots.findIndex((b) => b.id === id)
+    const botIndex = getBotIndexById(id)
 
     if (botIndex === -1) {
       return NextResponse.json(
@@ -91,7 +77,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       )
     }
 
-    const bot = mockBots[botIndex]
+    const bot = getAllBots()[botIndex]
 
     // Update fields
     if (body.name !== undefined) bot.name = body.name
@@ -147,7 +133,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params
-    const botIndex = mockBots.findIndex((b) => b.id === id)
+    const botIndex = getBotIndexById(id)
 
     if (botIndex === -1) {
       return NextResponse.json(
@@ -160,7 +146,7 @@ export async function DELETE(
     }
 
     // In production: DELETE from database (cascades to versions, state, etc.)
-    mockBots.splice(botIndex, 1)
+    removeBotByIndex(botIndex)
 
     logger.info('Deleted bot', { botId: id })
 

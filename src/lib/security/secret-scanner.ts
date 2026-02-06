@@ -39,7 +39,7 @@ const SECRET_PATTERNS: SecretPattern[] = [
   },
   {
     name: 'Generic API Key',
-    pattern: /api[_-]?key['\"]?\s*[:=]\s*['\"]\w{20,}['\"]/ gi,
+    pattern: /api[_-]?key['\"]?\s*[:=]\s*['\"]\w{20,}['\"]/gi,
     severity: 'high',
   },
   {
@@ -74,7 +74,7 @@ const SECRET_PATTERNS: SecretPattern[] = [
   },
   {
     name: 'Generic Password',
-    pattern: /password['\"]?\s*[:=]\s*['\"]\w{8,}['\"]/ gi,
+    pattern: /password['\"]?\s*[:=]\s*['\"]\w{8,}['\"]/gi,
     severity: 'medium',
   },
   {

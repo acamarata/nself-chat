@@ -98,6 +98,18 @@ export function LocationMap({
       )}
       style={{ height, width }}
       onClick={handleClick}
+      onKeyDown={
+        interactive && onMapClick
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                onMapClick(center)
+              }
+            }
+          : undefined
+      }
+      role={interactive && onMapClick ? 'button' : undefined}
+      tabIndex={interactive && onMapClick ? 0 : undefined}
     >
       {/* Map background */}
       <div
@@ -184,6 +196,15 @@ export function LocationMap({
                 e.stopPropagation()
                 onMarkerClick?.(marker)
               }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onMarkerClick?.(marker)
+                }
+              }}
+              role="button"
+              tabIndex={0}
             >
               <MapPin
                 color={marker.color || 'var(--primary)'}

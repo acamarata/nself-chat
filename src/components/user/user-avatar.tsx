@@ -244,9 +244,19 @@ const UserAvatarGroup = React.forwardRef<HTMLDivElement, UserAvatarGroupProps>(
               overlapClass,
               onOverflowClick && 'hover:bg-muted/80 cursor-pointer transition-colors'
             )}
-            onClick={onOverflowClick}
-            role={onOverflowClick ? 'button' : undefined}
-            tabIndex={onOverflowClick ? 0 : undefined}
+            {...(onOverflowClick
+              ? {
+                  onClick: onOverflowClick,
+                  onKeyDown: (e: React.KeyboardEvent) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      onOverflowClick()
+                    }
+                  },
+                  role: 'button' as const,
+                  tabIndex: 0,
+                }
+              : {})}
           >
             <span className={avatarFallbackVariants({ size })}>+{overflowCount}</span>
           </div>

@@ -256,6 +256,7 @@ export function StreamPlayer({
       {/* Video Container */}
       <div className="relative flex-1">
         {/* Video Element */}
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video
           ref={videoRef}
           className="h-full w-full"

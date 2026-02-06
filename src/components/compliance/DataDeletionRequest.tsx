@@ -328,18 +328,18 @@ export function DataDeletionRequest() {
               onValueChange={(value) => setSelectedScope(value as DeletionScope)}
             >
               {DELETION_SCOPES.map((scope) => (
-                <div
+                <label
                   key={scope.scope}
+                  htmlFor={scope.scope}
                   className={`flex cursor-pointer items-start space-x-3 rounded-lg border p-4 transition-colors ${
                     selectedScope === scope.scope ? 'border-red-300 bg-red-50' : 'hover:bg-muted/50'
                   }`}
-                  onClick={() => setSelectedScope(scope.scope)}
                 >
                   <RadioGroupItem value={scope.scope} id={scope.scope} />
                   <div className="flex-1">
-                    <Label htmlFor={scope.scope} className="cursor-pointer font-medium">
+                    <span className="cursor-pointer font-medium">
                       {scope.label}
-                    </Label>
+                    </span>
                     <p className="mt-0.5 text-sm text-muted-foreground">{scope.description}</p>
                     {scope.categories.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-1">
@@ -351,7 +351,7 @@ export function DataDeletionRequest() {
                       </div>
                     )}
                   </div>
-                </div>
+                </label>
               ))}
             </RadioGroup>
 

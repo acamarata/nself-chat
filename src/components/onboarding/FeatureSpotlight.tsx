@@ -91,6 +91,15 @@ export function FeatureSpotlight({ tip, onDismiss, onLearnMore }: FeatureSpotlig
           isVisible ? 'opacity-100' : 'opacity-0'
         )}
         onClick={handleDismiss}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
+            e.preventDefault()
+            handleDismiss()
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label="Close spotlight"
       />
 
       {/* Spotlight cutout */}

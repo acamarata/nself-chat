@@ -11,7 +11,7 @@
  * - Supports dry-run mode for testing
  *
  * @module lib/jobs/handlers/message-cleanup
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { apolloClient } from '@/lib/apollo-client'

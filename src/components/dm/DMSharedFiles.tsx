@@ -186,7 +186,18 @@ function FileItem({ file, onClick, onDownload }: FileItemProps) {
       </div>
 
       {/* File Info */}
-      <div className="min-w-0 flex-1 cursor-pointer" onClick={onClick}>
+      <div
+        className="min-w-0 flex-1 cursor-pointer"
+        onClick={onClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onClick?.()
+          }
+        }}
+      >
         <p className="truncate text-sm font-medium">{attachment.fileName}</p>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <span>{formatFileSize(attachment.fileSize)}</span>

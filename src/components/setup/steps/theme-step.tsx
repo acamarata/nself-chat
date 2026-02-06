@@ -170,9 +170,11 @@ export function ThemeStep({ config, onUpdate, onValidate }: ThemeStepProps) {
         <Label className="text-xs">{label}</Label>
         <div className="flex gap-2">
           <button
+            type="button"
             onClick={() => inputRef.current?.click()}
             className="h-10 w-10 cursor-pointer rounded-xl border-2 border-zinc-300 shadow-sm transition-transform hover:scale-105 dark:border-zinc-700"
             style={{ backgroundColor: value }}
+            aria-label={`Choose ${label} color`}
           />
           <input
             ref={inputRef}
@@ -180,6 +182,7 @@ export function ThemeStep({ config, onUpdate, onValidate }: ThemeStepProps) {
             value={value}
             onChange={(e) => onChange(e.target.value)}
             className="hidden"
+            aria-label={`${label} color picker`}
           />
           <Input
             value={value}
@@ -228,6 +231,7 @@ export function ThemeStep({ config, onUpdate, onValidate }: ThemeStepProps) {
                 .map(([key, preset]) => (
                   <button
                     key={key}
+                    type="button"
                     onClick={() => applyPreset(key)}
                     className={`rounded-xl border-2 p-4 transition-all hover:scale-105 ${
                       selectedPreset === key
@@ -287,6 +291,7 @@ export function ThemeStep({ config, onUpdate, onValidate }: ThemeStepProps) {
           {/* Tailwind Colors - Collapsible */}
           <div>
             <button
+              type="button"
               onClick={() => setShowTailwindColors(!showTailwindColors)}
               className="mb-3 flex items-center gap-2 text-sm font-medium text-zinc-700 transition-colors hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
             >
@@ -311,6 +316,7 @@ export function ThemeStep({ config, onUpdate, onValidate }: ThemeStepProps) {
                   .map(([key, preset]) => (
                     <button
                       key={key}
+                      type="button"
                       onClick={() => applyPreset(key)}
                       className={`rounded-xl border-2 p-4 transition-all hover:scale-105 ${
                         selectedPreset === key
@@ -604,6 +610,7 @@ export function ThemeStep({ config, onUpdate, onValidate }: ThemeStepProps) {
             </div>
             <div className="flex gap-1 rounded-xl bg-zinc-800 p-1">
               <button
+                type="button"
                 onClick={() => handlePreviewModeChange('light')}
                 className={`rounded-md px-3 py-1 text-sm font-medium transition-all ${
                   previewMode === 'light'
@@ -615,6 +622,7 @@ export function ThemeStep({ config, onUpdate, onValidate }: ThemeStepProps) {
                 Light
               </button>
               <button
+                type="button"
                 onClick={() => handlePreviewModeChange('dark')}
                 className={`rounded-md px-3 py-1 text-sm font-medium transition-all ${
                   previewMode === 'dark'
@@ -656,6 +664,7 @@ export function ThemeStep({ config, onUpdate, onValidate }: ThemeStepProps) {
                 </div>
                 <div className="flex gap-2">
                   <button
+                    type="button"
                     className="rounded px-3 py-1.5 text-sm font-medium"
                     style={{
                       backgroundColor: previewTheme.buttonPrimaryBg,
@@ -666,6 +675,7 @@ export function ThemeStep({ config, onUpdate, onValidate }: ThemeStepProps) {
                     Primary
                   </button>
                   <button
+                    type="button"
                     className="rounded px-3 py-1.5 text-sm font-medium"
                     style={{
                       backgroundColor: previewTheme.buttonSecondaryBg,

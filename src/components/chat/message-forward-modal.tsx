@@ -163,6 +163,7 @@ export function MessageForwardModal({
                 {(['forward', 'copy', 'quote'] as ForwardingMode[]).map((mode) => (
                   <label
                     key={mode}
+                    htmlFor={mode}
                     className={cn(
                       'flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors',
                       'hover:border-accent-foreground/20 hover:bg-accent',

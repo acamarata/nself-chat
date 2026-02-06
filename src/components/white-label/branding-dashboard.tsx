@@ -25,7 +25,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import {
   Palette,
-  Image,
+  Image as ImageIcon,
   Globe,
   Code,
   Download,
@@ -326,7 +326,7 @@ export function BrandingDashboard({ tenantId, userId, className }: BrandingDashb
             Theme
           </TabsTrigger>
           <TabsTrigger value="logos">
-            <Image className="mr-2 h-4 w-4" />
+            <ImageIcon className="mr-2 h-4 w-4" />
             Logos
           </TabsTrigger>
           <TabsTrigger value="domain">

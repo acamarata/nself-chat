@@ -375,6 +375,7 @@ export function ThreadSidebar({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="h-8 pl-8 text-sm"
+                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
               />
               {searchQuery && (

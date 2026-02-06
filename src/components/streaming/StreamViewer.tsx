@@ -153,7 +153,9 @@ export function StreamViewer({ streamId, onStreamEnded }: StreamViewerProps) {
       <div className="space-y-4 lg:col-span-3">
         {/* Video Container */}
         <Card className="relative aspect-video overflow-hidden bg-black">
-          <video ref={videoRef} className="h-full w-full object-contain" playsInline />
+          <video ref={videoRef} className="h-full w-full object-contain" playsInline>
+            <track kind="captions" src="" label="Captions" default />
+          </video>
 
           {/* Buffering Overlay */}
           {isBuffering && (

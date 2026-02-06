@@ -264,7 +264,15 @@ export function DirectMessageList({ className, onSelect }: DirectMessageListProp
       {/* Header */}
       <div
         className="hover:bg-accent/50 group flex cursor-pointer items-center justify-between rounded-md px-2 py-1 transition-colors"
+        role="button"
+        tabIndex={0}
         onClick={() => setIsCollapsed(!isCollapsed)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            setIsCollapsed(!isCollapsed)
+          }
+        }}
       >
         <div className="flex items-center gap-1.5">
           <button className="p-0.5">
@@ -323,6 +331,7 @@ export function DirectMessageList({ className, onSelect }: DirectMessageListProp
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="h-7 pl-7 text-xs"
+                  // eslint-disable-next-line jsx-a11y/no-autofocus
                   autoFocus
                 />
               </div>

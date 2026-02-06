@@ -6,7 +6,7 @@
  * and ensures proper cleanup.
  *
  * @module services/realtime/room-manager.service
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { realtimeClient, RealtimeConnectionState } from './realtime-client'

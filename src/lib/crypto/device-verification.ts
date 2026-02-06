@@ -144,21 +144,25 @@ export function detectOS(userAgent: string): string {
   if (/windows nt 6\.1/i.test(ua)) return 'Windows 7'
   if (/windows/i.test(ua)) return 'Windows'
 
+  // Check for iOS/iPadOS BEFORE macOS (iOS user agents contain "Mac OS X")
+  if (/iphone os (\d+)[._]\d+/i.test(ua)) {
+    const match = ua.match(/iphone os (\d+)[._]\d+/i)
+    if (match) return `iOS ${match[1]}`
+  }
+  if (/iphone/i.test(ua)) return 'iOS'
+
+  if (/ipad.*cpu os (\d+)[._]\d+/i.test(ua)) {
+    const match = ua.match(/cpu os (\d+)[._]\d+/i)
+    if (match) return `iPadOS ${match[1]}`
+  }
+  if (/ipad|ipod/i.test(ua)) return 'iOS'
+
+  // Now check for macOS (after iOS/iPadOS)
   if (/mac os x 10[._](\d+)/i.test(ua)) {
     const match = ua.match(/mac os x 10[._](\d+)/i)
     if (match) return `macOS 10.${match[1]}`
   }
   if (/macintosh|mac os x/i.test(ua)) return 'macOS'
-
-  if (/iphone os (\d+)/i.test(ua)) {
-    const match = ua.match(/iphone os (\d+)/i)
-    if (match) return `iOS ${match[1]}`
-  }
-  if (/ipad.*os (\d+)/i.test(ua)) {
-    const match = ua.match(/ipad.*os (\d+)/i)
-    if (match) return `iPadOS ${match[1]}`
-  }
-  if (/iphone|ipad|ipod/i.test(ua)) return 'iOS'
 
   if (/android (\d+(\.\d+)?)/i.test(ua)) {
     const match = ua.match(/android (\d+(\.\d+)?)/i)

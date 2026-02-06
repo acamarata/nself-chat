@@ -78,6 +78,14 @@ export function WebhookItem({
           isSelected && 'border-primary bg-accent'
         )}
         onClick={() => onSelect?.(webhook)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onSelect?.(webhook)
+          }
+        }}
+        role="button"
+        tabIndex={0}
       >
         <Avatar className="h-8 w-8">
           <AvatarImage src={webhook.avatar_url} alt={webhook.name} />

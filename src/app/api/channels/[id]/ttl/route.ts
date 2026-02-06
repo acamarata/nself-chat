@@ -9,7 +9,7 @@
  * DELETE /api/channels/[id]/ttl - Clear channel TTL (messages become permanent)
  *
  * @module api/channels/[id]/ttl
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { NextRequest, NextResponse } from 'next/server'

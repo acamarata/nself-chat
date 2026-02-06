@@ -246,6 +246,7 @@ export function AddToFolderModal({ open, onOpenChange, onMoved }: AddToFolderMod
                       setNewFolderName('')
                     }
                   }}
+                  // eslint-disable-next-line jsx-a11y/no-autofocus -- Intentional focus when user initiates folder creation
                   autoFocus
                 />
                 <Button size="icon" onClick={handleCreateFolder} disabled={!newFolderName.trim()}>

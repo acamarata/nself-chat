@@ -160,11 +160,13 @@ export function DMMedia({ dm, className }: DMMediaProps) {
                       controls
                       autoPlay
                       className="max-h-full max-w-full object-contain"
-                    />
+                    >
+                      <track kind="captions" />
+                    </video>
                   ) : (
                     <img
                       src={selectedItem.url}
-                      alt=""
+                      alt="Media content"
                       className="max-h-full max-w-full object-contain"
                     />
                   )}
@@ -231,7 +233,7 @@ function MediaThumbnail({ item, onClick }: MediaThumbnailProps) {
     >
       <img
         src={item.thumbnailUrl || item.url}
-        alt=""
+        alt="Media thumbnail"
         className="h-full w-full object-cover transition-transform group-hover:scale-105"
       />
       {/* Video indicator */}

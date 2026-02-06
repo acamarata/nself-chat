@@ -340,7 +340,7 @@ describe('locales', () => {
     })
 
     it('should have valid script values', () => {
-      const validScripts = ['Latn', 'Arab', 'Hans', 'Hant', 'Jpan', 'Cyrl', 'Hebr']
+      const validScripts = ['Latn', 'Arab', 'Hans', 'Hant', 'Jpan', 'Cyrl', 'Hebr', 'Kore', 'Deva', 'Thai', 'Grek']
       for (const config of Object.values(SUPPORTED_LOCALES)) {
         expect(validScripts).toContain(config.script)
       }

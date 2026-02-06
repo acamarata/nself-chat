@@ -6,7 +6,7 @@
  * querying receipt status, and managing channel read states.
  *
  * @module services/messages/receipt.service
- * @version 0.9.0
+ * @version 0.9.1
  */
 
 import { ApolloClient, NormalizedCacheObject, ApolloError } from '@apollo/client'

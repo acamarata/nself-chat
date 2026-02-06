@@ -2,9 +2,8 @@
  * @jest-environment jsdom
  */
 
-import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals'
 import { renderHook, act } from '@testing-library/react'
-import React, { ReactNode } from 'react'
+import React from 'react'
 import {
   useRealtimeTyping,
   useTypingIndicatorDisplay,
@@ -14,31 +13,15 @@ import {
 
 // Mock auth context
 jest.mock('@/contexts/auth-context', () => ({
-  useAuth: () => ({
+  useAuth: jest.fn(() => ({
     user: { id: 'test-user', email: 'test@example.com', displayName: 'Test User' },
     loading: false,
     isAuthenticated: true,
-  }),
+  })),
 }))
 
-// Mock realtime client with proper getter/setter
-const mockRealtimeClient = {
-  _isConnected: true,
-  get isConnected() {
-    return this._isConnected
-  },
-  set isConnected(value: boolean) {
-    this._isConnected = value
-  },
-  onConnectionStateChange: jest.fn(() => () => {}),
-}
-
-jest.mock('@/services/realtime/realtime-client', () => ({
-  realtimeClient: mockRealtimeClient,
-}))
-
-// Mock typing service
-const mockTypingService = {
+// Mock typing service - create inline to avoid hoisting issues
+const mockTypingServiceInstance = {
   startTyping: jest.fn(),
   startTypingInDM: jest.fn(),
   startTypingInThread: jest.fn(),
@@ -60,16 +43,26 @@ const mockTypingService = {
 }
 
 jest.mock('@/services/realtime/typing.service', () => ({
-  getTypingService: jest.fn(() => mockTypingService),
-  initializeTypingService: jest.fn(() => mockTypingService),
+  getTypingService: jest.fn(() => mockTypingServiceInstance),
+  initializeTypingService: jest.fn(() => mockTypingServiceInstance),
   resetTypingService: jest.fn(),
 }))
+
+// Mock realtime client
+jest.mock('@/services/realtime/realtime-client', () => ({
+  realtimeClient: {
+    isConnected: true,
+    onConnectionStateChange: jest.fn(() => () => {}),
+  },
+}))
+
+// Reference for tests
+const mockTypingService = mockTypingServiceInstance
 
 describe('useRealtimeTyping', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.useFakeTimers()
-    mockRealtimeClient._isConnected = true
   })
 
   afterEach(() => {
@@ -203,7 +196,7 @@ describe('useRealtimeTyping', () => {
 
   describe('typing text', () => {
     it('should format typing text for one user', () => {
-      mockTypingService.getTypingUsers.mockReturnValue([
+      mockTypingService.getTypingUsersInRoom.mockReturnValue([
         { userId: 'user-1', userName: 'Alice', startedAt: new Date() },
       ])
 
@@ -213,7 +206,7 @@ describe('useRealtimeTyping', () => {
     })
 
     it('should format typing text for two users', () => {
-      mockTypingService.getTypingUsers.mockReturnValue([
+      mockTypingService.getTypingUsersInRoom.mockReturnValue([
         { userId: 'user-1', userName: 'Alice', startedAt: new Date() },
         { userId: 'user-2', userName: 'Bob', startedAt: new Date() },
       ])
@@ -224,7 +217,7 @@ describe('useRealtimeTyping', () => {
     })
 
     it('should format typing text for three users', () => {
-      mockTypingService.getTypingUsers.mockReturnValue([
+      mockTypingService.getTypingUsersInRoom.mockReturnValue([
         { userId: 'user-1', userName: 'Alice', startedAt: new Date() },
         { userId: 'user-2', userName: 'Bob', startedAt: new Date() },
         { userId: 'user-3', userName: 'Charlie', startedAt: new Date() },
@@ -236,7 +229,7 @@ describe('useRealtimeTyping', () => {
     })
 
     it('should format typing text for many users', () => {
-      mockTypingService.getTypingUsers.mockReturnValue([
+      mockTypingService.getTypingUsersInRoom.mockReturnValue([
         { userId: 'user-1', userName: 'Alice', startedAt: new Date() },
         { userId: 'user-2', userName: 'Bob', startedAt: new Date() },
         { userId: 'user-3', userName: 'Charlie', startedAt: new Date() },
@@ -249,7 +242,7 @@ describe('useRealtimeTyping', () => {
     })
 
     it('should exclude current user from typing text', () => {
-      mockTypingService.getTypingUsers.mockReturnValue([
+      mockTypingService.getTypingUsersInRoom.mockReturnValue([
         { userId: 'test-user', userName: 'Test User', startedAt: new Date() },
         { userId: 'user-1', userName: 'Alice', startedAt: new Date() },
       ])
@@ -312,7 +305,6 @@ describe('useDMTyping', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.useFakeTimers()
-    mockRealtimeClient._isConnected = true
     mockTypingService.getTypingUsersInRoom.mockReturnValue([])
   })
 
@@ -335,7 +327,6 @@ describe('useThreadTyping', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.useFakeTimers()
-    mockRealtimeClient._isConnected = true
     mockTypingService.getTypingUsersInRoom.mockReturnValue([])
   })
 

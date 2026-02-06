@@ -165,6 +165,7 @@ interface ProgressBarProps {
 
 function ProgressBar({ progress, buffered, onSeek, className }: ProgressBarProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const progressPercent = Math.round(progress * 100)
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -185,6 +186,16 @@ function ProgressBar({ progress, buffered, onSeek, className }: ProgressBarProps
         className
       )}
       onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === 'ArrowLeft') onSeek(Math.max(0, progress - 0.05))
+        if (e.key === 'ArrowRight') onSeek(Math.min(1, progress + 0.05))
+      }}
+      role="slider"
+      aria-label="Audio progress"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={progressPercent}
+      tabIndex={0}
     >
       {/* Buffered */}
       <div
@@ -376,6 +387,7 @@ export function AudioPlayer({
   if (variant === 'minimal') {
     return (
       <div className={cn('flex items-center gap-3', className)}>
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <audio
           ref={audioRef}
           src={src}
@@ -419,6 +431,7 @@ export function AudioPlayer({
   if (variant === 'compact') {
     return (
       <div className={cn('flex items-center gap-3 rounded-lg border p-2', className)}>
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <audio
           ref={audioRef}
           src={src}
@@ -485,6 +498,7 @@ export function AudioPlayer({
   // Default variant
   return (
     <div className={cn('rounded-lg border bg-card p-4', className)}>
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <audio
         ref={audioRef}
         src={src}
@@ -674,6 +688,7 @@ export function VoiceMessagePlayer({
 
   return (
     <div className={cn('flex items-center gap-2 rounded-full bg-muted px-3 py-2', className)}>
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <audio
         ref={audioRef}
         src={src}

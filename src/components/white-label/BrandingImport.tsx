@@ -112,6 +112,12 @@ export function BrandingImport({ onImport, onCancel, className }: BrandingImport
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onClick={() => inputRef.current?.click()}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                inputRef.current?.click()
+              }
+            }}
             className={cn(
               'cursor-pointer rounded-xl border-2 border-dashed p-8 text-center transition-all',
               isDragging
@@ -119,6 +125,9 @@ export function BrandingImport({ onImport, onCancel, className }: BrandingImport
                 : 'border-zinc-300 hover:border-sky-400 dark:border-zinc-600 dark:hover:border-sky-500',
               isProcessing && 'pointer-events-none opacity-50'
             )}
+            role="button"
+            tabIndex={isProcessing ? -1 : 0}
+            aria-label="Upload branding configuration file"
           >
             {isProcessing ? (
               <Loader2 className="mx-auto h-10 w-10 animate-spin text-sky-500" />
@@ -137,6 +146,7 @@ export function BrandingImport({ onImport, onCancel, className }: BrandingImport
             accept=".json,application/json"
             onChange={handleInputChange}
             className="hidden"
+            aria-label="Upload branding configuration JSON file"
           />
 
           {error && (

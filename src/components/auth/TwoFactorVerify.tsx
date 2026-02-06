@@ -157,6 +157,7 @@ export function TwoFactorVerify({ open, onVerified, onCancel, userId }: TwoFacto
               placeholder={useBackupCode ? 'XXXX-XXXX' : '000000'}
               className="text-center font-mono text-lg tracking-widest"
               autoComplete="one-time-code"
+              // eslint-disable-next-line jsx-a11y/no-autofocus -- autoFocus is intentional for 2FA verification code input UX
               autoFocus
               disabled={loading}
               maxLength={useBackupCode ? 9 : 6}

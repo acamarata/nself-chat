@@ -118,29 +118,34 @@ export function CommandChannels({ channels = {}, onChange }: CommandChannelsProp
           Select which types of channels this command can be used in
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
-          {channelTypes.map((type) => (
-            <label
-              key={type.value}
-              className={cn(
-                'flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-colors',
-                allowedTypes.includes(type.value as ChannelType)
-                  ? 'bg-primary/5 border-primary'
-                  : 'hover:bg-muted/50'
-              )}
-            >
-              <Checkbox
-                checked={allowedTypes.includes(type.value as ChannelType)}
-                onCheckedChange={() => handleToggleType(type.value as ChannelType)}
-              />
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <type.icon className="h-4 w-4" />
-                  <span className="font-medium">{type.label}</span>
+          {channelTypes.map((type) => {
+            const checkboxId = `channel-type-${type.value}`
+            return (
+              <label
+                key={type.value}
+                htmlFor={checkboxId}
+                className={cn(
+                  'flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-colors',
+                  allowedTypes.includes(type.value as ChannelType)
+                    ? 'bg-primary/5 border-primary'
+                    : 'hover:bg-muted/50'
+                )}
+              >
+                <Checkbox
+                  id={checkboxId}
+                  checked={allowedTypes.includes(type.value as ChannelType)}
+                  onCheckedChange={() => handleToggleType(type.value as ChannelType)}
+                />
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <type.icon className="h-4 w-4" />
+                    <span className="font-medium">{type.label}</span>
+                  </div>
+                  <p className="mt-1 text-xs text-muted-foreground">{type.description}</p>
                 </div>
-                <p className="mt-1 text-xs text-muted-foreground">{type.description}</p>
-              </div>
-            </label>
-          ))}
+              </label>
+            )
+          })}
         </div>
         {allowedTypes.length === 0 && (
           <p className="text-sm text-destructive">At least one channel type must be selected</p>

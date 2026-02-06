@@ -496,6 +496,7 @@ export function TwoFactorSetup({ open, onComplete, onCancel, userId, email }: Tw
                   placeholder="000000"
                   className="text-center font-mono text-2xl tracking-widest"
                   autoComplete="one-time-code"
+                  // eslint-disable-next-line jsx-a11y/no-autofocus -- autoFocus is intentional for verification code input UX
                   autoFocus
                   disabled={loading}
                   maxLength={6}

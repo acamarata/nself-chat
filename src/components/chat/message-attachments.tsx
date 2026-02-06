@@ -167,14 +167,18 @@ function VideoPlayer({ attachment }: { attachment: Attachment }) {
         muted={isMuted}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
-      />
+      >
+        <track kind="captions" src="" label="Captions" default />
+      </video>
 
       {/* Custom controls overlay (optional) */}
       {!isPlaying && attachment.thumbnailUrl && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/30">
           <button
+            type="button"
             onClick={() => setIsPlaying(true)}
             className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-black transition-transform hover:scale-110"
+            aria-label="Play video"
           >
             <Play className="ml-1 h-6 w-6" />
           </button>
@@ -331,8 +335,10 @@ function ImageLightbox({ imageUrl, onClose }: { imageUrl: string | null; onClose
         >
           {/* Close button */}
           <button
+            type="button"
             onClick={onClose}
             className="absolute right-4 top-4 rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70"
+            aria-label="Close preview"
           >
             <X className="h-6 w-6" />
           </button>

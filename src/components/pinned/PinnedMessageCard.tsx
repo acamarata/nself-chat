@@ -78,6 +78,9 @@ export function PinnedMessageCard({
           className
         )}
         onClick={handleJumpToMessage}
+        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleJumpToMessage()}
+        role="button"
+        tabIndex={0}
       >
         <Avatar className="h-6 w-6 flex-shrink-0">
           <AvatarImage src={message.user.avatarUrl} alt={message.user.displayName} />

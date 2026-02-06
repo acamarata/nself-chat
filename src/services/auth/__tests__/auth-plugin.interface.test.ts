@@ -306,7 +306,14 @@ describe('AuthProviderRegistry', () => {
       registry.register(secondProvider)
 
       expect(registry.get('test-provider')).toBe(secondProvider)
-      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('already registered'))
+      // Check that console.warn was called (message may be formatted by jest.setup.js)
+      expect(consoleSpy).toHaveBeenCalled()
+      // Verify the call contains the expected text (any argument position)
+      const calls = consoleSpy.mock.calls
+      const hasExpectedMessage = calls.some((args) =>
+        args.some((arg) => typeof arg === 'string' && arg.includes('already registered'))
+      )
+      expect(hasExpectedMessage).toBe(true)
 
       consoleSpy.mockRestore()
     })

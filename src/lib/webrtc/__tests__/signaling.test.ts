@@ -128,7 +128,7 @@ describe('SignalingManager', () => {
       const manager = new SignalingManager()
       manager.connect()
 
-      expect(socketManager.on).toHaveBeenCalledTimes(17)
+      expect(socketManager.on).toHaveBeenCalledTimes(18)
       expect(manager.isConnected).toBe(true)
     })
 

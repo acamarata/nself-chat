@@ -220,6 +220,7 @@ export function SpotifyEmbed({
           loading="lazy"
           className="rounded-xl"
           onError={() => setUseNativeEmbed(false)}
+          title={`Spotify embed: ${contentType} - ${id}`}
         />
       </div>
     )

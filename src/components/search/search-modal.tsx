@@ -274,7 +274,7 @@ export function SearchModal({
                 placeholder="Search messages, files, people, channels..."
                 shortcutHint="ESC to close"
                 size="lg"
-                autoFocus
+                autoFocus // eslint-disable-line jsx-a11y/no-autofocus
                 className="flex-1"
               />
 

@@ -107,6 +107,7 @@ export function EmailNotificationSettingsPanel({
                 checked={emailSettings.digestFrequency === freq.value}
                 onChange={() => setEmailFrequency(freq.value)}
                 className="mt-1"
+                aria-label={freq.label}
               />
               <div>
                 <span className="text-sm font-medium">{freq.label}</span>

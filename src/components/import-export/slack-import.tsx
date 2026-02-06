@@ -235,6 +235,15 @@ export function SlackImport({ onImportComplete, onCancel }: SlackImportProps) {
               }
             }}
             onDragOver={(e) => e.preventDefault()}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                inputRef.current?.click()
+              }
+            }}
+            aria-label="Upload Slack export file"
           >
             <input
               ref={inputRef}
@@ -353,6 +362,8 @@ export function SlackImport({ onImportComplete, onCancel }: SlackImportProps) {
                 return (
                   <div
                     key={channel.id}
+                    role="button"
+                    tabIndex={0}
                     className={cn(
                       'flex cursor-pointer items-center justify-between rounded-lg border p-3 transition-colors',
                       selectedChannels.has(channel.id)
@@ -360,6 +371,12 @@ export function SlackImport({ onImportComplete, onCancel }: SlackImportProps) {
                         : 'hover:bg-muted'
                     )}
                     onClick={() => toggleChannel(channel.id)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        toggleChannel(channel.id)
+                      }
+                    }}
                   >
                     <div className="flex items-center gap-3">
                       <div
