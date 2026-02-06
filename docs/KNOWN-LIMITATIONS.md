@@ -21,6 +21,7 @@ nself-chat v0.9.1 is a **solid beta release** with a strong foundation and core 
 These features are fully implemented, tested, and ready for production use:
 
 **Core Messaging**
+
 - Real-time message sending/receiving
 - Message editing and deletion
 - Threaded conversations
@@ -30,6 +31,7 @@ These features are fully implemented, tested, and ready for production use:
 - Channel management (public, private, DMs)
 
 **User Interface**
+
 - Complete setup wizard (12 steps)
 - Theme system (27 presets)
 - Responsive design (mobile, tablet, desktop)
@@ -37,23 +39,27 @@ These features are fully implemented, tested, and ready for production use:
 - Accessibility (WCAG 2.1 AA compliant)
 
 **Authentication**
+
 - Development mode with 8 test users
 - Nhost production authentication
 - OAuth framework (11 providers configured)
 - Role-based access control (RBAC)
 
 **Real-time Features**
+
 - WebSocket connections
 - GraphQL subscriptions
 - Presence tracking
 - Live updates
 
 **Search**
+
 - Full-text search (MeiliSearch)
 - Message and file search
 - Advanced filters
 
 **Build & Deploy**
+
 - Zero TypeScript errors ✅
 - Build works successfully ✅
 - Docker/Kubernetes configs
@@ -68,12 +74,14 @@ These features exist but have limitations, mocked components, or partial impleme
 **Status**: Server-side real, client-side mocked
 
 **What Works**:
+
 - ✅ Server-side Stripe integration (real API)
 - ✅ Webhook handling
 - ✅ Subscription plans configured
 - ✅ Customer management
 
 **What's Limited**:
+
 - ⚠️ Client-side uses mock payment intents
 - ⚠️ Payment UI shows but doesn't process real cards
 - ⚠️ No actual Stripe.js integration on frontend
@@ -81,6 +89,7 @@ These features exist but have limitations, mocked components, or partial impleme
 **Impact**: Payment flows appear to work but don't charge real cards
 
 **Code Reference**:
+
 ```typescript
 // src/lib/payments/stripe-client.ts:257
 // Generate mock payment intent
@@ -92,6 +101,7 @@ const paymentIntent: PaymentIntent = {
 ```
 
 **To Fix**: 8-12 hours
+
 - Integrate real Stripe.js
 - Add payment element
 - Test with Stripe test cards
@@ -102,6 +112,7 @@ const paymentIntent: PaymentIntent = {
 **Status**: Images fully supported, videos not implemented
 
 **What Works**:
+
 - ✅ Image uploads (drag-drop, paste)
 - ✅ Image optimization (Sharp.js)
 - ✅ Image previews and gallery
@@ -109,6 +120,7 @@ const paymentIntent: PaymentIntent = {
 - ✅ Audio uploads
 
 **What's Limited**:
+
 - ❌ Video processing not implemented
 - ⚠️ Video uploads accepted but not transcoded
 - ⚠️ No video thumbnails
@@ -117,12 +129,14 @@ const paymentIntent: PaymentIntent = {
 **Impact**: Video files can be uploaded but won't play optimally
 
 **Code Reference**:
+
 ```typescript
 // Video processing throws "not implemented in MVP"
 // Would need FFmpeg integration
 ```
 
 **To Fix**: 16-24 hours
+
 - Integrate FFmpeg.js or cloud service
 - Add video transcoding pipeline
 - Generate video thumbnails
@@ -133,6 +147,7 @@ const paymentIntent: PaymentIntent = {
 **Status**: Complete implementation, different from documentation claims
 
 **What Works**:
+
 - ✅ Full Double Ratchet algorithm implemented
 - ✅ Perfect forward secrecy
 - ✅ Break-in recovery
@@ -140,6 +155,7 @@ const paymentIntent: PaymentIntent = {
 - ✅ Session handling
 
 **What's Different**:
+
 - ⚠️ Uses Web Crypto API (not Signal Protocol library)
 - ⚠️ Custom implementation based on Signal spec
 - ⚠️ Not using @signalapp/libsignal-client in production
@@ -147,6 +163,7 @@ const paymentIntent: PaymentIntent = {
 **Impact**: None - works correctly, just different approach
 
 **Code Reference**:
+
 ```typescript
 // src/lib/encryption/ratchet.ts
 // Complete Double Ratchet implementation using Web Crypto API
@@ -162,6 +179,7 @@ const paymentIntent: PaymentIntent = {
 **Status**: Fully implemented, needs device testing
 
 **What Works**:
+
 - ✅ 1-on-1 calls
 - ✅ Group calls (up to 50 participants)
 - ✅ Screen sharing
@@ -171,6 +189,7 @@ const paymentIntent: PaymentIntent = {
 - ✅ 10,000+ lines of code
 
 **What's Limited**:
+
 - ⚠️ Not tested on real mobile devices
 - ⚠️ CallKit integration untested
 - ⚠️ Telecom Manager (Android) untested
@@ -179,6 +198,7 @@ const paymentIntent: PaymentIntent = {
 **Impact**: May have device-specific bugs
 
 **To Fix**: 8-12 hours
+
 - Test on real iOS devices
 - Test on real Android devices
 - Test various network conditions
@@ -189,6 +209,7 @@ const paymentIntent: PaymentIntent = {
 **Status**: Configured and buildable, not tested on devices
 
 **What Works**:
+
 - ✅ Capacitor configuration complete
 - ✅ iOS Xcode project
 - ✅ Android Gradle project
@@ -196,6 +217,7 @@ const paymentIntent: PaymentIntent = {
 - ✅ Build scripts ready
 
 **What's Limited**:
+
 - ⚠️ Not tested on real devices
 - ⚠️ App Store assets incomplete
 - ⚠️ No beta testing conducted
@@ -204,6 +226,7 @@ const paymentIntent: PaymentIntent = {
 **Impact**: Unknown device-specific issues
 
 **To Fix**: 12-16 hours
+
 - Install on test devices (iPhone, Android)
 - Test all major features
 - Fix device-specific bugs
@@ -214,6 +237,7 @@ const paymentIntent: PaymentIntent = {
 **Status**: Configured and buildable, icons missing
 
 **What Works**:
+
 - ✅ Electron configuration
 - ✅ Tauri configuration
 - ✅ Window management
@@ -221,6 +245,7 @@ const paymentIntent: PaymentIntent = {
 - ✅ Auto-updates configured
 
 **What's Limited**:
+
 - ⚠️ No app icons (uses default)
 - ⚠️ No DMG/installer branding
 - ⚠️ Code signing not configured
@@ -228,6 +253,7 @@ const paymentIntent: PaymentIntent = {
 **Impact**: Apps work but look unpolished
 
 **To Fix**: 4-6 hours
+
 - Design and generate icons (1024x1024)
 - Create DMG background
 - Add installer branding
@@ -238,12 +264,14 @@ const paymentIntent: PaymentIntent = {
 **Status**: Framework complete, individual providers need testing
 
 **What Works**:
+
 - ✅ 11 providers configured
 - ✅ OAuth flow implemented
 - ✅ Account linking
 - ✅ Error handling
 
 **What's Limited**:
+
 - ⚠️ Not all providers tested end-to-end
 - ⚠️ Some provider credentials may be test/sandbox
 - ⚠️ Rate limiting needs verification
@@ -251,6 +279,7 @@ const paymentIntent: PaymentIntent = {
 **Impact**: May have provider-specific issues
 
 **To Fix**: 8-12 hours
+
 - Test each provider thoroughly
 - Verify production credentials
 - Test edge cases (denied permissions, etc.)
@@ -278,6 +307,7 @@ These features are mentioned in documentation but not implemented:
 **Total Tests**: ~1,000-1,014 tests
 
 **Test Breakdown**:
+
 - Unit tests: ~600
 - Integration tests: ~250
 - E2E tests: ~150+
@@ -286,6 +316,7 @@ These features are mentioned in documentation but not implemented:
 **Pass Rate**: 98-99% (993-1,000 passing)
 
 **What's Tested Well**:
+
 - ✅ Core messaging flows
 - ✅ Authentication
 - ✅ Real-time features
@@ -293,6 +324,7 @@ These features are mentioned in documentation but not implemented:
 - ✅ Utilities and helpers
 
 **What Needs More Tests**:
+
 - ⚠️ Mobile-specific features
 - ⚠️ Desktop-specific features
 - ⚠️ Payment flows (end-to-end)
@@ -300,6 +332,7 @@ These features are mentioned in documentation but not implemented:
 - ⚠️ WebRTC edge cases
 
 **Coverage Measurement**: Not yet enabled
+
 - To enable: Add coverage configuration to Jest
 - Expected coverage: 70-80% when measured
 
@@ -426,6 +459,7 @@ WARN  Issues with peer dependencies found
 **Previous claims**: Documentation claimed "100% complete" and "Signal Protocol library"
 
 **Reality**:
+
 - Implementation is ~80% complete
 - Uses Web Crypto API, not Signal library
 - Some features are MVP/mocked
@@ -525,6 +559,7 @@ WARN  Issues with peer dependencies found
 ### Recommended Use Cases
 
 **✅ Good For**:
+
 - Development and testing
 - Proof of concepts
 - Internal tools
@@ -532,6 +567,7 @@ WARN  Issues with peer dependencies found
 - Learning modern web development
 
 **⚠️ Not Ready For**:
+
 - Large-scale public launch
 - Processing real payments
 - Critical business operations

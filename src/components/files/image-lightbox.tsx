@@ -416,7 +416,9 @@ export function ImageLightbox({
         tabIndex={0}
         aria-label={`Image ${currentIndex + 1} of ${images.length}: ${currentImage.name}`}
         onClick={handleBackdropClick}
-        onKeyDown={(e) => { if (e.key === 'Escape') onClose(); }}
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') onClose()
+        }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}

@@ -135,7 +135,7 @@ export function ComplianceReports() {
 
       setIsDialogOpen(false)
     } catch (error) {
-      logger.error('Failed to generate report:',  error)
+      logger.error('Failed to generate report:', error)
     } finally {
       setIsGenerating(false)
     }

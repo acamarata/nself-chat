@@ -55,7 +55,7 @@ export async function showNotification(options: NotificationOptions): Promise<No
 
     return { shown: true }
   } catch (error) {
-    logger.error('Failed to show notification:',  error)
+    logger.error('Failed to show notification:', error)
     return { shown: false, reason: 'error' }
   }
 }

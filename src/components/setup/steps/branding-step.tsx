@@ -296,7 +296,12 @@ export function BrandingStep({ config, onUpdate, onValidate }: BrandingStepProps
                       role="button"
                       tabIndex={0}
                       onClick={() => iconInputRef.current?.click()}
-                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); iconInputRef.current?.click(); } }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          iconInputRef.current?.click()
+                        }
+                      }}
                       className="cursor-pointer rounded-xl border-2 border-dashed border-sky-300 p-6 text-center transition-colors hover:border-sky-400 dark:border-sky-600 dark:hover:border-sky-500"
                     >
                       <Upload className="mx-auto mb-2 h-8 w-8 text-zinc-400 dark:text-zinc-500" />
@@ -379,7 +384,12 @@ export function BrandingStep({ config, onUpdate, onValidate }: BrandingStepProps
                       role="button"
                       tabIndex={0}
                       onClick={() => logoInputRef.current?.click()}
-                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); logoInputRef.current?.click(); } }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          logoInputRef.current?.click()
+                        }
+                      }}
                       className="cursor-pointer rounded-xl border-2 border-dashed border-zinc-300 p-6 text-center transition-colors hover:border-sky-400 dark:border-zinc-600 dark:hover:border-sky-500"
                     >
                       <Upload className="mx-auto mb-2 h-8 w-8 text-zinc-400 dark:text-zinc-500" />
@@ -433,7 +443,10 @@ export function BrandingStep({ config, onUpdate, onValidate }: BrandingStepProps
             {/* Logo Size Slider - Only show if logo is uploaded */}
             {uploadedLogo && (
               <div className="mt-4">
-                <label htmlFor="logo-scale-slider" className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                <label
+                  htmlFor="logo-scale-slider"
+                  className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                >
                   Logo Display Size
                 </label>
                 <div className="flex items-center gap-4">

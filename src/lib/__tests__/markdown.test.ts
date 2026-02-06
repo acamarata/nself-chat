@@ -32,12 +32,7 @@ jest.mock('highlight.js', () => ({
   getLanguage: jest.fn(() => true),
 }))
 
-import {
-  sanitize,
-  isDangerousHtml,
-  escapeHtml,
-  convertEmojis,
-} from '../markdown'
+import { sanitize, isDangerousHtml, escapeHtml, convertEmojis } from '../markdown'
 
 describe('Markdown Utilities', () => {
   // Note: formatMarkdown, highlightSyntax tests are mocked due to ESM issues with marked/hljs
@@ -206,7 +201,6 @@ describe('Markdown Utilities', () => {
     })
   })
 
-
   describe('escapeHtml', () => {
     it('escapes < and >', () => {
       expect(escapeHtml('<div>')).toBe('&lt;div&gt;')
@@ -229,7 +223,6 @@ describe('Markdown Utilities', () => {
       expect(result).toContain('&quot;')
     })
   })
-
 
   describe('convertEmojis', () => {
     it('converts emoji shortcodes', () => {
@@ -255,5 +248,4 @@ describe('Markdown Utilities', () => {
       expect(convertEmojis(null as any)).toBe('')
     })
   })
-
 })

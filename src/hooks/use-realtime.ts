@@ -291,7 +291,7 @@ export function useRealtime(options: UseRealtimeOptions = {}): UseRealtimeReturn
     if (autoConnect && user && !isInitializedRef.current) {
       connect().catch((err) => {
         if (debug) {
-          logger.error('[useRealtime] Auto-connect failed:',  err)
+          logger.error('[useRealtime] Auto-connect failed:', err)
         }
       })
     }

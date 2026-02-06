@@ -29,51 +29,60 @@ export function ImageUpload({
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null)
   const [dragActive, setDragActive] = useState(false)
 
-  const handleFile = useCallback(async (file: File) => {
-    // Validate file type
-    if (!acceptedFormats.includes(file.type)) {
-      alert(`Invalid file type. Accepted formats: ${acceptedFormats.join(', ')}`)
-      return
-    }
+  const handleFile = useCallback(
+    async (file: File) => {
+      // Validate file type
+      if (!acceptedFormats.includes(file.type)) {
+        alert(`Invalid file type. Accepted formats: ${acceptedFormats.join(', ')}`)
+        return
+      }
 
-    // Validate file size
-    const maxSizeBytes = maxSizeMB * 1024 * 1024
-    if (file.size > maxSizeBytes) {
-      alert(`File too large. Maximum size: ${maxSizeMB}MB`)
-      return
-    }
+      // Validate file size
+      const maxSizeBytes = maxSizeMB * 1024 * 1024
+      if (file.size > maxSizeBytes) {
+        alert(`File too large. Maximum size: ${maxSizeMB}MB`)
+        return
+      }
 
-    // Create preview
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      setPreview(e.target?.result as string)
-    }
-    reader.readAsDataURL(file)
+      // Create preview
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setPreview(e.target?.result as string)
+      }
+      reader.readAsDataURL(file)
 
-    // Upload
-    const result = await uploadImage(file)
-    if (result) {
-      setUploadedUrl(result.url)
-      onUploadComplete?.(result.url, result.id)
-    }
-  }, [uploadImage, acceptedFormats, maxSizeMB, onUploadComplete])
+      // Upload
+      const result = await uploadImage(file)
+      if (result) {
+        setUploadedUrl(result.url)
+        onUploadComplete?.(result.url, result.id)
+      }
+    },
+    [uploadImage, acceptedFormats, maxSizeMB, onUploadComplete]
+  )
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setDragActive(false)
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault()
+      setDragActive(false)
 
-    const file = e.dataTransfer.files[0]
-    if (file) {
-      handleFile(file)
-    }
-  }, [handleFile])
+      const file = e.dataTransfer.files[0]
+      if (file) {
+        handleFile(file)
+      }
+    },
+    [handleFile]
+  )
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      handleFile(file)
-    }
-  }, [handleFile])
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0]
+      if (file) {
+        handleFile(file)
+      }
+    },
+    [handleFile]
+  )
 
   const handleClear = () => {
     setPreview(null)
@@ -86,7 +95,7 @@ export function ImageUpload({
         <div
           className={cn(
             'relative rounded-lg border-2 border-dashed p-8 transition-colors',
-            dragActive && 'border-primary bg-primary/5',
+            dragActive && 'bg-primary/5 border-primary',
             !dragActive && 'border-muted-foreground/25'
           )}
           onDragOver={(e) => {
@@ -98,15 +107,14 @@ export function ImageUpload({
         >
           {!preview && !uploadedUrl ? (
             <div className="flex flex-col items-center gap-4 text-center">
-              <div className="rounded-full bg-primary/10 p-4">
+              <div className="bg-primary/10 rounded-full p-4">
                 <Upload className="h-8 w-8 text-primary" />
               </div>
               <div>
-                <p className="text-sm font-medium">
-                  Drag and drop an image, or click to browse
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Max {maxSizeMB}MB • {acceptedFormats.map(f => f.split('/')[1].toUpperCase()).join(', ')}
+                <p className="text-sm font-medium">Drag and drop an image, or click to browse</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Max {maxSizeMB}MB •{' '}
+                  {acceptedFormats.map((f) => f.split('/')[1].toUpperCase()).join(', ')}
                 </p>
               </div>
               <Button variant="secondary" asChild>
@@ -125,16 +133,12 @@ export function ImageUpload({
           ) : (
             <div className="relative">
               {preview && (
-                <img
-                  src={preview}
-                  alt="Preview"
-                  className="max-h-96 mx-auto rounded-lg"
-                />
+                <img src={preview} alt="Preview" className="mx-auto max-h-96 rounded-lg" />
               )}
               <Button
                 variant="destructive"
                 size="icon"
-                className="absolute top-2 right-2"
+                className="absolute right-2 top-2"
                 onClick={handleClear}
               >
                 <X className="h-4 w-4" />
@@ -145,20 +149,20 @@ export function ImageUpload({
           {isUploading && (
             <div className="mt-4 space-y-2">
               <Progress value={uploadProgress} />
-              <p className="text-xs text-center text-muted-foreground">
+              <p className="text-center text-xs text-muted-foreground">
                 Uploading... {uploadProgress}%
               </p>
             </div>
           )}
 
           {error && (
-            <div className="mt-4 rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+            <div className="bg-destructive/10 mt-4 rounded-md p-3 text-sm text-destructive">
               {error.message}
             </div>
           )}
 
           {uploadedUrl && !isUploading && (
-            <div className="mt-4 rounded-md bg-primary/10 p-3 text-sm text-primary">
+            <div className="bg-primary/10 mt-4 rounded-md p-3 text-sm text-primary">
               Upload complete! Image ready to use.
             </div>
           )}

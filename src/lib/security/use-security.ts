@@ -353,7 +353,7 @@ export function useSecurity() {
 
       return data.backupCodes
     } catch (error) {
-      logger.error('Failed to regenerate backup codes:',  error)
+      logger.error('Failed to regenerate backup codes:', error)
       return null
     }
   }, [user?.id, refetchBackupCodes])
@@ -473,7 +473,7 @@ export function useSecurity() {
         await refetchSecuritySettings()
         return true
       } catch (error) {
-        logger.error('Failed to update alert preferences:',  error)
+        logger.error('Failed to update alert preferences:', error)
         return false
       }
     },

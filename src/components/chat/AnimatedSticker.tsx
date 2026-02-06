@@ -493,10 +493,7 @@ export const AnimatedSticker = memo(function AnimatedSticker({
   if (!showControls && onClick) {
     return (
       <div
-        className={cn(
-          'relative inline-flex items-center justify-center cursor-pointer',
-          className
-        )}
+        className={cn('relative inline-flex cursor-pointer items-center justify-center', className)}
         style={containerStyle}
         role="button"
         tabIndex={0}
@@ -517,10 +514,7 @@ export const AnimatedSticker = memo(function AnimatedSticker({
   // Non-interactive version
   return (
     <div
-      className={cn(
-        'relative inline-flex items-center justify-center',
-        className
-      )}
+      className={cn('relative inline-flex items-center justify-center', className)}
       style={containerStyle}
     >
       {renderSticker()}

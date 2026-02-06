@@ -68,9 +68,7 @@ describe.skip('InlineCode', () => {
   })
 
   it('applies custom className', () => {
-    const { container } = render(
-      <InlineCode className="custom-class">test</InlineCode>
-    )
+    const { container } = render(<InlineCode className="custom-class">test</InlineCode>)
     const code = container.querySelector('code')
     expect(code).toHaveClass('custom-class')
   })
@@ -91,13 +89,7 @@ describe.skip('CodeBlock', () => {
   })
 
   it('shows filename when provided', () => {
-    render(
-      <CodeBlock
-        code={sampleCode}
-        language="javascript"
-        filename="greet.js"
-      />
-    )
+    render(<CodeBlock code={sampleCode} language="javascript" filename="greet.js" />)
     expect(screen.getByText('greet.js')).toBeInTheDocument()
   })
 
@@ -118,9 +110,7 @@ describe.skip('CodeBlock', () => {
   })
 
   it('shows line numbers by default', () => {
-    const { container } = render(
-      <CodeBlock code={sampleCode} language="javascript" />
-    )
+    const { container } = render(<CodeBlock code={sampleCode} language="javascript" />)
     // Line numbers should be visible
     expect(container.textContent).toMatch(/1/)
     expect(container.textContent).toMatch(/2/)
@@ -128,13 +118,7 @@ describe.skip('CodeBlock', () => {
   })
 
   it('hides line numbers when disabled', () => {
-    render(
-      <CodeBlock
-        code="single line"
-        language="javascript"
-        showLineNumbers={false}
-      />
-    )
+    render(<CodeBlock code="single line" language="javascript" showLineNumbers={false} />)
     // Should not show line number column
     expect(screen.queryByText('1')).not.toBeInTheDocument()
   })
@@ -149,57 +133,27 @@ describe.skip('CodeSnippetModal', () => {
   })
 
   it('opens when open prop is true', () => {
-    render(
-      <CodeSnippetModal
-        open={true}
-        onOpenChange={() => {}}
-        onShare={mockOnShare}
-      />
-    )
+    render(<CodeSnippetModal open={true} onOpenChange={() => {}} onShare={mockOnShare} />)
     expect(screen.getByText('Create Code Snippet')).toBeInTheDocument()
   })
 
   it('does not render when open is false', () => {
-    render(
-      <CodeSnippetModal
-        open={false}
-        onOpenChange={() => {}}
-        onShare={mockOnShare}
-      />
-    )
+    render(<CodeSnippetModal open={false} onOpenChange={() => {}} onShare={mockOnShare} />)
     expect(screen.queryByText('Create Code Snippet')).not.toBeInTheDocument()
   })
 
   it('has title input field', () => {
-    render(
-      <CodeSnippetModal
-        open={true}
-        onOpenChange={() => {}}
-        onShare={mockOnShare}
-      />
-    )
+    render(<CodeSnippetModal open={true} onOpenChange={() => {}} onShare={mockOnShare} />)
     expect(screen.getByLabelText(/title/i)).toBeInTheDocument()
   })
 
   it('has language selector', () => {
-    render(
-      <CodeSnippetModal
-        open={true}
-        onOpenChange={() => {}}
-        onShare={mockOnShare}
-      />
-    )
+    render(<CodeSnippetModal open={true} onOpenChange={() => {}} onShare={mockOnShare} />)
     expect(screen.getByLabelText(/language/i)).toBeInTheDocument()
   })
 
   it('has description field', () => {
-    render(
-      <CodeSnippetModal
-        open={true}
-        onOpenChange={() => {}}
-        onShare={mockOnShare}
-      />
-    )
+    render(<CodeSnippetModal open={true} onOpenChange={() => {}} onShare={mockOnShare} />)
     expect(screen.getByLabelText(/description/i)).toBeInTheDocument()
   })
 })

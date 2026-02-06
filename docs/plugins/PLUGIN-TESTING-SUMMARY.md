@@ -19,6 +19,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Test File**: `src/__tests__/plugins/realtime-plugin.test.ts`
 
 **Test Categories**:
+
 - Health Check (3 tests)
 - WebSocket Connection (4 tests)
 - Channel Management (3 tests)
@@ -34,6 +35,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Coverage**: 100%
 
 **Key Tests**:
+
 - WebSocket connection establishment
 - Real-time presence broadcasting
 - Typing indicator propagation
@@ -49,6 +51,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Test File**: `src/__tests__/plugins/notifications-plugin.test.ts`
 
 **Test Categories**:
+
 - Health Check (3 tests)
 - Send Notifications (6 tests)
 - Notification Types (8 types tested)
@@ -65,6 +68,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Coverage**: 100%
 
 **Key Tests**:
+
 - Multi-channel notification delivery (email, push, SMS, in-app)
 - User preference enforcement
 - Quiet hours handling
@@ -79,6 +83,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Test File**: `src/__tests__/plugins/jobs-plugin.test.ts`
 
 **Test Categories**:
+
 - Health Check (4 tests)
 - Job Creation (4 tests)
 - Job Status (3 tests)
@@ -95,6 +100,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Coverage**: 100%
 
 **Key Tests**:
+
 - Job creation and enqueueing
 - Delayed job execution
 - Repeatable/cron jobs
@@ -110,6 +116,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Test File**: `src/__tests__/plugins/file-processing-plugin.test.ts`
 
 **Test Categories**:
+
 - Health Check (2 tests)
 - Image Processing (5 tests)
 - Video Processing (2 tests)
@@ -122,6 +129,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Coverage**: 100%
 
 **Key Tests**:
+
 - Image resizing and optimization
 - Format conversion (PNG, JPEG, WebP)
 - EXIF metadata stripping
@@ -137,6 +145,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Test File**: `src/__tests__/plugins/idme-plugin.test.ts`
 
 **Test Categories**:
+
 - OAuth Configuration (2 tests)
 - Identity Verification (4 tests)
 - OAuth Callback (2 tests)
@@ -146,6 +155,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Coverage**: 100%
 
 **Key Tests**:
+
 - OAuth authorization flow
 - Group affiliation verification (military, student, teacher, first responder)
 - Callback handling
@@ -158,6 +168,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Test File**: `src/__tests__/plugins/stripe-plugin.test.ts`
 
 **Test Categories**:
+
 - Customer Management (3 tests)
 - Payment Methods (3 tests)
 - Subscriptions (4 tests)
@@ -169,6 +180,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Coverage**: 100%
 
 **Key Tests**:
+
 - Customer creation and management
 - Payment method attachment
 - Subscription lifecycle
@@ -183,6 +195,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Test File**: `src/__tests__/plugins/github-plugin.test.ts`
 
 **Test Categories**:
+
 - OAuth (2 tests)
 - Repository Integration (3 tests)
 - Webhooks (3 tests)
@@ -192,6 +205,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Coverage**: 100%
 
 **Key Tests**:
+
 - GitHub OAuth flow
 - Repository connection to channels
 - Push event notifications
@@ -205,6 +219,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Test File**: `src/__tests__/plugins/shopify-plugin.test.ts`
 
 **Test Categories**:
+
 - OAuth (1 test)
 - Store Connection (2 tests)
 - Products (3 tests)
@@ -216,6 +231,7 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 **Coverage**: 100%
 
 **Key Tests**:
+
 - Shopify OAuth installation
 - Store connection to channels
 - Product listing and embeds
@@ -226,17 +242,17 @@ This document summarizes the comprehensive testing suite created for all ɳChat 
 
 ## Summary Statistics
 
-| Plugin            | Test File                         | Tests | Status |
-| ----------------- | --------------------------------- | ----- | ------ |
-| Realtime          | realtime-plugin.test.ts           | 26    | ✅      |
-| Notifications     | notifications-plugin.test.ts      | 41    | ✅      |
-| Jobs              | jobs-plugin.test.ts               | 38    | ✅      |
-| File Processing   | file-processing-plugin.test.ts    | 15    | ✅      |
-| ID.me             | idme-plugin.test.ts               | 10    | ✅      |
-| Stripe            | stripe-plugin.test.ts             | 15    | ✅      |
-| GitHub            | github-plugin.test.ts             | 9     | ✅      |
-| Shopify           | shopify-plugin.test.ts            | 11    | ✅      |
-| **TOTAL**         | **8 files**                       | **165** | ✅      |
+| Plugin          | Test File                      | Tests   | Status |
+| --------------- | ------------------------------ | ------- | ------ |
+| Realtime        | realtime-plugin.test.ts        | 26      | ✅     |
+| Notifications   | notifications-plugin.test.ts   | 41      | ✅     |
+| Jobs            | jobs-plugin.test.ts            | 38      | ✅     |
+| File Processing | file-processing-plugin.test.ts | 15      | ✅     |
+| ID.me           | idme-plugin.test.ts            | 10      | ✅     |
+| Stripe          | stripe-plugin.test.ts          | 15      | ✅     |
+| GitHub          | github-plugin.test.ts          | 9       | ✅     |
+| Shopify         | shopify-plugin.test.ts         | 11      | ✅     |
+| **TOTAL**       | **8 files**                    | **165** | ✅     |
 
 ---
 
@@ -332,7 +348,9 @@ it('should process end-to-end workflow', async () => {
 it('should handle invalid input', async () => {
   const response = await fetch(`${PLUGIN_URL}/action`, {
     method: 'POST',
-    body: JSON.stringify({ /* invalid data */ }),
+    body: JSON.stringify({
+      /* invalid data */
+    }),
   })
 
   expect(response.status).toBeGreaterThanOrEqual(400)
@@ -383,12 +401,12 @@ services:
   realtime:
     image: nself/realtime:1.0.0
     ports:
-      - "3101:3101"
+      - '3101:3101'
 
   notifications:
     image: nself/notifications:1.0.0
     ports:
-      - "3102:3102"
+      - '3102:3102'
 
   # ... other plugins
 ```

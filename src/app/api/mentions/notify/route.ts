@@ -163,10 +163,7 @@ export async function POST(request: NextRequest) {
 
     const channel = channelData?.nchat_channels_by_pk
     if (!channel) {
-      return NextResponse.json(
-        { success: false, error: 'Channel not found' },
-        { status: 404 }
-      )
+      return NextResponse.json({ success: false, error: 'Channel not found' }, { status: 404 })
     }
 
     const notifications: Record<string, unknown>[] = []

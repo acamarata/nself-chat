@@ -28,8 +28,7 @@ export default function TwoFactorBackupPage() {
     setError('')
 
     // Get MFA ticket from session storage
-    const ticket =
-      typeof window !== 'undefined' ? sessionStorage.getItem('nchat-mfa-ticket') : null
+    const ticket = typeof window !== 'undefined' ? sessionStorage.getItem('nchat-mfa-ticket') : null
 
     if (!ticket) {
       setError('Session expired. Please sign in again.')
@@ -67,10 +66,10 @@ export default function TwoFactorBackupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
+          <div className="mb-4 flex justify-center">
             <Key className="h-12 w-12 text-indigo-600" />
           </div>
           <CardTitle>Use Backup Code</CardTitle>
@@ -122,11 +121,7 @@ export default function TwoFactorBackupPage() {
             </Button>
 
             <div className="text-center">
-              <Button
-                variant="link"
-                onClick={() => router.push('/auth/2fa-verify')}
-                type="button"
-              >
+              <Button variant="link" onClick={() => router.push('/auth/2fa-verify')} type="button">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to 2FA Code
               </Button>

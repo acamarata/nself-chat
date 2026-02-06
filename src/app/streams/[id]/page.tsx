@@ -14,7 +14,11 @@ import { useAuth } from '@/contexts/auth-context'
 import { logger } from '@/lib/logger'
 import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
-import type { StreamMetadata, StreamMessage, StreamReaction } from '@/components/voice-video/StreamPlayer'
+import type {
+  StreamMetadata,
+  StreamMessage,
+  StreamReaction,
+} from '@/components/voice-video/StreamPlayer'
 
 // =============================================================================
 // Component

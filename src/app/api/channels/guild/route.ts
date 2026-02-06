@@ -107,10 +107,7 @@ export async function GET(request: NextRequest) {
         { status: 400 }
       )
     }
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
@@ -138,8 +135,7 @@ export async function POST(request: NextRequest) {
     const organizationId = request.headers.get('x-organization-id') || 'org-1'
 
     // Generate slug if not provided
-    const slug =
-      data.slug || data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+    const slug = data.slug || data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
 
     // TODO: Check if slug is unique
     // const existingGuild = await getGuildBySlug(slug, organizationId)
@@ -264,9 +260,6 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

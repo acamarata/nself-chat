@@ -67,15 +67,15 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 
 ### Cryptographic Components
 
-| Component | Algorithm/Protocol | Purpose |
-|-----------|-------------------|---------|
-| **Identity Keys** | Curve25519 | Long-term device identity |
-| **Signed Prekeys** | Curve25519 + Ed25519 | Medium-term keys with signature |
-| **One-time Prekeys** | Curve25519 | Perfect forward secrecy |
-| **Message Encryption** | AES-256-GCM | Symmetric message encryption |
-| **Key Derivation** | PBKDF2-SHA256 | Master key from password |
-| **Hash Functions** | SHA-256, SHA-512 | Fingerprints and integrity |
-| **Random Generation** | Web Crypto API | Secure randomness |
+| Component              | Algorithm/Protocol   | Purpose                         |
+| ---------------------- | -------------------- | ------------------------------- |
+| **Identity Keys**      | Curve25519           | Long-term device identity       |
+| **Signed Prekeys**     | Curve25519 + Ed25519 | Medium-term keys with signature |
+| **One-time Prekeys**   | Curve25519           | Perfect forward secrecy         |
+| **Message Encryption** | AES-256-GCM          | Symmetric message encryption    |
+| **Key Derivation**     | PBKDF2-SHA256        | Master key from password        |
+| **Hash Functions**     | SHA-256, SHA-512     | Fingerprints and integrity      |
+| **Random Generation**  | Web Crypto API       | Secure randomness               |
 
 ---
 
@@ -148,11 +148,13 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 ### 1. Passive Attacker (Eavesdropper)
 
 **Capabilities:**
+
 - Observe network traffic
 - Monitor server data
 - Analyze metadata
 
 **Mitigations:**
+
 - End-to-end encryption (message content protected)
 - TLS/HTTPS (network layer encryption)
 - Metadata minimization
@@ -160,11 +162,13 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 ### 2. Active Network Attacker
 
 **Capabilities:**
+
 - Man-in-the-middle attacks
 - Traffic injection
 - Message tampering
 
 **Mitigations:**
+
 - Authenticated encryption (AES-GCM)
 - Safety number verification
 - Certificate pinning (optional)
@@ -172,12 +176,14 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 ### 3. Malicious Server
 
 **Capabilities:**
+
 - Serve malicious code updates
 - Correlate metadata
 - Selective message delivery
 - DoS attacks
 
 **Mitigations:**
+
 - Subresource Integrity (SRI)
 - Content Security Policy (CSP)
 - Safety number verification
@@ -186,12 +192,14 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 ### 4. Compromised Device Attacker
 
 **Capabilities:**
+
 - Access to local storage
 - Keyloggers
 - Screen capture
 - Memory dumping
 
 **Mitigations:**
+
 - Device lock (PIN/biometric)
 - Encrypted storage
 - Secure memory wiping
@@ -200,12 +208,14 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 ### 5. State-Level Attacker
 
 **Capabilities:**
+
 - All of the above
 - Zero-day exploits
 - Endpoint compromise
 - Traffic analysis
 
 **Mitigations:**
+
 - Defense in depth
 - Regular security updates
 - Threat monitoring
@@ -281,6 +291,7 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 **Likelihood**: Medium
 
 **Mitigations**:
+
 1. Signal Protocol E2EE (implemented) ✅
 2. TLS/HTTPS transport encryption (implemented) ✅
 3. Certificate pinning (optional) 🔄
@@ -300,6 +311,7 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 **Likelihood**: Low
 
 **Mitigations**:
+
 1. Forward secrecy via Double Ratchet (implemented) ✅
 2. Device lock with PIN/biometric (implemented) ✅
 3. Encrypted key storage (implemented) ✅
@@ -321,6 +333,7 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 **Likelihood**: Low
 
 **Mitigations**:
+
 1. E2EE (server cannot decrypt) ✅
 2. Safety number verification ✅
 3. Client-side key management ✅
@@ -341,6 +354,7 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 **Likelihood**: Low
 
 **Mitigations**:
+
 1. Content Security Policy (implemented) ✅
 2. Subresource Integrity (implemented) ✅
 3. Code signing (planned) 🔄
@@ -361,6 +375,7 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 **Likelihood**: Low
 
 **Mitigations**:
+
 1. Safety number verification (implemented) ✅
 2. Signal Protocol identity keys ✅
 3. Trust-on-first-use (TOFU) model ✅
@@ -381,6 +396,7 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 **Likelihood**: Low
 
 **Mitigations**:
+
 1. Double Ratchet nonces (implemented) ✅
 2. Message counters (Signal Protocol) ✅
 3. Timestamp validation 🔄
@@ -400,6 +416,7 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 **Likelihood**: Medium
 
 **Mitigations**:
+
 1. Rate limiting (implemented) ✅
 2. Message queuing (implemented) ✅
 3. Offline support 🔄
@@ -419,6 +436,7 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 **Likelihood**: High
 
 **Mitigations**:
+
 1. Metadata minimization 🔄
 2. Sealed sender (planned) 🔄
 3. Padding (planned) 🔄
@@ -438,6 +456,7 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 **Likelihood**: Low
 
 **Mitigations**:
+
 1. Device lock (implemented) ✅
 2. Remote wipe (implemented) ✅
 3. Encrypted storage (implemented) ✅
@@ -454,17 +473,20 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 **Attacker**: State-level actor with server access
 
 **Capabilities**:
+
 - Full server access
 - Traffic monitoring
 - Endpoint targeting
 
 **Attack Path**:
+
 1. Compromise server infrastructure
 2. Collect encrypted messages and metadata
 3. Target high-value endpoints with zero-days
 4. Decrypt targeted conversations
 
 **Defense**:
+
 - E2EE prevents mass decryption
 - Safety number verification detects MITM
 - Device lock limits endpoint compromise
@@ -479,16 +501,19 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 **Attacker**: Insider with database access
 
 **Capabilities**:
+
 - Read database contents
 - Manipulate message delivery
 
 **Attack Path**:
+
 1. Access database via compromised credentials
 2. Export encrypted messages
 3. Analyze metadata for target identification
 4. Attempt offline attacks on keys
 
 **Defense**:
+
 - E2EE renders encrypted payloads useless
 - Keys stored encrypted with user passwords
 - Audit logging detects suspicious access
@@ -503,17 +528,20 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 **Attacker**: Thief with physical access
 
 **Capabilities**:
+
 - Full device access
 - Storage extraction
 - Memory analysis
 
 **Attack Path**:
+
 1. Steal unlocked device
 2. Extract local storage and IndexedDB
 3. Attempt to decrypt keys
 4. Access messages in memory
 
 **Defense**:
+
 - Device auto-lock after inactivity
 - Encrypted storage requires master key
 - Remote wipe capability
@@ -528,16 +556,19 @@ nself-chat implements **Signal Protocol** end-to-end encryption (E2EE) to provid
 **Attacker**: Compromised CDN or server
 
 **Capabilities**:
+
 - Serve modified JavaScript
 - Inject backdoor code
 
 **Attack Path**:
+
 1. Compromise deployment pipeline
 2. Inject malicious code into build
 3. Serve to users on next update
 4. Exfiltrate keys via backdoor
 
 **Defense**:
+
 - Subresource Integrity (SRI) prevents modification
 - Content Security Policy blocks exfiltration
 - Code review process
@@ -717,11 +748,13 @@ nself-chat implements **production-grade Signal Protocol E2EE** with comprehensi
 ✅ **Key Management**: Encrypted storage, secure generation
 
 **Residual Risks**:
+
 - Metadata collection (inherent to server architecture)
 - Web-based deployment (SRI/CSP mitigations)
 - Endpoint compromise (defense-in-depth)
 
 **Recommended Actions**:
+
 1. Enable safety number verification for sensitive conversations
 2. Use device lock on all devices
 3. Regularly update to latest security patches

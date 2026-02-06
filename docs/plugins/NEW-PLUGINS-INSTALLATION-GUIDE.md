@@ -84,6 +84,7 @@ nself plugin install analytics
 ```
 
 **Expected Output**:
+
 ```
 ✓ Downloading plugin: analytics@1.0.0
 ✓ Extracting plugin files
@@ -255,6 +256,7 @@ nself plugin list --installed
 ```
 
 **Expected Output**:
+
 ```
 ✓ analytics (1.0.0) - Running on port 3106
 ✓ advanced-search (1.0.0) - Running on port 3107
@@ -270,6 +272,7 @@ nself doctor
 ```
 
 This will check:
+
 - Plugin health endpoints
 - Database connections
 - Redis connectivity
@@ -308,6 +311,7 @@ pnpm dev
 ### 5. Test Integration
 
 Visit:
+
 - Analytics: http://localhost:3000/admin/analytics
 - Search: http://localhost:3000/search (try semantic search)
 - Media: Upload a file and check for thumbnails
@@ -323,6 +327,7 @@ Visit:
 **Symptom**: Plugin status shows "stopped" or "error"
 
 **Solution**:
+
 ```bash
 # Check logs
 nself logs <plugin-name> --tail 50
@@ -341,6 +346,7 @@ nself restart <plugin-name>
 **Symptom**: `curl http://<plugin>.localhost:<port>/health` returns error
 
 **Solution**:
+
 ```bash
 # Wait for startup
 sleep 30
@@ -360,6 +366,7 @@ nself logs <plugin-name>
 **Symptom**: "Migration failed" error during installation
 
 **Solution**:
+
 ```bash
 # Check database connectivity
 nself exec postgres psql -U postgres -c "SELECT 1"
@@ -376,6 +383,7 @@ nself logs <plugin-name> | grep migration
 **Symptom**: Server running slowly after plugin installation
 
 **Solution**:
+
 ```bash
 # Check resource usage
 docker stats
@@ -397,6 +405,7 @@ nself restart
 **Symptom**: "Invalid API key" or "Unauthorized" errors
 
 **Solution**:
+
 ```bash
 # Verify API keys are set
 echo $OPENAI_API_KEY
@@ -424,6 +433,7 @@ nself plugin remove <plugin-name>
 ```
 
 **Options**:
+
 - `--keep-data`: Keep database tables and data
 - `--force`: Force removal even if plugin is running
 
@@ -438,12 +448,14 @@ nself plugin remove analytics advanced-search media-pipeline ai-orchestration wo
 ## Resource Requirements
 
 ### Minimum (Development)
+
 - CPU: 4 cores
 - RAM: 8GB
 - Disk: 50GB
 - Network: 10Mbps
 
 ### Recommended (Production)
+
 - CPU: 8+ cores
 - RAM: 16GB+
 - Disk: 200GB+ SSD
@@ -451,13 +463,13 @@ nself plugin remove analytics advanced-search media-pipeline ai-orchestration wo
 
 ### Per-Plugin Resources
 
-| Plugin | CPU | Memory | Storage |
-|--------|-----|--------|---------|
-| Analytics | 1.0 | 512MB | 10GB+ |
-| Advanced Search | 0.5 | 1024MB | 5GB+ |
-| Media Pipeline | 2.0 | 2048MB | 50GB+ |
-| AI Orchestration | 0.5 | 512MB | 1GB |
-| Workflows | 0.5 | 512MB | 2GB |
+| Plugin           | CPU | Memory | Storage |
+| ---------------- | --- | ------ | ------- |
+| Analytics        | 1.0 | 512MB  | 10GB+   |
+| Advanced Search  | 0.5 | 1024MB | 5GB+    |
+| Media Pipeline   | 2.0 | 2048MB | 50GB+   |
+| AI Orchestration | 0.5 | 512MB  | 1GB     |
+| Workflows        | 0.5 | 512MB  | 2GB     |
 
 ---
 
@@ -472,6 +484,7 @@ nself plugin remove analytics advanced-search media-pipeline ai-orchestration wo
 ---
 
 **Support**:
+
 - Documentation: `/docs/plugins/`
 - Issues: https://github.com/acamarata/nself-plugins/issues
 - Discord: https://discord.gg/nself

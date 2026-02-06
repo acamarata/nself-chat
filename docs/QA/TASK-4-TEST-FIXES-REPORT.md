@@ -9,26 +9,31 @@
 ## Issues Identified
 
 ### 1. Test Environment Issues
+
 **Problem**: API route tests failing with "Request is not defined" error
 **Root Cause**: Next.js Request object only available in node environment, but tests were running in jsdom
 **Impact**: 8+ test files failing
 
 ### 2. Jest Setup Browser API Mocks
+
 **Problem**: Browser-specific mocks (window, navigator, Element) causing failures in node environment
 **Root Cause**: jest.setup.js unconditionally mocking browser APIs
 **Impact**: All node environment tests failing
 
 ### 3. JSX Syntax Errors
+
 **Problem**: JSX not parsing in test files
 **Root Cause**: Missing React import in TypeScript files
 **Impact**: 1 test file
 
 ### 4. Test Assertion Errors
+
 **Problem**: Tests expecting wrong response structure or values
 **Root Cause**: API responses changed but tests not updated
 **Impact**: Multiple test assertions
 
 ### 5. Memory Exhaustion
+
 **Problem**: Jest running out of heap memory during test runs
 **Root Cause**: Too many parallel workers, insufficient heap size
 **Impact**: Test suite crashing before completion
@@ -38,7 +43,9 @@
 ## Fixes Implemented
 
 ### Fix 1: Added Jest Environment Docblocks ✅
+
 **Files Modified** (8 files):
+
 - `/src/lib/api/__tests__/rate-limiter.test.ts`
 - `/src/app/api/__tests__/bot-routes.test.ts`
 - `/src/app/api/__tests__/ai-routes.test.ts`
@@ -51,6 +58,7 @@
 **Change**: Added `@jest-environment node` docblock at the top of each file
 
 **Before**:
+
 ```typescript
 /**
  * Config API Route Tests
@@ -59,6 +67,7 @@ import { NextRequest } from 'next/server'
 ```
 
 **After**:
+
 ```typescript
 /**
  * @jest-environment node
@@ -75,17 +84,20 @@ import { NextRequest } from 'next/server'
 ---
 
 ### Fix 2: Made Jest Setup Conditional ✅
+
 **File Modified**: `/jest.setup.js`
 
 **Change**: Wrapped all browser-specific mocks in conditional checks
 
 **Key Changes**:
+
 1. Window/navigator/Element mocks only run if objects exist
 2. Global mocks (ResizeObserver, IntersectionObserver) check for existence
 3. AudioContext, requestAnimationFrame only mocked if undefined
 4. URL/Blob mocks only added if methods missing
 
 **Before**:
+
 ```javascript
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
@@ -95,6 +107,7 @@ Object.defineProperty(window, 'matchMedia', {
 ```
 
 **After**:
+
 ```javascript
 // Mock window.matchMedia (only in jsdom environment)
 if (typeof window !== 'undefined') {
@@ -110,17 +123,20 @@ if (typeof window !== 'undefined') {
 ---
 
 ### Fix 3: Added React Import ✅
+
 **File Modified**: `/src/hooks/__tests__/use-channel-members.test.ts`
 
 **Change**: Added React import for JSX syntax
 
 **Before**:
+
 ```typescript
 import { renderHook, waitFor } from '@testing-library/react'
 import { useChannelMembers } from '../use-channel-members'
 ```
 
 **After**:
+
 ```typescript
 import React from 'react'
 import { renderHook, waitFor } from '@testing-library/react'
@@ -132,16 +148,21 @@ import { useChannelMembers } from '../use-channel-members'
 ---
 
 ### Fix 4: Updated Test Assertions ✅
+
 **Files Modified**:
+
 - `/src/app/api/__tests__/health.test.ts`
 - `/src/app/api/__tests__/config.test.ts`
 
 **Health Test Changes**:
+
 - Line 25: Changed `expect(data.status).toBe('ok')` to `expect(data.status).toBe('healthy')`
 - Reason: API returns "healthy", not "ok"
 
 **Config Test Changes**:
+
 - Lines 31-33: Updated to check nested structure:
+
   ```typescript
   // Before
   expect(data).toHaveProperty('setup')
@@ -155,6 +176,7 @@ import { useChannelMembers } from '../use-channel-members'
   expect(data.data.config).toHaveProperty('branding')
   expect(data.data.config).toHaveProperty('theme')
   ```
+
 - Line 61: Changed `expect([200, 500]).toContain(response.status)` to `expect(response.status).toBeGreaterThanOrEqual(200)`
 
 **Result**: All assertions now match actual API behavior
@@ -162,11 +184,13 @@ import { useChannelMembers } from '../use-channel-members'
 ---
 
 ### Fix 5: Increased Memory and Limited Workers ✅
+
 **File Modified**: `/package.json`
 
 **Change**: Updated test scripts with memory limits and worker restrictions
 
 **Before**:
+
 ```json
 {
   "test": "jest --forceExit",
@@ -176,6 +200,7 @@ import { useChannelMembers } from '../use-channel-members'
 ```
 
 **After**:
+
 ```json
 {
   "test": "NODE_OPTIONS='--max-old-space-size=8192' jest --forceExit --maxWorkers=2",
@@ -185,6 +210,7 @@ import { useChannelMembers } from '../use-channel-members'
 ```
 
 **Changes**:
+
 - Increased Node.js heap size to 8GB (from default ~2GB)
 - Limited Jest workers to 2 (from auto-detected CPU count)
 
@@ -195,8 +221,10 @@ import { useChannelMembers } from '../use-channel-members'
 ## Test Results After Fixes
 
 ### Health API Tests ✅
+
 **File**: `src/app/api/__tests__/health.test.ts`
 **Status**: PASSING (5/5 tests)
+
 ```
 ✓ GET /api/health › should return health status
 ✓ GET /api/health › should include timestamp
@@ -206,8 +234,10 @@ import { useChannelMembers } from '../use-channel-members'
 ```
 
 ### Config API Tests ✅
+
 **File**: `src/app/api/__tests__/config.test.ts`
 **Status**: PASSING (5/5 tests)
+
 ```
 ✓ GET /api/config › should return default config when no config exists
 ✓ GET /api/config › should handle database errors gracefully
@@ -221,18 +251,21 @@ import { useChannelMembers } from '../use-channel-members'
 ## Remaining Work
 
 ### High Priority
+
 1. Fix remaining API route test failures (bot-routes, ai-routes, moderation-routes)
 2. Investigate and fix flaky tests (LiveKit, file upload, scheduled messages)
 3. Fix E2EE session test async issues
 4. Fix Nhost auth mock issues
 
 ### Medium Priority
+
 1. Run full test suite to get complete baseline
 2. Document all test failures and categorize by type
 3. Create fixes for each category
 4. Re-run tests to verify fixes
 
 ### Low Priority
+
 1. Optimize test performance
 2. Add test sharding for coverage runs
 3. Update test documentation
@@ -244,15 +277,15 @@ import { useChannelMembers } from '../use-channel-members'
 **Total Files Modified**: 11
 
 1. **Test Files** (9 files):
-   - src/lib/api/__tests__/rate-limiter.test.ts
-   - src/app/api/__tests__/bot-routes.test.ts
-   - src/app/api/__tests__/ai-routes.test.ts
-   - src/app/api/__tests__/moderation-routes.test.ts
-   - src/app/api/__tests__/config.test.ts
-   - src/app/api/__tests__/health.test.ts
-   - src/__tests__/api/config.test.ts
-   - src/__tests__/api/channels.test.ts
-   - src/hooks/__tests__/use-channel-members.test.ts
+   - src/lib/api/**tests**/rate-limiter.test.ts
+   - src/app/api/**tests**/bot-routes.test.ts
+   - src/app/api/**tests**/ai-routes.test.ts
+   - src/app/api/**tests**/moderation-routes.test.ts
+   - src/app/api/**tests**/config.test.ts
+   - src/app/api/**tests**/health.test.ts
+   - src/**tests**/api/config.test.ts
+   - src/**tests**/api/channels.test.ts
+   - src/hooks/**tests**/use-channel-members.test.ts
 
 2. **Configuration Files** (2 files):
    - jest.setup.js

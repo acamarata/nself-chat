@@ -428,7 +428,12 @@ export class AutomatedActionEngine {
       if (action.analysis.detectedIssues.length > 0) {
         type Severity = 'low' | 'medium' | 'high' | 'critical'
         const highestSeverity = action.analysis.detectedIssues.reduce((max, issue) => {
-          const severityOrder: Record<Severity, number> = { low: 1, medium: 2, high: 3, critical: 4 }
+          const severityOrder: Record<Severity, number> = {
+            low: 1,
+            medium: 2,
+            high: 3,
+            critical: 4,
+          }
           const maxOrder = severityOrder[max]
           const issueOrder = severityOrder[issue.severity]
           return issueOrder > maxOrder ? issue.severity : max

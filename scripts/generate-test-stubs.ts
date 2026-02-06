@@ -250,7 +250,9 @@ function analyzeFile(filePath: string): TestStubOptions {
     filePath,
     isApiRoute: filePath.includes('/app/api/'),
     isComponent: filePath.includes('/components/') && filePath.endsWith('.tsx'),
-    isService: filePath.includes('/services/') || filePath.includes('/lib/') && filePath.includes('service'),
+    isService:
+      filePath.includes('/services/') ||
+      (filePath.includes('/lib/') && filePath.includes('service')),
     isHook: filePath.includes('/hooks/') || basename(filePath).startsWith('use-'),
     isUtil: filePath.includes('/lib/') || filePath.includes('/utils/'),
   }
@@ -264,18 +266,13 @@ function getTestFilePath(srcFilePath: string): string {
 
   // For API routes, place in __tests__/api/
   if (srcFilePath.includes('/app/api/')) {
-    const routeName = srcFilePath
-      .split('/app/api/')[1]
-      .replace('/route.ts', '')
-      .replace(/\//g, '-')
+    const routeName = srcFilePath.split('/app/api/')[1].replace('/route.ts', '').replace(/\//g, '-')
 
     return join(process.cwd(), 'src', '__tests__', 'api', `${routeName}.test.ts`)
   }
 
   // For other files, place in __tests__ directory matching structure
-  const testPath = srcFilePath
-    .replace('/src/', '/src/__tests__/')
-    .replace(ext, `.test${ext}`)
+  const testPath = srcFilePath.replace('/src/', '/src/__tests__/').replace(ext, `.test${ext}`)
 
   return testPath
 }

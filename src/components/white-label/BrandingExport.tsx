@@ -136,7 +136,7 @@ export function BrandingExport({ config, favicons = [], className }: BrandingExp
           break
       }
     } catch (error) {
-      logger.error('Export failed:',  error)
+      logger.error('Export failed:', error)
     } finally {
       setIsExporting(false)
     }
@@ -162,9 +162,7 @@ export function BrandingExport({ config, favicons = [], className }: BrandingExp
     <div className={cn('space-y-6', className)}>
       {/* Format selection */}
       <div className="space-y-3">
-        <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Export Format
-        </span>
+        <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Export Format</span>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
           {EXPORT_OPTIONS.map((option) => (
             <button

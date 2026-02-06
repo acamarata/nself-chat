@@ -399,7 +399,11 @@ export function useCanJoinChannel(channelId: string | null): {
       return { canJoin: false, reason: 'Private channel requires invitation' }
     }
 
-    if (channel.type === 'direct' || channel.type === 'group_dm' || channel.type === 'announcement') {
+    if (
+      channel.type === 'direct' ||
+      channel.type === 'group_dm' ||
+      channel.type === 'announcement'
+    ) {
       return { canJoin: false, reason: 'Cannot join DM channels' }
     }
 

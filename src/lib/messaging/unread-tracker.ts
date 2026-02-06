@@ -120,7 +120,7 @@ export class UnreadTracker {
       this.syncChannel.addEventListener('message', this.handleSyncMessage.bind(this))
     } catch (error) {
       logger.warn('BroadcastChannel not available, cross-tab sync disabled:', {
-        error: error instanceof Error ? error.message : String(error)
+        error: error instanceof Error ? error.message : String(error),
       })
     }
   }
@@ -176,7 +176,7 @@ export class UnreadTracker {
       this.syncChannel.postMessage(syncEvent)
     } catch (error) {
       logger.warn('Failed to broadcast sync event:', {
-        error: error instanceof Error ? error.message : String(error)
+        error: error instanceof Error ? error.message : String(error),
       })
     }
   }

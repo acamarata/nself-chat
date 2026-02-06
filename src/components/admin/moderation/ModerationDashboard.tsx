@@ -80,7 +80,7 @@ export function ModerationDashboard() {
         setStats(data)
       }
     } catch (error) {
-      logger.error('Failed to fetch stats:',  error)
+      logger.error('Failed to fetch stats:', error)
     } finally {
       setLoading(false)
     }

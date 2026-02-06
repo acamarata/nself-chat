@@ -92,9 +92,9 @@ export async function seed(options: SeedOptions) {
     await new Promise((resolve) => setTimeout(resolve, 2000)) // Simulate seeding
 
     spinner.succeed('Database seeded successfully')
-// REMOVED: console.log(chalk.green('\n✓ Sample data created:'))
-// REMOVED: console.log(chalk.gray(`  - ${options.users || 10} users`))
-// REMOVED: console.log(chalk.gray(`  - ${options.channels || 5} channels`))
+    // REMOVED: console.log(chalk.green('\n✓ Sample data created:'))
+    // REMOVED: console.log(chalk.gray(`  - ${options.users || 10} users`))
+    // REMOVED: console.log(chalk.gray(`  - ${options.channels || 5} channels`))
     // REMOVED: console.log(
     //   chalk.gray(
     //     `  - ${parseInt(options.messages || '50') * parseInt(options.channels || '5')} messages\n`
@@ -122,7 +122,7 @@ export async function reset(options: ResetOptions) {
     ])
 
     if (!confirm) {
-// REMOVED: console.log(chalk.gray('Database reset cancelled'))
+      // REMOVED: console.log(chalk.gray('Database reset cancelled'))
       return
     }
   }
@@ -195,7 +195,7 @@ export async function backup(options: BackupOptions) {
     child.on('exit', (code) => {
       if (code === 0) {
         spinner.succeed('Database backup created')
-// REMOVED: console.log(chalk.green(`\n✓ Backup saved to: ${outputPath}\n`))
+        // REMOVED: console.log(chalk.green(`\n✓ Backup saved to: ${outputPath}\n`))
       } else {
         spinner.fail('Backup failed')
         process.exit(code || 1)
@@ -229,7 +229,7 @@ export async function restore(file: string, options: RestoreOptions) {
     ])
 
     if (!confirm) {
-// REMOVED: console.log(chalk.gray('Database restore cancelled'))
+      // REMOVED: console.log(chalk.gray('Database restore cancelled'))
       return
     }
   }
@@ -249,7 +249,7 @@ export async function restore(file: string, options: RestoreOptions) {
     child.on('exit', (code) => {
       if (code === 0) {
         spinner.succeed('Database restored successfully')
-// REMOVED: console.log(chalk.green('\n✓ Database restored from backup\n'))
+        // REMOVED: console.log(chalk.green('\n✓ Database restored from backup\n'))
       } else {
         spinner.fail('Restore failed')
         process.exit(code || 1)

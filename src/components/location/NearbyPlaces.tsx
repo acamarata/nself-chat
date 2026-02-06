@@ -115,7 +115,7 @@ export function NearbyPlaces({
         setPlaces(results)
       } catch (err) {
         setError('Failed to load nearby places')
-        logger.error('Failed to fetch nearby places:',  err)
+        logger.error('Failed to fetch nearby places:', err)
       } finally {
         setIsLoading(false)
       }

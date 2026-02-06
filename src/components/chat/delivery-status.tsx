@@ -158,7 +158,7 @@ export const DeliveryStatus = memo(function DeliveryStatus({
   const iconElement = isRetryable ? (
     <span
       className={cn(
-        'inline-flex items-center cursor-pointer hover:opacity-80',
+        'inline-flex cursor-pointer items-center hover:opacity-80',
         sizeStyles.container,
         config.color,
         className

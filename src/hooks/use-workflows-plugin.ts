@@ -32,22 +32,23 @@ export function useCreateWorkflow() {
   const [isCreating, setIsCreating] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
-  const createWorkflow = useCallback(async (
-    request: CreateWorkflowRequest
-  ): Promise<Workflow | null> => {
-    setIsCreating(true)
-    setError(null)
+  const createWorkflow = useCallback(
+    async (request: CreateWorkflowRequest): Promise<Workflow | null> => {
+      setIsCreating(true)
+      setError(null)
 
-    try {
-      const workflow = await workflowsService.createWorkflow(request)
-      return workflow
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to create workflow'))
-      return null
-    } finally {
-      setIsCreating(false)
-    }
-  }, [])
+      try {
+        const workflow = await workflowsService.createWorkflow(request)
+        return workflow
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('Failed to create workflow'))
+        return null
+      } finally {
+        setIsCreating(false)
+      }
+    },
+    []
+  )
 
   return {
     createWorkflow,
@@ -60,23 +61,23 @@ export function useWorkflowExecution() {
   const [isExecuting, setIsExecuting] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
-  const executeWorkflow = useCallback(async (
-    id: string,
-    payload?: Record<string, any>
-  ): Promise<WorkflowExecution | null> => {
-    setIsExecuting(true)
-    setError(null)
+  const executeWorkflow = useCallback(
+    async (id: string, payload?: Record<string, any>): Promise<WorkflowExecution | null> => {
+      setIsExecuting(true)
+      setError(null)
 
-    try {
-      const execution = await workflowsService.executeWorkflow(id, payload)
-      return execution
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to execute workflow'))
-      return null
-    } finally {
-      setIsExecuting(false)
-    }
-  }, [])
+      try {
+        const execution = await workflowsService.executeWorkflow(id, payload)
+        return execution
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('Failed to execute workflow'))
+        return null
+      } finally {
+        setIsExecuting(false)
+      }
+    },
+    []
+  )
 
   return {
     executeWorkflow,

@@ -9,13 +9,13 @@
 
 ## Definition-of-Done Criteria
 
-| Criterion | Status | Evidence |
-|-----------|--------|----------|
+| Criterion                     | Status     | Evidence                                           |
+| ----------------------------- | ---------- | -------------------------------------------------- |
 | Code exists and is functional | ⚠️ PARTIAL | Build infrastructure exists but has blocking error |
-| Tests exist and pass | ✅ DONE | Unit tests pass, E2E tests configured |
-| No mock implementations | ✅ DONE | All implementations are real |
-| Documentation complete | ✅ DONE | Comprehensive deployment docs exist |
-| Build pipeline works | ⚠️ BLOCKED | Build fails due to missing dependency |
+| Tests exist and pass          | ✅ DONE    | Unit tests pass, E2E tests configured              |
+| No mock implementations       | ✅ DONE    | All implementations are real                       |
+| Documentation complete        | ✅ DONE    | Comprehensive deployment docs exist                |
+| Build pipeline works          | ⚠️ BLOCKED | Build fails due to missing dependency              |
 
 ---
 
@@ -26,6 +26,7 @@
 **Evidence:**
 
 #### Build Scripts (`package.json`)
+
 ```json
 {
   "build": "next build",
@@ -39,6 +40,7 @@
 **File**: `/Users/admin/Sites/nself-chat/package.json` (lines 37-78)
 
 #### Build Script (`scripts/build-web.sh`)
+
 - **Location**: `/Users/admin/Sites/nself-chat/scripts/build-web.sh`
 - **Features**:
   - Type checking before build
@@ -58,6 +60,7 @@
 **Evidence**: `/Users/admin/Sites/nself-chat/next.config.js`
 
 #### Minification & Code Splitting
+
 ```javascript
 // Automatic via Next.js 15 - no additional config needed
 // Next.js automatically performs:
@@ -67,6 +70,7 @@
 ```
 
 #### Package Import Optimization
+
 ```javascript
 experimental: {
   optimizePackageImports: [
@@ -88,6 +92,7 @@ experimental: {
 ```
 
 #### Console Removal (Production)
+
 ```javascript
 compiler: {
   removeConsole: process.env.NODE_ENV === 'production'
@@ -100,6 +105,7 @@ compiler: {
 ```
 
 #### Compression & Headers
+
 ```javascript
 compress: true,
 poweredByHeader: false,
@@ -115,6 +121,7 @@ productionBrowserSourceMaps: false,
 **Evidence**: `/Users/admin/Sites/nself-chat/next.config.js`
 
 #### Image Optimization
+
 ```javascript
 images: {
   formats: ['image/avif', 'image/webp'],
@@ -129,6 +136,7 @@ images: {
 ```
 
 #### Caching Headers
+
 ```javascript
 async headers() {
   return [
@@ -157,6 +165,7 @@ async headers() {
 **Evidence**: Multiple files
 
 #### Validation Script
+
 - **File**: `/Users/admin/Sites/nself-chat/scripts/validate-env.ts`
 - **Features**:
   - Public environment validation
@@ -166,6 +175,7 @@ async headers() {
   - Helpful error messages
 
 #### Usage in Build Scripts
+
 ```bash
 # package.json
 "validate:env": "tsx scripts/validate-env.ts",
@@ -173,6 +183,7 @@ async headers() {
 ```
 
 #### Environment Files
+
 - `.env.local` - Local development
 - `.env.example` - Template with documentation
 - `.env.production.example` - Production template
@@ -187,6 +198,7 @@ async headers() {
 **Evidence**:
 
 #### CI Build Job
+
 **File**: `/Users/admin/Sites/nself-chat/.github/workflows/ci.yml` (lines 120-161)
 
 ```yaml
@@ -205,11 +217,13 @@ build:
 ```
 
 #### Bundle Analyzer
+
 - **Tool**: `@next/bundle-analyzer`
 - **Script**: `pnpm build:analyze`
 - **Config**: Enabled with `ANALYZE=true`
 
 #### Lighthouse CI
+
 - **File**: `/Users/admin/Sites/nself-chat/.github/workflows/lighthouse-ci.yml`
 - **Config**: `/Users/admin/Sites/nself-chat/lighthouserc.json`
 - **Metrics Tracked**:
@@ -220,13 +234,16 @@ build:
   - Core Web Vitals (FCP, LCP, CLS, TBT)
 
 #### Current Build Issue
+
 **ERROR**: Build currently fails with:
+
 ```
 Module not found: Can't resolve 'next-auth'
 ./src/app/api/channels/categories/route.ts
 ```
 
 **Root Cause**:
+
 - File `/Users/admin/Sites/nself-chat/src/app/api/channels/categories/route.ts` imports `next-auth`
 - Package `next-auth` is NOT in `package.json` dependencies
 - Project uses Nhost Auth, not NextAuth
@@ -240,9 +257,11 @@ Module not found: Can't resolve 'next-auth'
 **Evidence**: Multiple workflow files
 
 #### Primary Build Workflow
+
 **File**: `/Users/admin/Sites/nself-chat/.github/workflows/build-web.yml`
 
 **Features**:
+
 - Environment selection (development, staging, production)
 - Multi-environment builds
 - Artifact upload with versioning
@@ -251,6 +270,7 @@ Module not found: Can't resolve 'next-auth'
 - Version tracking from package.json
 
 **Key Steps**:
+
 1. Checkout code
 2. Setup pnpm + Node.js 20
 3. Install dependencies with frozen lockfile
@@ -259,9 +279,11 @@ Module not found: Can't resolve 'next-auth'
 6. Analyze bundle (production only)
 
 #### CI Workflow
+
 **File**: `/Users/admin/Sites/nself-chat/.github/workflows/ci.yml`
 
 **Jobs**:
+
 - Lint (ESLint + Prettier)
 - Type check (TypeScript)
 - Test (Jest with coverage)
@@ -278,9 +300,11 @@ Module not found: Can't resolve 'next-auth'
 **Evidence**: Multiple platforms supported
 
 #### Vercel Deployment
+
 **File**: `/Users/admin/Sites/nself-chat/.github/workflows/deploy-vercel.yml`
 
 **Features**:
+
 - Preview/staging/production environments
 - Environment-specific builds
 - Prebuilt deployments
@@ -288,6 +312,7 @@ Module not found: Can't resolve 'next-auth'
 - URL outputs
 
 **Config**: `/Users/admin/Sites/nself-chat/vercel.json`
+
 - Build command: `pnpm build`
 - Install command: `pnpm install --frozen-lockfile`
 - Output: `.next`
@@ -296,23 +321,28 @@ Module not found: Can't resolve 'next-auth'
 - Function timeouts
 
 #### Netlify Deployment
+
 **File**: `/Users/admin/Sites/nself-chat/.github/workflows/deploy-netlify.yml`
 
 **Features**:
+
 - Preview/production environments
 - PR comments with results
 - Deploy messages
 - Timeout handling
 
 #### Docker Deployment
+
 **File**: `/Users/admin/Sites/nself-chat/Dockerfile`
 
 **Multi-stage build**:
+
 1. **Stage 1: deps** - Install dependencies
 2. **Stage 2: builder** - Build application
 3. **Stage 3: runner** - Production runtime
 
 **Optimizations**:
+
 - Alpine Linux (minimal size)
 - Non-root user (security)
 - Standalone build support
@@ -322,6 +352,7 @@ Module not found: Can't resolve 'next-auth'
 **Workflow**: `/Users/admin/Sites/nself-chat/.github/workflows/docker-build.yml`
 
 **Features**:
+
 - Multi-arch builds (amd64, arm64)
 - GHCR + Docker Hub publishing
 - Trivy security scanning
@@ -330,7 +361,9 @@ Module not found: Can't resolve 'next-auth'
 - Metadata tagging
 
 #### Kubernetes Deployment
+
 **Files**:
+
 - `/Users/admin/Sites/nself-chat/.github/workflows/deploy-k8s.yml`
 - Helm charts in `deploy/` directory
 
@@ -343,6 +376,7 @@ Module not found: Can't resolve 'next-auth'
 **Evidence**: Extensive documentation
 
 #### Deployment Documentation
+
 1. **Production Deployment Guide**
    - **File**: `/Users/admin/Sites/nself-chat/docs/guides/deployment/production-deployment.md`
    - **Content**: Complete guide with architecture, prerequisites, deployment options
@@ -401,6 +435,7 @@ Module not found: Can't resolve 'next-auth'
 ### Critical Gap (Blocks Task Completion)
 
 **1. Build Failure** ⚠️ CRITICAL
+
 - **Issue**: Cannot complete production build due to import error
 - **Location**: `src/app/api/channels/categories/route.ts` (line 8)
 - **Current**: `import { getServerSession } from 'next-auth'`
@@ -411,6 +446,7 @@ Module not found: Can't resolve 'next-auth'
 ### Recommended Improvements (Non-blocking)
 
 **2. Build Tests**
+
 - Add explicit build verification tests
 - Test build output structure
 - Verify static exports
@@ -418,12 +454,14 @@ Module not found: Can't resolve 'next-auth'
 - **File suggestion**: `src/__tests__/build.test.ts`
 
 **3. Performance Budgets**
+
 - Configure performance budgets in `next.config.js`
 - Set max bundle sizes
 - Alert on bundle size increases
 - **Reference**: Lighthouse CI has budgets, but could be stricter
 
 **4. Build Caching**
+
 - Document build caching strategy
 - Add cache invalidation rules
 - Optimize CI cache usage
@@ -433,34 +471,37 @@ Module not found: Can't resolve 'next-auth'
 ## Evidence Summary
 
 ### Build Configuration Files
-| File | Purpose | Status |
-|------|---------|--------|
-| `/next.config.js` | Next.js build config | ✅ Complete |
-| `/package.json` | Build scripts | ✅ Complete |
-| `/scripts/build-web.sh` | Web build script | ✅ Complete |
-| `/Dockerfile` | Docker build | ✅ Complete |
-| `/vercel.json` | Vercel config | ✅ Complete |
-| `/lighthouserc.json` | Performance monitoring | ✅ Complete |
+
+| File                    | Purpose                | Status      |
+| ----------------------- | ---------------------- | ----------- |
+| `/next.config.js`       | Next.js build config   | ✅ Complete |
+| `/package.json`         | Build scripts          | ✅ Complete |
+| `/scripts/build-web.sh` | Web build script       | ✅ Complete |
+| `/Dockerfile`           | Docker build           | ✅ Complete |
+| `/vercel.json`          | Vercel config          | ✅ Complete |
+| `/lighthouserc.json`    | Performance monitoring | ✅ Complete |
 
 ### CI/CD Workflows
-| File | Purpose | Status |
-|------|---------|--------|
-| `.github/workflows/ci.yml` | Main CI | ✅ Complete |
-| `.github/workflows/build-web.yml` | Web build | ✅ Complete |
-| `.github/workflows/deploy-vercel.yml` | Vercel deploy | ✅ Complete |
-| `.github/workflows/deploy-netlify.yml` | Netlify deploy | ✅ Complete |
-| `.github/workflows/docker-build.yml` | Docker build | ✅ Complete |
-| `.github/workflows/deploy-k8s.yml` | K8s deploy | ✅ Complete |
-| `.github/workflows/lighthouse-ci.yml` | Performance tests | ✅ Complete |
+
+| File                                   | Purpose           | Status      |
+| -------------------------------------- | ----------------- | ----------- |
+| `.github/workflows/ci.yml`             | Main CI           | ✅ Complete |
+| `.github/workflows/build-web.yml`      | Web build         | ✅ Complete |
+| `.github/workflows/deploy-vercel.yml`  | Vercel deploy     | ✅ Complete |
+| `.github/workflows/deploy-netlify.yml` | Netlify deploy    | ✅ Complete |
+| `.github/workflows/docker-build.yml`   | Docker build      | ✅ Complete |
+| `.github/workflows/deploy-k8s.yml`     | K8s deploy        | ✅ Complete |
+| `.github/workflows/lighthouse-ci.yml`  | Performance tests | ✅ Complete |
 
 ### Documentation
-| File | Purpose | Status |
-|------|---------|--------|
-| `docs/guides/deployment/production-deployment.md` | Prod deployment | ✅ Complete |
-| `docs/deployment/README.md` | Deployment overview | ✅ Complete |
-| `docs/deployment/Deployment-Docker.md` | Docker guide | ✅ Complete |
-| `docs/deployment/Deployment-Kubernetes.md` | K8s guide | ✅ Complete |
-| `docs/deployment/Production-Deployment-Checklist.md` | Checklist | ✅ Complete |
+
+| File                                                 | Purpose             | Status      |
+| ---------------------------------------------------- | ------------------- | ----------- |
+| `docs/guides/deployment/production-deployment.md`    | Prod deployment     | ✅ Complete |
+| `docs/deployment/README.md`                          | Deployment overview | ✅ Complete |
+| `docs/deployment/Deployment-Docker.md`               | Docker guide        | ✅ Complete |
+| `docs/deployment/Deployment-Kubernetes.md`           | K8s guide           | ✅ Complete |
+| `docs/deployment/Production-Deployment-Checklist.md` | Checklist           | ✅ Complete |
 
 ---
 
@@ -499,14 +540,14 @@ Module not found: Can't resolve 'next-auth'
 
 ## Deployment Platform Support
 
-| Platform | Status | Workflow | Config |
-|----------|--------|----------|--------|
-| Vercel | ✅ Ready | `deploy-vercel.yml` | `vercel.json` |
-| Netlify | ✅ Ready | `deploy-netlify.yml` | N/A |
-| Docker | ✅ Ready | `docker-build.yml` | `Dockerfile` |
-| Kubernetes | ✅ Ready | `deploy-k8s.yml` | `deploy/k8s/*` |
-| Helm | ✅ Ready | N/A | `deploy/helm/*` |
-| Self-hosted | ✅ Ready | N/A | `deploy/self-hosted/*` |
+| Platform    | Status   | Workflow             | Config                 |
+| ----------- | -------- | -------------------- | ---------------------- |
+| Vercel      | ✅ Ready | `deploy-vercel.yml`  | `vercel.json`          |
+| Netlify     | ✅ Ready | `deploy-netlify.yml` | N/A                    |
+| Docker      | ✅ Ready | `docker-build.yml`   | `Dockerfile`           |
+| Kubernetes  | ✅ Ready | `deploy-k8s.yml`     | `deploy/k8s/*`         |
+| Helm        | ✅ Ready | N/A                  | `deploy/helm/*`        |
+| Self-hosted | ✅ Ready | N/A                  | `deploy/self-hosted/*` |
 
 ---
 
@@ -517,12 +558,14 @@ Module not found: Can't resolve 'next-auth'
 **File**: `/Users/admin/Sites/nself-chat/lighthouserc.json`
 
 **Thresholds**:
+
 - Performance: 70% (warn)
 - Accessibility: 80% (warn)
 - Best Practices: 70% (warn)
 - SEO: 80% (warn)
 
 **Core Web Vitals**:
+
 - FCP: < 2.5s (warn)
 - LCP: < 4.0s (warn)
 - CLS: < 0.2 (warn)
@@ -530,6 +573,7 @@ Module not found: Can't resolve 'next-auth'
 - Speed Index: < 5.0s (warn)
 
 **Workflow**: `.github/workflows/lighthouse-ci.yml`
+
 - Runs on workflow_dispatch
 - Builds production bundle
 - Tests localhost:3000
@@ -545,6 +589,7 @@ Module not found: Can't resolve 'next-auth'
 **File**: `/Users/admin/Sites/nself-chat/src/app/api/channels/categories/route.ts`
 
 **Current (lines 6-8)**:
+
 ```typescript
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
@@ -552,6 +597,7 @@ import type { CreateCategoryInput } from '@/types/advanced-channels'
 ```
 
 **Option 1: Remove next-auth (Recommended)**
+
 ```typescript
 import { NextRequest, NextResponse } from 'next/server'
 // TODO: Replace with Nhost auth when implementing real authentication
@@ -565,6 +611,7 @@ async function getSession() {
 ```
 
 **Option 2: Install next-auth (Not recommended - conflicts with Nhost)**
+
 ```bash
 pnpm add next-auth
 ```
@@ -578,6 +625,7 @@ pnpm add next-auth
 ### Overall Status: PARTIAL (85% complete)
 
 The web build pipeline is **comprehensively implemented** with:
+
 - ✅ Professional build scripts
 - ✅ Extensive optimizations (code splitting, tree shaking, minification, compression)
 - ✅ Multi-platform deployment support (Vercel, Netlify, Docker, K8s)
@@ -588,6 +636,7 @@ The web build pipeline is **comprehensively implemented** with:
 - ✅ Security best practices
 
 **However**, there is **one critical blocking issue**:
+
 - ⚠️ Build fails due to missing `next-auth` dependency in `src/app/api/channels/categories/route.ts`
 
 ### To Achieve 100% Completion
@@ -608,6 +657,7 @@ The web build pipeline is **comprehensively implemented** with:
 ### Confidence Level: 90%
 
 I am highly confident in this assessment because:
+
 1. Examined all build configuration files
 2. Reviewed all CI/CD workflows
 3. Verified deployment configurations for 6+ platforms

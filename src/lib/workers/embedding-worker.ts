@@ -88,7 +88,7 @@ export class EmbeddingWorker {
       config: this.config,
     })
 
-// REMOVED: console.log('[EmbeddingWorker] Started with config:', this.config)
+    // REMOVED: console.log('[EmbeddingWorker] Started with config:', this.config)
 
     await this.processLoop()
   }
@@ -102,7 +102,7 @@ export class EmbeddingWorker {
       return
     }
 
-// REMOVED: console.log('[EmbeddingWorker] Stopping...')
+    // REMOVED: console.log('[EmbeddingWorker] Stopping...')
     this.shouldStop = true
 
     // Wait for current processing to finish (max 30 seconds)
@@ -123,7 +123,7 @@ export class EmbeddingWorker {
       stats: this.stats,
     })
 
-// REMOVED: console.log('[EmbeddingWorker] Stopped')
+    // REMOVED: console.log('[EmbeddingWorker] Stopped')
   }
 
   /**
@@ -149,7 +149,7 @@ export class EmbeddingWorker {
         // Short delay before next batch
         await this.sleep(this.config.pollIntervalMs)
       } catch (error) {
-        logger.error('[EmbeddingWorker] Error in processing loop:',  error)
+        logger.error('[EmbeddingWorker] Error in processing loop:', error)
         captureError(error as Error, {
           tags: { worker: 'embedding-worker' },
         })
@@ -229,7 +229,7 @@ export class EmbeddingWorker {
       //   `[EmbeddingWorker] Processed ${batch.length} embeddings in ${processingTime}ms (${result.cached} cached, ${result.generated} generated)`
       // )
     } catch (error) {
-      logger.error('[EmbeddingWorker] Error generating embeddings:',  error)
+      logger.error('[EmbeddingWorker] Error generating embeddings:', error)
       captureError(error as Error, {
         tags: { worker: 'embedding-worker', operation: 'generate-batch' },
         extra: { batchSize: batch.length },

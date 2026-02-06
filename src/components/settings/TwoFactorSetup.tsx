@@ -286,11 +286,11 @@ export function TwoFactorSetup() {
 
           {setupStep === 'qr' && (
             <div className="space-y-4">
-              <div className="flex justify-center p-4 bg-white rounded-lg border">
+              <div className="flex justify-center rounded-lg border bg-white p-4">
                 {qrCodeUrl ? (
                   <Image src={qrCodeUrl} alt="2FA QR Code" width={200} height={200} />
                 ) : (
-                  <div className="w-[200px] h-[200px] flex items-center justify-center bg-muted">
+                  <div className="flex h-[200px] w-[200px] items-center justify-center bg-muted">
                     <Loader2 className="h-8 w-8 animate-spin" />
                   </div>
                 )}
@@ -368,7 +368,7 @@ export function TwoFactorSetup() {
                 </AlertDescription>
               </Alert>
 
-              <div className="grid grid-cols-2 gap-2 p-4 bg-muted rounded-lg font-mono text-sm">
+              <div className="grid grid-cols-2 gap-2 rounded-lg bg-muted p-4 font-mono text-sm">
                 {backupCodes.map((code, index) => (
                   <div key={index} className="text-center">
                     {code}

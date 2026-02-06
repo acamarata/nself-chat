@@ -247,7 +247,7 @@ export class ChannelService {
         description: cat.description,
         position: cat.position,
         isCollapsed: cat.is_collapsed,
-        channels: this.transformChannels((cat.channels as unknown[]) as Record<string, unknown>[]),
+        channels: this.transformChannels(cat.channels as unknown[] as Record<string, unknown>[]),
       })
     )
 

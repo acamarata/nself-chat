@@ -158,13 +158,18 @@ export function ProgressStepper({
                 <div
                   key={index}
                   className={cn(
-                    'relative z-10 flex flex-col items-center cursor-pointer',
+                    'relative z-10 flex cursor-pointer flex-col items-center',
                     isClickable && 'hover:scale-105'
                   )}
                   role="button"
                   tabIndex={0}
                   onClick={handleClick}
-                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(); } }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      handleClick()
+                    }
+                  }}
                 >
                   {stepContent}
                 </div>
@@ -172,10 +177,7 @@ export function ProgressStepper({
             }
 
             return (
-              <div
-                key={index}
-                className="relative z-10 flex flex-col items-center"
-              >
+              <div key={index} className="relative z-10 flex flex-col items-center">
                 {stepContent}
               </div>
             )

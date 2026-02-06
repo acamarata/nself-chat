@@ -114,7 +114,7 @@ function initializeSocketHandlers(sock: Socket<ServerToClientEvents, ClientToSer
   })
 
   sock.on('connect_error', (error) => {
-    logger.error('[Socket] Connection error:',  error.message)
+    logger.error('[Socket] Connection error:', error.message)
     setConnectionState('error')
   })
 
@@ -128,7 +128,7 @@ function initializeSocketHandlers(sock: Socket<ServerToClientEvents, ClientToSer
   })
 
   sock.io.on('reconnect_error', (error) => {
-    logger.error('[Socket] Reconnection error:',  error.message)
+    logger.error('[Socket] Reconnection error:', error.message)
   })
 
   sock.io.on('reconnect_failed', () => {
@@ -138,7 +138,7 @@ function initializeSocketHandlers(sock: Socket<ServerToClientEvents, ClientToSer
 
   // Error event
   sock.io.on('error', (error) => {
-    logger.error('[Socket] Error:',  error)
+    logger.error('[Socket] Error:', error)
     setConnectionState('error')
   })
 }

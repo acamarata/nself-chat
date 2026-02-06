@@ -144,10 +144,7 @@ export class CommandRegistry {
   /**
    * Execute a command
    */
-  async execute(
-    ctx: MessageContext,
-    api: BotApi
-  ): Promise<BotResponse | void> {
+  async execute(ctx: MessageContext, api: BotApi): Promise<BotResponse | void> {
     if (!ctx.isCommand || !ctx.command) {
       return
     }
@@ -171,10 +168,7 @@ export class CommandRegistry {
     }
 
     // Validate arguments
-    const validationError = this.validateArgs(
-      ctx.command.args,
-      command.definition.arguments
-    )
+    const validationError = this.validateArgs(ctx.command.args, command.definition.arguments)
     if (validationError) {
       return {
         content: validationError,
@@ -195,7 +189,7 @@ export class CommandRegistry {
       this.setCooldown(command, ctx.user.id)
       return result
     } catch (error) {
-      logger.error(`[CommandRegistry] Error executing '${ctx.command.name}':`,  error)
+      logger.error(`[CommandRegistry] Error executing '${ctx.command.name}':`, error)
       return {
         content: `An error occurred while executing the command.`,
         options: { ephemeral: true },
@@ -206,10 +200,7 @@ export class CommandRegistry {
   /**
    * Parse command arguments based on definitions
    */
-  private parseArgs(
-    rawArgs: string,
-    definitions?: CommandArgument[]
-  ): Record<string, unknown> {
+  private parseArgs(rawArgs: string, definitions?: CommandArgument[]): Record<string, unknown> {
     const args: Record<string, unknown> = {}
     const tokens = this.tokenize(rawArgs)
     const positional: string[] = []
@@ -533,7 +524,11 @@ export class CommandBuilder {
     return this.argument({ name, description, type: 'string', required })
   }
 
-  numberArg(name: string, description: string, options?: { required?: boolean; min?: number; max?: number }): this {
+  numberArg(
+    name: string,
+    description: string,
+    options?: { required?: boolean; min?: number; max?: number }
+  ): this {
     return this.argument({
       name,
       description,
@@ -556,7 +551,12 @@ export class CommandBuilder {
     return this.argument({ name, description, type: 'duration', required })
   }
 
-  choiceArg(name: string, description: string, choices: { label: string; value: string }[], required = false): this {
+  choiceArg(
+    name: string,
+    description: string,
+    choices: { label: string; value: string }[],
+    required = false
+  ): this {
     return this.argument({ name, description, type: 'choice', choices, required })
   }
 

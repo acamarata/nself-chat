@@ -25,9 +25,7 @@ function MetricCard({ title, value, icon, description }: MetricCardProps) {
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
-        {description && (
-          <p className="text-xs text-muted-foreground">{description}</p>
-        )}
+        {description && <p className="text-xs text-muted-foreground">{description}</p>}
       </CardContent>
     </Card>
   )
@@ -46,10 +44,10 @@ export function AnalyticsDashboard({ period = '30d' }: AnalyticsDashboardProps) 
         {[1, 2, 3, 4].map((i) => (
           <Card key={i}>
             <CardHeader>
-              <div className="h-4 bg-muted animate-pulse rounded" />
+              <div className="h-4 animate-pulse rounded bg-muted" />
             </CardHeader>
             <CardContent>
-              <div className="h-8 bg-muted animate-pulse rounded" />
+              <div className="h-8 animate-pulse rounded bg-muted" />
             </CardContent>
           </Card>
         ))}
@@ -62,9 +60,7 @@ export function AnalyticsDashboard({ period = '30d' }: AnalyticsDashboardProps) 
       <Card className="border-destructive">
         <CardHeader>
           <CardTitle>Error Loading Analytics</CardTitle>
-          <CardDescription>
-            Failed to load analytics data. Please try again later.
-          </CardDescription>
+          <CardDescription>Failed to load analytics data. Please try again later.</CardDescription>
         </CardHeader>
       </Card>
     )

@@ -150,22 +150,12 @@ export async function verifyERC20Balance(
   minBalance: number
 ): Promise<VerificationResult> {
   try {
-    const result = await callContract(
-      network,
-      contractAddress,
-      ERC20_ABI,
-      'balanceOf',
-      [walletAddress]
-    )
+    const result = await callContract(network, contractAddress, ERC20_ABI, 'balanceOf', [
+      walletAddress,
+    ])
 
     const balance = Number(decodeResult(result))
-    const decimalsResult = await callContract(
-      network,
-      contractAddress,
-      ERC20_ABI,
-      'decimals',
-      []
-    )
+    const decimalsResult = await callContract(network, contractAddress, ERC20_ABI, 'decimals', [])
     const decimals = Number(decodeResult(decimalsResult))
 
     // Adjust for decimals
@@ -195,13 +185,9 @@ export async function verifyERC721Ownership(
 ): Promise<VerificationResult> {
   try {
     // Get balance (number of NFTs owned)
-    const balanceResult = await callContract(
-      network,
-      contractAddress,
-      ERC721_ABI,
-      'balanceOf',
-      [walletAddress]
-    )
+    const balanceResult = await callContract(network, contractAddress, ERC721_ABI, 'balanceOf', [
+      walletAddress,
+    ])
 
     const balance = Number(decodeResult(balanceResult))
 
@@ -252,13 +238,10 @@ export async function verifyERC1155Ownership(
 
     // Check balance for each token ID
     for (const tokenId of tokenIds) {
-      const result = await callContract(
-        network,
-        contractAddress,
-        ERC1155_ABI,
-        'balanceOf',
-        [walletAddress, tokenId]
-      )
+      const result = await callContract(network, contractAddress, ERC1155_ABI, 'balanceOf', [
+        walletAddress,
+        tokenId,
+      ])
 
       const balance = Number(decodeResult(result))
       totalBalance += balance

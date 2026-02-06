@@ -149,7 +149,7 @@ func main() {
 
   // Handle snippet share
   const handleShare = async (snippet: CodeSnippet) => {
-// REMOVED: console.log('Sharing snippet:', snippet)
+    // REMOVED: console.log('Sharing snippet:', snippet)
     // In production, this would send to the backend
     alert(`Shared: ${snippet.title} (${snippet.language})`)
   }
@@ -166,9 +166,8 @@ func main() {
         <div className="mb-6 space-y-2">
           <h3 className="text-lg font-semibold">Inline Code</h3>
           <p>
-            Use <InlineCode>const variable = "value"</InlineCode> to declare
-            constants. You can also use <InlineCode>npm install</InlineCode> to
-            install packages.
+            Use <InlineCode>const variable = "value"</InlineCode> to declare constants. You can also
+            use <InlineCode>npm install</InlineCode> to install packages.
           </p>
           <p>
             API endpoint: <InlineCode>https://api.example.com/v1/users</InlineCode>
@@ -233,22 +232,13 @@ func main() {
 
           {/* Go Example */}
           <div>
-            <h4 className="mb-2 text-sm font-medium text-muted-foreground">
-              Go - HTTP Server
-            </h4>
-            <CodeBlock
-              code={examples.go}
-              language="go"
-              filename="server.go"
-              showLineNumbers
-            />
+            <h4 className="mb-2 text-sm font-medium text-muted-foreground">Go - HTTP Server</h4>
+            <CodeBlock code={examples.go} language="go" filename="server.go" showLineNumbers />
           </div>
 
           {/* Without Line Numbers */}
           <div>
-            <h4 className="mb-2 text-sm font-medium text-muted-foreground">
-              Without Line Numbers
-            </h4>
+            <h4 className="mb-2 text-sm font-medium text-muted-foreground">Without Line Numbers</h4>
             <CodeBlock
               code="console.log('Hello, World!')\nconsole.log('No line numbers')"
               language="javascript"
@@ -258,11 +248,7 @@ func main() {
 
           {/* Create Snippet Button */}
           <div className="flex justify-center pt-6">
-            <Button
-              onClick={() => setShowModal(true)}
-              size="lg"
-              className="gap-2"
-            >
+            <Button onClick={() => setShowModal(true)} size="lg" className="gap-2">
               <Code2 className="h-5 w-5" />
               Create Code Snippet
             </Button>
@@ -271,11 +257,7 @@ func main() {
       </div>
 
       {/* Code Snippet Modal */}
-      <CodeSnippetModal
-        open={showModal}
-        onOpenChange={setShowModal}
-        onShare={handleShare}
-      />
+      <CodeSnippetModal open={showModal} onOpenChange={setShowModal} onShare={handleShare} />
     </div>
   )
 }
@@ -287,7 +269,7 @@ export function MessageWithCodeExample() {
   return (
     <div className="space-y-4 rounded-lg border p-4">
       <div className="flex items-center gap-2">
-        <div className="h-10 w-10 rounded-full bg-primary/20" />
+        <div className="bg-primary/20 h-10 w-10 rounded-full" />
         <div>
           <p className="font-semibold">John Developer</p>
           <p className="text-xs text-muted-foreground">2 minutes ago</p>
@@ -317,9 +299,8 @@ export function MessageWithCodeExample() {
         />
 
         <p>
-          This ensures that <InlineCode>user</InlineCode> is{' '}
-          <InlineCode>null</InlineCode> while loading, preventing any undefined
-          errors.
+          This ensures that <InlineCode>user</InlineCode> is <InlineCode>null</InlineCode> while
+          loading, preventing any undefined errors.
         </p>
       </div>
     </div>

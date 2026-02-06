@@ -239,7 +239,7 @@ export class IdMeProvider extends BaseAuthProvider {
 
       return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
     } catch (error) {
-      logger.error('ID.me callback error:',  error)
+      logger.error('ID.me callback error:', error)
       return this.createErrorResult(
         this.createError('NETWORK_ERROR', 'Failed to complete ID.me authentication')
       )
@@ -253,7 +253,7 @@ export class IdMeProvider extends BaseAuthProvider {
         headers: this.getAuthHeaders(),
       })
     } catch (error) {
-      logger.error('Sign out error:',  error)
+      logger.error('Sign out error:', error)
     }
 
     this.verification = null
@@ -292,7 +292,7 @@ export class IdMeProvider extends BaseAuthProvider {
         data.session.refreshToken
       )
     } catch (error) {
-      logger.error('Token refresh error:',  error)
+      logger.error('Token refresh error:', error)
       return this.createErrorResult(this.createError('NETWORK_ERROR', 'Failed to refresh token'))
     }
   }
@@ -371,7 +371,7 @@ export class IdMeProvider extends BaseAuthProvider {
 
       return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
     } catch (error) {
-      logger.error('ID.me token verification error:',  error)
+      logger.error('ID.me token verification error:', error)
       return this.createErrorResult(
         this.createError('NETWORK_ERROR', 'Failed to verify ID.me token')
       )

@@ -21,6 +21,7 @@ Phase 13 delivers a comprehensive enterprise-grade moderation and compliance sys
 ### 1. Access Moderation Dashboard
 
 For administrators and moderators:
+
 ```
 Navigate to: /admin/moderation/comprehensive
 ```
@@ -37,10 +38,8 @@ await fetch('/api/reports', {
     target_id: messageId,
     category_id: 'harassment',
     description: 'Description of issue',
-    evidence: [
-      { type: 'screenshot', content: 'url', description: 'Evidence' }
-    ]
-  })
+    evidence: [{ type: 'screenshot', content: 'url', description: 'Evidence' }],
+  }),
 })
 ```
 
@@ -50,13 +49,7 @@ await fetch('/api/reports', {
 import { getActionEngine } from '@/lib/moderation/action-engine'
 
 const engine = getActionEngine()
-const result = await engine.processContent(
-  contentId,
-  'text',
-  content,
-  userId,
-  username
-)
+const result = await engine.processContent(contentId, 'text', content, userId, username)
 
 if (result.executed) {
   console.log(`Action taken: ${result.action?.actionType}`)
@@ -74,10 +67,8 @@ await fetch('/api/appeals', {
     action_id: moderationActionId,
     user_id: userId,
     reason: 'Why this decision should be reversed',
-    evidence: [
-      { type: 'text', content: 'Additional context' }
-    ]
-  })
+    evidence: [{ type: 'text', content: 'Additional context' }],
+  }),
 })
 ```
 
@@ -88,6 +79,7 @@ Navigate to: /settings/privacy/gdpr
 ```
 
 Or via API:
+
 ```typescript
 // Export
 await fetch('/api/compliance/export', {
@@ -96,8 +88,8 @@ await fetch('/api/compliance/export', {
     user_id: userId,
     user_email: email,
     categories: ['all'],
-    format: 'zip'
-  })
+    format: 'zip',
+  }),
 })
 
 // Delete
@@ -107,8 +99,8 @@ await fetch('/api/compliance/deletion', {
     user_id: userId,
     user_email: email,
     scope: 'full_account',
-    reason: 'No longer using service'
-  })
+    reason: 'No longer using service',
+  }),
 })
 ```
 
@@ -181,20 +173,21 @@ Configure in your app settings or database:
 ### Report Categories
 
 ```typescript
-[
-  'spam',                  // Unsolicited content
-  'harassment',            // Targeted harassment
-  'hate-speech',           // Hate speech
+;[
+  'spam', // Unsolicited content
+  'harassment', // Targeted harassment
+  'hate-speech', // Hate speech
   'inappropriate-content', // NSFW
-  'impersonation',         // Fake accounts
-  'scam',                  // Fraud attempts
-  'other',                 // Other issues
+  'impersonation', // Fake accounts
+  'scam', // Fraud attempts
+  'other', // Other issues
 ]
 ```
 
 ## 🔐 Security & Compliance
 
 ### GDPR Rights Implemented
+
 - ✅ Article 15: Right of Access
 - ✅ Article 16: Right to Rectification
 - ✅ Article 17: Right to Erasure (Right to be Forgotten)
@@ -204,6 +197,7 @@ Configure in your app settings or database:
 - ✅ Article 22: Automated Decision Making
 
 ### Audit Trail Features
+
 - Cryptographic hash chains (SHA-256)
 - Tamper detection and verification
 - Immutable log entries
@@ -213,6 +207,7 @@ Configure in your app settings or database:
 - Blockchain anchoring (optional)
 
 ### Data Protection
+
 - Encryption at rest and in transit
 - Secure deletion (multi-pass overwrite)
 - Legal hold prevents deletion
@@ -289,6 +284,7 @@ npm run test:e2e
 ## 📈 Performance
 
 ### Optimizations Implemented
+
 - Batch AI processing
 - Query result caching
 - Database query optimization
@@ -298,6 +294,7 @@ npm run test:e2e
 - CDN for static assets
 
 ### Scalability
+
 - Horizontal API scaling
 - Queue-based async processing
 - Database sharding support
@@ -307,6 +304,7 @@ npm run test:e2e
 ## 🚨 Alerts & Notifications
 
 ### Automated Alerts
+
 - High report volume (>20 pending)
 - Appeal backlog (>10 pending)
 - Audit integrity compromised
@@ -315,6 +313,7 @@ npm run test:e2e
 - System errors and failures
 
 ### Email Notifications
+
 - User report confirmations
 - Moderation action notices
 - Appeal status updates
@@ -333,6 +332,7 @@ npm run test:e2e
 ## 🎓 Training Resources
 
 ### For Moderators
+
 1. Review moderation guidelines
 2. Understand AI confidence scores
 3. Learn appeal review process
@@ -340,6 +340,7 @@ npm run test:e2e
 5. Escalation procedures
 
 ### For Users
+
 1. How to report content
 2. Understanding moderation actions
 3. Appeal process
@@ -351,6 +352,7 @@ npm run test:e2e
 ### Common Issues
 
 **Q: AI moderation not working?**
+
 ```
 Check:
 1. AI service API keys configured
@@ -360,6 +362,7 @@ Check:
 ```
 
 **Q: Reports not appearing in queue?**
+
 ```
 Check:
 1. Reporter has permission
@@ -369,6 +372,7 @@ Check:
 ```
 
 **Q: GDPR export failed?**
+
 ```
 Check:
 1. User identity verified
@@ -378,6 +382,7 @@ Check:
 ```
 
 **Q: Audit integrity check failed?**
+
 ```
 Immediate actions:
 1. Check compromised block numbers
@@ -390,6 +395,7 @@ Immediate actions:
 ## 🔄 Maintenance
 
 ### Regular Tasks
+
 - [ ] Review moderation queue daily
 - [ ] Process pending appeals weekly
 - [ ] Verify audit integrity weekly
@@ -399,6 +405,7 @@ Immediate actions:
 - [ ] Generate compliance reports
 
 ### Automated Tasks
+
 - ✅ Retention policy enforcement
 - ✅ Legal hold reminders
 - ✅ GDPR deadline tracking
@@ -409,7 +416,9 @@ Immediate actions:
 ## 🎉 Key Features Highlight
 
 ### 1. Smart Auto-Moderation
+
 Multi-model AI analysis with confidence scoring:
+
 - Perspective API for toxicity
 - OpenAI Moderation for content policy
 - TensorFlow.js for NSFW detection
@@ -417,7 +426,9 @@ Multi-model AI analysis with confidence scoring:
 - Custom profanity filter
 
 ### 2. Fair Appeal Process
+
 Complete workflow with transparency:
+
 - Evidence submission
 - Moderator assignment
 - Review notes
@@ -425,7 +436,9 @@ Complete workflow with transparency:
 - User communication
 
 ### 3. GDPR Compliance
+
 Full implementation of user rights:
+
 - Machine-readable exports
 - Secure deletion
 - 30-day processing guarantee
@@ -433,7 +446,9 @@ Full implementation of user rights:
 - Audit trail
 
 ### 4. Blockchain-Grade Security
+
 Tamper-proof audit trail:
+
 - Cryptographic hash chains
 - Merkle tree verification
 - Optional blockchain anchoring
@@ -443,6 +458,7 @@ Tamper-proof audit trail:
 ## 💡 Best Practices
 
 ### Moderation
+
 1. Review flagged content promptly
 2. Document decisions clearly
 3. Be consistent with rules
@@ -450,6 +466,7 @@ Tamper-proof audit trail:
 5. Track patterns and trends
 
 ### Compliance
+
 1. Respond to GDPR requests within 30 days
 2. Verify identity before processing
 3. Document all decisions
@@ -457,6 +474,7 @@ Tamper-proof audit trail:
 5. Update privacy policies
 
 ### Security
+
 1. Verify audit integrity regularly
 2. Monitor for anomalies
 3. Encrypt sensitive data

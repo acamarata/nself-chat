@@ -240,7 +240,7 @@ class NetworkDetector {
       try {
         listener(this.currentInfo)
       } catch (error) {
-        logger.error('[NetworkDetector] Listener error:',  error)
+        logger.error('[NetworkDetector] Listener error:', error)
       }
     })
   }

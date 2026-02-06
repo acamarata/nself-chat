@@ -27,41 +27,41 @@ This document provides comprehensive information about the internationalization 
 
 nself-chat supports **33 languages** with full i18n coverage:
 
-| Code | Language | Script | Direction | Coverage |
-|------|----------|--------|-----------|----------|
-| en | English | Latin | LTR | 100% |
-| es | Spanish | Latin | LTR | 100% |
-| fr | French | Latin | LTR | 100% |
-| de | German | Latin | LTR | 100% |
-| ar | Arabic | Arabic | RTL | 100% |
-| zh | Chinese (Simplified) | Han (Simplified) | LTR | 100% |
-| zh-TW | Chinese (Traditional) | Han (Traditional) | LTR | 100% |
-| ja | Japanese | Japanese | LTR | 100% |
-| ko | Korean | Korean | LTR | 100% |
-| pt | Portuguese | Latin | LTR | 100% |
-| ru | Russian | Cyrillic | LTR | 100% |
-| it | Italian | Latin | LTR | 100% |
-| nl | Dutch | Latin | LTR | 100% |
-| pl | Polish | Latin | LTR | 100% |
-| tr | Turkish | Latin | LTR | 100% |
-| sv | Swedish | Latin | LTR | 100% |
-| he | Hebrew | Hebrew | RTL | 100% |
-| th | Thai | Thai | LTR | 100% |
-| vi | Vietnamese | Latin | LTR | 100% |
-| id | Indonesian | Latin | LTR | 100% |
-| cs | Czech | Latin | LTR | 100% |
-| da | Danish | Latin | LTR | 100% |
-| fi | Finnish | Latin | LTR | 100% |
-| no | Norwegian | Latin | LTR | 100% |
-| el | Greek | Latin | LTR | 100% |
-| hu | Hungarian | Latin | LTR | 100% |
-| ro | Romanian | Latin | LTR | 100% |
-| uk | Ukrainian | Cyrillic | LTR | 100% |
-| hi | Hindi | Devanagari | LTR | 100% |
-| bn | Bengali | Latin | LTR | 100% |
-| fa | Persian | Arabic | RTL | 100% |
-| ms | Malay | Latin | LTR | 100% |
-| ta | Tamil | Latin | LTR | 100% |
+| Code  | Language              | Script            | Direction | Coverage |
+| ----- | --------------------- | ----------------- | --------- | -------- |
+| en    | English               | Latin             | LTR       | 100%     |
+| es    | Spanish               | Latin             | LTR       | 100%     |
+| fr    | French                | Latin             | LTR       | 100%     |
+| de    | German                | Latin             | LTR       | 100%     |
+| ar    | Arabic                | Arabic            | RTL       | 100%     |
+| zh    | Chinese (Simplified)  | Han (Simplified)  | LTR       | 100%     |
+| zh-TW | Chinese (Traditional) | Han (Traditional) | LTR       | 100%     |
+| ja    | Japanese              | Japanese          | LTR       | 100%     |
+| ko    | Korean                | Korean            | LTR       | 100%     |
+| pt    | Portuguese            | Latin             | LTR       | 100%     |
+| ru    | Russian               | Cyrillic          | LTR       | 100%     |
+| it    | Italian               | Latin             | LTR       | 100%     |
+| nl    | Dutch                 | Latin             | LTR       | 100%     |
+| pl    | Polish                | Latin             | LTR       | 100%     |
+| tr    | Turkish               | Latin             | LTR       | 100%     |
+| sv    | Swedish               | Latin             | LTR       | 100%     |
+| he    | Hebrew                | Hebrew            | RTL       | 100%     |
+| th    | Thai                  | Thai              | LTR       | 100%     |
+| vi    | Vietnamese            | Latin             | LTR       | 100%     |
+| id    | Indonesian            | Latin             | LTR       | 100%     |
+| cs    | Czech                 | Latin             | LTR       | 100%     |
+| da    | Danish                | Latin             | LTR       | 100%     |
+| fi    | Finnish               | Latin             | LTR       | 100%     |
+| no    | Norwegian             | Latin             | LTR       | 100%     |
+| el    | Greek                 | Latin             | LTR       | 100%     |
+| hu    | Hungarian             | Latin             | LTR       | 100%     |
+| ro    | Romanian              | Latin             | LTR       | 100%     |
+| uk    | Ukrainian             | Cyrillic          | LTR       | 100%     |
+| hi    | Hindi                 | Devanagari        | LTR       | 100%     |
+| bn    | Bengali               | Latin             | LTR       | 100%     |
+| fa    | Persian               | Arabic            | RTL       | 100%     |
+| ms    | Malay                 | Latin             | LTR       | 100%     |
+| ta    | Tamil                 | Latin             | LTR       | 100%     |
 
 ### i18next Configuration
 
@@ -78,6 +78,7 @@ await i18n.changeLanguage('es')
 ```
 
 **Features:**
+
 - ✅ Automatic language detection (browser, localStorage, query params)
 - ✅ Dynamic language switching
 - ✅ Lazy loading of translations
@@ -177,6 +178,7 @@ function MyComponent() {
 ```
 
 **RTL Features:**
+
 - ✅ Automatic direction switching (`dir="rtl"`)
 - ✅ Mirrored layouts
 - ✅ Flipped icons
@@ -184,6 +186,7 @@ function MyComponent() {
 - ✅ RTL-aware spacing and positioning
 
 **CSS Classes:**
+
 - `.rtl-ml-auto` - Margin inline start auto
 - `.rtl-mr-auto` - Margin inline end auto
 - `.rtl-pl-4` - Padding inline start
@@ -312,6 +315,7 @@ Full keyboard support throughout the application:
 ```
 
 **Keyboard Shortcuts:**
+
 - `Tab` - Navigate forward
 - `Shift + Tab` - Navigate backward
 - `Enter` / `Space` - Activate
@@ -338,6 +342,7 @@ All interactive elements have proper ARIA labels:
 ```
 
 **ARIA Landmarks:**
+
 - `<header role="banner">` - Site header
 - `<nav role="navigation">` - Navigation menus
 - `<main role="main">` - Main content
@@ -361,11 +366,13 @@ function Settings() {
 ```
 
 **Modes:**
+
 - **Normal** - Standard contrast
 - **High** - 1.5x contrast boost
 - **Higher** - 2x contrast boost
 
 **CSS Classes:**
+
 - `.contrast-normal`
 - `.contrast-high`
 - `.contrast-higher`
@@ -396,13 +403,11 @@ Clear focus indicators throughout:
 
 ```css
 .focus-ring {
-  @apply focus-visible:outline-none focus-visible:ring-2
-         focus-visible:ring-ring focus-visible:ring-offset-2;
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
 }
 
 .focus-outline {
-  @apply focus-visible:outline-2 focus-visible:outline-offset-2
-         focus-visible:outline-primary;
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary;
 }
 ```
 
@@ -423,6 +428,7 @@ function Layout() {
 ```
 
 **Settings:**
+
 - High contrast mode
 - Reduced motion
 - Larger text
@@ -578,18 +584,21 @@ pnpm tsx scripts/validate-translations.ts
 ## Resources
 
 ### Documentation
+
 - [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
 - [i18next Documentation](https://www.i18next.com/)
 - [React i18next](https://react.i18next.com/)
 - [Axe Accessibility](https://www.deque.com/axe/)
 
 ### Tools
+
 - [axe DevTools](https://www.deque.com/axe/devtools/)
 - [Lighthouse](https://developers.google.com/web/tools/lighthouse)
 - [WAVE](https://wave.webaim.org/)
 - [Color Contrast Checker](https://webaim.org/resources/contrastchecker/)
 
 ### Related Files
+
 - `/src/lib/i18n/` - i18n configuration
 - `/src/lib/accessibility/` - Accessibility utilities
 - `/src/components/accessibility/` - Accessibility components

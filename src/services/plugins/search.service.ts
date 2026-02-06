@@ -65,9 +65,7 @@ class SearchService {
   }
 
   async getSuggestions(query: string): Promise<SearchSuggestionsResponse> {
-    const response = await fetch(
-      `${this.baseUrl}/suggest?q=${encodeURIComponent(query)}`
-    )
+    const response = await fetch(`${this.baseUrl}/suggest?q=${encodeURIComponent(query)}`)
 
     if (!response.ok) {
       throw new Error(`Failed to get suggestions: ${response.statusText}`)

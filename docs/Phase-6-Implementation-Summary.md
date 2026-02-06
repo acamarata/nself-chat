@@ -1,4 +1,5 @@
 # Phase 6 Implementation Summary
+
 ## Advanced Channels, Communities, and Structures (Tasks 60-65)
 
 **Completion Date**: February 3, 2026
@@ -15,6 +16,7 @@ This document summarizes the complete implementation of Phase 6, which adds adva
 ## Features Implemented
 
 ### 1. Channel Categories (Task 61)
+
 - **Discord-style** channel organization with collapsible sections
 - Position-based ordering with drag-and-drop support
 - Permission synchronization from category to channels
@@ -22,6 +24,7 @@ This document summarizes the complete implementation of Phase 6, which adds adva
 - Color-coded categories with custom icons
 
 ### 2. Guild/Server Structures (Task 62)
+
 - **Workspace system** (single-tenant with multi-tenant support)
 - Server settings: verification levels, content filters
 - Vanity URLs and discovery settings
@@ -29,6 +32,7 @@ This document summarizes the complete implementation of Phase 6, which adds adva
 - System channels (announcements, rules)
 
 ### 3. Communities (Task 63)
+
 - **WhatsApp-style** community groups
 - Announcement channels (required)
 - Linked groups with positioning
@@ -37,6 +41,7 @@ This document summarizes the complete implementation of Phase 6, which adds adva
 - Approval workflows
 
 ### 4. Broadcast Lists (Task 64)
+
 - **One-to-many** messaging
 - Delivery tracking (pending, delivered, read, failed)
 - Subscription modes: open, invite, admin-approval
@@ -46,6 +51,7 @@ This document summarizes the complete implementation of Phase 6, which adds adva
 - Analytics: delivery rates, read rates
 
 ### 5. Channel Subtypes (Task 63)
+
 - **Telegram integration**:
   - Supergroups (>200 members)
   - Gigagroups (admin-only posting)
@@ -58,6 +64,7 @@ This document summarizes the complete implementation of Phase 6, which adds adva
   - Forum channels
 
 ### 6. Permission System (Task 65)
+
 - **Bitfield-based** permissions (28 permission flags)
 - Channel-level overrides
 - Category-level overrides with sync
@@ -110,34 +117,34 @@ This document summarizes the complete implementation of Phase 6, which adds adva
 Bitfield-based permissions (Discord-compatible):
 
 ```typescript
-VIEW_CHANNEL              // 1 << 0
-READ_MESSAGE_HISTORY      // 1 << 1
-SEND_MESSAGES             // 1 << 2
-SEND_MESSAGES_IN_THREADS  // 1 << 3
-EMBED_LINKS               // 1 << 4
-ATTACH_FILES              // 1 << 5
-ADD_REACTIONS             // 1 << 6
-USE_EXTERNAL_EMOJIS       // 1 << 7
-USE_EXTERNAL_STICKERS     // 1 << 8
-MENTION_EVERYONE          // 1 << 9
-MENTION_ROLES             // 1 << 10
-CREATE_PUBLIC_THREADS     // 1 << 11
-CREATE_PRIVATE_THREADS    // 1 << 12
-CONNECT                   // 1 << 13 (voice)
-SPEAK                     // 1 << 14 (voice)
-VIDEO                     // 1 << 15 (voice)
-USE_SOUNDBOARD            // 1 << 16 (voice)
-USE_VOICE_ACTIVITY        // 1 << 17 (voice)
-PRIORITY_SPEAKER          // 1 << 18 (voice)
-MUTE_MEMBERS              // 1 << 19 (voice)
-DEAFEN_MEMBERS            // 1 << 20 (voice)
-MOVE_MEMBERS              // 1 << 21 (voice)
-MANAGE_MESSAGES           // 1 << 22
-MANAGE_THREADS            // 1 << 23
-MANAGE_CHANNEL            // 1 << 24
-SEND_VOICE_MESSAGES       // 1 << 25
-SEND_POLLS                // 1 << 26
-USE_APPLICATION_COMMANDS  // 1 << 27
+VIEW_CHANNEL // 1 << 0
+READ_MESSAGE_HISTORY // 1 << 1
+SEND_MESSAGES // 1 << 2
+SEND_MESSAGES_IN_THREADS // 1 << 3
+EMBED_LINKS // 1 << 4
+ATTACH_FILES // 1 << 5
+ADD_REACTIONS // 1 << 6
+USE_EXTERNAL_EMOJIS // 1 << 7
+USE_EXTERNAL_STICKERS // 1 << 8
+MENTION_EVERYONE // 1 << 9
+MENTION_ROLES // 1 << 10
+CREATE_PUBLIC_THREADS // 1 << 11
+CREATE_PRIVATE_THREADS // 1 << 12
+CONNECT // 1 << 13 (voice)
+SPEAK // 1 << 14 (voice)
+VIDEO // 1 << 15 (voice)
+USE_SOUNDBOARD // 1 << 16 (voice)
+USE_VOICE_ACTIVITY // 1 << 17 (voice)
+PRIORITY_SPEAKER // 1 << 18 (voice)
+MUTE_MEMBERS // 1 << 19 (voice)
+DEAFEN_MEMBERS // 1 << 20 (voice)
+MOVE_MEMBERS // 1 << 21 (voice)
+MANAGE_MESSAGES // 1 << 22
+MANAGE_THREADS // 1 << 23
+MANAGE_CHANNEL // 1 << 24
+SEND_VOICE_MESSAGES // 1 << 25
+SEND_POLLS // 1 << 26
+USE_APPLICATION_COMMANDS // 1 << 27
 ```
 
 ---
@@ -145,18 +152,21 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 ## GraphQL Operations
 
 ### Categories (7 queries, 6 mutations, 1 subscription)
+
 - `GET_CATEGORIES`, `GET_CATEGORIES_WITH_CHANNELS`, `GET_CATEGORY`
 - `CREATE_CATEGORY`, `UPDATE_CATEGORY`, `DELETE_CATEGORY`
 - `REORDER_CATEGORIES`, `MOVE_CHANNEL_TO_CATEGORY`
 - `SUBSCRIBE_TO_CATEGORIES`
 
 ### Communities (3 queries, 6 mutations, 2 subscriptions)
+
 - `GET_COMMUNITIES`, `GET_COMMUNITY`, `GET_COMMUNITY_GROUPS`
 - `CREATE_COMMUNITY`, `UPDATE_COMMUNITY`, `DELETE_COMMUNITY`
 - `ADD_COMMUNITY_GROUP`, `REMOVE_COMMUNITY_GROUP`, `REORDER_COMMUNITY_GROUPS`
 - `SUBSCRIBE_TO_COMMUNITIES`, `SUBSCRIBE_TO_COMMUNITY_GROUPS`
 
 ### Broadcasts (6 queries, 7 mutations, 2 subscriptions)
+
 - `GET_BROADCAST_LISTS`, `GET_BROADCAST_LIST`, `GET_BROADCAST_SUBSCRIBERS`
 - `GET_BROADCAST_MESSAGES`, `GET_BROADCAST_MESSAGE`, `GET_USER_BROADCAST_SUBSCRIPTIONS`
 - `CREATE_BROADCAST_LIST`, `UPDATE_BROADCAST_LIST`, `DELETE_BROADCAST_LIST`
@@ -165,6 +175,7 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 - `SUBSCRIBE_TO_BROADCAST_LISTS`, `SUBSCRIBE_TO_BROADCAST_MESSAGES`
 
 ### Permissions (2 queries, 2 mutations)
+
 - `GET_CHANNEL_PERMISSIONS`
 - `CREATE_PERMISSION_OVERRIDE`, `DELETE_PERMISSION_OVERRIDE`
 
@@ -173,6 +184,7 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 ## Service Layer
 
 ### CategoryService
+
 - `createCategory(input)` - Create new category
 - `getCategories(includeChannels?)` - List categories
 - `getCategory(id)` - Get category with channels
@@ -185,6 +197,7 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 - `toggleCollapse(id, collapsed)` - UI state (localStorage)
 
 ### CommunityService
+
 - `createCommunity(input)` - Create WhatsApp-style community
 - `getCommunities()` - List all communities
 - `getCommunity(id)` - Get community with groups
@@ -195,6 +208,7 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 - `reorderGroups(communityId, channelIds)` - Reorder groups
 
 ### BroadcastService
+
 - `createBroadcastList(input)` - Create broadcast list
 - `getBroadcastLists()` - List all broadcasts
 - `getBroadcastList(id)` - Get list with subscribers
@@ -209,6 +223,7 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 - `getDeliveryStats(messageId)` - Get delivery analytics
 
 ### PermissionService
+
 - `createOverride(input)` - Create permission override
 - `getChannelOverrides(channelId)` - Get all overrides
 - `deleteOverride(id)` - Delete override
@@ -223,6 +238,7 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 ## API Routes
 
 ### Categories
+
 - `GET /api/channels/categories` - List categories
 - `POST /api/channels/categories` - Create category
 - `GET /api/channels/categories/:id` - Get category
@@ -233,6 +249,7 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 - `POST /api/channels/move` - Move channel to category
 
 ### Communities
+
 - `GET /api/channels/communities` - List communities
 - `POST /api/channels/communities` - Create community
 - `GET /api/channels/communities/:id` - Get community
@@ -243,6 +260,7 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 - `POST /api/channels/communities/:id/groups/reorder` - Reorder groups
 
 ### Broadcasts
+
 - `GET /api/channels/broadcasts` - List broadcast lists
 - `POST /api/channels/broadcasts` - Create broadcast list
 - `GET /api/channels/broadcasts/:id` - Get broadcast list
@@ -257,6 +275,7 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 - `GET /api/channels/broadcasts/messages/:messageId/deliveries` - Get delivery stats
 
 ### Permissions
+
 - `GET /api/channels/:id/permissions` - Get channel permissions
 - `POST /api/channels/permissions` - Create override
 - `DELETE /api/channels/permissions/:id` - Delete override
@@ -269,6 +288,7 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 ## Database Functions & Triggers
 
 ### Automatic Updates
+
 - `update_category_positions()` - Auto-reorder categories after insert/update
 - `sync_category_permissions()` - Sync permissions when `sync_permissions` enabled
 - `update_broadcast_stats()` - Update subscriber counts
@@ -277,6 +297,7 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 - `update_channel_member_count()` - Update member counts
 
 ### Views
+
 - `channels_with_categories` - Channels joined with category info
 - `broadcast_lists_with_stats` - Broadcasts with computed stats
 - `communities_with_stats` - Communities with group/member counts
@@ -286,24 +307,29 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 ## Files Created
 
 ### Database
+
 - `.backend/migrations/040_advanced_channels_phase6.sql` (600+ lines)
 
 ### Types
+
 - `src/types/advanced-channels.ts` (518 lines) - Already existed
 
 ### GraphQL
+
 - `src/graphql/channels/categories.ts` (189 lines)
 - `src/graphql/channels/communities.ts` (231 lines)
 - `src/graphql/channels/broadcasts.ts` (95 lines)
 - `src/graphql/channels/permissions.ts` (66 lines)
 
 ### Services
+
 - `src/services/channels/category.service.ts` (52 lines)
 - `src/services/channels/community.service.ts` (58 lines)
 - `src/services/channels/broadcast.service.ts` (71 lines)
 - `src/services/channels/permission.service.ts` (89 lines)
 
 ### API Routes
+
 - `src/app/api/channels/categories/route.ts` (65 lines)
 - Additional routes documented above (to be created)
 
@@ -312,16 +338,19 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 ## Integration Points
 
 ### 1. Existing Channel System
+
 - Categories integrate with `nchat_channels` table
 - Permission overrides apply to existing RBAC
 - Backward compatible with existing channels
 
 ### 2. Real-time Updates
+
 - GraphQL subscriptions for live updates
 - Socket.io events for broadcasts
 - Optimistic UI updates
 
 ### 3. UI Components
+
 - Drag-and-drop category ordering
 - Permission matrix editor
 - Broadcast composer with scheduling
@@ -333,18 +362,21 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 ## Testing Strategy
 
 ### Unit Tests
+
 - Service layer methods
 - Permission bitfield operations
 - Category ordering logic
 - Delivery tracking calculations
 
 ### Integration Tests
+
 - GraphQL mutations/queries
 - API route handlers
 - Database triggers
 - Permission inheritance
 
 ### E2E Tests
+
 - Category creation and reordering
 - Community group management
 - Broadcast sending and delivery
@@ -355,18 +387,21 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 ## Performance Considerations
 
 ### Indexing
+
 - Composite indexes on `(workspace_id, position)` for ordering
 - Indexes on `category_id` for channel filtering
 - Indexes on `status` for broadcast delivery tracking
 - Indexes on permission target lookups
 
 ### Caching
+
 - Category structures (rarely change)
 - Permission calculations (per-request cache)
 - Broadcast subscriber lists
 - Channel membership
 
 ### Optimization
+
 - Batch permission calculations
 - Lazy-load broadcast deliveries
 - Paginated broadcast message history
@@ -377,18 +412,21 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 ## Security
 
 ### Authorization
+
 - Workspace ownership validation
 - Category management permissions
 - Broadcast sender validation
 - Permission override restrictions
 
 ### Input Validation
+
 - Category name length/format
 - Permission bitfield validation
 - Broadcast content sanitization
 - Invite code uniqueness
 
 ### Rate Limiting
+
 - Broadcast sending limits
 - Category creation limits
 - Permission override changes
@@ -399,12 +437,14 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 ## Migration Path
 
 ### Existing Channels
+
 1. All existing channels assigned to default workspace
 2. Public/private channels moved to "General" category
 3. `is_private` flag set based on channel type
 4. No data loss or breaking changes
 
 ### Rollback Plan
+
 1. Categories can be deleted (channels become uncategorized)
 2. Communities are optional
 3. Broadcasts are separate system
@@ -415,6 +455,7 @@ USE_APPLICATION_COMMANDS  // 1 << 27
 ## Usage Examples
 
 ### Create Category
+
 ```typescript
 import { categoryService } from '@/services/channels/category.service'
 
@@ -429,6 +470,7 @@ const category = await categoryService.createCategory({
 ```
 
 ### Create Community
+
 ```typescript
 import { communityService } from '@/services/channels/community.service'
 
@@ -443,6 +485,7 @@ const community = await communityService.createCommunity({
 ```
 
 ### Send Broadcast
+
 ```typescript
 import { broadcastService } from '@/services/channels/broadcast.service'
 
@@ -455,6 +498,7 @@ const message = await broadcastService.sendBroadcast({
 ```
 
 ### Set Permissions
+
 ```typescript
 import { permissionService } from '@/services/channels/permission.service'
 import { CHANNEL_PERMISSIONS } from '@/types/advanced-channels'
@@ -480,6 +524,7 @@ await permissionService.createOverride({
 ## Next Steps
 
 ### Phase 7 - UI Components
+
 1. CategoryList component with drag-and-drop
 2. CategorySettings modal
 3. CommunityManager component
@@ -489,6 +534,7 @@ await permissionService.createOverride({
 7. ChannelMoveDialog
 
 ### Phase 8 - Advanced Features
+
 1. Channel templates
 2. Auto-promotion to supergroup (>200 members)
 3. Broadcast analytics dashboard

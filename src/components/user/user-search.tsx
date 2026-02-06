@@ -160,7 +160,9 @@ const UserSearch = React.forwardRef<HTMLDivElement, UserSearchProps>(
                   </div>
 
                   <div className="space-y-2">
-                    <span className="text-sm font-medium" id="role-filter-label">Role</span>
+                    <span className="text-sm font-medium" id="role-filter-label">
+                      Role
+                    </span>
                     <Select
                       value={roleFilter}
                       onValueChange={(value) => setRoleFilter(value as UserRole | 'all')}
@@ -179,7 +181,9 @@ const UserSearch = React.forwardRef<HTMLDivElement, UserSearchProps>(
                   </div>
 
                   <div className="space-y-2">
-                    <span className="text-sm font-medium" id="status-filter-label">Status</span>
+                    <span className="text-sm font-medium" id="status-filter-label">
+                      Status
+                    </span>
                     <Select
                       value={presenceFilter}
                       onValueChange={(value) => setPresenceFilter(value as PresenceStatus | 'all')}

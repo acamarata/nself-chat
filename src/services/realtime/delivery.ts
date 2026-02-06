@@ -181,7 +181,7 @@ export class DeliveryEventHandler {
       try {
         listener(event, data)
       } catch (error) {
-        logger.error('[DeliveryHandler] Listener error:',  error)
+        logger.error('[DeliveryHandler] Listener error:', error)
       }
     })
   }

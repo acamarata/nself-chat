@@ -250,14 +250,18 @@ describe('Complete Auth System', () => {
     })
 
     it('should handle OAuth callback with code', async () => {
-      const response = await fetch('http://localhost:3000/api/auth/oauth/callback?code=test-code&state=test-state')
+      const response = await fetch(
+        'http://localhost:3000/api/auth/oauth/callback?code=test-code&state=test-state'
+      )
 
       // In dev mode, this redirects
       expect([302, 307, 400]).toContain(response.status)
     })
 
     it('should handle OAuth errors gracefully', async () => {
-      const response = await fetch('http://localhost:3000/api/auth/oauth/callback?error=access_denied')
+      const response = await fetch(
+        'http://localhost:3000/api/auth/oauth/callback?error=access_denied'
+      )
 
       // Should redirect to login with error
       expect([302, 307]).toContain(response.status)
@@ -274,7 +278,9 @@ describe('Complete Auth System', () => {
     })
 
     it('should handle ID.me callback', async () => {
-      const response = await fetch('http://localhost:3000/api/auth/idme/callback?code=test-code&state=test-state')
+      const response = await fetch(
+        'http://localhost:3000/api/auth/idme/callback?code=test-code&state=test-state'
+      )
 
       // Should redirect to settings
       expect([302, 307]).toContain(response.status)

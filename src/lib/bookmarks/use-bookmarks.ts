@@ -252,7 +252,7 @@ export function useBookmark(messageId: string): UseBookmarkReturn {
 
         return newBookmark ?? null
       } catch (error) {
-        logger.error('Failed to add bookmark:',  error)
+        logger.error('Failed to add bookmark:', error)
         throw error
       }
     },
@@ -278,7 +278,7 @@ export function useBookmark(messageId: string): UseBookmarkReturn {
 
       return false
     } catch (error) {
-      logger.error('Failed to remove bookmark:',  error)
+      logger.error('Failed to remove bookmark:', error)
       throw error
     }
   }, [user?.id, messageId, removeBookmarkMutation, store, refetch])
@@ -313,7 +313,7 @@ export function useBookmark(messageId: string): UseBookmarkReturn {
 
         return false
       } catch (error) {
-        logger.error('Failed to update bookmark note:',  error)
+        logger.error('Failed to update bookmark note:', error)
         throw error
       }
     },

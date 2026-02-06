@@ -35,6 +35,7 @@ Create Discord-like communities with full server hierarchy:
 - **Member management** - Invite, kick, ban, role assignment
 
 **Example Use Cases**:
+
 - Gaming communities
 - Company-wide collaboration
 - Community discussion boards
@@ -50,6 +51,7 @@ One-to-many messaging with privacy:
 - **Contact management** - Organize recipient lists
 
 **Example Use Cases**:
+
 - Announcements
 - Newsletter-style updates
 - One-way communications
@@ -157,6 +159,7 @@ Track engagement and performance:
 - **Quality metrics** - Bitrate, resolution, buffering
 
 **Example Use Cases**:
+
 - Company all-hands meetings
 - Educational lectures
 - Gaming streams
@@ -305,13 +308,13 @@ Complete documentation for all features:
 
 ### Metrics
 
-| Metric | Target | Achieved |
-|--------|--------|----------|
-| Lighthouse Score | >90 | 94/100 |
-| Load Time | <3s | 2.1s |
-| API Response (p95) | <200ms | 178ms |
-| DB Queries (p95) | <50ms | 42ms |
-| Concurrent Users | 10,000 | 10,000+ |
+| Metric             | Target | Achieved |
+| ------------------ | ------ | -------- |
+| Lighthouse Score   | >90    | 94/100   |
+| Load Time          | <3s    | 2.1s     |
+| API Response (p95) | <200ms | 178ms    |
+| DB Queries (p95)   | <50ms  | 42ms     |
+| Concurrent Users   | 10,000 | 10,000+  |
 
 ### Optimizations
 
@@ -419,16 +422,19 @@ See `.env.example` for complete configuration.
 ## 🐛 Bug Fixes
 
 ### TypeScript Errors
+
 - Fixed 1,900+ TypeScript errors
 - Fixed 85 type errors in existing services
 - Enabled strict mode throughout
 
 ### Component Fixes
+
 - Fixed WebRTC component state management
 - Fixed channel list rendering issues
 - Fixed OAuth callback handling
 
 ### API Fixes
+
 - Fixed rate limiting edge cases
 - Fixed WebSocket reconnection logic
 - Fixed file upload error handling

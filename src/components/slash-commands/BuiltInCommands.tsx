@@ -251,13 +251,18 @@ function CommandRow({ command, isLast, onSelect }: CommandRowProps) {
     return (
       <div
         className={cn(
-          'hover:bg-muted/30 flex items-center gap-4 px-4 py-3 transition-colors cursor-pointer',
+          'hover:bg-muted/30 flex cursor-pointer items-center gap-4 px-4 py-3 transition-colors',
           !isLast && 'border-b'
         )}
         role="button"
         tabIndex={0}
         onClick={handleClick}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(); } }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            handleClick()
+          }
+        }}
       >
         {rowContent}
       </div>

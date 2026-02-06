@@ -175,7 +175,12 @@ function CollectionItem({
       role="button"
       tabIndex={0}
       onClick={onClick}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick()
+        }
+      }}
     >
       <div
         className={cn('flex items-center justify-center rounded', compact ? 'h-5 w-5' : 'h-6 w-6')}

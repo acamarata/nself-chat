@@ -106,7 +106,9 @@ export function FontCustomizer() {
       <div className="space-y-4">
         {/* Font Family */}
         <div>
-          <label htmlFor="font-family-select" className="mb-2 block text-sm font-medium">Font Family</label>
+          <label htmlFor="font-family-select" className="mb-2 block text-sm font-medium">
+            Font Family
+          </label>
           <select
             id="font-family-select"
             value={theme.fontFamily}
@@ -208,7 +210,9 @@ export function ThemeImportExport() {
 
         {/* Import */}
         <div>
-          <label htmlFor="import-theme-json" className="mb-2 block text-sm font-medium">Import Theme JSON</label>
+          <label htmlFor="import-theme-json" className="mb-2 block text-sm font-medium">
+            Import Theme JSON
+          </label>
           <textarea
             id="import-theme-json"
             value={importText}

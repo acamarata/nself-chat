@@ -10,11 +10,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import jwt from 'jsonwebtoken'
 import { Pool } from 'pg'
 import { withErrorHandler, compose } from '@/lib/api/middleware'
-import {
-  successResponse,
-  badRequestResponse,
-  internalErrorResponse,
-} from '@/lib/api/response'
+import { successResponse, badRequestResponse, internalErrorResponse } from '@/lib/api/response'
 import { authConfig } from '@/config/auth.config'
 import { emailService } from '@/lib/email/email.service'
 import { logger } from '@/lib/logger'

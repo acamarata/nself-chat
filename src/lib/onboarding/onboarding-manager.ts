@@ -14,7 +14,6 @@ import type {
   OnboardingConfig,
 } from './onboarding-types'
 
-
 import { logger } from '@/lib/logger'
 import {
   onboardingSteps,
@@ -157,7 +156,7 @@ export function completeCurrentStep(
   if (data) {
     const validation = validateStep(state.currentStepId, data)
     if (!validation.isValid) {
-      logger.error('Step validation failed:',  validation.errors)
+      logger.error('Step validation failed:', validation.errors)
       return state
     }
   }

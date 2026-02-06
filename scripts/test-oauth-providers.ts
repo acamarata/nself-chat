@@ -54,7 +54,11 @@ function testProvider(validation: OAuthProviderValidation): OAuthTestResult {
   let overallStatus: 'pass' | 'fail' | 'warning' = 'pass'
 
   // Determine overall status
-  if (validation.errors.length > 0 || !routeCheck.initiateRouteExists || !routeCheck.callbackRouteExists) {
+  if (
+    validation.errors.length > 0 ||
+    !routeCheck.initiateRouteExists ||
+    !routeCheck.callbackRouteExists
+  ) {
     overallStatus = 'fail'
   } else if (validation.warnings.length > 0) {
     overallStatus = 'warning'
@@ -81,9 +85,15 @@ function formatResultsTable(results: OAuthTestResult[]): string {
   // Data rows
   for (const result of results) {
     const provider = result.provider.padEnd(11)
-    const status = result.overallStatus === 'pass' ? '✅ PASS' : result.overallStatus === 'warning' ? '⚠️  WARN' : '❌ FAIL'
+    const status =
+      result.overallStatus === 'pass'
+        ? '✅ PASS'
+        : result.overallStatus === 'warning'
+          ? '⚠️  WARN'
+          : '❌ FAIL'
     const config = result.valid ? '✓' : '✗'
-    const routes = result.routeCheck.initiateRouteExists && result.routeCheck.callbackRouteExists ? '✓' : '✗'
+    const routes =
+      result.routeCheck.initiateRouteExists && result.routeCheck.callbackRouteExists ? '✓' : '✗'
 
     const issues: string[] = []
     if (result.errors.length > 0) {
@@ -98,7 +108,9 @@ function formatResultsTable(results: OAuthTestResult[]): string {
 
     const issueText = issues.length > 0 ? issues[0].substring(0, 28) : 'None'
 
-    rows.push(`│ ${provider} │ ${status} │ ${config.padEnd(7)} │ ${routes.padEnd(8)} │ ${issueText.padEnd(29)} │`)
+    rows.push(
+      `│ ${provider} │ ${status} │ ${config.padEnd(7)} │ ${routes.padEnd(8)} │ ${issueText.padEnd(29)} │`
+    )
   }
 
   rows.push('└─────────────┴────────┴─────────┴──────────┴───────────────────────────────┘')

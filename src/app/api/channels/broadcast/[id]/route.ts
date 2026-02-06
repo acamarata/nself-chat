@@ -31,10 +31,7 @@ const sendMessageSchema = z.object({
  * GET /api/channels/broadcast/[id]
  * Get broadcast list details with subscribers and recent messages
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: broadcastId } = await params
 
@@ -136,10 +133,7 @@ export async function GET(
  * POST /api/channels/broadcast/[id]
  * Send message to broadcast list
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: broadcastId } = await params
 

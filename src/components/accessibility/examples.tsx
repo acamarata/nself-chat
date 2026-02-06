@@ -327,10 +327,7 @@ export function AccessibleMessage({ message, onReply, onEdit, onDelete }: Access
         >
           {message.attachments.map((attachment) => (
             <li key={attachment.url}>
-              <a
-                href={attachment.url}
-                className="block text-sm text-primary hover:underline"
-              >
+              <a href={attachment.url} className="block text-sm text-primary hover:underline">
                 📎 {attachment.name}
               </a>
             </li>

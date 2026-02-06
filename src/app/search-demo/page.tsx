@@ -76,7 +76,9 @@ export default function SearchDemoPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <label htmlFor="search-query" className="text-sm font-medium">Search Query:</label>
+                <label htmlFor="search-query" className="text-sm font-medium">
+                  Search Query:
+                </label>
                 <input
                   id="search-query"
                   type="text"
@@ -228,7 +230,9 @@ export default function SearchDemoPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <span id="date-range-label" className="text-sm font-medium">Date Range:</span>
+                <span id="date-range-label" className="text-sm font-medium">
+                  Date Range:
+                </span>
                 <DateRangePicker
                   aria-labelledby="date-range-label"
                   value={dateRange}

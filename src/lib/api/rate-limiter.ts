@@ -238,18 +238,18 @@ function getRedisClient(): Redis | null {
 
     redisClient.on('error', (error) => {
       redisAvailable = false
-      logger.error('[RateLimiter] Redis error:',  error.message)
+      logger.error('[RateLimiter] Redis error:', error.message)
     })
 
     // Attempt to connect
     redisClient.connect().catch((error) => {
-      logger.error('[RateLimiter] Failed to connect to Redis:',  error.message)
+      logger.error('[RateLimiter] Failed to connect to Redis:', error.message)
       redisAvailable = false
     })
 
     return redisClient
   } catch (error) {
-    logger.error('[RateLimiter] Failed to initialize Redis:',  error)
+    logger.error('[RateLimiter] Failed to initialize Redis:', error)
     return null
   }
 }
@@ -354,7 +354,7 @@ export class RateLimiter {
         return await this.checkInMemory(key, config, now, resetAt)
       }
     } catch (error) {
-      logger.error('[RateLimiter] Error checking rate limit:',  error)
+      logger.error('[RateLimiter] Error checking rate limit:', error)
       // On error, fall back to in-memory
       this.useRedis = false
       return await this.checkInMemory(key, config, now, resetAt)
@@ -494,7 +494,7 @@ export class RateLimiter {
         return await this.checkTokenBucketInMemory(key, config, now, capacity, refillRate)
       }
     } catch (error) {
-      logger.error('[RateLimiter] Error checking token bucket:',  error)
+      logger.error('[RateLimiter] Error checking token bucket:', error)
       this.useRedis = false
       return await this.checkTokenBucketInMemory(key, config, now, capacity, refillRate)
     }
@@ -636,7 +636,7 @@ export class RateLimiter {
         await inMemoryStore.delete(key)
       }
     } catch (error) {
-      logger.error('[RateLimiter] Error resetting rate limit:',  error)
+      logger.error('[RateLimiter] Error resetting rate limit:', error)
     }
   }
 
@@ -686,7 +686,7 @@ export class RateLimiter {
         }
       }
     } catch (error) {
-      logger.error('[RateLimiter] Error getting status:',  error)
+      logger.error('[RateLimiter] Error getting status:', error)
       return {
         allowed: true,
         remaining: limit,

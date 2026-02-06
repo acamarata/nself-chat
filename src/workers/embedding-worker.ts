@@ -40,7 +40,7 @@ let totalFailed = 0
  */
 export async function startEmbeddingWorker(): Promise<void> {
   if (isRunning) {
-// REMOVED: console.log('[Embedding Worker] Already running')
+    // REMOVED: console.log('[Embedding Worker] Already running')
     return
   }
 
@@ -48,7 +48,7 @@ export async function startEmbeddingWorker(): Promise<void> {
   shouldStop = false
   consecutiveErrors = 0
 
-// REMOVED: console.log(`[Embedding Worker] Started: ${WORKER_ID}`)
+  // REMOVED: console.log(`[Embedding Worker] Started: ${WORKER_ID}`)
 
   while (!shouldStop) {
     try {
@@ -98,7 +98,7 @@ export async function startEmbeddingWorker(): Promise<void> {
  * Stop the embedding worker
  */
 export function stopEmbeddingWorker(): void {
-// REMOVED: console.log('[Embedding Worker] Stopping...')
+  // REMOVED: console.log('[Embedding Worker] Stopping...')
   shouldStop = true
 }
 
@@ -141,18 +141,18 @@ function sleep(ms: number): Promise<void> {
 if (require.main === module) {
   // Handle graceful shutdown
   process.on('SIGINT', () => {
-// REMOVED: console.log('\n[Embedding Worker] Received SIGINT, shutting down...')
+    // REMOVED: console.log('\n[Embedding Worker] Received SIGINT, shutting down...')
     stopEmbeddingWorker()
   })
 
   process.on('SIGTERM', () => {
-// REMOVED: console.log('\n[Embedding Worker] Received SIGTERM, shutting down...')
+    // REMOVED: console.log('\n[Embedding Worker] Received SIGTERM, shutting down...')
     stopEmbeddingWorker()
   })
 
   // Start worker
   startEmbeddingWorker().catch((error) => {
-    logger.error('[Embedding Worker] Fatal error:',  error)
+    logger.error('[Embedding Worker] Fatal error:', error)
     process.exit(1)
   })
 }

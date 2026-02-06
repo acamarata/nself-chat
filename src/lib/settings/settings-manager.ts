@@ -53,7 +53,7 @@ class SettingsManager {
 
       this.initialized = true
     } catch (error) {
-      logger.error('Failed to initialize settings:',  error)
+      logger.error('Failed to initialize settings:', error)
       this.settings = { ...defaultUserSettings }
     }
   }
@@ -89,7 +89,7 @@ class SettingsManager {
     // Validate the updates
     const result = partialUserSettingsSchema.safeParse(updates)
     if (!result.success) {
-      logger.error('Invalid settings update:',  result.error)
+      logger.error('Invalid settings update:', result.error)
       return
     }
 
@@ -163,7 +163,7 @@ class SettingsManager {
       try {
         listener(settings)
       } catch (error) {
-        logger.error('Settings listener error:',  error)
+        logger.error('Settings listener error:', error)
       }
     })
   }
@@ -189,7 +189,7 @@ class SettingsManager {
         return null
       }
     } catch (error) {
-      logger.error('Failed to load settings from storage:',  error)
+      logger.error('Failed to load settings from storage:', error)
       return null
     }
   }
@@ -213,7 +213,7 @@ class SettingsManager {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.settings))
       localStorage.setItem(METADATA_KEY, JSON.stringify(this.metadata))
     } catch (error) {
-      logger.error('Failed to save settings to storage:',  error)
+      logger.error('Failed to save settings to storage:', error)
     }
   }
 
@@ -224,7 +224,7 @@ class SettingsManager {
       localStorage.removeItem(STORAGE_KEY)
       localStorage.removeItem(METADATA_KEY)
     } catch (error) {
-      logger.error('Failed to clear settings storage:',  error)
+      logger.error('Failed to clear settings storage:', error)
     }
   }
 

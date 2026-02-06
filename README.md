@@ -187,6 +187,7 @@ These features exist but have limitations or need additional work:
 **Previous Claims**: Documentation previously claimed "100% complete" and "Signal Protocol library"
 
 **Reality Check**:
+
 - Implementation is ~80% complete (still excellent for beta!)
 - Uses Web Crypto API with Double Ratchet algorithm (not Signal library, but equally secure)
 - Some features are MVP implementations or mocked
@@ -197,6 +198,7 @@ These features exist but have limitations or need additional work:
 ### Recommended Use
 
 **✅ Great For**:
+
 - Development and testing environments
 - Internal team tools (< 50 users)
 - Proof of concepts and demos
@@ -204,6 +206,7 @@ These features exist but have limitations or need additional work:
 - Building custom chat solutions
 
 **⚠️ Before Public Launch**:
+
 - Complete real Stripe.js integration
 - Test mobile apps on real devices
 - Professional security audit recommended
@@ -213,6 +216,7 @@ These features exist but have limitations or need additional work:
 ### Path to v1.0.0
 
 **Critical Path** (~60-100 hours):
+
 1. ✅ Fix TypeScript errors → DONE
 2. ✅ Working builds → DONE
 3. ⚠️ Real Stripe.js client → 8-12 hours

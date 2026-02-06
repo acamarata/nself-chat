@@ -19,20 +19,13 @@ interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   initialConfig?: any
 }
 
-export function renderWithProviders(
-  ui: ReactElement,
-  options?: CustomRenderOptions
-) {
+export function renderWithProviders(ui: ReactElement, options?: CustomRenderOptions) {
   const { apolloMocks = [], initialAuth, initialConfig, ...renderOptions } = options || {}
 
   const mockApolloClient = createMockApolloClient(apolloMocks)
 
   function Wrapper({ children }: { children: React.ReactNode }) {
-    return (
-      <ApolloProvider client={mockApolloClient}>
-        {children}
-      </ApolloProvider>
-    )
+    return <ApolloProvider client={mockApolloClient}>{children}</ApolloProvider>
   }
 
   return render(ui, { wrapper: Wrapper, ...renderOptions })
@@ -42,9 +35,9 @@ export function renderWithProviders(
 // Wait Utilities
 // ============================================================================
 
-export const waitFor = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+export const waitFor = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-export const waitForNextTick = () => new Promise(resolve => process.nextTick(resolve))
+export const waitForNextTick = () => new Promise((resolve) => process.nextTick(resolve))
 
 // ============================================================================
 // Mock Data Generators
@@ -98,7 +91,7 @@ export function createMockLocalStorage() {
       delete store[key]
     },
     clear: () => {
-      Object.keys(store).forEach(key => delete store[key])
+      Object.keys(store).forEach((key) => delete store[key])
     },
   }
 }
@@ -120,7 +113,7 @@ export function advanceTimers(ms: number) {
 // ============================================================================
 
 export async function flushPromises() {
-  return new Promise(resolve => setImmediate(resolve))
+  return new Promise((resolve) => setImmediate(resolve))
 }
 
 // ============================================================================
@@ -157,7 +150,11 @@ export function createMockMouseEvent(type: string, options: any = {}): MouseEven
   })
 }
 
-export function createMockKeyboardEvent(type: string, key: string, options: any = {}): KeyboardEvent {
+export function createMockKeyboardEvent(
+  type: string,
+  key: string,
+  options: any = {}
+): KeyboardEvent {
   return new KeyboardEvent(type, {
     bubbles: true,
     cancelable: true,

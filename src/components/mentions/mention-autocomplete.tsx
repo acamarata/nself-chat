@@ -252,12 +252,16 @@ function SpecialMentionItem({
       aria-selected={isSelected}
       aria-disabled={isDisabled}
       onClick={isDisabled ? undefined : onClick}
-      onKeyDown={isDisabled ? undefined : (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          onClick?.()
-        }
-      }}
+      onKeyDown={
+        isDisabled
+          ? undefined
+          : (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                onClick?.()
+              }
+            }
+      }
       onMouseEnter={onMouseEnter}
       className={cn(
         'flex items-center gap-3 px-3 py-2',

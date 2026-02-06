@@ -101,7 +101,7 @@ export async function readClipboardText(): Promise<string> {
   try {
     return await navigator.clipboard.readText()
   } catch (error) {
-    logger.error('Failed to read clipboard:',  error)
+    logger.error('Failed to read clipboard:', error)
     return ''
   }
 }
@@ -119,7 +119,7 @@ export async function writeClipboardText(text: string): Promise<boolean> {
     await navigator.clipboard.writeText(text)
     return true
   } catch (error) {
-    logger.error('Failed to write to clipboard:',  error)
+    logger.error('Failed to write to clipboard:', error)
     return false
   }
 }
@@ -149,7 +149,7 @@ export async function readClipboardImage(): Promise<string> {
     }
     return ''
   } catch (error) {
-    logger.error('Failed to read image from clipboard:',  error)
+    logger.error('Failed to read image from clipboard:', error)
     return ''
   }
 }
@@ -169,7 +169,7 @@ export async function writeClipboardImage(dataUrl: string): Promise<boolean> {
     await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })])
     return true
   } catch (error) {
-    logger.error('Failed to write image to clipboard:',  error)
+    logger.error('Failed to write image to clipboard:', error)
     return false
   }
 }
@@ -193,7 +193,7 @@ export async function readClipboardHtml(): Promise<string> {
     }
     return ''
   } catch (error) {
-    logger.error('Failed to read HTML from clipboard:',  error)
+    logger.error('Failed to read HTML from clipboard:', error)
     return ''
   }
 }
@@ -212,7 +212,7 @@ export async function writeClipboardHtml(html: string): Promise<boolean> {
     await navigator.clipboard.write([new ClipboardItem({ 'text/html': blob })])
     return true
   } catch (error) {
-    logger.error('Failed to write HTML to clipboard:',  error)
+    logger.error('Failed to write HTML to clipboard:', error)
     return false
   }
 }
@@ -230,7 +230,7 @@ export async function clearClipboard(): Promise<boolean> {
     await navigator.clipboard.writeText('')
     return true
   } catch (error) {
-    logger.error('Failed to clear clipboard:',  error)
+    logger.error('Failed to clear clipboard:', error)
     return false
   }
 }

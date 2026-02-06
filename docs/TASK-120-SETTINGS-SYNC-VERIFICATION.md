@@ -13,6 +13,7 @@ Task 120 implements settings synchronization endpoints with conflict resolution 
 ### Status: PARTIAL (75% complete)
 
 **Critical Blockers**:
+
 1. ❌ Database table `nchat_user_settings` does not exist in migrations
 2. ❌ Placeholder API implementations in `src/lib/settings/settings-sync.ts`
 3. ⚠️ Some tests failing (4/20 failing in settings-sync.service.test.ts)
@@ -26,6 +27,7 @@ Task 120 implements settings synchronization endpoints with conflict resolution 
 ### 1. Code Exists and is Functional ⚠️ PARTIAL
 
 **Evidence**:
+
 - ✅ API Route: `/Users/admin/Sites/nself-chat/src/app/api/settings/sync/route.ts` (536 lines)
   - POST /api/settings/sync with full conflict resolution
   - Zod validation schemas for all settings categories
@@ -51,7 +53,9 @@ Task 120 implements settings synchronization endpoints with conflict resolution 
   - Conflict UI support
 
 **Gaps**:
+
 - ❌ **BLOCKER**: Placeholder implementations in `/Users/admin/Sites/nself-chat/src/lib/settings/settings-sync.ts`
+
   ```typescript
   // Line 229-248: API Operations (placeholders - implement with actual API)
   private async fetchRemoteSettings(): Promise<Partial<UserSettings> | null> {
@@ -72,23 +76,27 @@ Task 120 implements settings synchronization endpoints with conflict resolution 
     // For now, just log
   }
   ```
+
   This is a duplicate/outdated implementation that should be removed or connected to the real API.
 
 ### 2. Tests Exist and Pass ⚠️ PARTIAL
 
 **Evidence**:
+
 - ✅ Test File: `/Users/admin/Sites/nself-chat/src/services/settings/__tests__/settings-sync.service.test.ts` (580 lines)
   - 20 tests total
   - Covers initialization, sync, updates, conflict resolution, events
   - Uses Jest mocks for Apollo Client
 
 **Test Results**:
+
 ```
 Test Suites: 1 failed, 1 total
 Tests:       4 failed, 16 passed, 20 total
 ```
 
 **Failing Tests** (4):
+
 1. `should merge settings on conflict` - Expects theme.mode='dark', got different value
 2. `should handle privacy settings conflicts (server wins)` - Privacy conflict resolution mismatch
 3. `should require manual resolution for critical conflicts` - Conflict detection not working as expected
@@ -116,6 +124,7 @@ Tests:       4 failed, 16 passed, 20 total
 ### 4. Documentation Complete ✅ DONE
 
 **Evidence**:
+
 - ✅ Feature Documentation: `/Users/admin/Sites/nself-chat/docs/features/Offline-Sync-Phase17.md`
   - Section on "Settings & Preferences Sync (Task 120)" (Lines 163-219)
   - Usage examples with useSettingsSync hook
@@ -135,11 +144,13 @@ Tests:       4 failed, 16 passed, 20 total
 **Implementation Status**:
 
 #### ✅ Bi-directional Sync (Upload/Download)
+
 - API endpoint supports both push and pull
 - Sync service handles fetch and push operations
 - Hook provides manual sync trigger
 
 #### ✅ Conflict Resolution
+
 - Three strategies implemented:
   1. **Last Write Wins** - Default for most settings
   2. **Server Wins** - For privacy settings (security-sensitive)
@@ -148,27 +159,32 @@ Tests:       4 failed, 16 passed, 20 total
 - Conflict detection with requiresUserAction flag
 
 #### ✅ Settings Versioning
+
 - Version number tracked in database
-- Increments on each update (_inc: { version: 1 })
+- Increments on each update (\_inc: { version: 1 })
 - Version comparison for conflict detection
 
 #### ✅ Last-Modified Timestamps
+
 - updated_at field in database
-- _meta.lastSyncedAt in settings object
+- \_meta.lastSyncedAt in settings object
 - Used for conflict resolution
 
 #### ❌ Sync on Login/Logout - NOT FOUND
+
 - No evidence of integration with auth flow
 - useSettingsSync hook requires manual initialization
 - No automatic sync trigger on authentication events
 
 #### ⚠️ Background Sync - PARTIAL
+
 - Auto-sync interval configurable (default 60s)
 - Sync on visibility change (when tab becomes active)
 - No Service Worker background sync found
 - Documentation mentions it but implementation not verified
 
 #### ❌ Offline Settings Changes Queued - NOT VERIFIED
+
 - No evidence of offline queue for settings
 - Settings service relies on network connectivity
 - No IndexedDB integration for settings queue
@@ -180,7 +196,9 @@ Tests:       4 failed, 16 passed, 20 total
 ### API Routes
 
 #### `/api/settings/sync` (536 lines)
+
 **Strengths**:
+
 - Comprehensive conflict resolution logic
 - Zod validation for all settings categories
 - Audit logging with severity levels
@@ -192,6 +210,7 @@ Tests:       4 failed, 16 passed, 20 total
   4. Both have changes (merge)
 
 **Implementation Details**:
+
 ```typescript
 // Conflict resolution categories
 SERVER_WINS_CATEGORIES: ['privacy']
@@ -199,6 +218,7 @@ CLIENT_WINS_CATEGORIES: ['theme', 'notifications', 'accessibility', 'locale', 'k
 ```
 
 **Request/Response**:
+
 ```typescript
 POST /api/settings/sync
 Body: {
@@ -217,12 +237,15 @@ Response: {
 ```
 
 #### `/api/settings` (443 lines)
+
 **Endpoints**:
+
 - GET - Fetch user settings (returns defaults if none exist)
 - POST - Full replacement with version increment
 - PATCH - Partial update with deep merge
 
 **Features**:
+
 - Audit logging for all operations
 - Rate limiting (60 req/min)
 - IP address tracking
@@ -231,7 +254,9 @@ Response: {
 ### Services
 
 #### SettingsSyncService (802 lines)
+
 **Features**:
+
 - Local storage caching for offline support
 - Auto-sync with configurable interval
 - Sync on visibility change
@@ -240,6 +265,7 @@ Response: {
 - Critical conflict detection (>30% difference = manual resolution)
 
 **Config Options**:
+
 ```typescript
 {
   autoSyncInterval: 60000, // 1 minute
@@ -251,6 +277,7 @@ Response: {
 ```
 
 **Merge Strategy**:
+
 - Server wins for privacy settings
 - Client wins for preferences
 - Deep merge for others
@@ -259,6 +286,7 @@ Response: {
 ### GraphQL Schema
 
 #### Queries (5)
+
 1. GET_USER_SETTINGS - Fetch by user ID
 2. GET_USER_SETTINGS_IF_NEWER - Conditional fetch based on version
 3. GET_SETTINGS_VERSION - Version check only (optimization)
@@ -266,13 +294,15 @@ Response: {
 5. UPSERT_USER_SETTINGS - Create or replace
 
 #### Mutations (5)
+
 1. UPDATE_USER_SETTINGS - Increments version automatically
 2. UPSERT_USER_SETTINGS - For initial creation or full replacement
-3. MERGE_USER_SETTINGS - Uses _append for JSONB merge
+3. MERGE_USER_SETTINGS - Uses \_append for JSONB merge
 4. DELETE_USER_SETTINGS - Remove all settings
 5. RESET_USER_SETTINGS - Reset to defaults
 
 #### Types (6 categories)
+
 1. ThemeSettings - mode, preset, accentColor
 2. NotificationSettings - 13 properties including quiet hours
 3. PrivacySettings - 6 properties (onlineStatus, readReceipts, etc.)
@@ -289,12 +319,14 @@ Response: {
 **Issue**: The `nchat_user_settings` table does not exist in any migration.
 
 **Evidence**:
+
 - Searched all 44 migration files in `.backend/migrations/`
 - Migration 011_user_settings_columns.sql only adds columns to `nchat_users` table
 - GraphQL operations reference a non-existent table
 - API will fail with "relation 'nchat_user_settings' does not exist"
 
 **Required Migration**:
+
 ```sql
 CREATE TABLE IF NOT EXISTS nchat.nchat_user_settings (
   user_id UUID PRIMARY KEY REFERENCES nchat.nchat_users(id) ON DELETE CASCADE,
@@ -316,6 +348,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON nchat.nchat_user_settings TO nhost_user;
 **Lines**: 229-248
 
 This appears to be a duplicate/outdated implementation. The real implementation is in:
+
 - `/src/services/settings/settings-sync.service.ts` (uses Apollo Client)
 - `/src/app/api/settings/sync/route.ts` (API endpoint)
 
@@ -324,11 +357,13 @@ This appears to be a duplicate/outdated implementation. The real implementation 
 ### 3. Sync Triggers Missing ❌
 
 **Login/Logout Integration**: Not found
+
 - No sync call in auth context
 - No integration with useAuth hook
 - Manual initialization required
 
 **Background Sync**: Partially implemented
+
 - Auto-sync interval works
 - Visibility change works
 - Service Worker integration not found
@@ -385,20 +420,20 @@ This appears to be a duplicate/outdated implementation. The real implementation 
 
 ### Files Implemented (12)
 
-| File | Lines | Status | Notes |
-|------|-------|--------|-------|
-| `src/app/api/settings/sync/route.ts` | 536 | ✅ Complete | Full conflict resolution |
-| `src/app/api/settings/route.ts` | 443 | ✅ Complete | CRUD operations |
-| `src/services/settings/settings-sync.service.ts` | 802 | ✅ Complete | Service layer |
-| `src/hooks/use-settings-sync.ts` | 226 | ✅ Complete | React integration |
-| `src/graphql/settings.ts` | 472 | ✅ Complete | Schema + types |
-| `src/lib/settings/settings-sync.ts` | 380 | ❌ Placeholders | Needs removal/update |
-| `src/lib/settings/index.ts` | 50 | ✅ Complete | Exports |
-| `src/services/settings/__tests__/settings-sync.service.test.ts` | 580 | ⚠️ 4 failing | Needs mock fixes |
-| `docs/features/Offline-Sync-Phase17.md` | 700+ | ✅ Complete | Documentation |
-| `docs/examples/offline-integration-example.tsx` | 500+ | ✅ Complete | Examples |
-| `src/components/sync/SyncStatusIndicator.tsx` | ~100 | ✅ Complete | UI component |
-| `src/graphql/mutations/settings.ts` | ~100 | ✅ Complete | Mutations |
+| File                                                            | Lines | Status          | Notes                    |
+| --------------------------------------------------------------- | ----- | --------------- | ------------------------ |
+| `src/app/api/settings/sync/route.ts`                            | 536   | ✅ Complete     | Full conflict resolution |
+| `src/app/api/settings/route.ts`                                 | 443   | ✅ Complete     | CRUD operations          |
+| `src/services/settings/settings-sync.service.ts`                | 802   | ✅ Complete     | Service layer            |
+| `src/hooks/use-settings-sync.ts`                                | 226   | ✅ Complete     | React integration        |
+| `src/graphql/settings.ts`                                       | 472   | ✅ Complete     | Schema + types           |
+| `src/lib/settings/settings-sync.ts`                             | 380   | ❌ Placeholders | Needs removal/update     |
+| `src/lib/settings/index.ts`                                     | 50    | ✅ Complete     | Exports                  |
+| `src/services/settings/__tests__/settings-sync.service.test.ts` | 580   | ⚠️ 4 failing    | Needs mock fixes         |
+| `docs/features/Offline-Sync-Phase17.md`                         | 700+  | ✅ Complete     | Documentation            |
+| `docs/examples/offline-integration-example.tsx`                 | 500+  | ✅ Complete     | Examples                 |
+| `src/components/sync/SyncStatusIndicator.tsx`                   | ~100  | ✅ Complete     | UI component             |
+| `src/graphql/mutations/settings.ts`                             | ~100  | ✅ Complete     | Mutations                |
 
 **Total LOC**: ~4,500 lines of code
 
@@ -428,12 +463,14 @@ This appears to be a duplicate/outdated implementation. The real implementation 
 **Confidence Level**: 85%
 
 **High Confidence Areas**:
+
 - API implementation quality (well-structured, comprehensive)
 - Conflict resolution logic (thorough)
 - Code organization (follows patterns)
 - Documentation completeness
 
 **Low Confidence Areas**:
+
 - Database schema (table doesn't exist)
 - Test reliability (failures indicate issues)
 - Production readiness (placeholders exist)
@@ -446,6 +483,7 @@ This appears to be a duplicate/outdated implementation. The real implementation 
 **Status**: PARTIAL (~75% complete)
 
 **Reasoning**:
+
 1. ✅ **Code exists**: Substantial implementation (4,500+ LOC)
 2. ⚠️ **Functional**: API endpoints work but tests failing
 3. ❌ **No placeholders**: BLOCKER - placeholders found
@@ -453,6 +491,7 @@ This appears to be a duplicate/outdated implementation. The real implementation 
 5. ❌ **Cross-device sync**: NOT VERIFIED - database table missing
 
 **What's Done Well**:
+
 - Comprehensive API design
 - Solid conflict resolution strategy
 - Good separation of concerns
@@ -460,12 +499,14 @@ This appears to be a duplicate/outdated implementation. The real implementation 
 - React integration hook
 
 **Critical Blockers**:
+
 - Database table doesn't exist (will cause runtime errors)
 - Placeholder implementations not removed
 - Test failures indicate logic issues
 - Missing integration triggers
 
 **Estimated Work to 100%**: 4-8 hours
+
 1. Create database migration (1 hour)
 2. Fix/remove placeholders (1 hour)
 3. Fix test failures (2 hours)

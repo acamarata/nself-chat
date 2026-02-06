@@ -198,7 +198,9 @@ describe('useRealtime', () => {
 
   describe('error handling', () => {
     it('should handle connection errors', async () => {
-      ;(mockRealtimeClient.connect as jest.Mock).mockRejectedValueOnce(new Error('Connection failed'))
+      ;(mockRealtimeClient.connect as jest.Mock).mockRejectedValueOnce(
+        new Error('Connection failed')
+      )
 
       const { result } = renderHook(() => useRealtime({ autoConnect: false }))
 

@@ -265,7 +265,7 @@ describe('Cryptographic Operations', () => {
       expect(recoveryCode.length).toBeGreaterThan(0)
 
       // Should contain word-like sequences
-      const words = recoveryCode.split(/[\s-]+/).filter(w => w.length > 0)
+      const words = recoveryCode.split(/[\s-]+/).filter((w) => w.length > 0)
       expect(words.length).toBeGreaterThanOrEqual(1)
     })
 

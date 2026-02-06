@@ -72,12 +72,7 @@ export interface UseBotCommandsResult {
 // ============================================================================
 
 export function useBotCommands(options: UseBotCommandsOptions = {}): UseBotCommandsResult {
-  const {
-    prefix = '/',
-    maxHistory = 50,
-    onCommandExecuted,
-    onError,
-  } = options
+  const { prefix = '/', maxHistory = 50, onCommandExecuted, onError } = options
 
   // Create registry instance
   const registryRef = useRef<CommandRegistry | null>(null)
@@ -98,131 +93,155 @@ export function useBotCommands(options: UseBotCommandsOptions = {}): UseBotComma
   }, [registry])
 
   // Register command
-  const registerCommand = useCallback((command: SlashCommand) => {
-    registry.register(command)
-    syncCommands()
-  }, [registry, syncCommands])
+  const registerCommand = useCallback(
+    (command: SlashCommand) => {
+      registry.register(command)
+      syncCommands()
+    },
+    [registry, syncCommands]
+  )
 
   // Unregister command
-  const unregisterCommand = useCallback((name: string) => {
-    registry.unregister(name)
-    syncCommands()
-  }, [registry, syncCommands])
+  const unregisterCommand = useCallback(
+    (name: string) => {
+      registry.unregister(name)
+      syncCommands()
+    },
+    [registry, syncCommands]
+  )
 
   // Check if command exists
-  const hasCommand = useCallback((name: string) => {
-    return registry.has(name)
-  }, [registry])
+  const hasCommand = useCallback(
+    (name: string) => {
+      return registry.has(name)
+    },
+    [registry]
+  )
 
   // Get command by name
-  const getCommand = useCallback((name: string) => {
-    return registry.get(name)
-  }, [registry])
+  const getCommand = useCallback(
+    (name: string) => {
+      return registry.get(name)
+    },
+    [registry]
+  )
 
   // Parse input
-  const parseInput = useCallback((input: string): ParsedCommand | null => {
-    return registry.parse(input)
-  }, [registry])
+  const parseInput = useCallback(
+    (input: string): ParsedCommand | null => {
+      return registry.parse(input)
+    },
+    [registry]
+  )
 
   // Execute command
-  const executeCommand = useCallback(async (
-    input: string,
-    context: Omit<CommandContext, 'commandName' | 'args' | 'rawInput' | 'respond' | 'ack'>
-  ): Promise<RichMessage | string | null> => {
-    const parsed = registry.parse(input)
+  const executeCommand = useCallback(
+    async (
+      input: string,
+      context: Omit<CommandContext, 'commandName' | 'args' | 'rawInput' | 'respond' | 'ack'>
+    ): Promise<RichMessage | string | null> => {
+      const parsed = registry.parse(input)
 
-    if (!parsed) {
-      return null
-    }
+      if (!parsed) {
+        return null
+      }
 
-    const entryId = `cmd_${Date.now()}`
-    const startTime = Date.now()
-    let response: RichMessage | string | undefined
-    let error: string | undefined
+      const entryId = `cmd_${Date.now()}`
+      const startTime = Date.now()
+      let response: RichMessage | string | undefined
+      let error: string | undefined
 
-    setIsExecuting(true)
-    setLastError(null)
+      setIsExecuting(true)
+      setLastError(null)
 
-    try {
-      // Create a promise that resolves with the response
-      let resolveResponse: (value: RichMessage | string) => void
-      const responsePromise = new Promise<RichMessage | string>((resolve) => {
-        resolveResponse = resolve
-      })
-
-      await registry.execute(parsed, {
-        ...context,
-        respond: async (msg: RichMessage | string) => {
-          response = msg
-          resolveResponse(msg)
-        },
-      })
-
-      // Wait for response if handler called respond
-      if (!response) {
-        // Use a timeout for handlers that might not call respond
-        const timeoutPromise = new Promise<RichMessage | string>((resolve) => {
-          setTimeout(() => resolve(''), 100)
+      try {
+        // Create a promise that resolves with the response
+        let resolveResponse: (value: RichMessage | string) => void
+        const responsePromise = new Promise<RichMessage | string>((resolve) => {
+          resolveResponse = resolve
         })
-        response = await Promise.race([responsePromise, timeoutPromise])
+
+        await registry.execute(parsed, {
+          ...context,
+          respond: async (msg: RichMessage | string) => {
+            response = msg
+            resolveResponse(msg)
+          },
+        })
+
+        // Wait for response if handler called respond
+        if (!response) {
+          // Use a timeout for handlers that might not call respond
+          const timeoutPromise = new Promise<RichMessage | string>((resolve) => {
+            setTimeout(() => resolve(''), 100)
+          })
+          response = await Promise.race([responsePromise, timeoutPromise])
+        }
+      } catch (err) {
+        error = err instanceof Error ? err.message : 'Command execution failed'
+        setLastError(error)
+        onError?.(err instanceof Error ? err : new Error(error), input)
+      } finally {
+        setIsExecuting(false)
       }
-    } catch (err) {
-      error = err instanceof Error ? err.message : 'Command execution failed'
-      setLastError(error)
-      onError?.(err instanceof Error ? err : new Error(error), input)
-    } finally {
-      setIsExecuting(false)
-    }
 
-    const duration = Date.now() - startTime
+      const duration = Date.now() - startTime
 
-    // Create history entry
-    const entry: CommandHistoryEntry = {
-      id: entryId,
-      input,
-      parsedCommand: parsed,
-      timestamp: new Date(),
-      response,
-      error,
-      duration,
-    }
-
-    // Update history
-    setHistory((prev) => {
-      const newHistory = [entry, ...prev]
-      if (newHistory.length > maxHistory) {
-        return newHistory.slice(0, maxHistory)
+      // Create history entry
+      const entry: CommandHistoryEntry = {
+        id: entryId,
+        input,
+        parsedCommand: parsed,
+        timestamp: new Date(),
+        response,
+        error,
+        duration,
       }
-      return newHistory
-    })
 
-    onCommandExecuted?.(entry)
+      // Update history
+      setHistory((prev) => {
+        const newHistory = [entry, ...prev]
+        if (newHistory.length > maxHistory) {
+          return newHistory.slice(0, maxHistory)
+        }
+        return newHistory
+      })
 
-    return response ?? null
-  }, [registry, maxHistory, onCommandExecuted, onError])
+      onCommandExecuted?.(entry)
+
+      return response ?? null
+    },
+    [registry, maxHistory, onCommandExecuted, onError]
+  )
 
   // Get matching commands for autocomplete
-  const getMatches = useCallback((partial: string, limit = 10): SlashCommand[] => {
-    return registry.getMatches(partial, limit)
-  }, [registry])
+  const getMatches = useCallback(
+    (partial: string, limit = 10): SlashCommand[] => {
+      return registry.getMatches(partial, limit)
+    },
+    [registry]
+  )
 
   // Get command suggestions from input
-  const getSuggestions = useCallback((input: string): SlashCommand[] => {
-    const trimmed = input.trim()
+  const getSuggestions = useCallback(
+    (input: string): SlashCommand[] => {
+      const trimmed = input.trim()
 
-    if (!trimmed.startsWith(prefix)) {
-      return []
-    }
+      if (!trimmed.startsWith(prefix)) {
+        return []
+      }
 
-    const withoutPrefix = trimmed.slice(prefix.length)
+      const withoutPrefix = trimmed.slice(prefix.length)
 
-    // If there's a space, user is typing arguments, don't suggest
-    if (withoutPrefix.includes(' ')) {
-      return []
-    }
+      // If there's a space, user is typing arguments, don't suggest
+      if (withoutPrefix.includes(' ')) {
+        return []
+      }
 
-    return getMatches(withoutPrefix, 10)
-  }, [prefix, getMatches])
+      return getMatches(withoutPrefix, 10)
+    },
+    [prefix, getMatches]
+  )
 
   // Clear history
   const clearHistory = useCallback(() => {
@@ -240,17 +259,23 @@ export function useBotCommands(options: UseBotCommandsOptions = {}): UseBotComma
   }, [])
 
   // Get help
-  const getHelp = useCallback((name?: string): string => {
-    if (name) {
-      return registry.getHelp(name) ?? `Unknown command: ${name}`
-    }
-    return registry.getAllHelp()
-  }, [registry])
+  const getHelp = useCallback(
+    (name?: string): string => {
+      if (name) {
+        return registry.getHelp(name) ?? `Unknown command: ${name}`
+      }
+      return registry.getAllHelp()
+    },
+    [registry]
+  )
 
   // Get usage
-  const getUsage = useCallback((name: string): string | null => {
-    return registry.getUsage(name)
-  }, [registry])
+  const getUsage = useCallback(
+    (name: string): string | null => {
+      return registry.getUsage(name)
+    },
+    [registry]
+  )
 
   // Get prefix
   const getPrefix = useCallback((): string => {

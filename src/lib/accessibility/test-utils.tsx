@@ -38,7 +38,7 @@ export const axeConfig = {
     'aria-valid-attr-value': { enabled: true },
     'aria-valid-attr': { enabled: true },
     'button-name': { enabled: true },
-    'bypass': { enabled: true },
+    bypass: { enabled: true },
     'color-contrast': { enabled: true },
     'document-title': { enabled: true },
     'duplicate-id-active': { enabled: true },
@@ -57,11 +57,11 @@ export const axeConfig = {
     'input-image-alt': { enabled: true },
     'label-content-name-mismatch': { enabled: true },
     'label-title-only': { enabled: true },
-    'label': { enabled: true },
+    label: { enabled: true },
     'link-in-text-block': { enabled: true },
     'link-name': { enabled: true },
-    'list': { enabled: true },
-    'listitem': { enabled: true },
+    list: { enabled: true },
+    listitem: { enabled: true },
     'meta-refresh': { enabled: true },
     'meta-viewport': { enabled: true },
     'object-alt': { enabled: true },
@@ -70,7 +70,7 @@ export const axeConfig = {
     'select-name': { enabled: true },
     'server-side-image-map': { enabled: true },
     'svg-img-alt': { enabled: true },
-    'tabindex': { enabled: true },
+    tabindex: { enabled: true },
     'table-duplicate-name': { enabled: true },
     'table-fake-caption': { enabled: true },
     'td-has-header': { enabled: true },
@@ -342,7 +342,8 @@ export function testFocusManagement(element: HTMLElement): {
       // Check if element has focus styles
       const styles = window.getComputedStyle(el)
       const hasOutline = styles.outline !== 'none' && styles.outline !== '0px'
-      const hasFocusRing = el.classList.contains('focus:ring') || el.classList.contains('focus:outline')
+      const hasFocusRing =
+        el.classList.contains('focus:ring') || el.classList.contains('focus:outline')
 
       if (!hasOutline && !hasFocusRing) {
         issues.push(`Element missing focus styles: ${el.tagName}`)

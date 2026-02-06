@@ -604,7 +604,7 @@ describe('ContentFilter Class', () => {
       // Invalid regex should not throw, should return gracefully
       const result = testFilter.checkRegex('Test content')
       // The invalid regex rule itself should not match
-      const invalidRegexMatches = result.filter(r => r.ruleId === 'invalid-regex')
+      const invalidRegexMatches = result.filter((r) => r.ruleId === 'invalid-regex')
       expect(invalidRegexMatches.length).toBe(0)
     })
   })

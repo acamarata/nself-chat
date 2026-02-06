@@ -100,7 +100,7 @@ export function CodeBlockNodeView({ node, updateAttributes, extension }: CodeBlo
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
-      logger.error('Failed to copy code:',  err)
+      logger.error('Failed to copy code:', err)
     }
   }, [node.textContent])
 
@@ -193,7 +193,7 @@ export function CodeBlock({
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
-      logger.error('Failed to copy code:',  err)
+      logger.error('Failed to copy code:', err)
     }
   }, [code])
 

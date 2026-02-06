@@ -174,7 +174,7 @@ export function VoiceRecorder({
       setDuration(0)
       setRecording(null)
     } catch (error) {
-      logger.error('Failed to start recording:',  error)
+      logger.error('Failed to start recording:', error)
       alert('Failed to start recording')
     }
   }
@@ -194,7 +194,7 @@ export function VoiceRecorder({
         onRecordingComplete?.(result)
       }
     } catch (error) {
-      logger.error('Failed to stop recording:',  error)
+      logger.error('Failed to stop recording:', error)
       alert('Failed to stop recording')
     }
   }

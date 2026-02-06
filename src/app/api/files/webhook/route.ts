@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     // Parse payload
     const payload: ProcessingWebhookPayload = JSON.parse(body)
 
-// REMOVED: console.log(`Processing webhook: ${payload.event} for file ${payload.fileId}`)
+    // REMOVED: console.log(`Processing webhook: ${payload.event} for file ${payload.fileId}`)
 
     // Handle different events
     switch (payload.event) {
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    logger.error('Webhook processing error:',  error)
+    logger.error('Webhook processing error:', error)
     return NextResponse.json({ error: 'Webhook processing failed' }, { status: 500 })
   }
 }
@@ -126,7 +126,7 @@ async function handleJobCompleted(payload: ProcessingWebhookPayload): Promise<vo
   // Store thumbnails
   if (thumbnails && thumbnails.length > 0) {
     thumbnailStore.set(fileId, thumbnails)
-// REMOVED: console.log(`Stored ${thumbnails.length} thumbnails for file ${fileId}`)
+    // REMOVED: console.log(`Stored ${thumbnails.length} thumbnails for file ${fileId}`)
   }
 
   // Emit real-time update if using WebSockets
@@ -199,10 +199,8 @@ async function emitFileUpdate(
   data: Record<string, unknown>
 ): Promise<void> {
   // This would notify connected clients about file updates
-
   // For now, just log
-// REMOVED: console.log(`File update: ${event} for ${fileId}`, data)
-
+  // REMOVED: console.log(`File update: ${event} for ${fileId}`, data)
   // Example integration with a message queue or WebSocket server:
   // await fetch('http://localhost:3001/emit', {
   //   method: 'POST',

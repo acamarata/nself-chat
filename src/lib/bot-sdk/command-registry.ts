@@ -321,7 +321,9 @@ export class CommandRegistry {
     const registered = this.getRegistered(parsed.name)
 
     if (!registered) {
-      await context.respond(`Unknown command: \`${parsed.name}\`. Type \`${this.config.prefix}help\` for available commands.`)
+      await context.respond(
+        `Unknown command: \`${parsed.name}\`. Type \`${this.config.prefix}help\` for available commands.`
+      )
       return
     }
 
@@ -360,7 +362,7 @@ export class CommandRegistry {
       await registered.command.handler(commandContext)
       this.setCooldown(registered, context.userId)
     } catch (error) {
-      logger.error(`[CommandRegistry] Error executing command '${parsed.name}':`,  error)
+      logger.error(`[CommandRegistry] Error executing command '${parsed.name}':`, error)
       await context.respond('An error occurred while executing the command.')
     }
   }
@@ -392,7 +394,9 @@ export class CommandRegistry {
       for (const param of command.parameters) {
         const required = param.required ? ' (required)' : ''
         const defaultVal = param.default !== undefined ? ` [default: ${param.default}]` : ''
-        const choices = param.choices ? ` [choices: ${param.choices.map((c) => c.value).join(', ')}]` : ''
+        const choices = param.choices
+          ? ` [choices: ${param.choices.map((c) => c.value).join(', ')}]`
+          : ''
         help += `  \`${param.name}\` (${param.type})${required}${defaultVal}${choices}\n`
         help += `    ${param.description}\n`
       }
@@ -478,7 +482,9 @@ export class CommandRegistry {
    * Get matching commands for autocomplete
    */
   getMatches(partial: string, limit = 10): SlashCommand[] {
-    const normalized = this.normalizeName(partial.startsWith(this.config.prefix) ? partial.slice(this.config.prefix.length) : partial)
+    const normalized = this.normalizeName(
+      partial.startsWith(this.config.prefix) ? partial.slice(this.config.prefix.length) : partial
+    )
 
     const matches: SlashCommand[] = []
 

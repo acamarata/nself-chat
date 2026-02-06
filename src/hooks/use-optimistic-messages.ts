@@ -281,7 +281,10 @@ export function useOptimisticMessages(channelId?: string) {
         id: message.tempId,
         channelId: message.channelId,
         content: message.content,
-        contentType: message.type === 'text' || message.type === 'voice' ? 'text' : message.type as 'text' | 'markdown' | 'code',
+        contentType:
+          message.type === 'text' || message.type === 'voice'
+            ? 'text'
+            : (message.type as 'text' | 'markdown' | 'code'),
         attachments: message.attachments?.map((a) => a.url),
         replyTo: message.replyToId,
         metadata: {},
@@ -370,78 +373,69 @@ export function useOptimisticMessages(channelId?: string) {
   /**
    * Edit message optimistically
    */
-  const editMessage = useCallback(
-    async (messageId: string, newContent: string) => {
-      // TODO: Implement optimistic edit
-      try {
-        const response = await fetch(`/api/messages/${messageId}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content: newContent }),
-        })
+  const editMessage = useCallback(async (messageId: string, newContent: string) => {
+    // TODO: Implement optimistic edit
+    try {
+      const response = await fetch(`/api/messages/${messageId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: newContent }),
+      })
 
-        if (!response.ok) {
-          throw new Error('Failed to edit message')
-        }
-
-        return await response.json()
-      } catch (error) {
-        logger.error('Failed to edit message:', error)
-        throw error
+      if (!response.ok) {
+        throw new Error('Failed to edit message')
       }
-    },
-    []
-  )
+
+      return await response.json()
+    } catch (error) {
+      logger.error('Failed to edit message:', error)
+      throw error
+    }
+  }, [])
 
   /**
    * Delete message optimistically
    */
-  const deleteMessage = useCallback(
-    async (messageId: string) => {
-      // TODO: Implement optimistic delete
-      try {
-        const response = await fetch(`/api/messages/${messageId}`, {
-          method: 'DELETE',
-        })
+  const deleteMessage = useCallback(async (messageId: string) => {
+    // TODO: Implement optimistic delete
+    try {
+      const response = await fetch(`/api/messages/${messageId}`, {
+        method: 'DELETE',
+      })
 
-        if (!response.ok) {
-          throw new Error('Failed to delete message')
-        }
-
-        return true
-      } catch (error) {
-        logger.error('Failed to delete message:', error)
-        throw error
+      if (!response.ok) {
+        throw new Error('Failed to delete message')
       }
-    },
-    []
-  )
+
+      return true
+    } catch (error) {
+      logger.error('Failed to delete message:', error)
+      throw error
+    }
+  }, [])
 
   /**
    * Add reaction optimistically
    */
-  const addReaction = useCallback(
-    async (messageId: string, emoji: string) => {
-      // TODO: Implement optimistic reaction
-      try {
-        const response = await fetch(`/api/messages/${messageId}/reactions`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ emoji }),
-        })
+  const addReaction = useCallback(async (messageId: string, emoji: string) => {
+    // TODO: Implement optimistic reaction
+    try {
+      const response = await fetch(`/api/messages/${messageId}/reactions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ emoji }),
+      })
 
-        if (!response.ok) {
-          throw new Error('Failed to add reaction')
-        }
-
-        return await response.json()
-      } catch (error) {
-        logger.error('Failed to add reaction:', error)
-        throw error
+      if (!response.ok) {
+        throw new Error('Failed to add reaction')
       }
-    },
-    []
-  )
+
+      return await response.json()
+    } catch (error) {
+      logger.error('Failed to add reaction:', error)
+      throw error
+    }
+  }, [])
 
   /**
    * Get statistics

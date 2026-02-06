@@ -75,7 +75,16 @@ export function SavedIndicator({
             onClick={onClick}
             role={onClick ? 'button' : undefined}
             tabIndex={onClick ? 0 : undefined}
-            onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } : undefined}
+            onKeyDown={
+              onClick
+                ? (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      onClick()
+                    }
+                  }
+                : undefined
+            }
           >
             <Icon className={sizeClasses.sm} fill="currentColor" />
             <span>{isStarred ? 'Starred' : 'Saved'}</span>
@@ -85,11 +94,25 @@ export function SavedIndicator({
       case 'inline':
         return (
           <span
-            className={cn('inline-flex items-center gap-1 text-xs', colorClass, onClick && 'cursor-pointer', className)}
+            className={cn(
+              'inline-flex items-center gap-1 text-xs',
+              colorClass,
+              onClick && 'cursor-pointer',
+              className
+            )}
             onClick={onClick}
             role={onClick ? 'button' : undefined}
             tabIndex={onClick ? 0 : undefined}
-            onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } : undefined}
+            onKeyDown={
+              onClick
+                ? (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      onClick()
+                    }
+                  }
+                : undefined
+            }
           >
             <Icon className={sizeClasses.sm} fill="currentColor" />
           </span>
@@ -108,7 +131,16 @@ export function SavedIndicator({
             onClick={onClick}
             role={onClick ? 'button' : undefined}
             tabIndex={onClick ? 0 : undefined}
-            onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } : undefined}
+            onKeyDown={
+              onClick
+                ? (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      onClick()
+                    }
+                  }
+                : undefined
+            }
           >
             <Icon className={sizeClasses[size]} fill="currentColor" />
           </span>

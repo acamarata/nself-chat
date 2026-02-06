@@ -150,7 +150,9 @@ export function RealtimeChatExample({
 
         // Update message status to sent
         setMessages((prev) =>
-          prev.map((msg) => (msg.id === clientMessageId ? { ...msg, status: 'sent' as const } : msg))
+          prev.map((msg) =>
+            msg.id === clientMessageId ? { ...msg, status: 'sent' as const } : msg
+          )
         )
       } else {
         // Queue message if offline
@@ -172,7 +174,9 @@ export function RealtimeChatExample({
     } catch (error) {
       // Update message status to failed
       setMessages((prev) =>
-        prev.map((msg) => (msg.id === clientMessageId ? { ...msg, status: 'failed' as const } : msg))
+        prev.map((msg) =>
+          msg.id === clientMessageId ? { ...msg, status: 'failed' as const } : msg
+        )
       )
     }
   }
@@ -204,7 +208,7 @@ export function RealtimeChatExample({
   // ============================================================================
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex h-screen flex-col">
       {/* Header with connection status */}
       <div className="border-b p-4">
         <div className="flex items-center justify-between">
@@ -237,7 +241,7 @@ export function RealtimeChatExample({
 
                   {/* Presence indicator */}
                   <div
-                    className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
+                    className={`absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white ${
                       isOnline ? 'bg-green-500' : 'bg-gray-400'
                     }`}
                   />
@@ -255,7 +259,7 @@ export function RealtimeChatExample({
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 space-y-4 overflow-y-auto p-4">
         {messages.map((message) => {
           const isSent = message.senderId === currentUserId
 
@@ -270,7 +274,7 @@ export function RealtimeChatExample({
 
                 {/* Delivery status for sent messages */}
                 {isSent && (
-                  <div className="flex items-center gap-1 mt-1 text-xs opacity-70">
+                  <div className="mt-1 flex items-center gap-1 text-xs opacity-70">
                     {message.status === 'sending' && <span>Sending...</span>}
                     {message.status === 'sent' && (
                       <>
@@ -303,8 +307,8 @@ export function RealtimeChatExample({
         {/* Typing indicator */}
         {typingText && (
           <div className="flex justify-start">
-            <div className="bg-gray-200 rounded-lg p-3">
-              <p className="text-sm text-gray-600 italic">{typingText}</p>
+            <div className="rounded-lg bg-gray-200 p-3">
+              <p className="text-sm italic text-gray-600">{typingText}</p>
             </div>
           </div>
         )}
@@ -357,7 +361,7 @@ export function PresenceStatusExample() {
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="font-semibold mb-2">Status</h3>
+        <h3 className="mb-2 font-semibold">Status</h3>
         <div className="grid grid-cols-2 gap-2">
           {statuses.map((status) => (
             <Button
@@ -366,7 +370,7 @@ export function PresenceStatusExample() {
               onClick={() => presence.setStatus(status.value)}
               className="justify-start"
             >
-              <div className={`w-3 h-3 rounded-full ${status.color} mr-2`} />
+              <div className={`h-3 w-3 rounded-full ${status.color} mr-2`} />
               {status.label}
             </Button>
           ))}
@@ -374,12 +378,12 @@ export function PresenceStatusExample() {
       </div>
 
       <div>
-        <h3 className="font-semibold mb-2">Custom Status</h3>
+        <h3 className="mb-2 font-semibold">Custom Status</h3>
         <div className="space-y-2">
           <input
             type="text"
             placeholder="Status text..."
-            className="w-full p-2 border rounded"
+            className="w-full rounded border p-2"
             defaultValue={currentCustomStatus?.text || ''}
             onChange={(e) => {
               presence.setCustomStatus({
@@ -389,10 +393,7 @@ export function PresenceStatusExample() {
               })
             }}
           />
-          <Button
-            variant="outline"
-            onClick={() => presence.setCustomStatus(null)}
-          >
+          <Button variant="outline" onClick={() => presence.setCustomStatus(null)}>
             Clear Custom Status
           </Button>
         </div>
@@ -430,7 +431,7 @@ export function ConnectionQualityExample() {
           <div
             key={bar}
             className={`w-1 h-${bar * 2} ${
-              bar <= (['excellent', 'good', 'fair', 'poor'].indexOf(status.connectionQuality) + 1)
+              bar <= ['excellent', 'good', 'fair', 'poor'].indexOf(status.connectionQuality) + 1
                 ? getQualityColor(status.connectionQuality)
                 : 'bg-gray-300'
             }`}
@@ -449,7 +450,9 @@ export function ConnectionQualityExample() {
 export function RealtimeAppInitExample({ userId, token }: { userId: string; token: string }) {
   useEffect(() => {
     // Initialize realtime integration on app start
-    const { initializeRealtimeIntegration } = require('@/services/realtime/realtime-integration.service')
+    const {
+      initializeRealtimeIntegration,
+    } = require('@/services/realtime/realtime-integration.service')
 
     initializeRealtimeIntegration({
       userId,

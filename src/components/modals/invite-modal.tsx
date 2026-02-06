@@ -227,7 +227,7 @@ export function InviteModal({
         const results = await onSearchUsers(query)
         setSearchResults(results)
       } catch (error) {
-        logger.error('Search failed:',  error)
+        logger.error('Search failed:', error)
       } finally {
         setSearching(false)
       }
@@ -278,7 +278,7 @@ export function InviteModal({
       setSelectedUsers(new Set())
       onOpenChange(false)
     } catch (error) {
-      logger.error('Invite failed:',  error)
+      logger.error('Invite failed:', error)
     } finally {
       setInviting(false)
     }
@@ -294,7 +294,7 @@ export function InviteModal({
       setEmails([])
       onOpenChange(false)
     } catch (error) {
-      logger.error('Email invite failed:',  error)
+      logger.error('Email invite failed:', error)
     } finally {
       setInviting(false)
     }
@@ -308,7 +308,7 @@ export function InviteModal({
     try {
       await onGenerateLink(linkExpiry)
     } catch (error) {
-      logger.error('Generate link failed:',  error)
+      logger.error('Generate link failed:', error)
     } finally {
       setGeneratingLink(false)
     }
@@ -323,7 +323,7 @@ export function InviteModal({
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (error) {
-      logger.error('Copy failed:',  error)
+      logger.error('Copy failed:', error)
     }
   }
 

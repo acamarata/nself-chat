@@ -706,7 +706,14 @@ export function ThemeEditor({ onSave, onExport }: ThemeEditorProps) {
                   <p>
                     <button
                       type="button"
-                      style={{ color: colors.linkColor, textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                      style={{
+                        color: colors.linkColor,
+                        textDecoration: 'underline',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: 0,
+                      }}
                     >
                       This is a link
                     </button>

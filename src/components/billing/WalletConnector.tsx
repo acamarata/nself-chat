@@ -184,13 +184,9 @@ export function WalletConnector({
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            {walletInfo ? 'Wallet Connected' : 'Connect Wallet'}
-          </DialogTitle>
+          <DialogTitle>{walletInfo ? 'Wallet Connected' : 'Connect Wallet'}</DialogTitle>
           <DialogDescription>
-            {walletInfo
-              ? 'Manage your connected wallet'
-              : 'Choose a wallet to connect'}
+            {walletInfo ? 'Manage your connected wallet' : 'Choose a wallet to connect'}
           </DialogDescription>
         </DialogHeader>
 
@@ -205,18 +201,14 @@ export function WalletConnector({
           {walletInfo ? (
             /* Connected Wallet Info */
             <div className="space-y-4">
-              <div className="rounded-lg border p-4 space-y-3">
+              <div className="space-y-3 rounded-lg border p-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Address</span>
-                  <code className="text-sm font-mono">
-                    {formatAddress(walletInfo.address)}
-                  </code>
+                  <code className="font-mono text-sm">{formatAddress(walletInfo.address)}</code>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Network</span>
-                  <Badge variant="secondary">
-                    {CRYPTO_NETWORKS[walletInfo.network].name}
-                  </Badge>
+                  <Badge variant="secondary">{CRYPTO_NETWORKS[walletInfo.network].name}</Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Balance</span>
@@ -233,13 +225,9 @@ export function WalletConnector({
                   {Object.entries(CRYPTO_NETWORKS).map(([key, network]) => (
                     <Button
                       key={key}
-                      variant={
-                        walletInfo.network === key ? 'default' : 'outline'
-                      }
+                      variant={walletInfo.network === key ? 'default' : 'outline'}
                       size="sm"
-                      onClick={() =>
-                        handleSwitchNetwork(key as CryptoNetwork)
-                      }
+                      onClick={() => handleSwitchNetwork(key as CryptoNetwork)}
                       disabled={walletInfo.network === key}
                     >
                       {network.name}
@@ -248,11 +236,7 @@ export function WalletConnector({
                 </div>
               </div>
 
-              <Button
-                variant="destructive"
-                className="w-full"
-                onClick={handleDisconnect}
-              >
+              <Button variant="destructive" className="w-full" onClick={handleDisconnect}>
                 Disconnect Wallet
               </Button>
             </div>
@@ -263,8 +247,7 @@ export function WalletConnector({
                 <Alert>
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
-                    No Web3 wallet detected. Please install MetaMask or Coinbase
-                    Wallet.
+                    No Web3 wallet detected. Please install MetaMask or Coinbase Wallet.
                   </AlertDescription>
                 </Alert>
               ) : (
@@ -272,7 +255,7 @@ export function WalletConnector({
                   <Button
                     key={provider}
                     variant="outline"
-                    className="w-full justify-start gap-3 h-auto py-3"
+                    className="h-auto w-full justify-start gap-3 py-3"
                     onClick={() => handleConnect(provider)}
                     disabled={isConnecting}
                   >
@@ -291,8 +274,8 @@ export function WalletConnector({
                 ))
               )}
 
-              <div className="pt-4 border-t">
-                <p className="text-xs text-muted-foreground text-center">
+              <div className="border-t pt-4">
+                <p className="text-center text-xs text-muted-foreground">
                   By connecting your wallet, you agree to our{' '}
                   <a href="/terms" className="underline">
                     Terms of Service

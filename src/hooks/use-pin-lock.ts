@@ -258,7 +258,7 @@ export function usePinLock(): UsePinLockReturn {
           }
         }
       } catch (error) {
-        logger.error('PIN verification error:',  error)
+        logger.error('PIN verification error:', error)
         return { success: false, error: 'An error occurred' }
       }
     },

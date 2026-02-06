@@ -82,18 +82,14 @@ export function GuildSidebar({
   }
 
   return (
-    <div className="flex h-full w-60 flex-col bg-secondary/30">
+    <div className="bg-secondary/30 flex h-full w-60 flex-col">
       {/* Workspace Header */}
       <div className="flex h-12 items-center justify-between border-b border-border px-4">
         <div className="flex items-center gap-2">
           {workspaceIcon ? (
-            <img
-              src={workspaceIcon}
-              alt={workspaceName}
-              className="h-6 w-6 rounded"
-            />
+            <img src={workspaceIcon} alt={workspaceName} className="h-6 w-6 rounded" />
           ) : (
-            <div className="flex h-6 w-6 items-center justify-center rounded bg-primary text-xs font-bold text-primary-foreground">
+            <div className="text-primary-foreground flex h-6 w-6 items-center justify-center rounded bg-primary text-xs font-bold">
               {workspaceName[0].toUpperCase()}
             </div>
           )}
@@ -198,11 +194,7 @@ function CategorySection({
           onClick={onToggle}
           className="flex flex-1 items-center gap-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground hover:text-foreground"
         >
-          {isCollapsed ? (
-            <ChevronRight className="h-3 w-3" />
-          ) : (
-            <ChevronDown className="h-3 w-3" />
-          )}
+          {isCollapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
           {category.icon && <span>{category.icon}</span>}
           <span>{category.name}</span>
         </button>
@@ -246,14 +238,7 @@ interface ChannelItemProps {
   canManage: boolean
 }
 
-function ChannelItem({
-  channel,
-  isActive,
-  icon,
-  onClick,
-  onManage,
-  canManage,
-}: ChannelItemProps) {
+function ChannelItem({ channel, isActive, icon, onClick, onManage, canManage }: ChannelItemProps) {
   return (
     <div
       className={cn(
@@ -266,13 +251,11 @@ function ChannelItem({
       <button
         type="button"
         onClick={onClick}
-        className="flex flex-1 items-center gap-2 cursor-pointer bg-transparent border-none p-0 text-left"
+        className="flex flex-1 cursor-pointer items-center gap-2 border-none bg-transparent p-0 text-left"
       >
         {icon}
         <span className="text-sm font-medium">{channel.name}</span>
-        {channel.isDefault && (
-          <span className="text-xs text-muted-foreground">(default)</span>
-        )}
+        {channel.isDefault && <span className="text-xs text-muted-foreground">(default)</span>}
       </button>
       {canManage && (
         <button

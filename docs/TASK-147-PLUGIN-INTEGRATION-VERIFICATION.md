@@ -26,6 +26,7 @@ Task 147 aims to integrate 5 new ɳPlugins (Analytics, Advanced Search, Media Pi
 According to documentation, the following should exist:
 
 **API Route Proxies** (Expected):
+
 ```
 src/app/api/
 ├── analytics-v2/          ❌ NOT FOUND
@@ -47,6 +48,7 @@ src/app/api/
 ```
 
 **React Services** (Expected):
+
 ```
 src/services/
 ├── analytics/             ✅ PARTIAL (only aggregator.ts)
@@ -59,6 +61,7 @@ src/services/
 ```
 
 **React Hooks** (Expected):
+
 ```
 src/hooks/
 ├── use-analytics.ts           ✅ EXISTS (old analytics)
@@ -70,6 +73,7 @@ src/hooks/
 ```
 
 **UI Components** (Expected):
+
 ```
 src/components/
 ├── analytics/             ✅ EXISTS (old analytics)
@@ -80,6 +84,7 @@ src/components/
 ```
 
 **Admin Pages** (Expected):
+
 ```
 src/app/admin/
 ├── analytics-v2/page.tsx      ❌ NOT FOUND
@@ -119,17 +124,20 @@ src/app/admin/
 **Status**: ❌ FAIL - Tests failing for existing plugins
 
 **Test Results**:
+
 ```
 Test Suites: 7 failed, 4 skipped, 1 passed, 8 of 12 total
 Tests:       165 failed, 45 skipped, 60 passed, 270 total
 ```
 
 **Failing Tests**:
+
 - File Processing Plugin: 165 failures (timeout issues)
 - Plugin integration tests: Failing
 - Plugin health tests: Failing
 
 **Missing Tests**:
+
 - ❌ Analytics v2 plugin integration tests
 - ❌ Advanced Search plugin tests
 - ❌ Media Pipeline v2 plugin tests
@@ -181,6 +189,7 @@ Since the API routes (`/api/analytics-v2/`, `/api/search-v2/`, etc.) don't exist
 **Total Documentation**: 44,000+ words
 
 **Quality**: ⭐⭐⭐⭐⭐ Excellent
+
 - Clear structure
 - Complete examples
 - Troubleshooting guides
@@ -194,6 +203,7 @@ Since the API routes (`/api/analytics-v2/`, `/api/search-v2/`, etc.) don't exist
 **Status**: ❌ FAIL - Cannot test functionality that doesn't exist
 
 **Expected Functionality**:
+
 1. ❌ Analytics dashboard with real-time metrics
 2. ❌ Semantic search with vector embeddings
 3. ❌ Media transcoding and optimization
@@ -201,6 +211,7 @@ Since the API routes (`/api/analytics-v2/`, `/api/search-v2/`, etc.) don't exist
 5. ❌ Visual workflow builder
 
 **Actual Functionality**:
+
 - None of the new plugin features are accessible
 - Old analytics exist but not integrated with new plugin
 - Workflow UI exists but no backend integration
@@ -236,6 +247,7 @@ NEXT_PUBLIC_WORKFLOWS_ENABLED=true
 **Status**: ❌ MISSING - None of the v2 plugin variables exist in `.env.example`
 
 The `.env.example` file contains:
+
 - ✅ Realtime Plugin (port 3101) - DOCUMENTED
 - ✅ Notifications Plugin references - DOCUMENTED
 - ❌ Analytics Plugin (port 3106) - MISSING
@@ -250,15 +262,15 @@ The `.env.example` file contains:
 
 ### What's Documented vs What's Implemented
 
-| Integration Point | Documented | Implemented | Gap |
-|------------------|------------|-------------|-----|
-| **API Routes** | ✅ Complete specs | ❌ None | 100% |
-| **React Services** | ✅ Class definitions | ❌ None | 100% |
-| **Custom Hooks** | ✅ Hook signatures | ❌ 2/10 (old) | 80% |
-| **UI Components** | ✅ Component list | ❌ Partial (old) | 90% |
-| **Admin Pages** | ✅ Page specs | ❌ None | 100% |
-| **Database Migrations** | ✅ SQL schemas | ❌ None | 100% |
-| **Environment Variables** | ✅ Complete | ❌ Not in .env | 100% |
+| Integration Point         | Documented           | Implemented      | Gap  |
+| ------------------------- | -------------------- | ---------------- | ---- |
+| **API Routes**            | ✅ Complete specs    | ❌ None          | 100% |
+| **React Services**        | ✅ Class definitions | ❌ None          | 100% |
+| **Custom Hooks**          | ✅ Hook signatures   | ❌ 2/10 (old)    | 80%  |
+| **UI Components**         | ✅ Component list    | ❌ Partial (old) | 90%  |
+| **Admin Pages**           | ✅ Page specs        | ❌ None          | 100% |
+| **Database Migrations**   | ✅ SQL schemas       | ❌ None          | 100% |
+| **Environment Variables** | ✅ Complete          | ❌ Not in .env   | 100% |
 
 ---
 
@@ -271,6 +283,7 @@ The `.env.example` file contains:
 3. **No evidence of plugin installation** in codebase
 
 **Expected Plugin Installation**:
+
 ```bash
 nself plugin install analytics
 nself plugin install advanced-search
@@ -280,6 +293,7 @@ nself plugin install workflows
 ```
 
 **Verification Needed**:
+
 - Are the plugins installed in the backend?
 - Are they running on the specified ports?
 - Can we access their health endpoints?
@@ -339,6 +353,7 @@ nself plugin install workflows
 ### Overall: 30%
 
 **Breakdown**:
+
 - Documentation: 100% ✅
 - Plugin Installation: 0% ❌
 - Backend Setup: 0% ❌
@@ -360,6 +375,7 @@ nself plugin install workflows
 ### Immediate Actions (Week 1)
 
 1. **Verify Backend Plugin Installation**
+
    ```bash
    cd backend
    nself plugin list --installed
@@ -367,6 +383,7 @@ nself plugin install workflows
    ```
 
 2. **Install Missing Plugins** (if not installed)
+
    ```bash
    nself plugin install analytics
    nself plugin install advanced-search
@@ -441,6 +458,7 @@ npm test -- --testPathPattern="plugin"
 ```
 
 **Results**:
+
 - Test Suites: 7 failed, 4 skipped, 1 passed, 8 of 12 total
 - Tests: 165 failed, 45 skipped, 60 passed, 270 total
 - Time: 35.025 seconds
@@ -518,12 +536,14 @@ npm test -- --testPathPattern="plugin"
 ### Task 147 Status: ⚠️ PARTIALLY COMPLETE (30%)
 
 **What's Complete**:
+
 - ✅ Excellent documentation (44,000+ words)
 - ✅ Architecture designed
 - ✅ Installation guides written
 - ✅ API specifications documented
 
 **What's Missing** (Critical):
+
 - ❌ Backend plugins not verified
 - ❌ API routes not created
 - ❌ Service layer not implemented
@@ -537,22 +557,15 @@ npm test -- --testPathPattern="plugin"
 ### Next Steps
 
 **Priority 1 (Blocking)**:
+
 1. Verify backend plugin installation
 2. Install missing plugins
 3. Create API route proxies
 4. Update environment variables
 
-**Priority 2 (High)**:
-5. Implement service layer
-6. Create React hooks
-7. Write integration tests
-8. Fix failing tests
+**Priority 2 (High)**: 5. Implement service layer 6. Create React hooks 7. Write integration tests 8. Fix failing tests
 
-**Priority 3 (Medium)**:
-9. Integrate UI components
-10. Create admin pages
-11. End-to-end testing
-12. Production deployment
+**Priority 3 (Medium)**: 9. Integrate UI components 10. Create admin pages 11. End-to-end testing 12. Production deployment
 
 **Estimated Time to Complete**: 4-5 weeks
 

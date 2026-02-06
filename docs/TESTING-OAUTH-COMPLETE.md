@@ -27,19 +27,19 @@ This document summarizes the comprehensive OAuth provider testing implementation
 
 ### OAuth Providers Implemented (11 Total)
 
-| Provider | Status | Routes | Tests | Admin Dashboard |
-|----------|--------|--------|-------|-----------------|
-| Google | ✅ | ✅ | ✅ | ✅ |
-| GitHub | ✅ | ✅ | ✅ | ✅ |
-| Microsoft | ✅ | ✅ | ✅ | ✅ |
-| Facebook | ✅ | ✅ | ✅ | ✅ |
-| Twitter/X | ✅ | ✅ | ✅ | ✅ |
-| LinkedIn | ✅ | ✅ | ✅ | ✅ |
-| Apple | ✅ | ✅ | ✅ | ✅ |
-| Discord | ✅ | ✅ | ✅ | ✅ |
-| Slack | ✅ | ✅ | ✅ | ✅ |
-| GitLab | ✅ | ✅ | ✅ | ✅ |
-| ID.me | ✅ | ✅ | ✅ | ✅ |
+| Provider  | Status | Routes | Tests | Admin Dashboard |
+| --------- | ------ | ------ | ----- | --------------- |
+| Google    | ✅     | ✅     | ✅    | ✅              |
+| GitHub    | ✅     | ✅     | ✅    | ✅              |
+| Microsoft | ✅     | ✅     | ✅    | ✅              |
+| Facebook  | ✅     | ✅     | ✅    | ✅              |
+| Twitter/X | ✅     | ✅     | ✅    | ✅              |
+| LinkedIn  | ✅     | ✅     | ✅    | ✅              |
+| Apple     | ✅     | ✅     | ✅    | ✅              |
+| Discord   | ✅     | ✅     | ✅    | ✅              |
+| Slack     | ✅     | ✅     | ✅    | ✅              |
+| GitLab    | ✅     | ✅     | ✅    | ✅              |
+| ID.me     | ✅     | ✅     | ✅    | ✅              |
 
 ### OAuth Infrastructure
 
@@ -67,6 +67,7 @@ export const oauthProviders: Record<OAuthProviderName, OAuthProviderMetadata>
 ```
 
 **Features:**
+
 - Environment variable validation
 - Provider enable/disable flags
 - Scopes management
@@ -86,6 +87,7 @@ handleOAuthCallback(request: NextRequest, provider: OAuthProviderName): Promise<
 ```
 
 **Features:**
+
 - Unified OAuth flow
 - Provider-specific parameter handling
 - User profile normalization
@@ -94,11 +96,13 @@ handleOAuthCallback(request: NextRequest, provider: OAuthProviderName): Promise<
 #### 3. OAuth Routes
 
 **Initiate Routes** (`src/app/api/auth/{provider}/route.ts`):
+
 ```typescript
 export const GET = compose(withErrorHandler)(initiateOAuth)
 ```
 
 **Callback Routes** (`src/app/api/auth/{provider}/callback/route.ts`):
+
 ```typescript
 export const GET = compose(withErrorHandler)(processCallback)
 ```
@@ -114,6 +118,7 @@ pnpm tsx scripts/test-oauth-providers.ts
 ```
 
 **Output**:
+
 ```
 ┌─────────────┬────────┬─────────┬──────────┬───────────────────────────────┐
 │ Provider    │ Status │ Config  │ Routes   │ Issues                        │
@@ -125,6 +130,7 @@ pnpm tsx scripts/test-oauth-providers.ts
 ```
 
 **Features**:
+
 - Configuration validation
 - Route existence verification
 - Environment variable checks
@@ -136,6 +142,7 @@ pnpm tsx scripts/test-oauth-providers.ts
 **File**: `src/__tests__/integration/oauth-providers.integration.test.ts`
 
 **Test Suites**:
+
 1. Configuration Validation (11 tests)
 2. OAuth URL Generation (33 tests)
 3. Route Files Existence (44 tests)
@@ -153,6 +160,7 @@ pnpm tsx scripts/test-oauth-providers.ts
 **URL**: `/admin/oauth-status`
 
 **Features**:
+
 - Real-time provider status
 - Configuration validation display
 - User statistics per provider
@@ -162,6 +170,7 @@ pnpm tsx scripts/test-oauth-providers.ts
 - Configuration guide
 
 **Summary Cards**:
+
 - Total Providers (11)
 - Active Providers
 - Configured Providers
@@ -183,6 +192,7 @@ GITHUB_CLIENT_SECRET=your_client_secret
 ```
 
 **Pattern for all providers**:
+
 ```bash
 NEXT_PUBLIC_{PROVIDER}_CLIENT_ID=...
 {PROVIDER}_CLIENT_SECRET=...
@@ -202,12 +212,12 @@ Where `{PROVIDER}` is uppercase: GOOGLE, GITHUB, MICROSOFT, FACEBOOK, TWITTER, L
 
 ### Coverage Breakdown
 
-| Metric | Before | After | Change |
-|--------|--------|-------|--------|
-| Statements | 72% | 86% | +14% |
-| Branches | 68% | 83% | +15% |
-| Functions | 75% | 88% | +13% |
-| Lines | 73% | 87% | +14% |
+| Metric     | Before | After | Change |
+| ---------- | ------ | ----- | ------ |
+| Statements | 72%    | 86%   | +14%   |
+| Branches   | 68%    | 83%   | +15%   |
+| Functions  | 75%    | 88%   | +13%   |
+| Lines      | 73%    | 87%   | +14%   |
 
 ### New Test Files Created
 
@@ -289,6 +299,7 @@ pnpm tsx scripts/analyze-coverage.ts
 ```
 
 **Features**:
+
 - Parses coverage summary
 - Identifies low-coverage files
 - Prioritizes by impact (high/medium/low)
@@ -296,6 +307,7 @@ pnpm tsx scripts/analyze-coverage.ts
 - Calculates coverage gap to 85% target
 
 **Output**:
+
 ```
 ================================================================================
 Coverage Analysis Report
@@ -329,6 +341,7 @@ pnpm tsx scripts/generate-test-stubs.ts
 ```
 
 **Features**:
+
 - Scans src/ for untested files
 - Generates appropriate test stubs
 - Supports API routes, components, services, hooks, utils
@@ -346,6 +359,7 @@ pnpm tsx scripts/generate-test-stubs.ts
 **CI Workflow**: `.github/workflows/e2e-tests.yml`
 
 **Features**:
+
 - Multi-browser testing (Chromium, Firefox, WebKit)
 - Parallel execution
 - Screenshot capture
@@ -360,6 +374,7 @@ pnpm tsx scripts/generate-test-stubs.ts
 **Tests**: `e2e/mobile/*.spec.ts`
 
 **Features**:
+
 - iOS testing (iPhone 15 Pro, iPhone 14, iPhone SE)
 - Android testing (Pixel 5, Pixel Tablet)
 - Performance testing
@@ -370,6 +385,7 @@ pnpm tsx scripts/generate-test-stubs.ts
 **File**: `.github/workflows/e2e-tests.yml`
 
 **Jobs**:
+
 1. `e2e-web` - Playwright tests
 2. `e2e-ios` - Detox iOS tests
 3. `e2e-android` - Detox Android tests
@@ -378,6 +394,7 @@ pnpm tsx scripts/generate-test-stubs.ts
 6. `e2e-summary` - Combined results
 
 **Triggers**:
+
 - Push to main/develop
 - Pull requests
 - Manual workflow dispatch
@@ -388,21 +405,25 @@ pnpm tsx scripts/generate-test-stubs.ts
 ## Testing Commands
 
 ### Run All Tests
+
 ```bash
 pnpm test
 ```
 
 ### Run Tests with Coverage
+
 ```bash
 pnpm test:coverage
 ```
 
 ### Run Specific Test File
+
 ```bash
 pnpm test src/__tests__/integration/oauth-providers.integration.test.ts
 ```
 
 ### Run E2E Tests
+
 ```bash
 # Web
 pnpm test:e2e
@@ -415,16 +436,19 @@ pnpm exec detox test --configuration android.emu.debug
 ```
 
 ### Run OAuth Provider Tests
+
 ```bash
 pnpm tsx scripts/test-oauth-providers.ts
 ```
 
 ### Analyze Coverage
+
 ```bash
 pnpm tsx scripts/analyze-coverage.ts
 ```
 
 ### Generate Test Stubs
+
 ```bash
 pnpm tsx scripts/generate-test-stubs.ts
 ```
@@ -442,14 +466,14 @@ pnpm tsx scripts/generate-test-stubs.ts
 
 ### Coverage by Category
 
-| Category | Files | Coverage | Tests |
-|----------|-------|----------|-------|
-| API Routes | 45 | 88% | 250+ |
-| Services | 20 | 87% | 180+ |
-| Components | 85 | 84% | 420+ |
-| Hooks | 15 | 89% | 95+ |
-| Utils | 30 | 91% | 160+ |
-| Integration | 8 | 92% | 202+ |
+| Category    | Files | Coverage | Tests |
+| ----------- | ----- | -------- | ----- |
+| API Routes  | 45    | 88%      | 250+  |
+| Services    | 20    | 87%      | 180+  |
+| Components  | 85    | 84%      | 420+  |
+| Hooks       | 15    | 89%      | 95+   |
+| Utils       | 30    | 91%      | 160+  |
+| Integration | 8     | 92%      | 202+  |
 
 ### High Coverage Areas (>90%)
 
@@ -515,7 +539,7 @@ IDME_CLIENT_SECRET=your_idme_client_secret
 # Scopes: military, responder, student, teacher
 ```
 
-*(Continue for all 11 providers...)*
+_(Continue for all 11 providers...)_
 
 ---
 
@@ -541,6 +565,7 @@ IDME_CLIENT_SECRET=your_idme_client_secret
 ## Next Steps
 
 ### For OAuth Providers
+
 1. Set up OAuth applications for each provider
 2. Configure environment variables
 3. Test OAuth flow in development
@@ -548,6 +573,7 @@ IDME_CLIENT_SECRET=your_idme_client_secret
 5. Monitor OAuth login analytics
 
 ### For Test Coverage
+
 1. Review and improve tests below 85% coverage
 2. Add more edge case tests
 3. Increase integration test coverage
@@ -555,6 +581,7 @@ IDME_CLIENT_SECRET=your_idme_client_secret
 5. Set up automated coverage reports in CI
 
 ### For Quality Assurance
+
 1. Run full test suite before releases
 2. Monitor test failures in CI
 3. Keep test coverage above 85%
@@ -568,6 +595,7 @@ IDME_CLIENT_SECRET=your_idme_client_secret
 ### OAuth Issues
 
 **Problem**: OAuth provider not working
+
 ```bash
 # Check configuration
 pnpm tsx scripts/test-oauth-providers.ts
@@ -578,6 +606,7 @@ echo $GOOGLE_CLIENT_SECRET
 ```
 
 **Problem**: Redirect URI mismatch
+
 - Ensure redirect URI in OAuth app matches exactly
 - Check for trailing slashes
 - Verify HTTP vs HTTPS
@@ -585,6 +614,7 @@ echo $GOOGLE_CLIENT_SECRET
 ### Test Coverage Issues
 
 **Problem**: Coverage below target
+
 ```bash
 # Analyze what needs coverage
 pnpm tsx scripts/analyze-coverage.ts
@@ -594,6 +624,7 @@ pnpm tsx scripts/generate-test-stubs.ts
 ```
 
 **Problem**: Tests failing
+
 ```bash
 # Run specific test file
 pnpm test path/to/test.test.ts --verbose

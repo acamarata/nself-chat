@@ -155,7 +155,7 @@ export function ConsentManager() {
       await new Promise((resolve) => setTimeout(resolve, 1000))
       setHasChanges(false)
     } catch (error) {
-      logger.error('Failed to save consent preferences:',  error)
+      logger.error('Failed to save consent preferences:', error)
     } finally {
       setIsSaving(false)
     }

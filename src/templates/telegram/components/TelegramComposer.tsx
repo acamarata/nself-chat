@@ -12,7 +12,18 @@
 import { useState, useRef, KeyboardEvent, ChangeEvent } from 'react'
 import { cn } from '@/lib/utils'
 import { TELEGRAM_COLORS } from '../config'
-import { Paperclip, Smile, Send, Mic, X, Image as ImageIcon, File, Music, MapPin, Camera } from 'lucide-react'
+import {
+  Paperclip,
+  Smile,
+  Send,
+  Mic,
+  X,
+  Image as ImageIcon,
+  File,
+  Music,
+  MapPin,
+  Camera,
+} from 'lucide-react'
 
 // -------------------------------------------------------------------------------
 // Types

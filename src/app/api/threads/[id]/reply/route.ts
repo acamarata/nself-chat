@@ -58,10 +58,7 @@ const notificationService = getNotificationService()
 // POST - Reply to thread
 // ============================================================================
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params
   const threadId = resolvedParams.id
 
@@ -134,9 +131,7 @@ export async function POST(
     const threadResult = await threadService.getThread(threadId)
     if (threadResult.success && threadResult.data) {
       const thread = threadResult.data
-      const participantIds = thread.participants
-        .map((p) => p.id)
-        .filter((id) => id !== data.userId) // Don't notify the author
+      const participantIds = thread.participants.map((p) => p.id).filter((id) => id !== data.userId) // Don't notify the author
 
       // Send thread reply notifications (async)
       if (participantIds.length > 0) {

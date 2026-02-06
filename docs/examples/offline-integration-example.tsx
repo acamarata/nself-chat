@@ -32,28 +32,13 @@ export function ChatWithOfflineSupport({ channelId }: { channelId: string }) {
   const [showSettings, setShowSettings] = useState(false)
 
   // ===== Offline Hooks =====
-  const {
-    sendMessage,
-    optimisticMessages,
-    pendingCount,
-    failedCount,
-    retryMessage,
-  } = useOptimisticMessages(channelId)
+  const { sendMessage, optimisticMessages, pendingCount, failedCount, retryMessage } =
+    useOptimisticMessages(channelId)
 
-  const {
-    isOnline,
-    queueCount,
-    sync,
-    flushQueue,
-  } = useOfflineStatus()
+  const { isOnline, queueCount, sync, flushQueue } = useOfflineStatus()
 
-  const {
-    settings,
-    updateSettings,
-    hasUnsyncedChanges,
-    conflict,
-    resolveConflict,
-  } = useSettingsSync()
+  const { settings, updateSettings, hasUnsyncedChanges, conflict, resolveConflict } =
+    useSettingsSync()
 
   // ===== Message Handlers =====
   const handleSendMessage = async () => {
@@ -133,60 +118,32 @@ export function ChatWithOfflineSupport({ channelId }: { channelId: string }) {
                 {isOnline ? 'Online' : 'Offline'}
               </Badge>
 
-              {queueCount > 0 && (
-                <Badge variant="secondary">
-                  {queueCount} queued
-                </Badge>
-              )}
+              {queueCount > 0 && <Badge variant="secondary">{queueCount} queued</Badge>}
 
-              {pendingCount > 0 && (
-                <Badge variant="default">
-                  {pendingCount} sending
-                </Badge>
-              )}
+              {pendingCount > 0 && <Badge variant="default">{pendingCount} sending</Badge>}
 
-              {failedCount > 0 && (
-                <Badge variant="destructive">
-                  {failedCount} failed
-                </Badge>
-              )}
+              {failedCount > 0 && <Badge variant="destructive">{failedCount} failed</Badge>}
 
-              {hasUnsyncedChanges && (
-                <Badge variant="warning">
-                  Settings not synced
-                </Badge>
-              )}
+              {hasUnsyncedChanges && <Badge variant="warning">Settings not synced</Badge>}
             </div>
           </div>
 
           <div className="flex gap-2">
             {/* Queue Viewer */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowQueueViewer(true)}
-            >
+            <Button variant="outline" size="sm" onClick={() => setShowQueueViewer(true)}>
               <List className="mr-2 h-4 w-4" />
               Queue
             </Button>
 
             {/* Settings */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowSettings(true)}
-            >
+            <Button variant="outline" size="sm" onClick={() => setShowSettings(true)}>
               <Settings className="mr-2 h-4 w-4" />
               Settings
             </Button>
 
             {/* Sync Button */}
             {(queueCount > 0 || hasUnsyncedChanges) && isOnline && (
-              <Button
-                variant="default"
-                size="sm"
-                onClick={handleSync}
-              >
+              <Button variant="default" size="sm" onClick={handleSync}>
                 Sync Now
               </Button>
             )}
@@ -203,11 +160,7 @@ export function ChatWithOfflineSupport({ channelId }: { channelId: string }) {
               Your settings were changed on another device. Which version do you want to keep?
             </p>
             <div className="mt-3 flex gap-2">
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => handleConflictResolution('local')}
-              >
+              <Button size="sm" variant="outline" onClick={() => handleConflictResolution('local')}>
                 Keep This Device
               </Button>
               <Button
@@ -229,11 +182,7 @@ export function ChatWithOfflineSupport({ channelId }: { channelId: string }) {
 
           {/* Optimistic messages */}
           {optimisticMessages.map((msg) => (
-            <OptimisticMessageCard
-              key={msg.tempId}
-              message={msg}
-              onRetry={retryMessage}
-            />
+            <OptimisticMessageCard key={msg.tempId} message={msg} onRetry={retryMessage} />
           ))}
         </div>
       </div>
@@ -269,9 +218,7 @@ export function ChatWithOfflineSupport({ channelId }: { channelId: string }) {
               }
             }}
             placeholder={
-              isOnline
-                ? 'Type a message...'
-                : 'Offline - Messages will be sent when you reconnect'
+              isOnline ? 'Type a message...' : 'Offline - Messages will be sent when you reconnect'
             }
             disabled={false} // Can send even when offline
           />
@@ -330,17 +277,15 @@ function OptimisticMessageCard({ message, onRetry }: OptimisticMessageCardProps)
                 message.status === 'sent'
                   ? 'success'
                   : message.status === 'failed'
-                  ? 'destructive'
-                  : 'default'
+                    ? 'destructive'
+                    : 'default'
               }
             >
               {message.status}
             </Badge>
           </div>
 
-          <p className="mt-2 text-gray-900 dark:text-gray-100">
-            {message.content}
-          </p>
+          <p className="mt-2 text-gray-900 dark:text-gray-100">{message.content}</p>
 
           {message.attachments?.length > 0 && (
             <div className="mt-2 space-y-1">
@@ -353,18 +298,12 @@ function OptimisticMessageCard({ message, onRetry }: OptimisticMessageCardProps)
           )}
 
           {message.error && (
-            <p className="mt-2 text-sm text-red-600 dark:text-red-400">
-              Error: {message.error}
-            </p>
+            <p className="mt-2 text-sm text-red-600 dark:text-red-400">Error: {message.error}</p>
           )}
         </div>
 
         {message.status === 'failed' && (
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => onRetry(message.tempId)}
-          >
+          <Button size="sm" variant="outline" onClick={() => onRetry(message.tempId)}>
             Retry
           </Button>
         )}
@@ -417,9 +356,7 @@ function SettingsDialog({ settings, onUpdate, onClose }: SettingsDialogProps) {
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={handleSave}>
-            Save
-          </Button>
+          <Button onClick={handleSave}>Save</Button>
         </div>
       </Card>
     </div>

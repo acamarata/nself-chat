@@ -84,9 +84,7 @@ export function BillingDashboard({ stats = mockStats, className }: BillingDashbo
           ) : (
             <ArrowDownRight className="h-3 w-3 text-red-600" />
           )}
-          <span className={trend === 'up' ? 'text-green-600' : 'text-red-600'}>
-            {change}
-          </span>
+          <span className={trend === 'up' ? 'text-green-600' : 'text-red-600'}>{change}</span>
           <span className="ml-1">from last period</span>
         </div>
       </CardContent>
@@ -131,7 +129,9 @@ export function BillingDashboard({ stats = mockStats, className }: BillingDashbo
   )
 
   const RevenueBreakdownCard = () => {
-    const cardRevenue = (stats.totalRevenue * stats.paymentMethodDistribution.card) / (stats.paymentMethodDistribution.card + stats.paymentMethodDistribution.crypto)
+    const cardRevenue =
+      (stats.totalRevenue * stats.paymentMethodDistribution.card) /
+      (stats.paymentMethodDistribution.card + stats.paymentMethodDistribution.crypto)
     const cryptoRevenue = stats.totalRevenue - cardRevenue
 
     return (
@@ -149,10 +149,7 @@ export function BillingDashboard({ stats = mockStats, className }: BillingDashbo
               </div>
               <span className="font-medium">{formatPrice(cardRevenue)}</span>
             </div>
-            <Progress
-              value={(cardRevenue / stats.totalRevenue) * 100}
-              className="h-2"
-            />
+            <Progress value={(cardRevenue / stats.totalRevenue) * 100} className="h-2" />
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
@@ -179,9 +176,7 @@ export function BillingDashboard({ stats = mockStats, className }: BillingDashbo
           <AlertCircle className="h-5 w-5 text-red-600" />
           Failed Payments
         </CardTitle>
-        <CardDescription>
-          {stats.failedPayments.length} payments need attention
-        </CardDescription>
+        <CardDescription>{stats.failedPayments.length} payments need attention</CardDescription>
       </CardHeader>
       <CardContent>
         {stats.failedPayments.length === 0 ? (
@@ -191,12 +186,10 @@ export function BillingDashboard({ stats = mockStats, className }: BillingDashbo
             {stats.failedPayments.slice(0, 5).map((payment) => (
               <div
                 key={payment.id}
-                className="flex items-center justify-between p-3 rounded-lg border"
+                className="flex items-center justify-between rounded-lg border p-3"
               >
                 <div>
-                  <p className="text-sm font-medium">
-                    {formatPrice(payment.amount)}
-                  </p>
+                  <p className="text-sm font-medium">{formatPrice(payment.amount)}</p>
                   <p className="text-xs text-muted-foreground">
                     {new Date(payment.createdAt).toLocaleDateString()}
                   </p>
@@ -219,9 +212,7 @@ export function BillingDashboard({ stats = mockStats, className }: BillingDashbo
           <Calendar className="h-5 w-5" />
           Upcoming Renewals
         </CardTitle>
-        <CardDescription>
-          Next 30 days
-        </CardDescription>
+        <CardDescription>Next 30 days</CardDescription>
       </CardHeader>
       <CardContent>
         {stats.upcomingRenewals.length === 0 ? (
@@ -231,12 +222,10 @@ export function BillingDashboard({ stats = mockStats, className }: BillingDashbo
             {stats.upcomingRenewals.slice(0, 5).map((subscription) => (
               <div
                 key={subscription.id}
-                className="flex items-center justify-between p-3 rounded-lg border"
+                className="flex items-center justify-between rounded-lg border p-3"
               >
                 <div>
-                  <p className="text-sm font-medium">
-                    {PLANS[subscription.planId].name}
-                  </p>
+                  <p className="text-sm font-medium">{PLANS[subscription.planId].name}</p>
                   <p className="text-xs text-muted-foreground">
                     Renews {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
                   </p>

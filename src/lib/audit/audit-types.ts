@@ -160,7 +160,14 @@ export type AuditSeverity = 'info' | 'warning' | 'error' | 'critical'
 // Actor Types
 // ============================================================================
 
-export type ActorType = 'user' | 'system' | 'bot' | 'integration' | 'anonymous' | 'admin' | 'moderator'
+export type ActorType =
+  | 'user'
+  | 'system'
+  | 'bot'
+  | 'integration'
+  | 'anonymous'
+  | 'admin'
+  | 'moderator'
 
 export interface AuditActor {
   id: string

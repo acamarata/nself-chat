@@ -118,7 +118,7 @@ export function createLocalStorage<T extends Record<string, unknown>>(prefix: st
         return stored as T[K]
       } catch (error) {
         logger.warn(`Error reading from localStorage: ${String(key)}`, {
-          error: error instanceof Error ? error.message : String(error)
+          error: error instanceof Error ? error.message : String(error),
         })
         return options.defaultValue
       }
@@ -155,7 +155,7 @@ export function createLocalStorage<T extends Record<string, unknown>>(prefix: st
         return true
       } catch (error) {
         logger.warn(`Error writing to localStorage: ${String(key)}`, {
-          error: error instanceof Error ? error.message : String(error)
+          error: error instanceof Error ? error.message : String(error),
         })
         return false
       }
@@ -285,7 +285,7 @@ export function createSessionStorage<T extends Record<string, unknown>>(prefix: 
         return deserialize(raw)
       } catch (error) {
         logger.warn(`Error reading from sessionStorage: ${String(key)}`, {
-          error: error instanceof Error ? error.message : String(error)
+          error: error instanceof Error ? error.message : String(error),
         })
         return options.defaultValue
       }
@@ -305,7 +305,7 @@ export function createSessionStorage<T extends Record<string, unknown>>(prefix: 
         return true
       } catch (error) {
         logger.warn(`Error writing to sessionStorage: ${String(key)}`, {
-          error: error instanceof Error ? error.message : String(error)
+          error: error instanceof Error ? error.message : String(error),
         })
         return false
       }

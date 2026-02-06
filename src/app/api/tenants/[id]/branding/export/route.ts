@@ -12,10 +12,7 @@ export const dynamic = 'force-dynamic'
 /**
  * GET - Export branding configuration
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: tenantId } = await params
 

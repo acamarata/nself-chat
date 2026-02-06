@@ -180,10 +180,7 @@ export class WipeManager {
     }
 
     // Check if lockout threshold reached
-    if (
-      this.lockoutPolicy.enabled &&
-      this.failedAttempts >= this.lockoutPolicy.maxFailedAttempts
-    ) {
+    if (this.lockoutPolicy.enabled && this.failedAttempts >= this.lockoutPolicy.maxFailedAttempts) {
       this.lockoutCount++
       const lockoutDuration = this.calculateLockoutDuration()
       this.enforceLockout(lockoutDuration)

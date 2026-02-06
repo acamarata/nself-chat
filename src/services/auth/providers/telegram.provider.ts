@@ -114,7 +114,7 @@ export class TelegramProvider extends BaseAuthProvider {
         headers: this.getAuthHeaders(),
       })
     } catch (error) {
-      logger.error('Sign out error:',  error)
+      logger.error('Sign out error:', error)
     }
 
     this.clearSession()
@@ -151,7 +151,7 @@ export class TelegramProvider extends BaseAuthProvider {
         data.session.refreshToken
       )
     } catch (error) {
-      logger.error('Token refresh error:',  error)
+      logger.error('Token refresh error:', error)
       return this.createErrorResult(this.createError('NETWORK_ERROR', 'Failed to refresh token'))
     }
   }
@@ -266,7 +266,7 @@ export class TelegramProvider extends BaseAuthProvider {
 
       return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
     } catch (error) {
-      logger.error('Telegram auth verification error:',  error)
+      logger.error('Telegram auth verification error:', error)
       return this.createErrorResult(
         this.createError('NETWORK_ERROR', 'Failed to verify Telegram authentication')
       )
@@ -289,7 +289,7 @@ export class TelegramProvider extends BaseAuthProvider {
           }
         })
       } catch (error) {
-        logger.error('Failed to parse Telegram callback:',  error)
+        logger.error('Failed to parse Telegram callback:', error)
       }
     }
   }

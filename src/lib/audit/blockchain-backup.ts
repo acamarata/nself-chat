@@ -151,7 +151,11 @@ class MerkleTree {
   /**
    * Verify Merkle proof
    */
-  verifyProof(leafHash: string, proof: { siblings: string[]; path: number[] }, root: string): boolean {
+  verifyProof(
+    leafHash: string,
+    proof: { siblings: string[]; path: number[] },
+    root: string
+  ): boolean {
     let hash = leafHash
 
     for (let i = 0; i < proof.siblings.length; i++) {
@@ -226,10 +230,7 @@ export class BlockchainBackupService {
   /**
    * Generate Merkle proof for an entry
    */
-  generateMerkleProof(
-    entries: TamperProofLogEntry[],
-    entryId: string
-  ): MerkleProof | null {
+  generateMerkleProof(entries: TamperProofLogEntry[], entryId: string): MerkleProof | null {
     const entryIndex = entries.findIndex((e) => e.id === entryId)
     if (entryIndex === -1) return null
 

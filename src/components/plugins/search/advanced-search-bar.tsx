@@ -9,11 +9,7 @@ import { useState } from 'react'
 import { Search, X, Filter } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Label } from '@/components/ui/label'
 import { useAdvancedSearch, useSearchSuggestions } from '@/hooks/use-search-plugin'
 import type { SearchFilters } from '@/services/plugins/search.service'
@@ -25,7 +21,7 @@ interface AdvancedSearchBarProps {
 
 export function AdvancedSearchBar({
   onSearch,
-  placeholder = 'Search messages, channels, users...'
+  placeholder = 'Search messages, channels, users...',
 }: AdvancedSearchBarProps) {
   const [inputValue, setInputValue] = useState('')
   const [showFilters, setShowFilters] = useState(false)
@@ -92,11 +88,7 @@ export function AdvancedSearchBar({
               <div className="flex items-center justify-between">
                 <h4 className="font-semibold">Search Filters</h4>
                 {hasFilters && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={clearFilters}
-                  >
+                  <Button variant="ghost" size="sm" onClick={clearFilters}>
                     Clear all
                   </Button>
                 )}
@@ -155,9 +147,7 @@ export function AdvancedSearchBar({
           </PopoverContent>
         </Popover>
 
-        <Button onClick={handleSearch}>
-          Search
-        </Button>
+        <Button onClick={handleSearch}>Search</Button>
       </div>
 
       {suggestions.length > 0 && inputValue && (
@@ -174,9 +164,7 @@ export function AdvancedSearchBar({
               >
                 <span className="font-medium">{suggestion.label}</span>
                 {suggestion.type && (
-                  <span className="ml-2 text-xs text-muted-foreground">
-                    {suggestion.type}
-                  </span>
+                  <span className="ml-2 text-xs text-muted-foreground">{suggestion.type}</span>
                 )}
               </button>
             ))}

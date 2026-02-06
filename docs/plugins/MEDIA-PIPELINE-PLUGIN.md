@@ -49,18 +49,22 @@ POST /api/media/:id/extract-text      # OCR/text extraction
 ## Supported Formats
 
 ### Images
+
 - Input: JPEG, PNG, GIF, WebP, AVIF, HEIC, BMP, TIFF
 - Output: WebP (default), AVIF, JPEG, PNG
 
 ### Videos
+
 - Input: MP4, MOV, AVI, MKV, WebM, FLV
 - Output: H.264/MP4, H.265/MP4, VP9/WebM
 
 ### Audio
+
 - Input: MP3, WAV, AAC, FLAC, OGG, M4A
 - Output: Opus (default), AAC, MP3
 
 ### Documents
+
 - Input: PDF, DOCX, XLSX, PPTX, TXT, MD
 - Output: PDF preview, extracted text
 
@@ -76,7 +80,7 @@ const result = await media.uploadAndProcess(file, {
   resize: { width: 1920, height: 1080 },
   format: 'webp',
   quality: 85,
-  thumbnail: true
+  thumbnail: true,
 })
 
 console.log(result.url) // Original

@@ -1,4 +1,5 @@
 # Phase 6 & 8 Completion Report
+
 ## ɳChat v0.9.1 - Channels/Communities & Voice/Video/Streaming
 
 **Date**: February 3, 2026
@@ -18,6 +19,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
 ### ✅ Completed Items
 
 #### 1. API Routes (100%)
+
 **Location**: `src/app/api/channels/`
 
 - **`guild/route.ts`** - Discord-style server/guild management
@@ -39,6 +41,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
   - Position management
 
 #### 2. Service Layer (100%)
+
 **Location**: `src/services/channels/`
 
 - **`guild.service.ts`** (635 lines)
@@ -57,6 +60,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
   - Queue prioritization
 
 #### 3. GraphQL Operations (100%)
+
 **Location**: `src/graphql/channel-structures.ts`
 
 - **Fragments**: Category, Guild, Broadcast, Permission Override (6 fragments)
@@ -65,6 +69,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
 - **Subscriptions**: 4 real-time subscriptions
 
 #### 4. UI Components (100%)
+
 **Location**: `src/components/channels/`
 
 - **`GuildSidebar.tsx`** - Discord-style hierarchical sidebar
@@ -80,6 +85,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
   - Settings panel
 
 **Note**: Additional components already existed:
+
 - `BroadcastComposer.tsx` - Message composition
 - `BroadcastListCreator.tsx` - Creation wizard
 - `CommunityView.tsx` - WhatsApp communities
@@ -92,6 +98,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
 ### ✅ Completed Items
 
 #### 1. API Routes (100%)
+
 **Location**: `src/app/api/`
 
 - **`calls/[id]/recording/route.ts`** - Call recording management
@@ -116,6 +123,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
   - Revenue tracking (if monetized)
 
 **Existing Routes** (verified):
+
 - `calls/initiate/route.ts` - Start calls
 - `calls/accept/route.ts` - Accept calls
 - `calls/decline/route.ts` - Decline calls
@@ -123,6 +131,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
 - `calls/[id]/join/route.ts` - Join calls
 
 #### 2. UI Components (100%)
+
 **Location**: `src/components/voice-video/`
 
 **Existing Components** (verified functional):
@@ -143,6 +152,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
   - Reactions overlay
 
 **Additional Existing Components**:
+
 - `src/components/call/` directory:
   - `call-button.tsx`
   - `call-controls.tsx`
@@ -173,6 +183,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
 ## Files Created/Modified
 
 ### Created (14 new files):
+
 1. `src/app/api/channels/[id]/categories/route.ts`
 2. `src/app/api/channels/guild/route.ts`
 3. `src/app/api/channels/broadcast/route.ts`
@@ -189,6 +200,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
 14. `livekit-ingress.yaml` (referenced, needs creation)
 
 ### Modified (2 files):
+
 1. `src/services/channels/broadcast.service.ts` (null → undefined fixes)
 2. Type definitions already existed in `src/types/`
 
@@ -269,6 +281,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
 ### Manual Testing Checklist
 
 #### Phase 6 - Channels/Communities
+
 - [ ] Create a guild via API (test each template)
 - [ ] Verify default categories and channels are created
 - [ ] Move channels between categories
@@ -279,6 +292,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
 - [ ] Test real-time subscriptions
 
 #### Phase 8 - Voice/Video/Streaming
+
 - [ ] Start LiveKit via `docker-compose -f docker-compose.livekit.yml up`
 - [ ] Initiate a video call
 - [ ] Add/remove participants
@@ -293,6 +307,7 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
 **Current Status**: 15 type errors remaining (all in `guild.service.ts` template literals)
 
 **Errors**:
+
 - Template type strictness (category names, channel names must match exactly)
 - Can be fixed by using `as const` assertions or making template types more flexible
 
@@ -303,18 +318,21 @@ All remaining tasks for Phase 6 (Channels & Communities) and Phase 8 (Voice/Vide
 ## Remaining Minor Issues
 
 ### 1. Guild Service Template Types
+
 **File**: `src/services/channels/guild.service.ts`
 **Issue**: Template literals have strict typing that doesn't allow template customization
 **Impact**: Low (functionality works, just TypeScript strictness)
 **Fix**: Add `as const` or widen template types
 
 ### 2. Email Service Types (Pre-existing)
+
 **File**: `src/lib/email/email.service.ts`
 **Issue**: Promise<string> vs string mismatches
 **Impact**: Low (separate from Phase 6/8)
 **Fix**: Await promises or adjust return types
 
 ### 3. LiveKit Configuration Files
+
 **Missing**: `livekit-egress.yaml`, `livekit-ingress.yaml`
 **Status**: Referenced but not created
 **Impact**: Medium (needed for advanced features)
@@ -346,18 +364,21 @@ LIVEKIT_WS_URL=ws://localhost:7880
 ## Next Steps
 
 ### Immediate (Priority 1)
+
 1. Fix remaining TypeScript errors in `guild.service.ts`
 2. Create `livekit-egress.yaml` and `livekit-ingress.yaml`
 3. Test LiveKit integration end-to-end
 4. Update database migrations if not already done
 
 ### Short-term (Priority 2)
+
 1. Add integration tests for new API routes
 2. Add E2E tests for call flows
 3. Document API endpoints in OpenAPI/Swagger
 4. Add monitoring/metrics for LiveKit
 
 ### Long-term (Priority 3)
+
 1. Implement guild permissions system
 2. Add broadcast analytics dashboard
 3. Implement stream monetization
@@ -368,18 +389,21 @@ LIVEKIT_WS_URL=ws://localhost:7880
 ## Documentation
 
 ### API Documentation Needed
+
 - [ ] Guild API endpoint reference
 - [ ] Broadcast API endpoint reference
 - [ ] Recording API endpoint reference
 - [ ] Analytics API endpoint reference
 
 ### User Guides Needed
+
 - [ ] Creating and managing guilds
 - [ ] Using broadcast lists effectively
 - [ ] Starting and recording calls
 - [ ] Reading stream analytics
 
 ### Developer Guides Needed
+
 - [ ] LiveKit integration guide
 - [ ] Custom guild templates
 - [ ] Broadcast delivery customization
@@ -390,11 +414,13 @@ LIVEKIT_WS_URL=ws://localhost:7880
 ## Performance Considerations
 
 ### Phase 6
+
 - **Guild creation**: ~100ms (includes creating categories + channels)
 - **Broadcast sending**: Queued, scales to 100k+ recipients
 - **Category operations**: Instant (simple updates)
 
 ### Phase 8
+
 - **Call latency**: <50ms (via LiveKit SFU)
 - **Max participants**: 100 per room (configurable)
 - **Recording overhead**: ~10% CPU increase
@@ -407,6 +433,7 @@ LIVEKIT_WS_URL=ws://localhost:7880
 ✅ **Phase 6 and Phase 8 are COMPLETE**
 
 All specified features have been implemented:
+
 - ✅ Guild/server management (Discord-style)
 - ✅ Broadcast lists (WhatsApp-style)
 - ✅ Category organization
@@ -422,6 +449,7 @@ All specified features have been implemented:
 **Total UI Components**: 2 new major components + enhancements
 
 **Ready for**:
+
 - Integration testing
 - Database migration execution
 - Production deployment preparation
@@ -432,6 +460,7 @@ All specified features have been implemented:
 ## Contact & Support
 
 For questions about this implementation:
+
 - Review inline comments in source files
 - Check GraphQL schema definitions
 - Refer to LiveKit documentation: https://docs.livekit.io

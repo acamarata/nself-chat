@@ -51,24 +51,28 @@
 ## Core Plugins (Required)
 
 ### 1. Realtime Plugin
+
 - **File**: [REALTIME-PLUGIN.md](./REALTIME-PLUGIN.md)
 - **Port**: 3101
 - **Features**: WebSocket, presence, typing indicators
 - **Status**: ✅ Production Ready
 
 ### 2. Notifications Plugin
+
 - **File**: [NOTIFICATIONS-PLUGIN.md](./NOTIFICATIONS-PLUGIN.md)
 - **Port**: 3102
 - **Features**: Push, email, SMS, in-app
 - **Status**: ✅ Production Ready
 
 ### 3. Jobs Plugin
+
 - **File**: [JOBS-PLUGIN.md](./JOBS-PLUGIN.md)
 - **Port**: 3105
 - **Features**: Background tasks, scheduling, BullMQ
 - **Status**: ✅ Production Ready
 
 ### 4. File Processing Plugin
+
 - **File**: [FILE-PROCESSING-PLUGIN.md](./FILE-PROCESSING-PLUGIN.md)
 - **Port**: 3104
 - **Features**: Image/video processing, thumbnails
@@ -79,6 +83,7 @@
 ## New Plugins (v0.9.1)
 
 ### 5. Analytics & Insights Plugin
+
 - **File**: [ANALYTICS-PLUGIN.md](./ANALYTICS-PLUGIN.md) (8,000 words)
 - **Port**: 3106
 - **Features**: Real-time metrics, dashboards, reports, AI insights
@@ -86,6 +91,7 @@
 - **Priority**: P0 - Critical
 
 ### 6. Advanced Search Plugin
+
 - **File**: [ADVANCED-SEARCH-PLUGIN.md](./ADVANCED-SEARCH-PLUGIN.md) (2,500 words)
 - **Port**: 3107
 - **Features**: Semantic search, vector search, faceted filtering
@@ -93,6 +99,7 @@
 - **Priority**: P0 - Critical
 
 ### 7. Media Processing Pipeline Plugin
+
 - **File**: [MEDIA-PIPELINE-PLUGIN.md](./MEDIA-PIPELINE-PLUGIN.md) (2,500 words)
 - **Port**: 3108
 - **Features**: Transcoding, streaming, AI moderation
@@ -100,6 +107,7 @@
 - **Priority**: P0 - Critical
 
 ### 8. AI Orchestration Plugin
+
 - **File**: [AI-ORCHESTRATION-PLUGIN.md](./AI-ORCHESTRATION-PLUGIN.md) (2,500 words)
 - **Port**: 3109
 - **Features**: Multi-provider AI, cost management, rate limiting
@@ -107,6 +115,7 @@
 - **Priority**: P1 - High
 
 ### 9. Workflow Automation Plugin
+
 - **File**: [WORKFLOWS-PLUGIN.md](./WORKFLOWS-PLUGIN.md) (3,000 words)
 - **Port**: 3110
 - **Features**: Visual builder, triggers, actions, integrations
@@ -118,24 +127,28 @@
 ## Integration Plugins (Optional)
 
 ### 10. ID.me Plugin
+
 - **File**: [IDME-PLUGIN.md](./IDME-PLUGIN.md)
 - **Category**: Authentication
 - **Features**: Identity verification, specialized login
 - **Status**: ✅ Documented
 
 ### 11. Stripe Plugin
+
 - **File**: [STRIPE-PLUGIN.md](./STRIPE-PLUGIN.md) (11,000 words)
 - **Category**: Billing
 - **Features**: Payments, subscriptions, invoices
 - **Status**: ✅ Documented
 
 ### 12. GitHub Plugin
+
 - **File**: [GITHUB-PLUGIN.md](./GITHUB-PLUGIN.md)
 - **Category**: DevOps
 - **Features**: Repository integration, webhooks
 - **Status**: ✅ Documented
 
 ### 13. Shopify Plugin
+
 - **File**: [SHOPIFY-PLUGIN.md](./SHOPIFY-PLUGIN.md) (2,500 words)
 - **Category**: E-commerce
 - **Features**: Store sync, orders, products
@@ -146,6 +159,7 @@
 ## Installation Guides
 
 ### Quick Start
+
 1. **Core Plugins**: [INSTALLATION-GUIDE.md](./INSTALLATION-GUIDE.md)
    - Prerequisites
    - Step-by-step installation
@@ -157,6 +171,7 @@
    - Troubleshooting
 
 ### Integration
+
 - **Frontend Integration**: [INTEGRATION-GUIDE.md](./INTEGRATION-GUIDE.md)
   - API route proxying
   - Service layer setup
@@ -180,11 +195,13 @@
 ## Documentation by Category
 
 ### Communication Plugins (3)
+
 - [Realtime](./REALTIME-PLUGIN.md)
 - [Notifications](./NOTIFICATIONS-PLUGIN.md)
 - [Advanced Search](./ADVANCED-SEARCH-PLUGIN.md)
 
 ### Infrastructure Plugins (5)
+
 - [Jobs](./JOBS-PLUGIN.md)
 - [File Processing](./FILE-PROCESSING-PLUGIN.md)
 - [Analytics](./ANALYTICS-PLUGIN.md)
@@ -192,18 +209,23 @@
 - [Workflows](./WORKFLOWS-PLUGIN.md)
 
 ### AI Plugins (1)
+
 - [AI Orchestration](./AI-ORCHESTRATION-PLUGIN.md)
 
 ### Authentication Plugins (1)
+
 - [ID.me](./IDME-PLUGIN.md)
 
 ### Billing Plugins (1)
+
 - [Stripe](./STRIPE-PLUGIN.md)
 
 ### DevOps Plugins (1)
+
 - [GitHub](./GITHUB-PLUGIN.md)
 
 ### E-commerce Plugins (1)
+
 - [Shopify](./SHOPIFY-PLUGIN.md)
 
 ---
@@ -211,12 +233,14 @@
 ## Documentation Stats
 
 ### Total Documentation
+
 - **Files**: 20+ plugin-related documents
 - **Words**: 100,000+ words
 - **Code Examples**: 200+ examples
 - **API Endpoints**: 100+ documented
 
 ### Phase 22 Contributions
+
 - **Files**: 9 new documents
 - **Words**: 47,000+ words
 - **Plugins**: 5 new plugins
@@ -254,6 +278,7 @@
 ## Common Tasks
 
 ### Installation
+
 ```bash
 # Install all core plugins
 cd backend
@@ -269,6 +294,7 @@ cd /Users/admin/Sites/nself-chat
 ```
 
 ### Management
+
 ```bash
 # List all plugins
 nself plugin list
@@ -284,6 +310,7 @@ nself plugin update <plugin-name>
 ```
 
 ### Health Checks
+
 ```bash
 # Test all plugins
 curl http://realtime.localhost:3101/health
@@ -305,16 +332,19 @@ nself doctor
 ## Support
 
 ### Documentation
+
 - **Main Docs**: `/docs/plugins/`
 - **Project Root**: `/Users/admin/Sites/nself-chat/`
 - **Wiki**: https://github.com/acamarata/nself-plugins/wiki
 
 ### Community
+
 - **Issues**: https://github.com/acamarata/nself-plugins/issues
 - **Discord**: https://discord.gg/nself
 - **Discussions**: https://github.com/acamarata/nself-plugins/discussions
 
 ### Resources
+
 - **Plugin Registry**: https://plugins.nself.org
 - **nself CLI Docs**: https://nself.org/docs
 - **API Reference**: https://api.nself.org
@@ -324,12 +354,14 @@ nself doctor
 ## Version History
 
 ### v0.9.1 (2026-02-03) - Phase 22
+
 - ✅ Added 5 new plugins
 - ✅ 47,000+ words of documentation
 - ✅ 475 new tests
 - ✅ Platform completeness: 46% → 91%
 
 ### v0.9.0 (2026-02-01) - Phase 3
+
 - ✅ Initial plugin system
 - ✅ 4 core plugins production ready
 - ✅ 4 integration plugins documented
@@ -350,6 +382,7 @@ nself doctor
 ---
 
 **Quick Navigation**:
+
 - [Back to Main Docs](/docs/)
 - [Plugin README](./README.md)
 - [Installation Guide](./NEW-PLUGINS-INSTALLATION-GUIDE.md)

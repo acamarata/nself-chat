@@ -139,9 +139,7 @@ async function handleGet(
   })
 }
 
-export const GET = compose(withErrorHandler, downloadRateLimit, withAuth)(
-  handleGet as any
-)
+export const GET = compose(withErrorHandler, downloadRateLimit, withAuth)(handleGet as any)
 
 // ============================================================================
 // PATCH /api/media/[id] - Update media metadata
@@ -246,9 +244,7 @@ async function handlePatch(
   })
 }
 
-export const PATCH = compose(withErrorHandler, updateRateLimit, withAuth)(
-  handlePatch as any
-)
+export const PATCH = compose(withErrorHandler, updateRateLimit, withAuth)(handlePatch as any)
 
 // ============================================================================
 // DELETE /api/media/[id] - Delete specific media
@@ -314,9 +310,7 @@ async function handleDelete(
   })
 }
 
-export const DELETE = compose(withErrorHandler, updateRateLimit, withAuth)(
-  handleDelete as any
-)
+export const DELETE = compose(withErrorHandler, updateRateLimit, withAuth)(handleDelete as any)
 
 // ============================================================================
 // OPTIONS - Handle CORS preflight

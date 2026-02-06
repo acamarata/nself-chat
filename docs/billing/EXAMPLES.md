@@ -113,11 +113,9 @@ export default function PricingPage() {
 
   return (
     <div className="container py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Choose Your Plan</h1>
-        <p className="text-xl text-muted-foreground">
-          Select the perfect plan for your team
-        </p>
+      <div className="mb-12 text-center">
+        <h1 className="mb-4 text-4xl font-bold">Choose Your Plan</h1>
+        <p className="text-xl text-muted-foreground">Select the perfect plan for your team</p>
       </div>
 
       <PricingTable
@@ -184,10 +182,7 @@ import { applyPlanRestrictions, requireFeature } from '@/middleware/plan-restric
 
 export async function POST(request: NextRequest) {
   // Check if user's plan has custom branding
-  const restriction = await applyPlanRestrictions(
-    request,
-    requireFeature('customBranding')
-  )
+  const restriction = await applyPlanRestrictions(request, requireFeature('customBranding'))
 
   if (restriction) {
     return restriction // Returns 403 with upgrade info
@@ -244,7 +239,7 @@ export function UsageDashboard() {
 
   return (
     <div className="container py-8">
-      <h1 className="text-3xl font-bold mb-6">Usage & Limits</h1>
+      <h1 className="mb-6 text-3xl font-bold">Usage & Limits</h1>
       <UsageTracker limits={usage} onUpgrade={handleUpgrade} />
     </div>
   )
@@ -337,7 +332,7 @@ export function CryptoCheckoutPage() {
   if (paymentComplete) {
     return (
       <Card className="p-8 text-center">
-        <h2 className="text-2xl font-bold mb-4">Payment Confirmed!</h2>
+        <h2 className="mb-4 text-2xl font-bold">Payment Confirmed!</h2>
         <p>Your subscription has been activated.</p>
         <p className="text-muted-foreground">Redirecting to dashboard...</p>
       </Card>
@@ -346,7 +341,7 @@ export function CryptoCheckoutPage() {
 
   return (
     <div className="container max-w-2xl py-12">
-      <h1 className="text-3xl font-bold mb-8">Pay with Crypto</h1>
+      <h1 className="mb-8 text-3xl font-bold">Pay with Crypto</h1>
 
       <CryptoPayment
         planId={selectedPlan}
@@ -443,10 +438,8 @@ export function PremiumChannelGate() {
       />
 
       {hasAccess && (
-        <div className="mt-8 p-4 bg-green-50 border border-green-200 rounded-lg">
-          <p className="text-green-800">
-            Access granted! Redirecting to channel...
-          </p>
+        <div className="mt-8 rounded-lg border border-green-200 bg-green-50 p-4">
+          <p className="text-green-800">Access granted! Redirecting to channel...</p>
         </div>
       )}
     </div>
@@ -557,10 +550,7 @@ export async function POST(request: NextRequest) {
   const file = formData.get('file') as File
 
   // Check file size against plan limit
-  const restriction = await applyPlanRestrictions(
-    request,
-    checkFileUploadSize(file.size)
-  )
+  const restriction = await applyPlanRestrictions(request, checkFileUploadSize(file.size))
 
   if (restriction) {
     return restriction // 413 Payload Too Large
@@ -581,10 +571,7 @@ export async function POST(request: NextRequest) {
   const requestCount = await getRequestCount(userId)
 
   // Check rate limit based on plan
-  const restriction = await applyPlanRestrictions(
-    request,
-    checkPlanRateLimit(requestCount)
-  )
+  const restriction = await applyPlanRestrictions(request, checkPlanRateLimit(requestCount))
 
   if (restriction) {
     return restriction // 429 Too Many Requests
@@ -631,10 +618,7 @@ export function CheckoutFlow() {
     return (
       <div>
         <h1>Choose Your Plan</h1>
-        <PricingTable
-          currentPlan="free"
-          onSelectPlan={handleSelectPlan}
-        />
+        <PricingTable currentPlan="free" onSelectPlan={handleSelectPlan} />
       </div>
     )
   }
@@ -707,6 +691,7 @@ These examples demonstrate:
 ✅ Multi-step checkout process
 
 For more examples, see:
+
 - `/docs/billing/BILLING-SYSTEM.md` - Complete documentation
 - `/docs/billing/QUICK-START.md` - Quick start guide
 - `/src/components/billing/` - Component source code

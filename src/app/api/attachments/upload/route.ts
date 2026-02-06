@@ -43,7 +43,11 @@ const UploadMetadataSchema = z.object({
   channelId: z.string().uuid('Invalid channel ID'),
   fileName: z.string().min(1).max(255),
   fileType: z.string().min(1).max(100),
-  fileSize: z.number().int().positive().max(50 * 1024 * 1024), // 50MB max
+  fileSize: z
+    .number()
+    .int()
+    .positive()
+    .max(50 * 1024 * 1024), // 50MB max
   isPublic: z.boolean().default(false),
 })
 
@@ -102,9 +106,7 @@ const CREATE_ATTACHMENT = gql`
 
 const CHECK_CHANNEL_MEMBERSHIP = gql`
   query CheckChannelMembership($channelId: uuid!, $userId: uuid!) {
-    nchat_channel_members(
-      where: { channel_id: { _eq: $channelId }, user_id: { _eq: $userId } }
-    ) {
+    nchat_channel_members(where: { channel_id: { _eq: $channelId }, user_id: { _eq: $userId } }) {
       user_id
       role
     }
@@ -151,17 +153,11 @@ export async function POST(request: NextRequest) {
     const metadataJson = formData.get('metadata') as string | null
 
     if (!file) {
-      return NextResponse.json(
-        { success: false, error: 'No file provided' },
-        { status: 400 }
-      )
+      return NextResponse.json({ success: false, error: 'No file provided' }, { status: 400 })
     }
 
     if (!metadataJson) {
-      return NextResponse.json(
-        { success: false, error: 'No metadata provided' },
-        { status: 400 }
-      )
+      return NextResponse.json({ success: false, error: 'No metadata provided' }, { status: 400 })
     }
 
     // Parse and validate metadata
@@ -169,10 +165,7 @@ export async function POST(request: NextRequest) {
     try {
       metadata = JSON.parse(metadataJson)
     } catch {
-      return NextResponse.json(
-        { success: false, error: 'Invalid metadata JSON' },
-        { status: 400 }
-      )
+      return NextResponse.json({ success: false, error: 'Invalid metadata JSON' }, { status: 400 })
     }
 
     const validation = UploadMetadataSchema.safeParse({
@@ -206,10 +199,7 @@ export async function POST(request: NextRequest) {
     })
 
     if (!membershipData?.nchat_channel_members?.length) {
-      return NextResponse.json(
-        { success: false, error: 'Not a channel member' },
-        { status: 403 }
-      )
+      return NextResponse.json({ success: false, error: 'Not a channel member' }, { status: 403 })
     }
 
     // Validate file

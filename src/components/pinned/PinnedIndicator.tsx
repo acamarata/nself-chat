@@ -65,7 +65,9 @@ export function PinnedIndicator({
               className
             )}
             onClick={onClick}
-            onKeyDown={onClick ? (e) => (e.key === 'Enter' || e.key === ' ') && onClick() : undefined}
+            onKeyDown={
+              onClick ? (e) => (e.key === 'Enter' || e.key === ' ') && onClick() : undefined
+            }
             role={onClick ? 'button' : undefined}
             tabIndex={onClick ? 0 : undefined}
           >
@@ -82,7 +84,9 @@ export function PinnedIndicator({
               className
             )}
             onClick={onClick}
-            onKeyDown={onClick ? (e) => (e.key === 'Enter' || e.key === ' ') && onClick() : undefined}
+            onKeyDown={
+              onClick ? (e) => (e.key === 'Enter' || e.key === ' ') && onClick() : undefined
+            }
             role={onClick ? 'button' : undefined}
             tabIndex={onClick ? 0 : undefined}
           >
@@ -100,7 +104,9 @@ export function PinnedIndicator({
               className
             )}
             onClick={onClick}
-            onKeyDown={onClick ? (e) => (e.key === 'Enter' || e.key === ' ') && onClick() : undefined}
+            onKeyDown={
+              onClick ? (e) => (e.key === 'Enter' || e.key === ' ') && onClick() : undefined
+            }
             role={onClick ? 'button' : undefined}
             tabIndex={onClick ? 0 : undefined}
           >

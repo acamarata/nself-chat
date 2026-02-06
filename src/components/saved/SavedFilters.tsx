@@ -177,7 +177,9 @@ export function SavedFilters({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="message-type-select" className="text-sm font-medium">Message Type</Label>
+                <Label htmlFor="message-type-select" className="text-sm font-medium">
+                  Message Type
+                </Label>
                 <Select
                   value={filters.messageType ?? 'all'}
                   onValueChange={(value) =>
@@ -199,7 +201,9 @@ export function SavedFilters({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="attachments-select" className="text-sm font-medium">Attachments</Label>
+                <Label htmlFor="attachments-select" className="text-sm font-medium">
+                  Attachments
+                </Label>
                 <Select
                   value={
                     filters.hasAttachments === undefined

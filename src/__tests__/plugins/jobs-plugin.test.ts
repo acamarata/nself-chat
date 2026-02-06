@@ -13,7 +13,8 @@ import { describe, it, expect, beforeAll, afterAll } from '@jest/globals'
 
 // Configuration
 const JOBS_URL = process.env.NEXT_PUBLIC_JOBS_URL || 'http://jobs.localhost:3105'
-const BULLMQ_DASHBOARD_URL = process.env.NEXT_PUBLIC_BULLMQ_DASHBOARD_URL || 'http://queues.localhost:4200'
+const BULLMQ_DASHBOARD_URL =
+  process.env.NEXT_PUBLIC_BULLMQ_DASHBOARD_URL || 'http://queues.localhost:4200'
 const PLUGINS_ENABLED = process.env.PLUGINS_ENABLED !== 'false'
 const TEST_TIMEOUT = 30000
 
@@ -475,20 +476,24 @@ describe('Jobs Plugin', () => {
       'send-digest',
     ]
 
-    it.each(jobTypes)('should support %s job type', async (type) => {
-      const response = await fetch(`${JOBS_URL}/jobs`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type,
-          payload: {
-            test: true,
-          },
-        }),
-      })
+    it.each(jobTypes)(
+      'should support %s job type',
+      async (type) => {
+        const response = await fetch(`${JOBS_URL}/jobs`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type,
+            payload: {
+              test: true,
+            },
+          }),
+        })
 
-      expect(response.ok).toBe(true)
-    }, 10000)
+        expect(response.ok).toBe(true)
+      },
+      10000
+    )
   })
 
   describeIf('BullMQ Dashboard', () => {

@@ -154,7 +154,7 @@ export class MagicLinkProvider extends BaseAuthProvider {
 
       return { success: true }
     } catch (error) {
-      logger.error('Magic link send error:',  error)
+      logger.error('Magic link send error:', error)
       return {
         success: false,
         error: this.createError('NETWORK_ERROR', 'Failed to send magic link'),
@@ -169,7 +169,7 @@ export class MagicLinkProvider extends BaseAuthProvider {
         headers: this.getAuthHeaders(),
       })
     } catch (error) {
-      logger.error('Sign out error:',  error)
+      logger.error('Sign out error:', error)
     }
 
     this.pendingEmail = null
@@ -207,7 +207,7 @@ export class MagicLinkProvider extends BaseAuthProvider {
         data.session.refreshToken
       )
     } catch (error) {
-      logger.error('Token refresh error:',  error)
+      logger.error('Token refresh error:', error)
       return this.createErrorResult(this.createError('NETWORK_ERROR', 'Failed to refresh token'))
     }
   }
@@ -251,7 +251,7 @@ export class MagicLinkProvider extends BaseAuthProvider {
 
       return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
     } catch (error) {
-      logger.error('Magic link verification error:',  error)
+      logger.error('Magic link verification error:', error)
       return this.createErrorResult(
         this.createError('NETWORK_ERROR', 'Failed to verify magic link')
       )

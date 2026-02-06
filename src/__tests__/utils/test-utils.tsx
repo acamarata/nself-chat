@@ -286,9 +286,7 @@ function createTestWrapper(options: WrapperOptions = {}) {
     return (
       <MockAuthContext.Provider value={authValue}>
         <MockAppConfigContext.Provider value={configValue}>
-          <MockThemeContext.Provider value={themeValue}>
-            {children}
-          </MockThemeContext.Provider>
+          <MockThemeContext.Provider value={themeValue}>{children}</MockThemeContext.Provider>
         </MockAppConfigContext.Provider>
       </MockAuthContext.Provider>
     )
@@ -304,10 +302,7 @@ function createTestWrapper(options: WrapperOptions = {}) {
 /**
  * Custom render function that wraps components with all required providers
  */
-function customRender(
-  ui: ReactElement,
-  options: CustomRenderOptions = {}
-): CustomRenderResult {
+function customRender(ui: ReactElement, options: CustomRenderOptions = {}): CustomRenderResult {
   const { wrapperOptions, ...renderOptions } = options
   const Wrapper = createTestWrapper(wrapperOptions)
 
@@ -333,7 +328,7 @@ export const resetStores = () => {
   useChannelStore.getState().resetChannelStore()
   // UIStore reset if available
   if (typeof useUIStore.getState().reset === 'function') {
-    (useUIStore.getState() as any).reset()
+    ;(useUIStore.getState() as any).reset()
   }
 }
 
@@ -391,7 +386,7 @@ export const waitForCondition = async (
 /**
  * Wait for store state to match expected value
  */
-export const waitForStoreState = async <T>(
+export const waitForStoreState = async <T,>(
   selector: () => T,
   expected: T,
   options?: { timeout?: number }
@@ -407,7 +402,7 @@ export const waitForStoreState = async <T>(
 /**
  * Wait for async operation with retry
  */
-export const waitForAsync = async <T>(
+export const waitForAsync = async <T,>(
   asyncFn: () => Promise<T>,
   options?: { timeout?: number; retries?: number }
 ): Promise<T> => {
@@ -418,9 +413,7 @@ export const waitForAsync = async <T>(
     try {
       const result = await Promise.race([
         asyncFn(),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error('Timeout')), timeout)
-        ),
+        new Promise<never>((_, reject) => setTimeout(() => reject(new Error('Timeout')), timeout)),
       ])
       return result
     } catch (error) {
@@ -500,11 +493,7 @@ export const expectFocused = (element: HTMLElement) => {
 /**
  * Assert that a specific number of elements exist
  */
-export const expectCount = (
-  container: HTMLElement,
-  selector: string,
-  count: number
-) => {
+export const expectCount = (container: HTMLElement, selector: string, count: number) => {
   const elements = container.querySelectorAll(selector)
   expect(elements.length).toBe(count)
 }
@@ -523,11 +512,7 @@ export const expectTextVisible = (text: string) => {
 /**
  * Simulate typing into an input element
  */
-export const typeIntoInput = async (
-  user: UserEvent,
-  element: HTMLElement,
-  text: string
-) => {
+export const typeIntoInput = async (user: UserEvent, element: HTMLElement, text: string) => {
   await user.clear(element)
   await user.type(element, text)
 }

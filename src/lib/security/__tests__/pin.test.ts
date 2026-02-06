@@ -28,23 +28,27 @@ Object.defineProperty(global, 'crypto', {
       return array
     },
     subtle: {
-      importKey: jest.fn().mockImplementation((format, keyData, algorithm, extractable, keyUsages) => {
-        // Convert keyData to array for storage
-        const keyArray = keyData instanceof Uint8Array
-          ? Array.from(keyData)
-          : Array.from(new Uint8Array(keyData))
-        return Promise.resolve({
-          type: 'secret',
-          algorithm: { name: 'PBKDF2' },
-          _keyArray: keyArray,
-        })
-      }),
+      importKey: jest
+        .fn()
+        .mockImplementation((format, keyData, algorithm, extractable, keyUsages) => {
+          // Convert keyData to array for storage
+          const keyArray =
+            keyData instanceof Uint8Array
+              ? Array.from(keyData)
+              : Array.from(new Uint8Array(keyData))
+          return Promise.resolve({
+            type: 'secret',
+            algorithm: { name: 'PBKDF2' },
+            _keyArray: keyArray,
+          })
+        }),
       deriveBits: jest.fn().mockImplementation((algorithm, baseKey, length) => {
         // Create a deterministic hash based on key + salt for testing
         const keyArray = baseKey._keyArray || []
-        const saltArray = algorithm.salt instanceof Uint8Array
-          ? Array.from(algorithm.salt)
-          : Array.from(new Uint8Array(algorithm.salt))
+        const saltArray =
+          algorithm.salt instanceof Uint8Array
+            ? Array.from(algorithm.salt)
+            : Array.from(new Uint8Array(algorithm.salt))
 
         // Simple hash function that produces different outputs for different inputs
         const output = new ArrayBuffer(length / 8)
@@ -54,10 +58,10 @@ Object.defineProperty(global, 'crypto', {
           // Mix key bytes with salt bytes to produce deterministic output
           let hash = i
           for (let j = 0; j < keyArray.length; j++) {
-            hash = ((hash * 31) + keyArray[j]) >>> 0
+            hash = (hash * 31 + keyArray[j]) >>> 0
           }
           for (let j = 0; j < saltArray.length; j++) {
-            hash = ((hash * 37) + saltArray[j] + i) >>> 0
+            hash = (hash * 37 + saltArray[j] + i) >>> 0
           }
           outputView[i] = hash % 256
         }

@@ -55,7 +55,10 @@ class AnalyticsEvents {
 
       // REMOVED: console.log('Analytics initialized with providers:', providers)
     } catch (error) {
-      logger.error('Failed to initialize analytics', error instanceof Error ? error : new Error(String(error)))
+      logger.error(
+        'Failed to initialize analytics',
+        error instanceof Error ? error : new Error(String(error))
+      )
       throw error
     }
   }
@@ -415,7 +418,11 @@ class AnalyticsEvents {
         // REMOVED: console.log('[Analytics] Event logged:', eventName, params)
       }
     } catch (error) {
-      logger.error('Failed to log event', error instanceof Error ? error : new Error(String(error)), { eventName })
+      logger.error(
+        'Failed to log event',
+        error instanceof Error ? error : new Error(String(error)),
+        { eventName }
+      )
     }
   }
 

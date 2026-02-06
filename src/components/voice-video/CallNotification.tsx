@@ -15,15 +15,7 @@
 'use client'
 
 import React, { useEffect, useState, useRef } from 'react'
-import {
-  Phone,
-  PhoneOff,
-  Video,
-  VideoOff,
-  User,
-  Clock,
-  X,
-} from 'lucide-react'
+import { Phone, PhoneOff, Video, VideoOff, User, Clock, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -202,10 +194,7 @@ export function CallNotification({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: -20 }}
           transition={{ duration: 0.2 }}
-          className={cn(
-            'fixed left-1/2 top-20 z-50 -translate-x-1/2 transform',
-            className
-          )}
+          className={cn('fixed left-1/2 top-20 z-50 -translate-x-1/2 transform', className)}
         >
           <Card className="w-96 overflow-hidden border-2 border-blue-500 shadow-2xl">
             {/* Header */}
@@ -266,23 +255,13 @@ export function CallNotification({
             {/* Actions */}
             <div className="flex gap-3 border-t bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-900">
               {/* Decline */}
-              <Button
-                variant="destructive"
-                size="lg"
-                onClick={handleDecline}
-                className="flex-1"
-              >
+              <Button variant="destructive" size="lg" onClick={handleDecline} className="flex-1">
                 <PhoneOff className="mr-2 h-5 w-5" />
                 Decline
               </Button>
 
               {/* Accept (audio only) */}
-              <Button
-                variant="secondary"
-                size="lg"
-                onClick={handleAcceptAudio}
-                className="flex-1"
-              >
+              <Button variant="secondary" size="lg" onClick={handleAcceptAudio} className="flex-1">
                 <Phone className="mr-2 h-5 w-5" />
                 Audio
               </Button>

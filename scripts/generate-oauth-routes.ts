@@ -99,15 +99,7 @@ function generateRoutes(): void {
 
     // Generate callback route
     if (!skipCallback) {
-      const callbackRoutePath = join(
-        srcDir,
-        'app',
-        'api',
-        'auth',
-        provider,
-        'callback',
-        'route.ts'
-      )
+      const callbackRoutePath = join(srcDir, 'app', 'api', 'auth', provider, 'callback', 'route.ts')
       ensureDir(callbackRoutePath)
 
       const callbackContent = generateCallbackRoute(provider)

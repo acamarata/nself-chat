@@ -12,10 +12,7 @@ export const dynamic = 'force-dynamic'
 /**
  * POST - Upload logo file
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: tenantId } = await params
 

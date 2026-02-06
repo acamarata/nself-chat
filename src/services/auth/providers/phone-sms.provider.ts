@@ -173,7 +173,7 @@ export class PhoneSmsProvider extends BaseAuthProvider {
 
       return { success: true }
     } catch (error) {
-      logger.error('SMS send error:',  error)
+      logger.error('SMS send error:', error)
       return {
         success: false,
         error: this.createError('NETWORK_ERROR', 'Failed to send verification code'),
@@ -188,7 +188,7 @@ export class PhoneSmsProvider extends BaseAuthProvider {
         headers: this.getAuthHeaders(),
       })
     } catch (error) {
-      logger.error('Sign out error:',  error)
+      logger.error('Sign out error:', error)
     }
 
     this.pendingVerification = null
@@ -227,7 +227,7 @@ export class PhoneSmsProvider extends BaseAuthProvider {
         data.session.refreshToken
       )
     } catch (error) {
-      logger.error('Token refresh error:',  error)
+      logger.error('Token refresh error:', error)
       return this.createErrorResult(this.createError('NETWORK_ERROR', 'Failed to refresh token'))
     }
   }
@@ -322,7 +322,7 @@ export class PhoneSmsProvider extends BaseAuthProvider {
 
       return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
     } catch (error) {
-      logger.error('Code verification error:',  error)
+      logger.error('Code verification error:', error)
       return this.createErrorResult(this.createError('NETWORK_ERROR', 'Failed to verify code'))
     }
   }

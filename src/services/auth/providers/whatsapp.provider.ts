@@ -179,7 +179,7 @@ export class WhatsAppProvider extends BaseAuthProvider {
 
       return { success: true }
     } catch (error) {
-      logger.error('WhatsApp send error:',  error)
+      logger.error('WhatsApp send error:', error)
       return {
         success: false,
         error: this.createError('NETWORK_ERROR', 'Failed to send WhatsApp verification'),
@@ -194,7 +194,7 @@ export class WhatsAppProvider extends BaseAuthProvider {
         headers: this.getAuthHeaders(),
       })
     } catch (error) {
-      logger.error('Sign out error:',  error)
+      logger.error('Sign out error:', error)
     }
 
     this.pendingVerification = null
@@ -233,7 +233,7 @@ export class WhatsAppProvider extends BaseAuthProvider {
         data.session.refreshToken
       )
     } catch (error) {
-      logger.error('Token refresh error:',  error)
+      logger.error('Token refresh error:', error)
       return this.createErrorResult(this.createError('NETWORK_ERROR', 'Failed to refresh token'))
     }
   }
@@ -328,7 +328,7 @@ export class WhatsAppProvider extends BaseAuthProvider {
 
       return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
     } catch (error) {
-      logger.error('Code verification error:',  error)
+      logger.error('Code verification error:', error)
       return this.createErrorResult(this.createError('NETWORK_ERROR', 'Failed to verify code'))
     }
   }

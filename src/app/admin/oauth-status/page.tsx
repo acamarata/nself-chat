@@ -270,9 +270,7 @@ export default function OAuthStatusPage() {
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-500">Last Login:</span>
-                  <span className="font-medium">
-                    {status.stats.lastLogin || 'Never'}
-                  </span>
+                  <span className="font-medium">{status.stats.lastLogin || 'Never'}</span>
                 </div>
               </div>
 
@@ -323,9 +321,7 @@ export default function OAuthStatusPage() {
       <Card className="p-6">
         <h2 className="mb-4 text-xl font-bold">Configuration Guide</h2>
         <div className="space-y-3 text-sm">
-          <p>
-            To enable an OAuth provider, you need to set the following environment variables:
-          </p>
+          <p>To enable an OAuth provider, you need to set the following environment variables:</p>
           <div className="rounded-md bg-gray-100 p-4 font-mono text-xs">
             <p>NEXT_PUBLIC_{'{PROVIDER}'}_CLIENT_ID=your_client_id</p>
             <p>{'{PROVIDER}'}_CLIENT_SECRET=your_client_secret</p>

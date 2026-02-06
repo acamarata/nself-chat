@@ -146,11 +146,13 @@ function Header() {
 ### ✅ Task 66: Realtime Event Wiring
 
 **Files:**
+
 - `src/services/realtime/realtime-integration.service.ts` - Main orchestration
 - `src/lib/realtime/index.ts` - Unified exports
 - `src/hooks/use-realtime-integration.ts` - React integration
 
 **Features:**
+
 - Unified service initialization
 - Event dispatcher integration
 - Room management
@@ -160,11 +162,13 @@ function Header() {
 ### ✅ Task 67: Delivery Receipts
 
 **Files:**
+
 - `src/services/realtime/delivery.ts` - Delivery event handler
 - `src/services/messages/receipt.service.ts` - Receipt persistence
 - `src/lib/messaging/delivery-state.ts` - State management
 
 **Features:**
+
 - Sent/delivered/read status tracking
 - Batch read acknowledgements
 - Privacy-aware delivery updates
@@ -172,6 +176,7 @@ function Header() {
 - Real-time status synchronization
 
 **Status Flow:**
+
 ```
 sending → sent → delivered → read
          ↓
@@ -181,11 +186,13 @@ sending → sent → delivered → read
 ### ✅ Task 68: Online Presence with Privacy Controls
 
 **Files:**
+
 - `src/services/realtime/presence.service.ts` - Presence management
 - `src/graphql/presence-settings.ts` - Privacy settings schema
 - `src/components/user/presence-selector.tsx` - UI component
 
 **Features:**
+
 - Status: online, away, busy, offline
 - Custom status with emoji and expiration
 - Privacy visibility: everyone, contacts, nobody
@@ -204,10 +211,12 @@ sending → sent → delivered → read
 ### ✅ Task 69: Typing Indicators with Throttling
 
 **Files:**
+
 - `src/services/realtime/typing.service.ts` - Typing management
 - `src/components/chat/typing-indicator.tsx` - UI component
 
 **Features:**
+
 - Channel, thread, and DM typing support
 - Debounced input detection (300ms)
 - Throttled server emissions (1000ms)
@@ -217,6 +226,7 @@ sending → sent → delivered → read
 - User list formatting
 
 **Room Keys:**
+
 - Channel: `channel:${channelId}`
 - Thread: `channel:${channelId}:thread:${threadId}`
 - DM: `dm:${dmId}`
@@ -224,10 +234,12 @@ sending → sent → delivered → read
 ### ✅ Task 70: Reconnect Logic and Offline Queue
 
 **Files:**
+
 - `src/services/realtime/offline-queue.ts` - Queue management
 - `src/services/realtime/realtime-client.ts` - Reconnection logic
 
 **Features:**
+
 - localStorage persistence
 - Exponential backoff (1s → 30s max)
 - Maximum retry attempts (5)
@@ -238,6 +250,7 @@ sending → sent → delivered → read
 - Connection quality monitoring
 
 **Retry Delays:**
+
 - Attempt 1: 1s
 - Attempt 2: 2s
 - Attempt 3: 4s
@@ -253,13 +266,13 @@ sending → sent → delivered → read
 interface RealtimeIntegrationConfig {
   userId?: string
   token?: string
-  enablePresence?: boolean          // Default: true
-  enableTyping?: boolean             // Default: true
-  enableDeliveryReceipts?: boolean   // Default: true
-  enableOfflineQueue?: boolean       // Default: true
-  debug?: boolean                    // Default: false
-  autoConnect?: boolean              // Default: true
-  realtimeUrl?: string               // Default: from env
+  enablePresence?: boolean // Default: true
+  enableTyping?: boolean // Default: true
+  enableDeliveryReceipts?: boolean // Default: true
+  enableOfflineQueue?: boolean // Default: true
+  debug?: boolean // Default: false
+  autoConnect?: boolean // Default: true
+  realtimeUrl?: string // Default: from env
 }
 
 interface IntegrationStatus {
@@ -285,7 +298,7 @@ presence.setStatus('online' | 'away' | 'busy' | 'offline')
 presence.setCustomStatus({
   text: 'In a meeting',
   emoji: '📅',
-  expiresAt: new Date('2026-02-03T15:00:00Z')
+  expiresAt: new Date('2026-02-03T15:00:00Z'),
 })
 
 // Subscribe to users
@@ -300,7 +313,7 @@ await presence.updatePresenceSettings(userId, {
   visibility: 'contacts',
   showLastSeen: false,
   showOnlineStatus: true,
-  invisibleMode: false
+  invisibleMode: false,
 })
 ```
 
@@ -407,13 +420,13 @@ const status = integration.getStatus()
 switch (status.connectionQuality) {
   case 'excellent': // < 100ms latency
     break
-  case 'good':      // 100-300ms
+  case 'good': // 100-300ms
     break
-  case 'fair':      // 300-600ms
+  case 'fair': // 300-600ms
     break
-  case 'poor':      // > 600ms
+  case 'poor': // > 600ms
     break
-  case 'unknown':   // Not measured yet
+  case 'unknown': // Not measured yet
     break
 }
 ```
@@ -462,11 +475,13 @@ delivery.subscribe((event, data) => {
 ### Unit Tests
 
 Run presence service tests:
+
 ```bash
 npm test src/services/realtime/__tests__/presence.service.test.ts
 ```
 
 Run typing service tests:
+
 ```bash
 npm test src/services/realtime/__tests__/typing.service.test.ts
 ```
@@ -474,6 +489,7 @@ npm test src/services/realtime/__tests__/typing.service.test.ts
 ### Integration Tests
 
 Test the full realtime stack:
+
 ```bash
 npm test src/__tests__/integration/realtime-integration.test.ts
 ```
@@ -481,6 +497,7 @@ npm test src/__tests__/integration/realtime-integration.test.ts
 ### E2E Tests
 
 Test in browser environment:
+
 ```bash
 npm run test:e2e -- --grep "realtime"
 ```
@@ -540,6 +557,7 @@ NEXT_PUBLIC_DEBUG_REALTIME=true
 ### From Old Realtime System
 
 1. Replace individual service imports:
+
    ```typescript
    // Old
    import { getPresenceService } from '@/services/realtime/presence.service'
@@ -551,6 +569,7 @@ NEXT_PUBLIC_DEBUG_REALTIME=true
    ```
 
 2. Update initialization:
+
    ```typescript
    // Old
    initializePresenceService({ debug: true })
@@ -566,6 +585,7 @@ NEXT_PUBLIC_DEBUG_REALTIME=true
    ```
 
 3. Update status subscriptions:
+
    ```typescript
    // Old
    presence.onPresenceChange((userPresence) => { ... })
@@ -595,6 +615,7 @@ With Phase 7 complete, the following phases can now be implemented:
 ## Support
 
 For issues or questions:
+
 1. Check the troubleshooting section above
 2. Review error logs in browser console
 3. Enable debug mode for detailed logging

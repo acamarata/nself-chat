@@ -41,10 +41,11 @@ export async function advancedRateLimit(
 
   // Get config for this endpoint
   const pathname = new URL(request.url).pathname
-  const endpointConfig = config || rateLimitConfigs[pathname] || {
-    windowMs: 60 * 1000,
-    maxRequests: 60,
-  }
+  const endpointConfig = config ||
+    rateLimitConfigs[pathname] || {
+      windowMs: 60 * 1000,
+      maxRequests: 60,
+    }
 
   // Generate key (IP + User ID + Endpoint)
   const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
@@ -120,10 +121,7 @@ export async function ipRateLimit(
     }
 
     if (count > maxRequests) {
-      return NextResponse.json(
-        { error: 'Too many requests from this IP address' },
-        { status: 429 }
-      )
+      return NextResponse.json({ error: 'Too many requests from this IP address' }, { status: 429 })
     }
 
     return null
@@ -156,10 +154,7 @@ export async function slidingWindowRateLimit(
     const count = await redis.zcard(key)
 
     if (count >= maxRequests) {
-      return NextResponse.json(
-        { error: 'Rate limit exceeded' },
-        { status: 429 }
-      )
+      return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
     }
 
     // Add current request

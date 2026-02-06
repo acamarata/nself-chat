@@ -117,16 +117,11 @@ export const GET_CATEGORIES = gql`
   ${CATEGORY_FRAGMENT}
   query GetCategories($workspaceId: uuid!, $includeSystem: Boolean) {
     nchat_channel_categories(
-      where: {
-        workspace_id: { _eq: $workspaceId }
-        is_system: { _eq: $includeSystem }
-      }
+      where: { workspace_id: { _eq: $workspaceId }, is_system: { _eq: $includeSystem } }
       order_by: { position: asc }
     ) {
       ...CategoryFields
-      channels: nchat_channels_aggregate(
-        where: { category_id: { _eq: id } }
-      ) {
+      channels: nchat_channels_aggregate(where: { category_id: { _eq: id } }) {
         aggregate {
           count
         }
@@ -282,10 +277,7 @@ export const UPDATE_GUILD = gql`
 
 export const DELETE_GUILD = gql`
   mutation DeleteGuild($id: uuid!) {
-    update_nchat_workspaces_by_pk(
-      pk_columns: { id: $id }
-      _set: { is_active: false }
-    ) {
+    update_nchat_workspaces_by_pk(pk_columns: { id: $id }, _set: { is_active: false }) {
       id
       isActive
     }
@@ -300,10 +292,7 @@ export const GET_BROADCAST_LISTS = gql`
   ${BROADCAST_LIST_FRAGMENT}
   query GetBroadcastLists($workspaceId: uuid!, $ownerId: uuid) {
     nchat_broadcast_lists(
-      where: {
-        workspace_id: { _eq: $workspaceId }
-        owner_id: { _eq: $ownerId }
-      }
+      where: { workspace_id: { _eq: $workspaceId }, owner_id: { _eq: $ownerId } }
       order_by: { created_at: desc }
     ) {
       ...BroadcastListFields
@@ -316,9 +305,7 @@ export const GET_BROADCAST_LIST = gql`
   query GetBroadcastList($id: uuid!) {
     nchat_broadcast_lists_by_pk(id: $id) {
       ...BroadcastListFields
-      subscribers: nchat_broadcast_subscribers(
-        where: { status: { _eq: "active" } }
-      ) {
+      subscribers: nchat_broadcast_subscribers(where: { status: { _eq: "active" } }) {
         userId
         subscribedAt
         notificationsEnabled
@@ -356,10 +343,7 @@ export const CREATE_BROADCAST_LIST = gql`
 
 export const UPDATE_BROADCAST_LIST = gql`
   ${BROADCAST_LIST_FRAGMENT}
-  mutation UpdateBroadcastList(
-    $id: uuid!
-    $updates: nchat_broadcast_lists_set_input!
-  ) {
+  mutation UpdateBroadcastList($id: uuid!, $updates: nchat_broadcast_lists_set_input!) {
     update_nchat_broadcast_lists_by_pk(pk_columns: { id: $id }, _set: $updates) {
       ...BroadcastListFields
     }
@@ -391,10 +375,7 @@ export const ADD_SUBSCRIBERS = gql`
 export const REMOVE_SUBSCRIBER = gql`
   mutation RemoveSubscriber($broadcastListId: uuid!, $userId: uuid!) {
     update_nchat_broadcast_subscribers(
-      where: {
-        broadcast_list_id: { _eq: $broadcastListId }
-        user_id: { _eq: $userId }
-      }
+      where: { broadcast_list_id: { _eq: $broadcastListId }, user_id: { _eq: $userId } }
       _set: { status: "unsubscribed", unsubscribed_at: "now()" }
     ) {
       affected_rows
@@ -456,9 +437,7 @@ export const GET_USER_CHANNEL_PERMISSIONS = gql`
 
 export const CREATE_PERMISSION_OVERRIDE = gql`
   ${PERMISSION_OVERRIDE_FRAGMENT}
-  mutation CreatePermissionOverride(
-    $input: nchat_channel_permission_overrides_insert_input!
-  ) {
+  mutation CreatePermissionOverride($input: nchat_channel_permission_overrides_insert_input!) {
     insert_nchat_channel_permission_overrides_one(object: $input) {
       ...PermissionOverrideFields
     }
@@ -471,10 +450,7 @@ export const UPDATE_PERMISSION_OVERRIDE = gql`
     $id: uuid!
     $updates: nchat_channel_permission_overrides_set_input!
   ) {
-    update_nchat_channel_permission_overrides_by_pk(
-      pk_columns: { id: $id }
-      _set: $updates
-    ) {
+    update_nchat_channel_permission_overrides_by_pk(pk_columns: { id: $id }, _set: $updates) {
       ...PermissionOverrideFields
     }
   }
@@ -515,9 +491,7 @@ export const SUBSCRIBE_TO_CATEGORY_UPDATES = gql`
 
 export const SUBSCRIBE_TO_BROADCAST_DELIVERIES = gql`
   subscription SubscribeToBroadcastDeliveries($broadcastMessageId: uuid!) {
-    nchat_broadcast_deliveries(
-      where: { broadcast_message_id: { _eq: $broadcastMessageId } }
-    ) {
+    nchat_broadcast_deliveries(where: { broadcast_message_id: { _eq: $broadcastMessageId } }) {
       id
       userId
       status

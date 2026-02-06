@@ -52,10 +52,10 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
+          <div className="mb-4 flex justify-center">
             <Mail className="h-12 w-12 text-indigo-600" />
           </div>
           <CardTitle>Forgot Password</CardTitle>
@@ -73,10 +73,10 @@ export default function ForgotPasswordPage() {
               </Alert>
 
               <div className="space-y-3">
-                <p className="text-sm text-center text-muted-foreground">
+                <p className="text-center text-sm text-muted-foreground">
                   Check your email for a password reset link. It may take a few minutes to arrive.
                 </p>
-                <p className="text-xs text-center text-muted-foreground">
+                <p className="text-center text-xs text-muted-foreground">
                   Didn't receive an email? Check your spam folder or try again.
                 </p>
                 <Button onClick={() => router.push('/login')} variant="outline" className="w-full">

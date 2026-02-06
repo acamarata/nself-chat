@@ -199,7 +199,7 @@ export function DataDeletionRequest() {
         'Your deletion request has been submitted. Please check your email to verify your identity.'
       )
     } catch (error) {
-      logger.error('Failed to submit deletion request:',  error)
+      logger.error('Failed to submit deletion request:', error)
       alert('Failed to submit deletion request. Please try again.')
     } finally {
       setIsSubmitting(false)
@@ -337,9 +337,7 @@ export function DataDeletionRequest() {
                 >
                   <RadioGroupItem value={scope.scope} id={scope.scope} />
                   <div className="flex-1">
-                    <span className="cursor-pointer font-medium">
-                      {scope.label}
-                    </span>
+                    <span className="cursor-pointer font-medium">{scope.label}</span>
                     <p className="mt-0.5 text-sm text-muted-foreground">{scope.description}</p>
                     {scope.categories.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-1">

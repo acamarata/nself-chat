@@ -82,7 +82,7 @@ export async function encryptMessageForSending(
       senderDeviceId: result.deviceId,
     }
   } catch (error) {
-    logger.error('Message encryption error:',  error)
+    logger.error('Message encryption error:', error)
     // Fallback to unencrypted
     return {
       isEncrypted: false,
@@ -115,7 +115,7 @@ export async function decryptReceivedMessage(
       senderDeviceId
     )
   } catch (error) {
-    logger.error('Message decryption error:',  error)
+    logger.error('Message decryption error:', error)
     throw new Error('Failed to decrypt message')
   }
 }
@@ -181,7 +181,7 @@ export async function extractMessageContent(
       apolloClient
     )
   } catch (error) {
-    logger.error('Failed to extract message content:',  error)
+    logger.error('Failed to extract message content:', error)
     return '[Encrypted message - decryption failed]'
   }
 }
@@ -224,7 +224,7 @@ async function getDefaultDeviceId(
 
     return null
   } catch (error) {
-    logger.error('Error getting default device ID:',  error)
+    logger.error('Error getting default device ID:', error)
     return null
   }
 }
@@ -283,7 +283,7 @@ export async function encryptMessagesForGroup(
 
       results.set(userId, payload)
     } catch (error) {
-      logger.error(`Failed to encrypt for user ${userId}:`,  error)
+      logger.error(`Failed to encrypt for user ${userId}:`, error)
       // Store unencrypted fallback
       results.set(userId, {
         isEncrypted: false,
@@ -316,7 +316,7 @@ export async function decryptMessagesBatch(
       const content = await extractMessageContent(message, apolloClient)
       results.set(message.id, content)
     } catch (error) {
-      logger.error(`Failed to decrypt message ${message.id}:`,  error)
+      logger.error(`Failed to decrypt message ${message.id}:`, error)
       results.set(message.id, '[Decryption failed]')
     }
   }

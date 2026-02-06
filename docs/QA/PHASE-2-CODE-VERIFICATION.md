@@ -1,4 +1,5 @@
 # Phase 2: Deep Code Verification Report
+
 ## ɳChat v0.9.1 - Real Implementation vs. Stubs Analysis
 
 **Date**: February 5, 2026
@@ -12,6 +13,7 @@
 ### Critical Finding: **MIXED - Significant Real Implementation with Strategic Mocks**
 
 **Overall Assessment**:
+
 - **Real Implementation**: ~60-70% (Core WebRTC, E2EE algorithms, backend services)
 - **Partial/MVP**: ~20-25% (Payments, Media processing)
 - **Stub/Mock**: ~10-15% (Advanced features, integrations)
@@ -21,6 +23,7 @@
 ### Key Findings
 
 #### ✅ **REAL & Production-Ready**
+
 1. **WebRTC Infrastructure** - 10,147 LOC of actual RTCPeerConnection implementation
 2. **E2EE/Signal Protocol** - 5,022 LOC with complete Double Ratchet algorithm
 3. **Backend Plugin Services** - Real Express servers with PostgreSQL integration
@@ -29,11 +32,13 @@
 6. **API Routes** - Functional proxy architecture (21 routes)
 
 #### ⚠️ **PARTIAL - MVP Level**
+
 1. **Stripe Payments** - Mock client generating fake payment intents
 2. **Media Pipeline** - Real Sharp.js image processing, stubbed video transcoding
 3. **LiveKit Integration** - Real SDK wrapper, but untested (dependency issues)
 
 #### ❌ **STUB - Not Implemented**
+
 1. **Actual Stripe SDK Calls** - No real Stripe API integration
 2. **Signal Protocol Library** - Web Crypto fallback instead of @signalapp/libsignal-client
 3. **FFmpeg Video Processing** - Explicitly not implemented in MVP
@@ -47,6 +52,7 @@
 **Status**: ✅ **REAL - Production Ready**
 
 **Evidence**:
+
 - **17 files, 10,147 LOC** in `src/lib/webrtc/`
 - **Zero TODO/STUB markers** found
 - Real `RTCPeerConnection` API usage throughout
@@ -54,6 +60,7 @@
 **Key Files Verified**:
 
 #### `peer-connection.ts` (494 LOC)
+
 ```typescript
 // REAL IMPLEMENTATION VERIFIED
 export class PeerConnectionManager {
@@ -74,6 +81,7 @@ export class PeerConnectionManager {
 ```
 
 #### `livekit-client.ts` (400 LOC)
+
 ```typescript
 // REAL SDK INTEGRATION
 import { Room, RoomOptions, VideoPresets, Track, RoomEvent } from 'livekit-client'
@@ -88,11 +96,13 @@ export class LiveKitClient {
 ```
 
 **Test Results**:
+
 - 993 tests passed
 - 21 tests failed (due to mock issues, not implementation gaps)
 - Screen capture test has infinite loop bug (real code, broken test)
 
 **Dependencies Verified**:
+
 ```json
 "livekit-client": "^2.17.0"  // ✅ Installed
 "livekit-server-sdk": "^2.15.0"  // ✅ Installed
@@ -107,6 +117,7 @@ export class LiveKitClient {
 **Status**: ⚠️ **REAL Algorithm, Web Crypto Fallback**
 
 **Evidence**:
+
 - **9 files, 5,022 LOC** in `src/lib/encryption/`
 - **1 TODO marker** (minor implementation note)
 - Complete Double Ratchet implementation
@@ -114,6 +125,7 @@ export class LiveKitClient {
 **Key Files Verified**:
 
 #### `ratchet.ts` (602 LOC)
+
 ```typescript
 // COMPLETE DOUBLE RATCHET ALGORITHM
 export class DoubleRatchet {
@@ -125,7 +137,11 @@ export class DoubleRatchet {
     return { header, ciphertext, iv }
   }
 
-  async decrypt(header: MessageHeader, ciphertext: Uint8Array, iv: Uint8Array): Promise<DecryptedPayload> {
+  async decrypt(
+    header: MessageHeader,
+    ciphertext: Uint8Array,
+    iv: Uint8Array
+  ): Promise<DecryptedPayload> {
     // Real decryption with out-of-order message handling
     await this.skipMessageKeys(header.messageNumber)
     const plaintext = await aesDecrypt(messageKey, ciphertext, iv, ad)
@@ -135,30 +151,42 @@ export class DoubleRatchet {
 ```
 
 #### `crypto-primitives.ts` (excerpt)
+
 ```typescript
 // REAL WEB CRYPTO API USAGE
 export async function generateKeyPair(): Promise<KeyPair> {
-  const keyPair = await crypto.subtle.generateKey(
-    { name: 'ECDH', namedCurve: 'P-256' },
-    true,
-    ['deriveKey', 'deriveBits']
-  )
+  const keyPair = await crypto.subtle.generateKey({ name: 'ECDH', namedCurve: 'P-256' }, true, [
+    'deriveKey',
+    'deriveBits',
+  ])
   // Real key export logic...
 }
 
-export async function aesEncrypt(key: Uint8Array, plaintext: Uint8Array, ad?: Uint8Array): Promise<{ ciphertext: Uint8Array; iv: Uint8Array }> {
-  const cryptoKey = await crypto.subtle.importKey('raw', key, { name: 'AES-GCM' }, false, ['encrypt'])
-  const ciphertext = await crypto.subtle.encrypt({ name: 'AES-GCM', iv, additionalData: ad }, cryptoKey, plaintext)
+export async function aesEncrypt(
+  key: Uint8Array,
+  plaintext: Uint8Array,
+  ad?: Uint8Array
+): Promise<{ ciphertext: Uint8Array; iv: Uint8Array }> {
+  const cryptoKey = await crypto.subtle.importKey('raw', key, { name: 'AES-GCM' }, false, [
+    'encrypt',
+  ])
+  const ciphertext = await crypto.subtle.encrypt(
+    { name: 'AES-GCM', iv, additionalData: ad },
+    cryptoKey,
+    plaintext
+  )
   return { ciphertext: new Uint8Array(ciphertext), iv }
 }
 ```
 
 **Critical Note**:
+
 - **Claims**: Uses `@signalapp/libsignal-client` (package is installed)
 - **Reality**: Uses Web Crypto API with P-256 ECDH (not X25519)
 - **Impact**: Functionally equivalent, secure, but not official Signal implementation
 
 **Test Results**:
+
 - Device verification tests: ✅ PASS
 - Key manager tests: ✅ PASS
 - Message encryption tests: ✅ PASS
@@ -173,6 +201,7 @@ export async function aesEncrypt(key: Uint8Array, plaintext: Uint8Array, ad?: Ui
 **Status**: ❌ **MOCK - No Real Stripe API Calls**
 
 **Evidence**:
+
 - **4 files, 4,460 LOC** in `src/lib/payments/`
 - Stripe SDK installed but **never imported**
 - All payment operations return mocks
@@ -180,6 +209,7 @@ export async function aesEncrypt(key: Uint8Array, plaintext: Uint8Array, ad?: Ui
 **Key Evidence**:
 
 #### `stripe-client.ts` (1,357 LOC)
+
 ```typescript
 // MOCK IMPLEMENTATION CONFIRMED
 async createPaymentIntent(params: PaymentIntentParams): Promise<StripeClientResult<PaymentIntent>> {
@@ -208,12 +238,14 @@ async initialize(): Promise<boolean> {
 ```
 
 **No Stripe SDK Import Found**:
+
 ```bash
 $ grep -r "^import.*from.*stripe" src/lib/payments/*.ts
 # NO RESULTS
 ```
 
 **Other Stripe Files**:
+
 - `src/lib/stripe.ts` - ✅ Real server-side Stripe SDK import
 - `src/lib/billing/stripe-service.ts` - ✅ Real webhook handling
 - `src/app/api/billing/webhook/route.ts` - ✅ Real endpoint
@@ -227,6 +259,7 @@ $ grep -r "^import.*from.*stripe" src/lib/payments/*.ts
 **Status**: ✅ **REAL - Express Servers with PostgreSQL**
 
 **Evidence**:
+
 - 5 microservices deployed
 - Real Express.js servers with routes
 - PostgreSQL integration with actual queries
@@ -234,31 +267,34 @@ $ grep -r "^import.*from.*stripe" src/lib/payments/*.ts
 **Services Verified**:
 
 #### Analytics Service
+
 **Files**: 11 files across server, routes, services, tests
 **Server**: `src/server.ts` (35 LOC)
-```typescript
-import express from 'express';
-import cors from 'cors';
-import analyticsRoutes from './routes/analytics.routes';
 
-const app = express();
-app.use('/api/analytics', analyticsRoutes);
+```typescript
+import express from 'express'
+import cors from 'cors'
+import analyticsRoutes from './routes/analytics.routes'
+
+const app = express()
+app.use('/api/analytics', analyticsRoutes)
 
 app.listen(PORT, () => {
-  console.log(`Analytics service running on port ${PORT}`);
-});
+  console.log(`Analytics service running on port ${PORT}`)
+})
 ```
 
 **Service**: `src/services/analytics.service.ts` (190 LOC)
+
 ```typescript
 export class AnalyticsService {
-  private pool: Pool;
+  private pool: Pool
 
   constructor() {
     this.pool = new Pool({
       host: process.env.POSTGRES_HOST || 'localhost',
       // Real PostgreSQL connection
-    });
+    })
   }
 
   async getDashboardOverview(period: string = '30d'): Promise<MetricsOverview> {
@@ -267,32 +303,39 @@ export class AnalyticsService {
       SELECT COUNT(DISTINCT user_id) as count
       FROM nchat_messages
       WHERE created_at >= NOW() - INTERVAL '${days} days'
-    `;
+    `
 
     const [activeUsers, messages, channels] = await Promise.all([
-      this.pool.query(activeUsersQuery),  // Real database call
+      this.pool.query(activeUsersQuery), // Real database call
       this.pool.query(messagesQuery),
       this.pool.query(channelsQuery),
-    ]);
+    ])
 
     // Falls back to mock if DB unavailable
-    return { activeUsers, messages, channels };
+    return { activeUsers, messages, channels }
   }
 }
 ```
 
 #### Advanced Search Service
+
 **Service**: `search.service.ts` (257 LOC)
+
 ```typescript
 export class SearchService {
   async search(query: SearchQuery): Promise<SearchResponse> {
     // Real PostgreSQL full-text search
-    const sqlQuery = this.buildSearchQuery(searchTerm, filters, limit, offset);
-    const result = await this.pool.query(sqlQuery.text, sqlQuery.values);
-    return { results, facets, total, took };
+    const sqlQuery = this.buildSearchQuery(searchTerm, filters, limit, offset)
+    const result = await this.pool.query(sqlQuery.text, sqlQuery.values)
+    return { results, facets, total, took }
   }
 
-  private buildSearchQuery(searchTerm: string, filters: SearchFilters, limit: number, offset: number) {
+  private buildSearchQuery(
+    searchTerm: string,
+    filters: SearchFilters,
+    limit: number,
+    offset: number
+  ) {
     // Real SQL query building with ILIKE, parameterized queries
     const text = `
       SELECT m.id, m.content, u.display_name, c.name
@@ -301,43 +344,46 @@ export class SearchService {
       WHERE m.content ILIKE $1
       ORDER BY m.created_at DESC
       LIMIT $2 OFFSET $3
-    `;
-    return { text, values: [`%${searchTerm}%`, limit, offset] };
+    `
+    return { text, values: [`%${searchTerm}%`, limit, offset] }
   }
 }
 ```
 
 #### Media Pipeline Service
+
 **Service**: `media.service.ts` (147 LOC)
+
 ```typescript
 export class MediaService {
   async processImage(filePath: string, options: ProcessOptions): Promise<UploadResult> {
     // REAL Sharp.js image processing ✅
-    const image = sharp(filePath);
-    const metadata = await image.metadata();
+    const image = sharp(filePath)
+    const metadata = await image.metadata()
 
     await image
       .clone()
       .resize(200, 200, { fit: 'cover' })
       .webp({ quality: 80 })
-      .toFile(thumbnailPath);
+      .toFile(thumbnailPath)
 
-    return { id, url, variants, metadata };
+    return { id, url, variants, metadata }
   }
 
   async transcodeVideo(filePath: string): Promise<void> {
     // MVP: Not implemented ❌
-    throw new Error('Video transcoding not implemented in MVP (FFmpeg required)');
+    throw new Error('Video transcoding not implemented in MVP (FFmpeg required)')
   }
 }
 ```
 
 **Package Dependencies**:
+
 ```json
 {
-  "express": "^4.18.2",  // ✅ Real
-  "pg": "^8.11.3",       // ✅ Real
-  "sharp": "^0.33.0"     // ✅ Real (media)
+  "express": "^4.18.2", // ✅ Real
+  "pg": "^8.11.3", // ✅ Real
+  "sharp": "^0.33.0" // ✅ Real (media)
 }
 ```
 
@@ -350,6 +396,7 @@ export class MediaService {
 **Status**: ✅ **REAL - HTTP Proxy Architecture**
 
 **Evidence**:
+
 - **21 API routes** in `src/app/api/plugins/`
 - **6 service classes** (605 LOC) in `src/services/plugins/`
 - **6 UI components** (896 LOC) in `src/components/plugins/`
@@ -357,6 +404,7 @@ export class MediaService {
 **API Routes Verified**:
 
 #### `/api/plugins/analytics/dashboard/route.ts`
+
 ```typescript
 const ANALYTICS_SERVICE_URL = process.env.ANALYTICS_SERVICE_URL || 'http://localhost:3106'
 
@@ -371,7 +419,10 @@ export async function GET(request: NextRequest) {
   )
 
   if (!response.ok) {
-    return NextResponse.json({ error: 'Failed to fetch dashboard metrics' }, { status: response.status })
+    return NextResponse.json(
+      { error: 'Failed to fetch dashboard metrics' },
+      { status: response.status }
+    )
   }
 
   return NextResponse.json(await response.json())
@@ -381,6 +432,7 @@ export async function GET(request: NextRequest) {
 **Service Layer**:
 
 #### `src/services/plugins/analytics.service.ts` (142 LOC)
+
 ```typescript
 class AnalyticsService {
   private baseUrl = '/api/plugins/analytics'
@@ -397,6 +449,7 @@ export const analyticsService = new AnalyticsService()
 ```
 
 **Components**:
+
 - `analytics-dashboard.tsx` - Real React component with SWR data fetching
 - `user-analytics-table.tsx` - Real table with sorting/filtering
 - `advanced-search-bar.tsx` - Real autocomplete with debouncing
@@ -412,6 +465,7 @@ export const analyticsService = new AnalyticsService()
 **Status**: ✅ **REAL - 44 Migrations, 222 Tables**
 
 **Evidence**:
+
 ```bash
 $ find .backend/migrations -name "*.sql" | wc -l
 44
@@ -421,6 +475,7 @@ $ grep "CREATE TABLE" .backend/migrations/*.sql | wc -l
 ```
 
 **Sample Migrations**:
+
 - `001_nchat_schema.sql` - Core chat tables
 - `004_normalized_rbac_system.sql` - Permissions
 - `0005_analytics_system.sql` - Analytics tables
@@ -434,6 +489,7 @@ $ grep "CREATE TABLE" .backend/migrations/*.sql | wc -l
 ## Test Results
 
 ### Overall Statistics
+
 ```
 Test Suites: 7 failed, 8 passed, 15 total
 Tests: 21 failed, 993 passed, 1014 total
@@ -443,32 +499,42 @@ Coverage: Not measured (--coverage not run)
 ### Critical Test Failures
 
 #### 1. Screen Capture Tests
+
 **Status**: Code is REAL, test has infinite loop bug
+
 ```
 RangeError: Maximum call stack size exceeded
 at ScreenCaptureManager.handleTrackEnded
 ```
+
 **Cause**: Mock track.stop() triggers endless recursion
 **Impact**: Code is production-ready, test needs fixing
 
 #### 2. Plugin Integration Tests
+
 **Status**: Tests timeout waiting for services
+
 ```
 thrown: "Exceeded timeout of 10000 ms for a hook"
 ```
+
 **Cause**: Backend services not running during test
 **Impact**: Integration works when services are up
 
 #### 3. LiveKit Service Tests
+
 **Status**: Jest configuration issue
+
 ```
 SyntaxError: Unexpected token 'export'
 at jose@5.10.0/dist/browser/index.js
 ```
+
 **Cause**: ESM module not configured for Jest
 **Impact**: Code is real, test config needs fixing
 
 ### Passing Test Categories
+
 ✅ Payments: Subscription manager, Stripe client (mocks work correctly)
 ✅ Crypto: Device verification, key manager, secure storage, message encryption
 ✅ WebRTC: Media manager, signaling, peer connection (most tests)
@@ -489,6 +555,7 @@ Module not found: Can't resolve 'next-auth'
 ```
 
 **Root Cause**: Missing dependency
+
 - Code imports `next-auth` but it's not in package.json
 - File: `src/app/api/channels/categories/route.ts`
 
@@ -509,16 +576,16 @@ src/lib/security/secret-scanner.ts(77,57): error TS1005: ',' expected.
 
 ### Claimed vs. Actually Used
 
-| Dependency | Installed | Imported | Used |
-|------------|-----------|----------|------|
-| `livekit-client` | ✅ | ✅ | ✅ REAL |
-| `livekit-server-sdk` | ✅ | ✅ | ⚠️ UNTESTED |
-| `@signalapp/libsignal-client` | ✅ | ❌ | ❌ CLAIMED |
-| `stripe` | ✅ | ✅ (server) | ⚠️ PARTIAL |
-| `sharp` | ✅ | ✅ | ✅ REAL |
-| `pg` (PostgreSQL) | ✅ | ✅ | ✅ REAL |
-| `express` | ✅ | ✅ | ✅ REAL |
-| `next-auth` | ❌ | ✅ | 🔥 MISSING |
+| Dependency                    | Installed | Imported    | Used        |
+| ----------------------------- | --------- | ----------- | ----------- |
+| `livekit-client`              | ✅        | ✅          | ✅ REAL     |
+| `livekit-server-sdk`          | ✅        | ✅          | ⚠️ UNTESTED |
+| `@signalapp/libsignal-client` | ✅        | ❌          | ❌ CLAIMED  |
+| `stripe`                      | ✅        | ✅ (server) | ⚠️ PARTIAL  |
+| `sharp`                       | ✅        | ✅          | ✅ REAL     |
+| `pg` (PostgreSQL)             | ✅        | ✅          | ✅ REAL     |
+| `express`                     | ✅        | ✅          | ✅ REAL     |
+| `next-auth`                   | ❌        | ✅          | 🔥 MISSING  |
 
 **Critical Finding**: Signal Protocol library is installed but unused. Implementation uses Web Crypto API instead.
 
@@ -528,19 +595,20 @@ src/lib/security/secret-scanner.ts(77,57): error TS1005: ',' expected.
 
 ### Total Implementation LOC by Category
 
-| Category | Files | LOC | Status |
-|----------|-------|-----|--------|
-| **WebRTC** | 17 | 10,147 | ✅ Real |
-| **Encryption** | 9 | 5,022 | ✅ Real |
-| **Payments** | 4 | 4,460 | ❌ Mock |
-| **Crypto Utils** | 10 | 8,525 | ✅ Real |
-| **Backend Plugins** | ~35 | ~2,500 | ✅ Real |
-| **Frontend Services** | 6 | 605 | ✅ Real |
-| **Frontend Components** | 7 | 896 | ✅ Real |
-| **API Routes** | 21 | ~1,000 | ✅ Real |
-| **TOTAL** | **109** | **~33,155** | **Mixed** |
+| Category                | Files   | LOC         | Status    |
+| ----------------------- | ------- | ----------- | --------- |
+| **WebRTC**              | 17      | 10,147      | ✅ Real   |
+| **Encryption**          | 9       | 5,022       | ✅ Real   |
+| **Payments**            | 4       | 4,460       | ❌ Mock   |
+| **Crypto Utils**        | 10      | 8,525       | ✅ Real   |
+| **Backend Plugins**     | ~35     | ~2,500      | ✅ Real   |
+| **Frontend Services**   | 6       | 605         | ✅ Real   |
+| **Frontend Components** | 7       | 896         | ✅ Real   |
+| **API Routes**          | 21      | ~1,000      | ✅ Real   |
+| **TOTAL**               | **109** | **~33,155** | **Mixed** |
 
 **Breakdown**:
+
 - **Real/Production**: ~23,000 LOC (70%)
 - **MVP/Partial**: ~7,000 LOC (21%)
 - **Mock/Stub**: ~3,000 LOC (9%)
@@ -659,9 +727,11 @@ Despite mocks, this is **NOT** vaporware. Evidence of quality:
 ### Immediate Actions
 
 1. **Fix Build Issues** 🔥
+
    ```bash
    npm install next-auth@latest
    ```
+
    Fix TypeScript errors in `secret-scanner.ts`
 
 2. **Document Mock Status** 📝
@@ -720,6 +790,7 @@ Despite mocks, this is **NOT** vaporware. Evidence of quality:
 **Real vs. Stub Ratio**: **~70% Real, ~20% Partial, ~10% Stub**
 
 **Production Readiness**:
+
 - ✅ Core Chat: Ready
 - ✅ WebRTC: Ready
 - ✅ E2EE: Ready (with caveat on Signal library)
@@ -730,6 +801,7 @@ Despite mocks, this is **NOT** vaporware. Evidence of quality:
 **Overall Assessment**: This is **NOT vaporware**. The core platform is genuinely implemented with significant engineering effort (33,000+ LOC). However, some claimed features (especially Stripe payments) are high-quality mocks rather than production integrations. The WebRTC and encryption implementations are particularly impressive and production-grade.
 
 **Recommendation**: Update documentation to clearly distinguish between:
+
 1. Production-ready features (WebRTC, E2EE, Chat)
 2. MVP implementations (Stripe client, Media pipeline)
 3. Planned features (Video transcoding)

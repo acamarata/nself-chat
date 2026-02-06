@@ -55,30 +55,35 @@ src/
 ### Available Templates
 
 #### 1. Default (nself)
+
 - **Description**: Modern, professional design combining best of Slack, Discord, and Telegram
 - **Colors**: nself cyan (#00D4FF), Protocol zinc
 - **Best For**: Teams wanting modern communication platform
 - **Features**: Full feature set, flexible layouts
 
 #### 2. Slack
+
 - **Description**: Classic Slack-style interface with aubergine accents
 - **Colors**: Aubergine (#4A154B), Green (#007A5A)
 - **Best For**: Professional teams and enterprises
 - **Features**: Channel-based, threads, integrations
 
 #### 3. Discord
+
 - **Description**: Discord-style dark theme with blurple accents
 - **Colors**: Blurple (#5865F2), Dark gray (#202225)
 - **Best For**: Gaming communities and social groups
 - **Features**: Server hierarchy, voice channels, rich embeds
 
 #### 4. Telegram
+
 - **Description**: Clean, fast Telegram-style interface
 - **Colors**: Blue (#34B7F1), White
 - **Best For**: Privacy-focused teams
 - **Features**: Secret chats, channels, bots
 
 #### 5. WhatsApp
+
 - **Description**: WhatsApp-style chat bubbles with green theme
 - **Colors**: Green (#25D366), Teal (#128C7E)
 - **Best For**: Personal and small team communication
@@ -142,26 +147,31 @@ const envTemplate = await loadEnvTemplate()
 Each template includes 24+ color properties for both light and dark modes:
 
 **Primary Colors**:
+
 - `primaryColor`
 - `secondaryColor`
 - `accentColor`
 
 **Background Colors**:
+
 - `backgroundColor`
 - `surfaceColor`
 - `cardColor`
 - `popoverColor`
 
 **Text Colors**:
+
 - `textColor`
 - `textMutedColor`
 - `textInverseColor`
 
 **Border Colors**:
+
 - `borderColor`
 - `borderMutedColor`
 
 **Button Colors**:
+
 - `buttonPrimaryBg`
 - `buttonPrimaryText`
 - `buttonSecondaryBg`
@@ -169,12 +179,14 @@ Each template includes 24+ color properties for both light and dark modes:
 - `buttonGhostHover`
 
 **Status Colors**:
+
 - `successColor`
 - `warningColor`
 - `errorColor`
 - `infoColor`
 
 **Special Colors**:
+
 - `linkColor`
 - `focusRingColor`
 - `selectionBg`
@@ -186,12 +198,11 @@ The theme editor provides real-time preview:
 
 ```tsx
 import { ThemeEditor } from '@/components/white-label/theme-editor'
-
-<ThemeEditor
+;<ThemeEditor
   tenantId="your-tenant-id"
   initialColors={{
     light: { primaryColor: '#3B82F6' },
-    dark: { primaryColor: '#60A5FA' }
+    dark: { primaryColor: '#60A5FA' },
   }}
   onSave={(theme) => {
     // Save theme
@@ -200,6 +211,7 @@ import { ThemeEditor } from '@/components/white-label/theme-editor'
 ```
 
 **Features**:
+
 - Color picker for each property
 - Live preview with sample UI
 - Light/dark mode toggle
@@ -223,17 +235,13 @@ await tenantBrandingService.updateTenantBranding(
   'tenant-id',
   {
     appInfo: { appName: 'My App' },
-    colors: { primary: '#3B82F6' }
+    colors: { primary: '#3B82F6' },
   },
   'user-id'
 )
 
 // Upload logo
-const { url, storageKey } = await tenantBrandingService.uploadLogo(
-  'tenant-id',
-  file,
-  'primary'
-)
+const { url, storageKey } = await tenantBrandingService.uploadLogo('tenant-id', file, 'primary')
 
 // Switch template
 await tenantBrandingService.switchTemplate(
@@ -265,7 +273,7 @@ formData.append('tenantId', 'tenant-id')
 
 const response = await fetch('/api/tenants/tenant-id/branding/upload', {
   method: 'POST',
-  body: formData
+  body: formData,
 })
 
 const { url, storageKey } = await response.json()
@@ -293,6 +301,7 @@ await tenantBrandingService.applyCustomCSS(
 ```
 
 **Security Notes**:
+
 - CSS is sanitized on the server
 - No `<script>` tags allowed
 - Limited to CSS properties only
@@ -304,16 +313,17 @@ await tenantBrandingService.applyCustomCSS(
 ### Custom Domain Setup
 
 1. **Configure Domain**:
+
 ```typescript
-const { dnsRecords, verificationToken } =
-  await tenantBrandingService.configureDomain(
-    'tenant-id',
-    'chat.yourdomain.com',
-    'user-id'
-  )
+const { dnsRecords, verificationToken } = await tenantBrandingService.configureDomain(
+  'tenant-id',
+  'chat.yourdomain.com',
+  'user-id'
+)
 ```
 
 2. **Add DNS Records**:
+
 ```
 Type: CNAME
 Name: chat.yourdomain.com
@@ -325,17 +335,18 @@ Value: [verification-token]
 ```
 
 3. **Verify Domain**:
+
 ```typescript
-const { verified, errors } =
-  await tenantBrandingService.verifyDomain(
-    'tenant-id',
-    'chat.yourdomain.com'
-  )
+const { verified, errors } = await tenantBrandingService.verifyDomain(
+  'tenant-id',
+  'chat.yourdomain.com'
+)
 ```
 
 ### Subdomain Configuration
 
 Each tenant automatically gets a subdomain:
+
 - Format: `{tenantId}.nself.app`
 - SSL: Automatic via Let's Encrypt
 - No configuration required
@@ -349,6 +360,7 @@ Each tenant automatically gets a subdomain:
 Fetch tenant branding configuration.
 
 **Response**:
+
 ```json
 {
   "tenantId": "string",
@@ -377,6 +389,7 @@ Fetch tenant branding configuration.
 Update tenant branding configuration.
 
 **Request**:
+
 ```json
 {
   "updates": {
@@ -394,6 +407,7 @@ Upload logo file.
 **Request**: FormData with `file`, `type`, `tenantId`
 
 **Response**:
+
 ```json
 {
   "url": "string",
@@ -406,6 +420,7 @@ Upload logo file.
 Switch template.
 
 **Request**:
+
 ```json
 {
   "templateId": "slack",
@@ -419,6 +434,7 @@ Switch template.
 Apply custom CSS.
 
 **Request**:
+
 ```json
 {
   "css": "string",
@@ -431,6 +447,7 @@ Apply custom CSS.
 Configure custom domain.
 
 **Request**:
+
 ```json
 {
   "domain": "chat.yourdomain.com",
@@ -439,6 +456,7 @@ Configure custom domain.
 ```
 
 **Response**:
+
 ```json
 {
   "dnsRecords": [
@@ -529,12 +547,12 @@ const baseTemplate = await loadTemplate('slack')
 const customTemplate = customizeTemplate(baseTemplate, {
   theme: {
     light: {
-      primaryColor: '#FF0000'
-    }
+      primaryColor: '#FF0000',
+    },
   },
   layout: {
-    sidebarWidth: 280
-  }
+    sidebarWidth: 280,
+  },
 })
 ```
 
@@ -544,12 +562,10 @@ const customTemplate = customizeTemplate(baseTemplate, {
 import { tenantBrandingService } from '@/lib/white-label/tenant-branding'
 
 // Listen for changes
-const unsubscribe = tenantBrandingService.onBrandingChange(
-  (tenantId, branding) => {
-    console.log('Branding updated:', tenantId, branding)
-    // Update UI
-  }
-)
+const unsubscribe = tenantBrandingService.onBrandingChange((tenantId, branding) => {
+  console.log('Branding updated:', tenantId, branding)
+  // Update UI
+})
 
 // Cleanup
 unsubscribe()
@@ -573,18 +589,18 @@ const css = generateTemplateCSS(template)
 
 ## Template Feature Comparison
 
-| Feature | Default | Slack | Discord | Telegram | WhatsApp |
-|---------|---------|-------|---------|----------|----------|
-| Threads | ✅ | ✅ | ✅ | ❌ | ❌ |
-| Reactions | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Voice Messages | ✅ | ❌ | ✅ | ✅ | ✅ |
-| Code Blocks | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Link Previews | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Read Receipts | ✅ | ✅ | ❌ | ✅ | ✅ |
-| Typing Indicators | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Channel Categories | ✅ | ✅ | ✅ | ❌ | ❌ |
-| Message Bubbles | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Server Hierarchy | ❌ | ❌ | ✅ | ❌ | ❌ |
+| Feature            | Default | Slack | Discord | Telegram | WhatsApp |
+| ------------------ | ------- | ----- | ------- | -------- | -------- |
+| Threads            | ✅      | ✅    | ✅      | ❌       | ❌       |
+| Reactions          | ✅      | ✅    | ✅      | ✅       | ✅       |
+| Voice Messages     | ✅      | ❌    | ✅      | ✅       | ✅       |
+| Code Blocks        | ✅      | ✅    | ✅      | ✅       | ❌       |
+| Link Previews      | ✅      | ✅    | ✅      | ✅       | ✅       |
+| Read Receipts      | ✅      | ✅    | ❌      | ✅       | ✅       |
+| Typing Indicators  | ✅      | ✅    | ✅      | ✅       | ✅       |
+| Channel Categories | ✅      | ✅    | ✅      | ❌       | ❌       |
+| Message Bubbles    | ❌      | ❌    | ❌      | ✅       | ✅       |
+| Server Hierarchy   | ❌      | ❌    | ✅      | ❌       | ❌       |
 
 ---
 
@@ -629,6 +645,7 @@ const css = generateTemplateCSS(template)
 **Problem**: Template changes don't appear
 
 **Solutions**:
+
 - Clear browser cache
 - Check localStorage: `localStorage.removeItem('template-cache')`
 - Verify API response: Check Network tab
@@ -639,6 +656,7 @@ const css = generateTemplateCSS(template)
 **Problem**: Logo upload fails
 
 **Solutions**:
+
 - Check file size (must be < 5MB)
 - Check file format (PNG, JPG, SVG, WebP only)
 - Verify storage permissions
@@ -649,6 +667,7 @@ const css = generateTemplateCSS(template)
 **Problem**: Custom domain won't verify
 
 **Solutions**:
+
 - Wait for DNS propagation (up to 48 hours)
 - Verify DNS records with `dig` or `nslookup`
 - Check for typos in DNS records
@@ -659,6 +678,7 @@ const css = generateTemplateCSS(template)
 **Problem**: Custom CSS doesn't take effect
 
 **Solutions**:
+
 - Check for CSS syntax errors
 - Ensure selectors are specific enough
 - Clear browser cache
@@ -674,6 +694,7 @@ const css = generateTemplateCSS(template)
 The white-label system is new in v0.9.0. To migrate:
 
 1. **Backup Current Configuration**:
+
    ```bash
    curl https://your-instance.com/api/config > config-backup.json
    ```
@@ -684,6 +705,7 @@ The white-label system is new in v0.9.0. To migrate:
    - Default template is closest to v0.8.0
 
 3. **Import Configuration**:
+
    ```bash
    # Via API
    curl -X POST \

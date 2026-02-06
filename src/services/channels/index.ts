@@ -38,7 +38,4 @@ export {
 } from './permissions.service'
 
 // Category Service
-export {
-  CategoryService,
-  categoryService,
-} from './category.service'
+export { CategoryService, categoryService } from './category.service'

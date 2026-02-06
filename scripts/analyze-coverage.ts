@@ -65,9 +65,7 @@ function calculatePriority(filePath: string, coverage: FileCoverage): Prioritize
 
   // High priority: Core features with low coverage
   if (
-    (filePath.includes('/api/') ||
-      filePath.includes('/services/') ||
-      filePath.includes('/lib/')) &&
+    (filePath.includes('/api/') || filePath.includes('/services/') || filePath.includes('/lib/')) &&
     avgCoverage < 70
   ) {
     priority = 'high'
@@ -161,10 +159,18 @@ function formatReport(summary: CoverageSummary, prioritized: PrioritizedFile[]):
     (total.statements.pct + total.branches.pct + total.functions.pct + total.lines.pct) / 4
 
   lines.push('Overall Coverage:')
-  lines.push(`  Statements: ${total.statements.pct.toFixed(2)}% (${total.statements.covered}/${total.statements.total})`)
-  lines.push(`  Branches:   ${total.branches.pct.toFixed(2)}% (${total.branches.covered}/${total.branches.total})`)
-  lines.push(`  Functions:  ${total.functions.pct.toFixed(2)}% (${total.functions.covered}/${total.functions.total})`)
-  lines.push(`  Lines:      ${total.lines.pct.toFixed(2)}% (${total.lines.covered}/${total.lines.total})`)
+  lines.push(
+    `  Statements: ${total.statements.pct.toFixed(2)}% (${total.statements.covered}/${total.statements.total})`
+  )
+  lines.push(
+    `  Branches:   ${total.branches.pct.toFixed(2)}% (${total.branches.covered}/${total.branches.total})`
+  )
+  lines.push(
+    `  Functions:  ${total.functions.pct.toFixed(2)}% (${total.functions.covered}/${total.functions.total})`
+  )
+  lines.push(
+    `  Lines:      ${total.lines.pct.toFixed(2)}% (${total.lines.covered}/${total.lines.total})`
+  )
   lines.push(`  Average:    ${avgCoverage.toFixed(2)}%`)
   lines.push('')
 

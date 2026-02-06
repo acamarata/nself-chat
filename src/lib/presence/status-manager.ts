@@ -383,7 +383,7 @@ export class StatusManager {
         this.customStatus = null
       }
     } catch (error) {
-      logger.error('Failed to load persisted status:',  error)
+      logger.error('Failed to load persisted status:', error)
     }
   }
 

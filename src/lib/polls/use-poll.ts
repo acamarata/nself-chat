@@ -236,7 +236,7 @@ export function usePoll(pollId: string | undefined): UsePollResult {
             variables: { pollId, userId: user.id },
           })
         } catch (err) {
-          logger.error('Failed to remove previous votes:',  err)
+          logger.error('Failed to remove previous votes:', err)
         }
       }
 
@@ -445,7 +445,7 @@ export function useCreatePoll(): UseCreatePollResult {
         }
         return null
       } catch (err) {
-        logger.error('Failed to create poll:',  err)
+        logger.error('Failed to create poll:', err)
         throw err
       }
     },
@@ -497,7 +497,7 @@ export function usePollCreator(): UsePollCreatorResult {
 
       return poll
     } catch (err) {
-      logger.error('Failed to submit poll:',  err)
+      logger.error('Failed to submit poll:', err)
       return null
     }
   }, [channelId, validation.valid, question, options, settings, endsAt, createPoll])
@@ -548,7 +548,7 @@ export function usePollActions(pollId: string | undefined) {
       await closeMutation({ variables: { pollId } })
       store.updatePollStatus(pollId, 'closed')
     } catch (err) {
-      logger.error('Failed to close poll:',  err)
+      logger.error('Failed to close poll:', err)
       throw err
     }
   }, [pollId, closeMutation])
@@ -563,7 +563,7 @@ export function usePollActions(pollId: string | undefined) {
         })
         store.updatePollStatus(pollId, 'active')
       } catch (err) {
-        logger.error('Failed to reopen poll:',  err)
+        logger.error('Failed to reopen poll:', err)
         throw err
       }
     },
@@ -582,7 +582,7 @@ export function usePollActions(pollId: string | undefined) {
           variables: { pollId, text, position },
         })
       } catch (err) {
-        logger.error('Failed to add option:',  err)
+        logger.error('Failed to add option:', err)
         throw err
       }
     },

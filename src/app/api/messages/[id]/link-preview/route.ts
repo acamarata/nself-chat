@@ -38,10 +38,7 @@ const GenerateLinkPreviewSchema = z.object({
 
 const GET_MESSAGE_LINK_PREVIEWS = gql`
   query GetMessageLinkPreviews($messageId: uuid!) {
-    nchat_link_previews(
-      where: { message_id: { _eq: $messageId } }
-      order_by: { created_at: asc }
-    ) {
+    nchat_link_previews(where: { message_id: { _eq: $messageId } }, order_by: { created_at: asc }) {
       id
       url
       title
@@ -144,10 +141,7 @@ function hashUrl(url: string): string {
 // GET - Retrieve existing link previews
 // ============================================================================
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params
   const messageId = resolvedParams.id
 
@@ -190,10 +184,7 @@ export async function GET(
 // POST - Generate link previews
 // ============================================================================
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params
   const messageId = resolvedParams.id
 
@@ -305,11 +296,20 @@ export async function POST(
               publishedAt: null,
               metadata: {},
               fetchStatus: 'failed',
-              fetchError: typeof result.error === 'string' ? result.error : (result.error as any)?.message || 'Unknown error',
+              fetchError:
+                typeof result.error === 'string'
+                  ? result.error
+                  : (result.error as any)?.message || 'Unknown error',
             },
           })
 
-          errors.push({ url, error: typeof result.error === 'string' ? result.error : (result.error as any)?.message || 'Unknown error' })
+          errors.push({
+            url,
+            error:
+              typeof result.error === 'string'
+                ? result.error
+                : (result.error as any)?.message || 'Unknown error',
+          })
           continue
         }
 

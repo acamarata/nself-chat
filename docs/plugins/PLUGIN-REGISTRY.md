@@ -27,6 +27,7 @@
 **Port**: 3101
 
 **Features**:
+
 - WebSocket server for instant messaging
 - Presence tracking (online/away/dnd/offline)
 - Typing indicators
@@ -47,6 +48,7 @@
 **Port**: 3102
 
 **Features**:
+
 - Push notifications (FCM, APNS)
 - Email notifications (SMTP, SendGrid)
 - SMS notifications (Twilio)
@@ -67,6 +69,7 @@
 **Port**: 3105
 
 **Features**:
+
 - BullMQ job queue
 - Scheduled tasks (cron)
 - Background processing
@@ -87,6 +90,7 @@
 **Port**: 3104
 
 **Features**:
+
 - Image resizing and optimization
 - Video thumbnail generation
 - Document preview
@@ -110,6 +114,7 @@
 **Priority**: P0 - Critical
 
 **Features**:
+
 - Real-time metrics (active users, messages, channels)
 - User analytics (retention, engagement, lifecycle)
 - Channel analytics (growth, activity, trends)
@@ -122,6 +127,7 @@
 **Documentation**: `/docs/plugins/ANALYTICS-PLUGIN.md`
 
 **Use Cases**:
+
 - Admin dashboard metrics
 - Business intelligence reports
 - User engagement tracking
@@ -138,6 +144,7 @@
 **Priority**: P0 - Critical
 
 **Features**:
+
 - Semantic search with AI
 - Vector similarity search
 - Full-text search with fuzzy matching
@@ -150,6 +157,7 @@
 **Documentation**: `/docs/plugins/ADVANCED-SEARCH-PLUGIN.md`
 
 **Use Cases**:
+
 - Natural language search
 - Find similar messages
 - Filter by user/channel/date
@@ -166,6 +174,7 @@
 **Priority**: P0 - Critical
 
 **Features**:
+
 - Image processing (resize, optimize, convert)
 - Video transcoding (H.264, H.265, VP9)
 - HLS/DASH adaptive streaming
@@ -178,6 +187,7 @@
 **Documentation**: `/docs/plugins/MEDIA-PIPELINE-PLUGIN.md`
 
 **Use Cases**:
+
 - Professional media management
 - Video streaming
 - Automatic image optimization
@@ -194,6 +204,7 @@
 **Priority**: P1 - High
 
 **Features**:
+
 - Multi-provider support (OpenAI, Anthropic, Google, Ollama)
 - Cost management and tracking
 - Rate limiting (per-user, per-org)
@@ -205,6 +216,7 @@
 **Documentation**: `/docs/plugins/AI-ORCHESTRATION-PLUGIN.md`
 
 **Use Cases**:
+
 - Unified AI API
 - Cost control and budgeting
 - Content moderation
@@ -221,6 +233,7 @@
 **Priority**: P1 - High
 
 **Features**:
+
 - Visual workflow builder
 - Event triggers (messages, channels, users, webhooks)
 - Actions (send message, HTTP request, database query)
@@ -233,6 +246,7 @@
 **Documentation**: `/docs/plugins/WORKFLOWS-PLUGIN.md`
 
 **Use Cases**:
+
 - Automated welcome messages
 - Scheduled reminders
 - Cross-channel posting
@@ -250,6 +264,7 @@
 **Priority**: P2 - Medium
 
 **Features**:
+
 - Identity verification
 - Specialized login (military, first responders, students, teachers)
 - OAuth 2.0 integration
@@ -260,6 +275,7 @@
 **Documentation**: `/docs/plugins/IDME-PLUGIN.md`
 
 **Setup Required**:
+
 - ID.me developer account
 - OAuth application credentials
 
@@ -273,6 +289,7 @@
 **Priority**: P2 - Low
 
 **Features**:
+
 - Payment processing
 - Subscription management
 - Invoice generation
@@ -284,6 +301,7 @@
 **Documentation**: `/docs/plugins/STRIPE-PLUGIN.md`
 
 **Setup Required**:
+
 - Stripe account
 - API keys
 - Webhook configuration
@@ -298,6 +316,7 @@
 **Priority**: P2 - Low
 
 **Features**:
+
 - Repository integration
 - Issue/PR notifications
 - Commit notifications
@@ -309,6 +328,7 @@
 **Documentation**: `/docs/plugins/GITHUB-PLUGIN.md`
 
 **Setup Required**:
+
 - GitHub OAuth App
 - GitHub App (for webhooks)
 
@@ -322,6 +342,7 @@
 **Priority**: P2 - Low
 
 **Features**:
+
 - E-commerce store sync
 - Order notifications
 - Product embeds
@@ -332,6 +353,7 @@
 **Documentation**: `/docs/plugins/SHOPIFY-PLUGIN.md`
 
 **Setup Required**:
+
 - Shopify Partner account
 - App credentials
 
@@ -340,12 +362,14 @@
 ## Installation Priority
 
 ### Phase 1: Core Communication (MUST HAVE)
+
 1. ✅ Realtime
 2. ✅ Notifications
 3. ✅ Jobs
 4. ✅ File Processing
 
 ### Phase 2: Enhanced Capabilities (SHOULD HAVE)
+
 5. ✅ Analytics
 6. ✅ Advanced Search
 7. ✅ Media Pipeline
@@ -353,6 +377,7 @@
 9. ✅ Workflows
 
 ### Phase 3: Authentication & Integrations (NICE TO HAVE)
+
 10. ⏳ ID.me
 11. ⏳ Stripe
 12. ⏳ GitHub
@@ -362,17 +387,17 @@
 
 ## Port Allocation
 
-| Plugin | Port | Domain |
-|--------|------|--------|
-| Realtime | 3101 | realtime.localhost |
-| Notifications | 3102 | notifications.localhost |
-| File Processing | 3104 | files.localhost |
-| Jobs | 3105 | jobs.localhost |
-| Analytics | 3106 | analytics.localhost |
-| Advanced Search | 3107 | search.localhost |
-| Media Pipeline | 3108 | media.localhost |
-| AI Orchestration | 3109 | ai.localhost |
-| Workflows | 3110 | workflows.localhost |
+| Plugin           | Port | Domain                  |
+| ---------------- | ---- | ----------------------- |
+| Realtime         | 3101 | realtime.localhost      |
+| Notifications    | 3102 | notifications.localhost |
+| File Processing  | 3104 | files.localhost         |
+| Jobs             | 3105 | jobs.localhost          |
+| Analytics        | 3106 | analytics.localhost     |
+| Advanced Search  | 3107 | search.localhost        |
+| Media Pipeline   | 3108 | media.localhost         |
+| AI Orchestration | 3109 | ai.localhost            |
+| Workflows        | 3110 | workflows.localhost     |
 
 **Reserved**: 3103 (future use)
 
@@ -493,6 +518,7 @@ nself logs <plugin-name> --follow
 ## Version History
 
 ### v0.9.1 (2026-02-03)
+
 - Added Analytics & Insights plugin
 - Added Advanced Search plugin
 - Added Media Processing Pipeline plugin
@@ -500,6 +526,7 @@ nself logs <plugin-name> --follow
 - Added Workflow Automation plugin
 
 ### v0.9.0 (2026-02-01)
+
 - Initial plugin system release
 - Added Realtime plugin
 - Added Notifications plugin

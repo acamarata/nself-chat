@@ -23,10 +23,7 @@ const removeParticipantSchema = z.object({
  * GET /api/calls/[id]/participants
  * List all participants in a call
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     const callId = id
@@ -96,10 +93,7 @@ export async function GET(
     })
   } catch (error) {
     console.error('Error fetching call participants:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
@@ -107,10 +101,7 @@ export async function GET(
  * POST /api/calls/[id]/participants
  * Add participant(s) to a call
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     const callId = id
@@ -190,10 +181,7 @@ export async function POST(
     )
   } catch (error) {
     console.error('Error adding call participants:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
@@ -283,9 +271,6 @@ export async function DELETE(
     })
   } catch (error) {
     console.error('Error removing call participant:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

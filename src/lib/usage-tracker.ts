@@ -58,10 +58,7 @@ export class UsageTracker {
   /**
    * Calculate usage warnings
    */
-  static calculateWarnings(
-    planTier: PlanTier,
-    usage: UsageMetrics
-  ): UsageWarning[] {
+  static calculateWarnings(planTier: PlanTier, usage: UsageMetrics): UsageWarning[] {
     const warnings: UsageWarning[] = []
     const plan = PLANS[planTier]
 
@@ -146,18 +143,13 @@ export class UsageTracker {
       { current: usage.bots, limit: plan.features.maxBots },
     ]
 
-    return checks.some(
-      (check) => check.limit !== null && check.current >= check.limit
-    )
+    return checks.some((check) => check.limit !== null && check.current >= check.limit)
   }
 
   /**
    * Get usage limits with warnings
    */
-  static getUsageLimits(
-    planTier: PlanTier,
-    usage: UsageMetrics
-  ): UsageLimits {
+  static getUsageLimits(planTier: PlanTier, usage: UsageMetrics): UsageLimits {
     const plan = PLANS[planTier]
     const warnings = this.calculateWarnings(planTier, usage)
     const exceeded = this.hasExceededLimits(planTier, usage)
@@ -174,11 +166,7 @@ export class UsageTracker {
   /**
    * Format usage for display
    */
-  static formatUsage(
-    current: number,
-    limit: number | null,
-    unit: string = ''
-  ): string {
+  static formatUsage(current: number, limit: number | null, unit: string = ''): string {
     if (limit === null) {
       return `${current.toLocaleString()}${unit} / Unlimited`
     }
@@ -196,10 +184,7 @@ export class UsageTracker {
   /**
    * Suggest upgrade if needed
    */
-  static suggestUpgrade(
-    currentTier: PlanTier,
-    usage: UsageMetrics
-  ): PlanTier | null {
+  static suggestUpgrade(currentTier: PlanTier, usage: UsageMetrics): PlanTier | null {
     const tiers: PlanTier[] = ['free', 'starter', 'pro', 'business', 'enterprise']
     const currentIndex = tiers.indexOf(currentTier)
 

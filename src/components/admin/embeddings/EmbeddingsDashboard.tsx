@@ -156,7 +156,7 @@ export function EmbeddingsDashboard() {
         setActiveJob(null)
       }
     } catch (err) {
-      logger.error('Failed to fetch jobs:',  err)
+      logger.error('Failed to fetch jobs:', err)
     }
   }
 
@@ -170,7 +170,7 @@ export function EmbeddingsDashboard() {
       // Update in jobs list
       setJobs((prev) => prev.map((j) => (j.id === jobId ? data.job : j)))
     } catch (err) {
-      logger.error('Failed to fetch job status:',  err)
+      logger.error('Failed to fetch job status:', err)
     }
   }
 

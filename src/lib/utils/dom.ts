@@ -31,7 +31,7 @@ export async function copyToClipboard(text: string): Promise<void> {
     } catch (err) {
       // Fall through to fallback
       logger.warn('Clipboard API failed, trying fallback:', {
-        error: err instanceof Error ? err.message : String(err)
+        error: err instanceof Error ? err.message : String(err),
       })
     }
   }

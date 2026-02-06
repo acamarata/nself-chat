@@ -125,7 +125,7 @@ export function useThemeCustomizer(): UseThemeCustomizerReturn {
         setOriginalTheme(configTheme)
         applyCustomTheme(configTheme)
       } catch (error) {
-        logger.error('Failed to initialize theme:',  error)
+        logger.error('Failed to initialize theme:', error)
         setTheme(defaultCustomTheme)
         setOriginalTheme(defaultCustomTheme)
       } finally {
@@ -329,7 +329,7 @@ export function useThemeCustomizer(): UseThemeCustomizerReturn {
       setOriginalTheme(theme)
       setIsModified(false)
     } catch (error) {
-      logger.error('Failed to save theme:',  error)
+      logger.error('Failed to save theme:', error)
       throw error
     }
   }, [theme, updateConfig])
@@ -372,7 +372,7 @@ export function useThemeCustomizer(): UseThemeCustomizerReturn {
       setTheme(importedTheme)
       applyCustomTheme(importedTheme)
     } catch (error) {
-      logger.error('Failed to import theme:',  error)
+      logger.error('Failed to import theme:', error)
       throw error
     }
   }, [])

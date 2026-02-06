@@ -480,33 +480,39 @@ These features are fully implemented, tested, and ready for production use:
 #### ⚠️ MVP / Partial Implementation (20-25% of features)
 
 **Payments (Stripe)**
+
 - ✅ Server integration: Real
 - ⚠️ Client integration: Mocked payment intents
 - **Impact**: Payment UI shows but doesn't process real cards
 - **To Fix**: 8-12 hours
 
 **Media Processing**
+
 - ✅ Images: Full support (Sharp.js)
 - ⚠️ Videos: Not implemented (uploads accepted, no transcoding)
 - **Impact**: Video uploads work but not optimized
 - **To Fix**: 16-24 hours (FFmpeg integration)
 
 **End-to-End Encryption**
+
 - ✅ Complete Double Ratchet algorithm
 - ℹ️ Uses Web Crypto API (not Signal Protocol library)
 - **Note**: Documentation claimed "Signal Protocol library" but implementation uses Web Crypto API with Double Ratchet. Both are secure.
 
 **WebRTC Voice/Video**
+
 - ✅ 10,000+ LOC fully implemented
 - ⚠️ Not tested on real mobile devices
 - **To Fix**: 8-12 hours device testing
 
 **Mobile Apps**
+
 - ✅ iOS/Android configured and buildable
 - ⚠️ Not tested on real devices
 - **To Fix**: 8-12 hours device testing
 
 **Desktop Apps**
+
 - ✅ Electron/Tauri working
 - ⚠️ Missing app icons
 - **To Fix**: 4-6 hours with designer
@@ -533,6 +539,7 @@ These features are fully implemented, tested, and ready for production use:
 ### Documentation Corrections
 
 **Previous Claims** → **Reality**:
+
 - "v1.0.0 Production Ready" → Actually v0.9.1-beta (~80% complete)
 - "100% feature parity" → Actually ~80% (still impressive!)
 - "Signal Protocol library" → Uses Web Crypto API with Double Ratchet (equally secure)
@@ -541,6 +548,7 @@ These features are fully implemented, tested, and ready for production use:
 ### Path to v1.0.0
 
 **Critical Items** (~60-100 hours):
+
 1. ✅ Fix TypeScript errors → DONE
 2. ✅ Working builds → DONE
 3. ⚠️ Real Stripe.js client → 8-12 hours

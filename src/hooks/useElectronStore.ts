@@ -40,7 +40,7 @@ export function useSetting<K extends keyof AppSettings>(
         const val = await getSetting(key)
         setValue(val)
       } catch (error) {
-        logger.error(`Failed to load setting ${key}:`,  error)
+        logger.error(`Failed to load setting ${key}:`, error)
       } finally {
         setIsLoading(false)
       }
@@ -79,7 +79,7 @@ export function useSettings(): {
         const allSettings = await getAllSettings()
         setSettings(allSettings)
       } catch (error) {
-        logger.error('Failed to load settings:',  error)
+        logger.error('Failed to load settings:', error)
       } finally {
         setIsLoading(false)
       }

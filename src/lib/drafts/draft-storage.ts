@@ -48,7 +48,7 @@ export class LocalStorageDraftAdapter implements DraftStorageAdapter {
       return new Map(Object.entries(parsed))
     } catch (error) {
       logger.warn('Error reading drafts from localStorage:', {
-        error: error instanceof Error ? error.message : String(error)
+        error: error instanceof Error ? error.message : String(error),
       })
       return new Map()
     }
@@ -62,7 +62,7 @@ export class LocalStorageDraftAdapter implements DraftStorageAdapter {
       localStorage.setItem(this.storageKey, JSON.stringify(obj))
     } catch (error) {
       logger.warn('Error saving drafts to localStorage:', {
-        error: error instanceof Error ? error.message : String(error)
+        error: error instanceof Error ? error.message : String(error),
       })
       // Try to clear old drafts if storage is full
       if (error instanceof DOMException && error.name === 'QuotaExceededError') {

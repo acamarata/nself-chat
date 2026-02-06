@@ -16,6 +16,7 @@ The Analytics & Insights plugin provides comprehensive business intelligence and
 ## Features
 
 ### Real-time Metrics
+
 - Active users (online, hourly, daily, monthly, yearly)
 - Message volume and trends
 - Channel activity heatmaps
@@ -23,6 +24,7 @@ The Analytics & Insights plugin provides comprehensive business intelligence and
 - Platform health indicators
 
 ### User Analytics
+
 - User lifecycle tracking (new, active, returning, churned)
 - Retention cohorts
 - Feature adoption rates
@@ -30,6 +32,7 @@ The Analytics & Insights plugin provides comprehensive business intelligence and
 - Login/activity patterns
 
 ### Channel Analytics
+
 - Channel growth trends
 - Message distribution across channels
 - Peak activity times
@@ -37,6 +40,7 @@ The Analytics & Insights plugin provides comprehensive business intelligence and
 - Channel participation rates
 
 ### Content Analytics
+
 - Most shared files and media
 - Popular topics (keyword extraction)
 - Emoji usage statistics
@@ -44,6 +48,7 @@ The Analytics & Insights plugin provides comprehensive business intelligence and
 - Hashtag trending
 
 ### Business Intelligence
+
 - Custom dashboard builder
 - Scheduled reports (PDF/Excel)
 - Data export API (CSV, JSON)
@@ -161,6 +166,7 @@ GET /api/analytics/dashboard?period=30d
 ```
 
 **Response**:
+
 ```json
 {
   "overview": {
@@ -195,12 +201,14 @@ GET /api/analytics/users?period=7d&metric=engagement
 ```
 
 **Query Parameters**:
+
 - `period`: Time range (1d, 7d, 30d, 90d, 365d, all)
 - `metric`: Metric type (engagement, retention, adoption, activity)
 - `groupBy`: Group by dimension (day, week, month)
 - `limit`: Number of results (default: 100)
 
 **Response**:
+
 ```json
 {
   "period": "7d",
@@ -230,6 +238,7 @@ GET /api/analytics/channels?sort=activity&limit=20
 ```
 
 **Response**:
+
 ```json
 {
   "channels": [
@@ -254,6 +263,7 @@ GET /api/analytics/messages?period=30d
 ```
 
 **Response**:
+
 ```json
 {
   "total": 45678,
@@ -328,6 +338,7 @@ GET /api/analytics/insights?period=30d
 ```
 
 **Response**:
+
 ```json
 {
   "insights": [
@@ -388,6 +399,7 @@ Calculated as: `(messages_sent * 2 + reactions * 1 + files_shared * 3) / days_ac
 Access at `/admin/analytics`
 
 **Sections**:
+
 1. Overview Cards (active users, messages, channels, files)
 2. Activity Trends (line chart)
 3. Top Channels (table)
@@ -399,6 +411,7 @@ Access at `/admin/analytics`
 Access at `/admin/analytics/users`
 
 **Views**:
+
 - User List (sortable, filterable)
 - Cohort Analysis
 - Retention Curves
@@ -409,6 +422,7 @@ Access at `/admin/analytics/users`
 Access at `/admin/analytics/channels`
 
 **Views**:
+
 - Channel Activity Grid
 - Growth Trends
 - Message Distribution
@@ -419,6 +433,7 @@ Access at `/admin/analytics/channels`
 Access at `/admin/analytics/reports`
 
 **Features**:
+
 - Visual report builder
 - Saved report templates
 - Scheduled delivery
@@ -590,6 +605,7 @@ ANALYTICS_FLUSH_INTERVAL=60000  # 1 minute
 **Symptoms**: Plugin using >1GB RAM
 
 **Solutions**:
+
 - Reduce retention period
 - Increase aggregation interval
 - Enable query result caching
@@ -604,6 +620,7 @@ ANALYTICS_AGGREGATION_INTERVAL=600  # 10 minutes
 **Symptoms**: Dashboard taking >5 seconds to load
 
 **Solutions**:
+
 - Create materialized views
 - Add indexes
 - Use query profiling
@@ -622,6 +639,7 @@ CREATE INDEX idx_covering ON analytics_events(user_id, timestamp, event_type);
 **Symptoms**: Gaps in analytics data
 
 **Solutions**:
+
 - Check event collector is running
 - Verify Redis connection
 - Review aggregation logs
@@ -652,12 +670,14 @@ nself logs analytics --tail 100
 ## Roadmap
 
 ### v1.1.0
+
 - Machine learning insights
 - Anomaly detection improvements
 - Predictive analytics
 - User behavior modeling
 
 ### v1.2.0
+
 - Real-time dashboards (WebSocket)
 - Custom metric definitions
 - A/B testing framework

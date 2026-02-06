@@ -69,14 +69,14 @@ let lastOptimization: Date | null = null
  */
 export async function startMaintenanceWorker(): Promise<void> {
   if (isRunning) {
-// REMOVED: console.log('[Maintenance Worker] Already running')
+    // REMOVED: console.log('[Maintenance Worker] Already running')
     return
   }
 
   isRunning = true
   shouldStop = false
 
-// REMOVED: console.log(`[Maintenance Worker] Started: ${WORKER_ID}`)
+  // REMOVED: console.log(`[Maintenance Worker] Started: ${WORKER_ID}`)
 
   // Run initial maintenance
   await runMaintenance()
@@ -91,14 +91,14 @@ export async function startMaintenanceWorker(): Promise<void> {
   }
 
   isRunning = false
-// REMOVED: console.log('[Maintenance Worker] Stopped')
+  // REMOVED: console.log('[Maintenance Worker] Stopped')
 }
 
 /**
  * Stop the maintenance worker
  */
 export function stopMaintenanceWorker(): void {
-// REMOVED: console.log('[Maintenance Worker] Stopping...')
+  // REMOVED: console.log('[Maintenance Worker] Stopping...')
   shouldStop = true
 }
 
@@ -118,7 +118,7 @@ export function getMaintenanceWorkerStatus() {
  * Run all maintenance tasks
  */
 async function runMaintenance(): Promise<void> {
-// REMOVED: console.log('[Maintenance Worker] Running maintenance tasks...')
+  // REMOVED: console.log('[Maintenance Worker] Running maintenance tasks...')
 
   try {
     // 1. Cleanup queue
@@ -136,9 +136,9 @@ async function runMaintenance(): Promise<void> {
     }
 
     lastCleanup = new Date()
-// REMOVED: console.log('[Maintenance Worker] Maintenance completed successfully')
+    // REMOVED: console.log('[Maintenance Worker] Maintenance completed successfully')
   } catch (error) {
-    logger.error('[Maintenance Worker] Maintenance error:',  error)
+    logger.error('[Maintenance Worker] Maintenance error:', error)
   }
 }
 
@@ -147,16 +147,16 @@ async function runMaintenance(): Promise<void> {
  */
 async function cleanupQueue(): Promise<void> {
   try {
-// REMOVED: console.log('[Maintenance Worker] Cleaning up embedding queue...')
+    // REMOVED: console.log('[Maintenance Worker] Cleaning up embedding queue...')
 
     const { data } = await apolloClient.mutate({
       mutation: CLEANUP_QUEUE,
     })
 
     const deleted = data?.cleanup_embedding_queue?.result || 0
-// REMOVED: console.log(`[Maintenance Worker] Removed ${deleted} stale queue items`)
+    // REMOVED: console.log(`[Maintenance Worker] Removed ${deleted} stale queue items`)
   } catch (error) {
-    logger.error('[Maintenance Worker] Queue cleanup error:',  error)
+    logger.error('[Maintenance Worker] Queue cleanup error:', error)
     throw error
   }
 }
@@ -176,9 +176,9 @@ async function cleanupCache(): Promise<void> {
     })
 
     const deleted = data?.cleanup_embedding_cache?.result || 0
-// REMOVED: console.log(`[Maintenance Worker] Removed ${deleted} old cache entries`)
+    // REMOVED: console.log(`[Maintenance Worker] Removed ${deleted} old cache entries`)
   } catch (error) {
-    logger.error('[Maintenance Worker] Cache cleanup error:',  error)
+    logger.error('[Maintenance Worker] Cache cleanup error:', error)
     throw error
   }
 }
@@ -188,18 +188,18 @@ async function cleanupCache(): Promise<void> {
  */
 async function optimizeIndex(): Promise<void> {
   try {
-// REMOVED: console.log('[Maintenance Worker] Optimizing vector index...')
+    // REMOVED: console.log('[Maintenance Worker] Optimizing vector index...')
 
     const { data } = await apolloClient.mutate({
       mutation: OPTIMIZE_INDEX,
     })
 
     const result = data?.optimize_embedding_index?.result || 'Unknown'
-// REMOVED: console.log(`[Maintenance Worker] Index optimization: ${result}`)
+    // REMOVED: console.log(`[Maintenance Worker] Index optimization: ${result}`)
 
     lastOptimization = new Date()
   } catch (error) {
-    logger.error('[Maintenance Worker] Index optimization error:',  error)
+    logger.error('[Maintenance Worker] Index optimization error:', error)
     // Don't throw - optimization failure shouldn't stop maintenance
   }
 }
@@ -219,18 +219,18 @@ function sleep(ms: number): Promise<void> {
 if (require.main === module) {
   // Handle graceful shutdown
   process.on('SIGINT', () => {
-// REMOVED: console.log('\n[Maintenance Worker] Received SIGINT, shutting down...')
+    // REMOVED: console.log('\n[Maintenance Worker] Received SIGINT, shutting down...')
     stopMaintenanceWorker()
   })
 
   process.on('SIGTERM', () => {
-// REMOVED: console.log('\n[Maintenance Worker] Received SIGTERM, shutting down...')
+    // REMOVED: console.log('\n[Maintenance Worker] Received SIGTERM, shutting down...')
     stopMaintenanceWorker()
   })
 
   // Start worker
   startMaintenanceWorker().catch((error) => {
-    logger.error('[Maintenance Worker] Fatal error:',  error)
+    logger.error('[Maintenance Worker] Fatal error:', error)
     process.exit(1)
   })
 }

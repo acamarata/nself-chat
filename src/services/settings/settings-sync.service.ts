@@ -635,7 +635,7 @@ class SettingsSyncService {
 
       this.log('Loaded settings from localStorage')
     } catch (error) {
-      logger.error('[SettingsSync] Failed to load local settings:',  error)
+      logger.error('[SettingsSync] Failed to load local settings:', error)
     }
   }
 
@@ -657,7 +657,7 @@ class SettingsSyncService {
         })
       )
     } catch (error) {
-      logger.error('[SettingsSync] Failed to save local settings:',  error)
+      logger.error('[SettingsSync] Failed to save local settings:', error)
     }
   }
 
@@ -729,7 +729,7 @@ class SettingsSyncService {
       try {
         listener(event, data)
       } catch (error) {
-        logger.error('[SettingsSync] Listener error:',  error)
+        logger.error('[SettingsSync] Listener error:', error)
       }
     })
   }

@@ -3,7 +3,11 @@
  */
 
 import type { BrandingConfig } from './branding-schema'
-import { generateFaviconHtml, generateWebManifest, generateBrowserConfig } from './favicon-generator'
+import {
+  generateFaviconHtml,
+  generateWebManifest,
+  generateBrowserConfig,
+} from './favicon-generator'
 import { paletteToCSS, generateGradient } from './color-generator'
 import { generateFontCSS, generateGoogleFontsUrl } from './font-loader'
 
@@ -164,7 +168,10 @@ export function exportAsTailwindConfig(config: BrandingConfig): string {
           mono: [`"${config.typography.monoFont}"`, 'monospace'],
         },
         fontSize: {
-          base: [`${config.typography.baseFontSize}px`, { lineHeight: `${config.typography.lineHeight}` }],
+          base: [
+            `${config.typography.baseFontSize}px`,
+            { lineHeight: `${config.typography.lineHeight}` },
+          ],
         },
         fontWeight: {
           normal: config.typography.fontWeights.normal,
@@ -229,7 +236,10 @@ export function generateEmailTemplate(
   const colors = config.colors
   const brand = config.appInfo
 
-  const templates: Record<string, { subject: string; heading: string; body: string; cta?: string }> = {
+  const templates: Record<
+    string,
+    { subject: string; heading: string; body: string; cta?: string }
+  > = {
     welcome: {
       subject: `Welcome to ${brand.appName}!`,
       heading: `Welcome to ${brand.appName}`,
@@ -322,11 +332,14 @@ export async function exportAsZip(
 
   // Add CSS
   zip.file('css/variables.css', exportAsCSS(config))
-  zip.file('css/typography.css', generateFontCSS([
-    { family: config.typography.headingFont },
-    { family: config.typography.bodyFont },
-    { family: config.typography.monoFont },
-  ]))
+  zip.file(
+    'css/typography.css',
+    generateFontCSS([
+      { family: config.typography.headingFont },
+      { family: config.typography.bodyFont },
+      { family: config.typography.monoFont },
+    ])
+  )
 
   // Add SCSS
   zip.file('scss/_variables.scss', exportAsSCSS(config))

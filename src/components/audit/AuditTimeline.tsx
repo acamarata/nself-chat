@@ -136,10 +136,7 @@ function TimelineItem({ entry, onClick, showConnector = true, isLast = false }: 
       </div>
 
       {/* Content */}
-      <div
-        className={cn('min-w-0 flex-1 pb-6', onClick && 'cursor-pointer')}
-        {...interactiveProps}
-      >
+      <div className={cn('min-w-0 flex-1 pb-6', onClick && 'cursor-pointer')} {...interactiveProps}>
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">

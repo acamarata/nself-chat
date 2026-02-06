@@ -134,12 +134,12 @@ function playNotificationSound(soundUrl: string): void {
     audio.volume = 0.5
     audio.play().catch((err) => {
       logger.warn('[Notifications] Failed to play sound:', {
-        error: err instanceof Error ? err.message : String(err)
+        error: err instanceof Error ? err.message : String(err),
       })
     })
   } catch (err) {
     logger.warn('[Notifications] Failed to create audio:', {
-      error: err instanceof Error ? err.message : String(err)
+      error: err instanceof Error ? err.message : String(err),
     })
   }
 }
@@ -182,7 +182,7 @@ function showDesktopNotification(
     }, 5000)
   } catch (err) {
     logger.warn('[Notifications] Failed to show desktop notification:', {
-      error: err instanceof Error ? err.message : String(err)
+      error: err instanceof Error ? err.message : String(err),
     })
   }
 }
@@ -451,7 +451,7 @@ export function useNotificationPreferences(): {
         }
       } catch (err) {
         logger.warn('[Notifications] Failed to load preferences:', {
-          error: err instanceof Error ? err.message : String(err)
+          error: err instanceof Error ? err.message : String(err),
         })
       }
     }
@@ -466,7 +466,7 @@ export function useNotificationPreferences(): {
           localStorage.setItem('nchat-notification-preferences', JSON.stringify(next))
         } catch (err) {
           logger.warn('[Notifications] Failed to save preferences:', {
-            error: err instanceof Error ? err.message : String(err)
+            error: err instanceof Error ? err.message : String(err),
           })
         }
       }

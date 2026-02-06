@@ -65,10 +65,7 @@ export function requireMinimumPlan(minimumTier: PlanTier) {
 /**
  * Check usage limit for a specific metric
  */
-export function checkUsageLimit(
-  metric: keyof PlanFeatures,
-  currentValue: number
-) {
+export function checkUsageLimit(metric: keyof PlanFeatures, currentValue: number) {
   return (context: PlanContext): NextResponse | null => {
     const { allowed, limit, percentage } = UsageTracker.checkLimit(
       context.planTier,
@@ -247,10 +244,7 @@ export class PlanGate {
     return descriptions[feature] || feature.toString()
   }
 
-  static getUpgradePath(
-    currentPlan: PlanTier,
-    feature: keyof PlanFeatures
-  ): PlanTier | null {
+  static getUpgradePath(currentPlan: PlanTier, feature: keyof PlanFeatures): PlanTier | null {
     const tiers: PlanTier[] = ['free', 'starter', 'pro', 'business', 'enterprise']
     const currentIndex = tiers.indexOf(currentPlan)
 

@@ -243,8 +243,7 @@ async function testIdMeProvider(): Promise<ProviderTestResult> {
     }
   }
 
-  const baseUrl =
-    environment === 'sandbox' ? 'https://api.id.me' : 'https://api.id.me'
+  const baseUrl = environment === 'sandbox' ? 'https://api.id.me' : 'https://api.id.me'
 
   try {
     // Test ID.me availability
@@ -309,9 +308,12 @@ async function testFacebookProvider(): Promise<ProviderTestResult> {
 
   try {
     // Test Facebook Graph API availability
-    const response = await fetch(`https://graph.facebook.com/oauth/access_token?client_id=${clientId}&client_secret=${clientSecret}&grant_type=client_credentials`, {
-      method: 'GET',
-    })
+    const response = await fetch(
+      `https://graph.facebook.com/oauth/access_token?client_id=${clientId}&client_secret=${clientSecret}&grant_type=client_credentials`,
+      {
+        method: 'GET',
+      }
+    )
 
     if (!response.ok) {
       return {

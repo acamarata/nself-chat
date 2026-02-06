@@ -283,7 +283,7 @@ export class RateLimitService {
           return
         }
       } catch (error) {
-        logger.error('[RateLimitService] Failed to connect to Redis:',  error)
+        logger.error('[RateLimitService] Failed to connect to Redis:', error)
       }
       throw new Error('Redis store requested but not available')
     }

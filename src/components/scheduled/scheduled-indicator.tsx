@@ -184,14 +184,19 @@ export function ScheduledIndicator({
       return (
         <span
           className={cn(
-            'inline-flex items-center gap-1.5 text-sm cursor-pointer hover:text-foreground',
+            'inline-flex cursor-pointer items-center gap-1.5 text-sm hover:text-foreground',
             isPast ? 'text-destructive' : 'text-muted-foreground',
             className
           )}
           role="button"
           tabIndex={0}
           onClick={handleClick}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(); } }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              handleClick()
+            }
+          }}
         >
           {inlineContent}
         </span>
@@ -253,14 +258,19 @@ export function ScheduledIndicator({
     return (
       <div
         className={cn(
-          'flex items-center gap-3 rounded-lg border px-3 py-2 cursor-pointer hover:bg-primary/10',
+          'hover:bg-primary/10 flex cursor-pointer items-center gap-3 rounded-lg border px-3 py-2',
           isPast ? 'bg-destructive/10 border-destructive/30' : 'bg-primary/5 border-primary/20',
           className
         )}
         role="button"
         tabIndex={0}
         onClick={handleClick}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(); } }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            handleClick()
+          }
+        }}
       >
         {defaultContent}
       </div>

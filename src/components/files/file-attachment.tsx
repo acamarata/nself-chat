@@ -257,7 +257,7 @@ function ImageAttachment({
     return (
       <div className={cn('group relative inline-block', className)}>
         <div
-          className="relative overflow-hidden rounded-lg bg-muted cursor-pointer"
+          className="relative cursor-pointer overflow-hidden rounded-lg bg-muted"
           style={displayStyle}
           role="button"
           tabIndex={0}
@@ -273,10 +273,7 @@ function ImageAttachment({
 
   return (
     <div className={cn('group relative inline-block', className)}>
-      <div
-        className="relative overflow-hidden rounded-lg bg-muted"
-        style={displayStyle}
-      >
+      <div className="relative overflow-hidden rounded-lg bg-muted" style={displayStyle}>
         {imageContent}
       </div>
       {fileInfo}

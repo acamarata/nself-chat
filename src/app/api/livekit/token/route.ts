@@ -32,10 +32,7 @@ export async function POST(request: NextRequest) {
 
     if (!apiKey || !apiSecret) {
       logger.error('[LiveKit Token] Missing LiveKit credentials in environment')
-      return NextResponse.json(
-        { error: 'LiveKit not configured' },
-        { status: 500 }
-      )
+      return NextResponse.json({ error: 'LiveKit not configured' }, { status: 500 })
     }
 
     // Create access token
@@ -73,9 +70,6 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     logger.error('[LiveKit Token] Failed to generate token', error)
-    return NextResponse.json(
-      { error: 'Failed to generate token' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to generate token' }, { status: 500 })
   }
 }

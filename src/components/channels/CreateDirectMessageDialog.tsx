@@ -113,7 +113,7 @@ export function CreateDirectMessageDialog({
       await onCreateDM?.(userId)
       handleClose()
     } catch (error) {
-      logger.error('Failed to create DM:',  error)
+      logger.error('Failed to create DM:', error)
     } finally {
       setIsCreating(false)
     }
@@ -128,7 +128,7 @@ export function CreateDirectMessageDialog({
       await onCreateGroupDM?.(groupName.trim(), Array.from(selectedUsers))
       handleClose()
     } catch (error) {
-      logger.error('Failed to create group DM:',  error)
+      logger.error('Failed to create group DM:', error)
     } finally {
       setIsCreating(false)
     }

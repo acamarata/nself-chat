@@ -270,61 +270,61 @@ if (typeof global.requestAnimationFrame === 'undefined') {
 
 if (typeof global.AudioContext === 'undefined') {
   global.AudioContext = jest.fn().mockImplementation(() => ({
-  createBufferSource: jest.fn(() => ({
-    connect: jest.fn(),
-    disconnect: jest.fn(),
-    start: jest.fn(),
-    stop: jest.fn(),
-    buffer: null,
-  })),
-  createAnalyser: jest.fn(() => ({
-    connect: jest.fn(),
-    disconnect: jest.fn(),
-    fftSize: 2048,
-    frequencyBinCount: 1024,
-    getByteFrequencyData: jest.fn(),
-    getByteTimeDomainData: jest.fn(),
-    getFloatFrequencyData: jest.fn(),
-    getFloatTimeDomainData: jest.fn(),
-  })),
-  createGain: jest.fn(() => ({
-    connect: jest.fn(),
-    disconnect: jest.fn(),
-    gain: { value: 1, setValueAtTime: jest.fn() },
-  })),
-  decodeAudioData: jest.fn((arrayBuffer) => {
-    // Create a mock AudioBuffer
-    const sampleRate = 44100
-    const length = arrayBuffer.byteLength / 2 // Assuming 16-bit audio
-    const numberOfChannels = 1
+    createBufferSource: jest.fn(() => ({
+      connect: jest.fn(),
+      disconnect: jest.fn(),
+      start: jest.fn(),
+      stop: jest.fn(),
+      buffer: null,
+    })),
+    createAnalyser: jest.fn(() => ({
+      connect: jest.fn(),
+      disconnect: jest.fn(),
+      fftSize: 2048,
+      frequencyBinCount: 1024,
+      getByteFrequencyData: jest.fn(),
+      getByteTimeDomainData: jest.fn(),
+      getFloatFrequencyData: jest.fn(),
+      getFloatTimeDomainData: jest.fn(),
+    })),
+    createGain: jest.fn(() => ({
+      connect: jest.fn(),
+      disconnect: jest.fn(),
+      gain: { value: 1, setValueAtTime: jest.fn() },
+    })),
+    decodeAudioData: jest.fn((arrayBuffer) => {
+      // Create a mock AudioBuffer
+      const sampleRate = 44100
+      const length = arrayBuffer.byteLength / 2 // Assuming 16-bit audio
+      const numberOfChannels = 1
 
-    const mockBuffer = {
-      sampleRate,
-      length,
-      duration: length / sampleRate,
-      numberOfChannels,
-      getChannelData: jest.fn((channel) => {
-        const data = new Float32Array(length)
-        // Fill with mock sine wave data
-        for (let i = 0; i < length; i++) {
-          data[i] = Math.sin(i / 10) * 0.5
-        }
-        return data
-      }),
-      copyFromChannel: jest.fn(),
-      copyToChannel: jest.fn(),
-    }
+      const mockBuffer = {
+        sampleRate,
+        length,
+        duration: length / sampleRate,
+        numberOfChannels,
+        getChannelData: jest.fn((channel) => {
+          const data = new Float32Array(length)
+          // Fill with mock sine wave data
+          for (let i = 0; i < length; i++) {
+            data[i] = Math.sin(i / 10) * 0.5
+          }
+          return data
+        }),
+        copyFromChannel: jest.fn(),
+        copyToChannel: jest.fn(),
+      }
 
-    return Promise.resolve(mockBuffer)
-  }),
-  destination: {},
-  currentTime: 0,
-  sampleRate: 44100,
-  state: 'running',
-  resume: jest.fn().mockResolvedValue(undefined),
-  suspend: jest.fn().mockResolvedValue(undefined),
-  close: jest.fn().mockResolvedValue(undefined),
-}))
+      return Promise.resolve(mockBuffer)
+    }),
+    destination: {},
+    currentTime: 0,
+    sampleRate: 44100,
+    state: 'running',
+    resume: jest.fn().mockResolvedValue(undefined),
+    suspend: jest.fn().mockResolvedValue(undefined),
+    close: jest.fn().mockResolvedValue(undefined),
+  }))
 
   // Also mock webkitAudioContext for Safari
   global.webkitAudioContext = global.AudioContext
@@ -345,36 +345,58 @@ if (typeof global.MediaStream === 'undefined') {
       this.label = `Mock ${kind} track`
     }
     stop() {}
-    clone() { return new MockMediaStreamTrack(this.kind) }
-    getSettings() { return {} }
-    getCapabilities() { return {} }
-    getConstraints() { return {} }
-    applyConstraints() { return Promise.resolve() }
+    clone() {
+      return new MockMediaStreamTrack(this.kind)
+    }
+    getSettings() {
+      return {}
+    }
+    getCapabilities() {
+      return {}
+    }
+    getConstraints() {
+      return {}
+    }
+    applyConstraints() {
+      return Promise.resolve()
+    }
     addEventListener() {}
     removeEventListener() {}
-    dispatchEvent() { return true }
+    dispatchEvent() {
+      return true
+    }
   }
 
   global.MediaStream = class MockMediaStream {
     constructor(tracksOrStream = []) {
       this.id = `stream-${Date.now()}`
       this.active = true
-      this._tracks = Array.isArray(tracksOrStream)
-        ? tracksOrStream
-        : tracksOrStream._tracks || []
+      this._tracks = Array.isArray(tracksOrStream) ? tracksOrStream : tracksOrStream._tracks || []
     }
-    getTracks() { return this._tracks }
-    getAudioTracks() { return this._tracks.filter(t => t.kind === 'audio') }
-    getVideoTracks() { return this._tracks.filter(t => t.kind === 'video') }
-    addTrack(track) { this._tracks.push(track) }
+    getTracks() {
+      return this._tracks
+    }
+    getAudioTracks() {
+      return this._tracks.filter((t) => t.kind === 'audio')
+    }
+    getVideoTracks() {
+      return this._tracks.filter((t) => t.kind === 'video')
+    }
+    addTrack(track) {
+      this._tracks.push(track)
+    }
     removeTrack(track) {
       const index = this._tracks.indexOf(track)
       if (index > -1) this._tracks.splice(index, 1)
     }
-    clone() { return new MockMediaStream(this._tracks.map(t => t.clone())) }
+    clone() {
+      return new MockMediaStream(this._tracks.map((t) => t.clone()))
+    }
     addEventListener() {}
     removeEventListener() {}
-    dispatchEvent() { return true }
+    dispatchEvent() {
+      return true
+    }
   }
 }
 

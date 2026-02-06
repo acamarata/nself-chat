@@ -55,10 +55,11 @@ The Stripe Plugin enables payment processing, subscription management, and billi
 
 2. **Get API Keys**:
    - Go to Developers > API keys
-   - Copy publishable key (pk_...)
-   - Copy secret key (sk_...)
+   - Copy publishable key (pk\_...)
+   - Copy secret key (sk\_...)
 
 3. **Create Products**:
+
    ```bash
    # Example: Team plan
    Name: Team Plan
@@ -451,23 +452,14 @@ export const PRICING_PLANS = [
     name: 'Free',
     price: 0,
     interval: 'month',
-    features: [
-      '10 users',
-      '1 GB storage',
-      'Basic support',
-    ],
+    features: ['10 users', '1 GB storage', 'Basic support'],
   },
   {
     name: 'Team',
     price: 29,
     priceId: 'price_team_monthly',
     interval: 'month',
-    features: [
-      '50 users',
-      '50 GB storage',
-      'Priority support',
-      'Advanced features',
-    ],
+    features: ['50 users', '50 GB storage', 'Priority support', 'Advanced features'],
   },
   {
     name: 'Business',
@@ -522,11 +514,7 @@ export async function POST(req: Request) {
   const signature = req.headers.get('stripe-signature')
 
   try {
-    const event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET
-    )
+    const event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET)
 
     switch (event.type) {
       case 'customer.subscription.created':

@@ -22,10 +22,7 @@ const startRecordingSchema = z.object({
  * POST /api/calls/[id]/recording
  * Start recording a call
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     const callId = id
@@ -109,10 +106,7 @@ export async function POST(
     )
   } catch (error) {
     console.error('Error starting call recording:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
@@ -120,10 +114,7 @@ export async function POST(
  * GET /api/calls/[id]/recording
  * Get current recording status
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     const callId = id
@@ -167,10 +158,7 @@ export async function GET(
     })
   } catch (error) {
     console.error('Error fetching recording status:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
@@ -238,9 +226,6 @@ export async function DELETE(
     })
   } catch (error) {
     console.error('Error stopping call recording:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

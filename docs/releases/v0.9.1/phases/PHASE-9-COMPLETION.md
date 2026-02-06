@@ -9,16 +9,16 @@
 
 ## Tasks Completed (78-85)
 
-| Task | Description | Status |
-|------|-------------|--------|
-| 78 | E2EE routes verification | ✅ Complete |
-| 79 | Hardware-backed key storage (IndexedDB) | ✅ Complete |
-| 80 | Forward secrecy (Double Ratchet) | ✅ Complete |
-| 81 | Safety number verification UI | ✅ Complete |
-| 82 | Device lock policy (PIN/biometric) | ✅ Complete |
-| 83 | Encrypted local storage | ✅ Complete |
-| 84 | Wipe/lockout policies | ✅ Complete |
-| 85 | Threat model documentation | ✅ Complete |
+| Task | Description                             | Status      |
+| ---- | --------------------------------------- | ----------- |
+| 78   | E2EE routes verification                | ✅ Complete |
+| 79   | Hardware-backed key storage (IndexedDB) | ✅ Complete |
+| 80   | Forward secrecy (Double Ratchet)        | ✅ Complete |
+| 81   | Safety number verification UI           | ✅ Complete |
+| 82   | Device lock policy (PIN/biometric)      | ✅ Complete |
+| 83   | Encrypted local storage                 | ✅ Complete |
+| 84   | Wipe/lockout policies                   | ✅ Complete |
+| 85   | Threat model documentation              | ✅ Complete |
 
 ---
 
@@ -71,6 +71,7 @@
 ## Security Features
 
 ### End-to-End Encryption
+
 - ✅ Signal Protocol implementation
 - ✅ X3DH key exchange
 - ✅ Double Ratchet algorithm
@@ -79,6 +80,7 @@
 - ✅ Deniability
 
 ### Key Management
+
 - ✅ Encrypted key storage (IndexedDB)
 - ✅ Master key derivation (PBKDF2-SHA256, 100k iterations)
 - ✅ Key rotation (weekly signed prekeys)
@@ -86,6 +88,7 @@
 - ✅ Hardware-backed encryption
 
 ### Device Security
+
 - ✅ PIN lock (4+ digits, PBKDF2 hashed)
 - ✅ Biometric authentication (WebAuthn)
 - ✅ Auto-lock timers
@@ -94,6 +97,7 @@
 - ✅ Remote wipe capability
 
 ### Identity Verification
+
 - ✅ Safety number generation (60-digit)
 - ✅ QR code verification
 - ✅ Manual comparison
@@ -105,14 +109,14 @@
 
 ### Cryptographic Algorithms
 
-| Component | Algorithm | Key Size |
-|-----------|-----------|----------|
-| Identity Keys | Curve25519 | 256-bit |
-| Ephemeral Keys | Curve25519 | 256-bit |
-| Signing | Ed25519 | 256-bit |
-| Encryption | AES-256-GCM | 256-bit |
-| Key Derivation | PBKDF2-SHA256 | 256-bit |
-| Hashing | SHA-256/512 | 256/512-bit |
+| Component      | Algorithm     | Key Size    |
+| -------------- | ------------- | ----------- |
+| Identity Keys  | Curve25519    | 256-bit     |
+| Ephemeral Keys | Curve25519    | 256-bit     |
+| Signing        | Ed25519       | 256-bit     |
+| Encryption     | AES-256-GCM   | 256-bit     |
+| Key Derivation | PBKDF2-SHA256 | 256-bit     |
+| Hashing        | SHA-256/512   | 256/512-bit |
 
 ### Libraries
 
@@ -147,15 +151,15 @@
 
 ## Performance
 
-| Operation | Time | Notes |
-|-----------|------|-------|
-| Generate Identity Key | ~50ms | One-time |
-| Generate Prekeys (100) | ~500ms | One-time |
-| Encrypt Message | ~5ms | Per message |
-| Decrypt Message | ~5ms | Per message |
-| Safety Number | ~10ms | On-demand |
-| PIN Verification | ~100ms | PBKDF2 |
-| Biometric Auth | ~1000ms | OS prompt |
+| Operation              | Time    | Notes       |
+| ---------------------- | ------- | ----------- |
+| Generate Identity Key  | ~50ms   | One-time    |
+| Generate Prekeys (100) | ~500ms  | One-time    |
+| Encrypt Message        | ~5ms    | Per message |
+| Decrypt Message        | ~5ms    | Per message |
+| Safety Number          | ~10ms   | On-demand   |
+| PIN Verification       | ~100ms  | PBKDF2      |
+| Biometric Auth         | ~1000ms | OS prompt   |
 
 **Environment**: MacBook Pro M1, Chrome 126
 
@@ -181,17 +185,20 @@
 ## Documentation
 
 ### User Documentation
+
 - 🔄 User Guide (pending)
 - 🔄 FAQ (pending)
 - 🔄 Video Tutorial (pending)
 
 ### Developer Documentation
+
 - ✅ Threat Model
 - ✅ Implementation Summary
 - 🔄 API Reference (pending)
 - 🔄 Integration Guide (pending)
 
 ### Security Documentation
+
 - ✅ Threat Model (1100+ lines)
 - ✅ Security Features
 - ✅ Incident Response Plan
@@ -202,18 +209,21 @@
 ## Deployment
 
 ### Prerequisites
+
 - ✅ PostgreSQL with migration 022
 - ✅ Node.js 20+
 - ✅ pnpm 9.15.4
 - ✅ Modern browser (WebCrypto, WebAuthn)
 
 ### Environment Variables
+
 ```bash
 NEXT_PUBLIC_E2EE_ENABLED=true
 NEXT_PUBLIC_DEVICE_LOCK_ENABLED=true
 ```
 
 ### Deployment Steps
+
 1. Run database migration: `hasura migrate apply --version 022`
 2. Install dependencies: `pnpm install`
 3. Build: `pnpm build`
@@ -236,18 +246,21 @@ NEXT_PUBLIC_DEVICE_LOCK_ENABLED=true
 ## Next Steps
 
 ### Immediate (v0.9.1)
+
 1. Deploy to staging
 2. User acceptance testing
 3. Security audit (recommended)
 4. Production deployment
 
 ### Short-Term (v1.0.0)
+
 - [ ] Sealed sender (metadata protection)
 - [ ] Message padding
 - [ ] Reproducible builds
 - [ ] Post-quantum cryptography (Kyber)
 
 ### Long-Term (v2.0.0)
+
 - [ ] Anonymous credentials
 - [ ] Private information retrieval
 - [ ] Zero-knowledge proofs

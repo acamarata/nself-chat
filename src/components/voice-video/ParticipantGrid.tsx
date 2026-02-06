@@ -376,9 +376,7 @@ export function ParticipantGrid({
           isPinned={spotlightParticipant.id === pinnedParticipantId}
           isSpotlight
           showControls={isHost}
-          onPin={
-            onPinParticipant ? () => onPinParticipant(spotlightParticipant.id) : undefined
-          }
+          onPin={onPinParticipant ? () => onPinParticipant(spotlightParticipant.id) : undefined}
           onRemove={
             onRemoveParticipant && spotlightParticipant.id !== localParticipant.id
               ? () => onRemoveParticipant(spotlightParticipant.id)

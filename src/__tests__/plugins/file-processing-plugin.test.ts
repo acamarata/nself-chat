@@ -14,7 +14,8 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 
 // Configuration
-const FILE_PROCESSING_URL = process.env.NEXT_PUBLIC_FILE_PROCESSING_URL || 'http://files.localhost:3104'
+const FILE_PROCESSING_URL =
+  process.env.NEXT_PUBLIC_FILE_PROCESSING_URL || 'http://files.localhost:3104'
 const PLUGINS_ENABLED = process.env.PLUGINS_ENABLED !== 'false'
 const TEST_TIMEOUT = 30000
 

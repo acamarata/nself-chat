@@ -11,7 +11,17 @@
 import { useState, useRef, KeyboardEvent, ChangeEvent } from 'react'
 import { cn } from '@/lib/utils'
 import { WHATSAPP_COLORS } from '../config'
-import { Smile, Paperclip, Send, Mic, X, Camera, Image as ImageIcon, File, User } from 'lucide-react'
+import {
+  Smile,
+  Paperclip,
+  Send,
+  Mic,
+  X,
+  Camera,
+  Image as ImageIcon,
+  File,
+  User,
+} from 'lucide-react'
 
 // -------------------------------------------------------------------------------
 // Types

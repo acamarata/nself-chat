@@ -1219,7 +1219,7 @@ export class MessageService {
       channelId: data.channel_id as string,
       content: data.content as string,
       contentHtml: data.content_html as string | undefined,
-      type: (data.type as string || 'text') as MessageType,
+      type: ((data.type as string) || 'text') as MessageType,
       userId: data.user_id as string,
       user: this.transformUser(data.user as Record<string, unknown>),
       createdAt: new Date(data.created_at as string),

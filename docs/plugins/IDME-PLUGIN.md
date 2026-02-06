@@ -120,6 +120,7 @@ GET /api/auth/oauth/authorize?provider=idme
 ### 2. User Authorization
 
 User is redirected to ID.me to:
+
 - Log in with ID.me account
 - Verify identity (if first time)
 - Grant permissions to your app
@@ -131,6 +132,7 @@ GET /api/auth/oauth/callback?provider=idme&code=xxx&state=xxx
 ```
 
 **Backend Process:**
+
 1. Exchange code for access token
 2. Fetch user profile
 3. Verify group affiliations
@@ -164,9 +166,11 @@ GET /api/auth/oauth/callback?provider=idme&code=xxx&state=xxx
 ```
 
 **Success Response:**
+
 - Redirects to `/` with session cookie
 
 **Error Response:**
+
 - Redirects to `/login?error=oauth_failed`
 
 ### Get User Profile
@@ -300,22 +304,22 @@ window.location.href = authUrl
 
 ### Basic Scopes
 
-| Scope     | Description                    | Required |
-| --------- | ------------------------------ | -------- |
-| `openid`  | OpenID Connect authentication  | Yes      |
-| `profile` | Basic profile information      | Yes      |
-| `email`   | Email address                  | Yes      |
+| Scope     | Description                   | Required |
+| --------- | ----------------------------- | -------- |
+| `openid`  | OpenID Connect authentication | Yes      |
+| `profile` | Basic profile information     | Yes      |
+| `email`   | Email address                 | Yes      |
 
 ### Affiliation Scopes
 
-| Scope              | Description                  | Group Type       |
-| ------------------ | ---------------------------- | ---------------- |
-| `military`         | Military verification        | Military         |
-| `student`          | Student verification         | Student          |
-| `teacher`          | Teacher verification         | Teacher          |
-| `first_responder`  | First responder verification | First Responder  |
-| `government`       | Government employee          | Government       |
-| `healthcare`       | Healthcare professional      | Healthcare       |
+| Scope             | Description                  | Group Type      |
+| ----------------- | ---------------------------- | --------------- |
+| `military`        | Military verification        | Military        |
+| `student`         | Student verification         | Student         |
+| `teacher`         | Teacher verification         | Teacher         |
+| `first_responder` | First responder verification | First Responder |
+| `government`      | Government employee          | Government      |
+| `healthcare`      | Healthcare professional      | Healthcare      |
 
 ---
 
@@ -355,7 +359,7 @@ const militaryChannel = {
 }
 
 // Check access in middleware
-if (!user.groups?.some(g => g.type === 'military' && g.verified)) {
+if (!user.groups?.some((g) => g.type === 'military' && g.verified)) {
   return res.status(403).json({ error: 'Military verification required' })
 }
 ```
@@ -364,7 +368,7 @@ if (!user.groups?.some(g => g.type === 'military' && g.verified)) {
 
 ```typescript
 // Grant student role for discounts
-if (user.groups?.some(g => g.type === 'student' && g.verified)) {
+if (user.groups?.some((g) => g.type === 'student' && g.verified)) {
   user.roles.push('student')
   user.discountEligible = true
 }
@@ -374,7 +378,7 @@ if (user.groups?.some(g => g.type === 'student' && g.verified)) {
 
 ```typescript
 // Teacher-only content
-if (user.groups?.some(g => g.type === 'teacher' && g.verified)) {
+if (user.groups?.some((g) => g.type === 'teacher' && g.verified)) {
   user.roles.push('educator')
   user.accessLevel = 'premium'
 }
@@ -430,6 +434,7 @@ describe('ID.me OAuth', () => {
 **Problem**: "redirect_uri mismatch" error
 
 **Solutions:**
+
 1. Verify redirect URI in ID.me dashboard matches exactly
 2. Check protocol (must be HTTPS in production)
 3. Ensure no trailing slashes
@@ -439,6 +444,7 @@ describe('ID.me OAuth', () => {
 **Problem**: User not verified for requested scope
 
 **Solutions:**
+
 1. Check if user completed verification
 2. Request correct scope
 3. Guide user through verification process
@@ -448,6 +454,7 @@ describe('ID.me OAuth', () => {
 **Problem**: "invalid_client" error
 
 **Solutions:**
+
 1. Verify Client ID and Secret are correct
 2. Check environment (sandbox vs production)
 3. Ensure credentials are in correct `.env` file

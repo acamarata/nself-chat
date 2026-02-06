@@ -10,9 +10,7 @@ import { z } from 'zod'
 const analyticsQuerySchema = z.object({
   timeRange: z.enum(['1h', '24h', '7d', '30d']).default('1h'),
   metrics: z
-    .array(
-      z.enum(['viewers', 'duration', 'bitrate', 'quality', 'engagement', 'all'])
-    )
+    .array(z.enum(['viewers', 'duration', 'bitrate', 'quality', 'engagement', 'all']))
     .default(['all']),
 })
 
@@ -20,10 +18,7 @@ const analyticsQuerySchema = z.object({
  * GET /api/streams/[id]/analytics
  * Get comprehensive stream analytics
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     const streamId = id
@@ -180,10 +175,13 @@ export async function GET(
       ? analytics
       : Object.keys(analytics)
           .filter((key) => query.metrics.includes(key as never))
-          .reduce((obj, key) => {
-            obj[key] = analytics[key as keyof typeof analytics]
-            return obj
-          }, {} as Record<string, unknown>)
+          .reduce(
+            (obj, key) => {
+              obj[key] = analytics[key as keyof typeof analytics]
+              return obj
+            },
+            {} as Record<string, unknown>
+          )
 
     return NextResponse.json({
       analytics: requestedMetrics,
@@ -196,10 +194,7 @@ export async function GET(
         { status: 400 }
       )
     }
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 

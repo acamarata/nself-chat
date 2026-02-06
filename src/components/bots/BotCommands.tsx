@@ -188,7 +188,9 @@ export function BotCommands({ actions, onAdd, onRemove, className }: BotCommands
 
           {/* Command Name */}
           <div>
-            <label htmlFor="command-name" className="mb-1 block text-sm font-medium">Command Name</label>
+            <label htmlFor="command-name" className="mb-1 block text-sm font-medium">
+              Command Name
+            </label>
             <div className="flex items-center">
               <span className="mr-1 text-muted-foreground">/</span>
               <input
@@ -213,7 +215,9 @@ export function BotCommands({ actions, onAdd, onRemove, className }: BotCommands
 
           {/* Description */}
           <div>
-            <label htmlFor="command-description" className="mb-1 block text-sm font-medium">Description</label>
+            <label htmlFor="command-description" className="mb-1 block text-sm font-medium">
+              Description
+            </label>
             <input
               id="command-description"
               type="text"
@@ -279,7 +283,9 @@ export function BotCommands({ actions, onAdd, onRemove, className }: BotCommands
 
           {/* Response */}
           <div>
-            <label htmlFor="command-response" className="mb-1 block text-sm font-medium">Response Message</label>
+            <label htmlFor="command-response" className="mb-1 block text-sm font-medium">
+              Response Message
+            </label>
             <textarea
               id="command-response"
               value={draft.response}

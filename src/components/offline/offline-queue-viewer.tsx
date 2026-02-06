@@ -246,16 +246,12 @@ export function OfflineQueueViewer({
 
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Operation</p>
-                <p className="font-medium capitalize">
-                  {selectedItem.operation.replace('_', ' ')}
-                </p>
+                <p className="font-medium capitalize">{selectedItem.operation.replace('_', ' ')}</p>
               </div>
 
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Status</p>
-                <Badge variant={getStatusVariant(selectedItem.status)}>
-                  {selectedItem.status}
-                </Badge>
+                <Badge variant={getStatusVariant(selectedItem.status)}>{selectedItem.status}</Badge>
               </div>
 
               <div>
@@ -299,10 +295,7 @@ export function OfflineQueueViewer({
                   Retry
                 </Button>
               )}
-              <Button
-                variant="destructive"
-                onClick={() => handleDelete(selectedItem.id)}
-              >
+              <Button variant="destructive" onClick={() => handleDelete(selectedItem.id)}>
                 <Trash2 className="mr-2 h-4 w-4" />
                 Delete
               </Button>
@@ -407,7 +400,9 @@ function QueueItem({ item, onSelect }: QueueItemProps) {
 // Utilities
 // =============================================================================
 
-function getStatusVariant(status: SyncQueueItem['status']): 'default' | 'secondary' | 'destructive' | 'outline' {
+function getStatusVariant(
+  status: SyncQueueItem['status']
+): 'default' | 'secondary' | 'destructive' | 'outline' {
   switch (status) {
     case 'completed':
       return 'secondary'

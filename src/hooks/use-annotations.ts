@@ -159,7 +159,7 @@ export function useAnnotations(options: UseAnnotationsOptions): UseAnnotationsRe
         annotatorRef.current = null
       }
     } catch (error) {
-      logger.error('Failed to initialize annotator:',  error)
+      logger.error('Failed to initialize annotator:', error)
     }
   }, [canvas, userId, userName, isEnabled, onAnnotationAdded, onAnnotationsCleared, onUndo, onRedo]) // eslint-disable-line react-hooks/exhaustive-deps
 

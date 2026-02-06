@@ -46,12 +46,14 @@ Fixed critical build failure caused by React context code being imported in serv
 **File**: `/src/lib/nhost.server.ts`
 
 **Change**:
+
 ```diff
 - import { NhostClient } from '@nhost/nextjs'
 + import { NhostClient } from '@nhost/nhost-js'
 ```
 
 **Reason**:
+
 - `@nhost/nextjs` includes React context wrappers
 - `@nhost/nhost-js` is the core library without React dependencies
 - This is the correct package for server-side usage
@@ -61,11 +63,13 @@ Fixed critical build failure caused by React context code being imported in serv
 **File**: `/src/lib/logger.server.ts` (NEW)
 
 **Changes**:
+
 - Created a server-only logger without Sentry imports
 - Pure console-based logging for API routes
 - Prevents React context issues in server environments
 
 **Updated Files**:
+
 - `/src/app/api/calls/[id]/join/route.ts` - Now imports `logger.server`
 - `/src/app/api/e2ee/initialize/route.ts` - Now imports `logger.server`
 - `/src/app/api/e2ee/recover/route.ts` - Now imports `logger.server`
@@ -75,12 +79,14 @@ Fixed critical build failure caused by React context code being imported in serv
 ### 3. Fixed E2EE Routes with Dynamic Imports
 
 **Files Modified**:
+
 - `/src/app/api/e2ee/initialize/route.ts`
 - `/src/app/api/e2ee/recover/route.ts`
 - `/src/app/api/e2ee/keys/replenish/route.ts`
 - `/src/app/api/e2ee/safety-number/route.ts`
 
 **Changes**:
+
 ```typescript
 // Added dynamic import wrapper
 export const dynamic = 'force-dynamic'
@@ -93,6 +99,7 @@ const { getE2EEManager } = await import('@/lib/e2ee')
 ```
 
 **Reason**:
+
 - Avoids loading native modules during static build phase
 - E2EE modules only load when routes are actually called at runtime
 
@@ -101,17 +108,20 @@ const { getE2EEManager } = await import('@/lib/e2ee')
 ## Verification Results
 
 ### Build Test
+
 ```bash
 $ pnpm build
 ```
 
 **Result**: ✅ **SUCCESS**
+
 - Exit Code: 0
 - No "createContext" errors
 - No native module errors
 - Page data collection succeeded
 
 ### Build Output Summary
+
 ```
 ✓ Compiled successfully in 29.5s
 Collecting page data ...
@@ -120,6 +130,7 @@ Collecting page data ...
 ```
 
 **Build Statistics**:
+
 - Total Routes: 138 pages
 - API Routes: 100+
 - Static Pages: 138
@@ -154,9 +165,11 @@ The following warnings are expected and do not affect functionality:
 ## Technical Details
 
 ### Files Created
+
 1. `/src/lib/logger.server.ts` - Server-only logger without Sentry
 
 ### Files Modified
+
 1. `/src/lib/nhost.server.ts` - Changed Nhost package import
 2. `/src/lib/logger.ts` - Updated with conditional Sentry imports (legacy, kept for client)
 3. `/src/app/api/calls/[id]/join/route.ts` - Use server logger
@@ -170,6 +183,7 @@ The following warnings are expected and do not affect functionality:
 ## Architecture Improvements
 
 ### Before
+
 ```
 API Route → @nhost/nextjs (includes React) → Build Failure ❌
 API Route → logger → @sentry/nextjs (includes React) → Build Failure ❌
@@ -177,6 +191,7 @@ API Route → E2EE (native modules) → Build Failure ❌
 ```
 
 ### After
+
 ```
 API Route → @nhost/nhost-js (pure JS) → Build Success ✅
 API Route → logger.server (no Sentry) → Build Success ✅
@@ -215,6 +230,7 @@ API Route → Dynamic import E2EE → Build Success ✅
 ✅ **Build is now fully operational**
 
 The critical build failure has been resolved by:
+
 1. Using the correct Nhost package for server usage
 2. Creating a server-only logger
 3. Implementing dynamic imports for native modules

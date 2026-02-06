@@ -224,14 +224,10 @@ export function usePushNotifications(
 
         // Sync with server
         if (apiUrl) {
-          const serverResult = await sendSubscriptionToServer(
-            result.subscription,
-            apiUrl,
-            {
-              userId,
-              deviceId,
-            }
-          )
+          const serverResult = await sendSubscriptionToServer(result.subscription, apiUrl, {
+            userId,
+            deviceId,
+          })
 
           if (!serverResult.success) {
             logger.warn('Failed to sync subscription with server', { error: serverResult.error })
@@ -268,10 +264,7 @@ export function usePushNotifications(
 
       // Remove from server
       if (apiUrl && currentEndpoint) {
-        const serverResult = await removeSubscriptionFromServer(
-          currentEndpoint,
-          apiUrl
-        )
+        const serverResult = await removeSubscriptionFromServer(currentEndpoint, apiUrl)
 
         if (!serverResult.success) {
           logger.warn('Failed to remove subscription from server', { error: serverResult.error })

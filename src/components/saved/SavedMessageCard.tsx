@@ -101,7 +101,12 @@ export function SavedMessageCard({
         role="button"
         tabIndex={0}
         onClick={handleJumpToMessage}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleJumpToMessage(); } }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            handleJumpToMessage()
+          }
+        }}
       >
         <Avatar className="h-6 w-6 flex-shrink-0">
           <AvatarImage src={message.user.avatarUrl} alt={message.user.displayName} />

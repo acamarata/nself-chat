@@ -203,12 +203,12 @@ function ResultItem({
         <div className="flex items-center gap-2">
           <span className="truncate text-sm font-medium">{result.title}</span>
           {result.type === 'channel' &&
-           result.metadata &&
-           typeof result.metadata === 'object' &&
-           'isPrivate' in result.metadata &&
-           (result.metadata as unknown as { isPrivate?: boolean }).isPrivate && (
-            <Lock className="h-3 w-3 shrink-0 text-muted-foreground" />
-          )}
+            result.metadata &&
+            typeof result.metadata === 'object' &&
+            'isPrivate' in result.metadata &&
+            (result.metadata as unknown as { isPrivate?: boolean }).isPrivate && (
+              <Lock className="h-3 w-3 shrink-0 text-muted-foreground" />
+            )}
         </div>
 
         {result.subtitle && (

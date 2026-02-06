@@ -82,21 +82,22 @@ GET /api/search?q=from:alice has:file after:2026-01-01&limit=20
 ```
 
 Response:
+
 ```json
 {
   "results": [
     {
       "id": "msg-123",
       "content": "Check out this file...",
-      "user": {"id": "alice", "name": "Alice"},
-      "channel": {"id": "general", "name": "General"},
+      "user": { "id": "alice", "name": "Alice" },
+      "channel": { "id": "general", "name": "General" },
       "timestamp": "2026-01-15T10:30:00Z",
       "relevance": 0.95
     }
   ],
   "facets": {
-    "users": [{"id": "alice", "count": 15}],
-    "channels": [{"id": "general", "count": 20}]
+    "users": [{ "id": "alice", "count": 15 }],
+    "channels": [{ "id": "general", "count": 20 }]
   },
   "total": 45
 }

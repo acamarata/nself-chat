@@ -14,11 +14,7 @@ const CSRF_HEADER_NAME = 'x-csrf-token'
 const PROTECTED_METHODS = ['POST', 'PUT', 'PATCH', 'DELETE']
 
 // Paths that don't need CSRF (public APIs, webhooks)
-const CSRF_EXEMPT_PATHS = [
-  '/api/webhooks/',
-  '/api/auth/callback',
-  '/api/health',
-]
+const CSRF_EXEMPT_PATHS = ['/api/webhooks/', '/api/auth/callback', '/api/health']
 
 /**
  * Generate a secure CSRF token
@@ -37,9 +33,7 @@ export function hashToken(token: string): string {
 /**
  * CSRF Protection Middleware
  */
-export async function csrfProtection(
-  request: NextRequest
-): Promise<NextResponse | null> {
+export async function csrfProtection(request: NextRequest): Promise<NextResponse | null> {
   const url = new URL(request.url)
   const { pathname } = url
   const method = request.method
@@ -109,9 +103,7 @@ export async function csrfProtection(
  * Double Submit Cookie Pattern
  * Alternative CSRF protection that doesn't require server-side state
  */
-export async function doubleSubmitCookie(
-  request: NextRequest
-): Promise<NextResponse | null> {
+export async function doubleSubmitCookie(request: NextRequest): Promise<NextResponse | null> {
   const url = new URL(request.url)
   const { pathname } = url
   const method = request.method
@@ -128,10 +120,7 @@ export async function doubleSubmitCookie(
   const headerToken = request.headers.get(CSRF_HEADER_NAME)
 
   if (!cookieToken || !headerToken || cookieToken !== headerToken) {
-    return NextResponse.json(
-      { error: 'CSRF validation failed' },
-      { status: 403 }
-    )
+    return NextResponse.json({ error: 'CSRF validation failed' }, { status: 403 })
   }
 
   return null
@@ -173,15 +162,10 @@ export function validateOrigin(request: NextRequest): boolean {
 /**
  * Combined CSRF protection with origin validation
  */
-export async function enhancedCsrfProtection(
-  request: NextRequest
-): Promise<NextResponse | null> {
+export async function enhancedCsrfProtection(request: NextRequest): Promise<NextResponse | null> {
   // Check origin first
   if (!validateOrigin(request)) {
-    return NextResponse.json(
-      { error: 'Invalid request origin' },
-      { status: 403 }
-    )
+    return NextResponse.json({ error: 'Invalid request origin' }, { status: 403 })
   }
 
   // Then check CSRF token

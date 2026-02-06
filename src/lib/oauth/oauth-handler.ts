@@ -318,7 +318,8 @@ export async function handleOAuthCallback(
     // Check for OAuth errors
     const error = searchParams.get('error')
     if (error) {
-      const errorDescription = searchParams.get('error_description') || 'OAuth authentication failed'
+      const errorDescription =
+        searchParams.get('error_description') || 'OAuth authentication failed'
       logger.error(`[OAuth] ${provider} error: ${error} - ${errorDescription}`)
 
       const loginUrl = new URL('/login', baseUrl)

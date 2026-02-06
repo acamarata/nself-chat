@@ -317,7 +317,7 @@ export function isGroupDMChannel(channel: any): channel is GroupDMChannel {
  * Check if channel is a DM (direct or group).
  */
 export function isDMChannel(channel: any): channel is DirectMessageChannel | GroupDMChannel {
-  return (channel?.type === 'direct' || channel?.type === 'group_dm')
+  return channel?.type === 'direct' || channel?.type === 'group_dm'
 }
 
 /**

@@ -150,7 +150,8 @@ export function ScreenShareView({
             <div className="absolute left-4 top-4 flex items-center gap-2">
               <Badge className="bg-blue-600 text-white">
                 <MonitorUp className="mr-1 h-3 w-3" />
-                {(participant.user as any)?.name || participant.user?.displayName || 'Unknown'} is presenting
+                {(participant.user as any)?.name || participant.user?.displayName || 'Unknown'} is
+                presenting
               </Badge>
             </div>
 
@@ -173,12 +174,7 @@ export function ScreenShareView({
                 {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
               </Button>
               {onStopSharing && participant.isLocal && (
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={onStopSharing}
-                  className="h-9"
-                >
+                <Button variant="destructive" size="sm" onClick={onStopSharing} className="h-9">
                   <MonitorStop className="mr-2 h-4 w-4" />
                   Stop Sharing
                 </Button>
@@ -208,7 +204,17 @@ export function ScreenShareView({
                       isScreenSharing={false}
                       isSpeaking={p.isSpeaking || false}
                       isLocal={p.isLocal}
-                      connectionQuality={p.connectionQuality ? (p.connectionQuality > 80 ? 'excellent' : p.connectionQuality > 60 ? 'good' : p.connectionQuality > 40 ? 'fair' : 'poor') : undefined}
+                      connectionQuality={
+                        p.connectionQuality
+                          ? p.connectionQuality > 80
+                            ? 'excellent'
+                            : p.connectionQuality > 60
+                              ? 'good'
+                              : p.connectionQuality > 40
+                                ? 'fair'
+                                : 'poor'
+                          : undefined
+                      }
                       onPin={onPinParticipant}
                       className="h-36"
                     />
@@ -242,7 +248,8 @@ export function ScreenShareView({
               <div className="absolute left-4 top-4 flex items-center gap-2">
                 <Badge className="bg-blue-600 text-white">
                   <MonitorUp className="mr-1 h-3 w-3" />
-                  {(participant.user as any)?.name || participant.user?.displayName || 'Unknown'} is presenting
+                  {(participant.user as any)?.name || participant.user?.displayName || 'Unknown'} is
+                  presenting
                 </Badge>
               </div>
 
@@ -269,12 +276,7 @@ export function ScreenShareView({
                   )}
                 </Button>
                 {onStopSharing && participant.isLocal && (
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={onStopSharing}
-                    className="h-9"
-                  >
+                  <Button variant="destructive" size="sm" onClick={onStopSharing} className="h-9">
                     <MonitorStop className="mr-2 h-4 w-4" />
                     Stop Sharing
                   </Button>
@@ -299,7 +301,17 @@ export function ScreenShareView({
                         isScreenSharing={false}
                         isSpeaking={p.isSpeaking || false}
                         isLocal={p.isLocal}
-                        connectionQuality={p.connectionQuality ? (p.connectionQuality > 80 ? 'excellent' : p.connectionQuality > 60 ? 'good' : p.connectionQuality > 40 ? 'fair' : 'poor') : undefined}
+                        connectionQuality={
+                          p.connectionQuality
+                            ? p.connectionQuality > 80
+                              ? 'excellent'
+                              : p.connectionQuality > 60
+                                ? 'good'
+                                : p.connectionQuality > 40
+                                  ? 'fair'
+                                  : 'poor'
+                            : undefined
+                        }
                         onPin={onPinParticipant}
                         className="h-24 w-32 flex-shrink-0"
                       />

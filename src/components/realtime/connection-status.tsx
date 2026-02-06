@@ -18,7 +18,10 @@
 import { useEffect, useState } from 'react'
 import { Wifi, WifiOff, RefreshCw, AlertCircle, Check, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { getRealtimeIntegration, type IntegrationStatus } from '@/services/realtime/realtime-integration.service'
+import {
+  getRealtimeIntegration,
+  type IntegrationStatus,
+} from '@/services/realtime/realtime-integration.service'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -112,7 +115,9 @@ function getStatusText(status: IntegrationStatus): string {
 /**
  * Get quality badge variant
  */
-function getQualityVariant(quality: IntegrationStatus['connectionQuality']): 'default' | 'secondary' | 'destructive' | 'outline' {
+function getQualityVariant(
+  quality: IntegrationStatus['connectionQuality']
+): 'default' | 'secondary' | 'destructive' | 'outline' {
   switch (quality) {
     case 'excellent':
     case 'good':
@@ -216,7 +221,12 @@ export function ConnectionStatus({
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">State:</span>
                 <div className="flex items-center gap-2">
-                  <div className={cn('h-2 w-2 rounded-full', status.connected ? 'bg-green-500' : 'bg-red-500')} />
+                  <div
+                    className={cn(
+                      'h-2 w-2 rounded-full',
+                      status.connected ? 'bg-green-500' : 'bg-red-500'
+                    )}
+                  />
                   <span>{status.connected ? 'Connected' : 'Disconnected'}</span>
                 </div>
               </div>
@@ -240,8 +250,8 @@ export function ConnectionStatus({
               )}
 
               {/* Features */}
-              <div className="pt-2 space-y-1">
-                <div className="text-xs text-muted-foreground mb-1">Features:</div>
+              <div className="space-y-1 pt-2">
+                <div className="mb-1 text-xs text-muted-foreground">Features:</div>
                 {status.presenceEnabled && (
                   <div className="flex items-center gap-2 text-xs">
                     <Check className="h-3 w-3 text-green-500" />
@@ -283,8 +293,10 @@ export function ConnectionStatus({
     return (
       <div
         className={cn(
-          'flex items-center justify-between gap-4 px-4 py-2 rounded-lg border',
-          status.connected ? 'bg-green-50 border-green-200 dark:bg-green-950 dark:border-green-800' : 'bg-red-50 border-red-200 dark:bg-red-950 dark:border-red-800',
+          'flex items-center justify-between gap-4 rounded-lg border px-4 py-2',
+          status.connected
+            ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950'
+            : 'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950',
           className
         )}
       >
@@ -301,18 +313,14 @@ export function ConnectionStatus({
             )}
             {status.queuedMessageCount > 0 && (
               <div className="text-xs text-muted-foreground">
-                {status.queuedMessageCount} message{status.queuedMessageCount !== 1 ? 's' : ''} queued
+                {status.queuedMessageCount} message{status.queuedMessageCount !== 1 ? 's' : ''}{' '}
+                queued
               </div>
             )}
           </div>
         </div>
         {!status.connected && (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleReconnect}
-            disabled={isReconnecting}
-          >
+          <Button variant="outline" size="sm" onClick={handleReconnect} disabled={isReconnecting}>
             <RefreshCw className={cn('mr-2 h-4 w-4', isReconnecting && 'animate-spin')} />
             Reconnect
           </Button>
@@ -324,7 +332,7 @@ export function ConnectionStatus({
   // Render default variant (full card)
   return (
     <div className={cn('rounded-lg border p-4', className)}>
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <h3 className="text-lg font-semibold">Connection Status</h3>
         <div className={cn('flex items-center gap-2', getStatusColor(status))}>
           {getStatusIcon(status)}
@@ -362,23 +370,43 @@ export function ConnectionStatus({
         )}
 
         {/* Features */}
-        <div className="pt-2 border-t">
-          <div className="text-sm text-muted-foreground mb-2">Active Features:</div>
+        <div className="border-t pt-2">
+          <div className="mb-2 text-sm text-muted-foreground">Active Features:</div>
           <div className="grid grid-cols-2 gap-2">
             <div className="flex items-center gap-2 text-sm">
-              <div className={cn('h-2 w-2 rounded-full', status.presenceEnabled ? 'bg-green-500' : 'bg-gray-300')} />
+              <div
+                className={cn(
+                  'h-2 w-2 rounded-full',
+                  status.presenceEnabled ? 'bg-green-500' : 'bg-gray-300'
+                )}
+              />
               <span>Presence</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
-              <div className={cn('h-2 w-2 rounded-full', status.typingEnabled ? 'bg-green-500' : 'bg-gray-300')} />
+              <div
+                className={cn(
+                  'h-2 w-2 rounded-full',
+                  status.typingEnabled ? 'bg-green-500' : 'bg-gray-300'
+                )}
+              />
               <span>Typing</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
-              <div className={cn('h-2 w-2 rounded-full', status.deliveryReceiptsEnabled ? 'bg-green-500' : 'bg-gray-300')} />
+              <div
+                className={cn(
+                  'h-2 w-2 rounded-full',
+                  status.deliveryReceiptsEnabled ? 'bg-green-500' : 'bg-gray-300'
+                )}
+              />
               <span>Receipts</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
-              <div className={cn('h-2 w-2 rounded-full', status.offlineQueueEnabled ? 'bg-green-500' : 'bg-gray-300')} />
+              <div
+                className={cn(
+                  'h-2 w-2 rounded-full',
+                  status.offlineQueueEnabled ? 'bg-green-500' : 'bg-gray-300'
+                )}
+              />
               <span>Offline Queue</span>
             </div>
           </div>
@@ -386,11 +414,7 @@ export function ConnectionStatus({
 
         {/* Reconnect Button */}
         {!status.connected && (
-          <Button
-            className="w-full"
-            onClick={handleReconnect}
-            disabled={isReconnecting}
-          >
+          <Button className="w-full" onClick={handleReconnect} disabled={isReconnecting}>
             <RefreshCw className={cn('mr-2 h-4 w-4', isReconnecting && 'animate-spin')} />
             Reconnect Now
           </Button>

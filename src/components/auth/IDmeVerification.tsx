@@ -168,9 +168,7 @@ export function IDmeVerification({ userId, onVerificationComplete }: IDmeVerific
             )}
 
             <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">
-                Verify your identity as a member of:
-              </p>
+              <p className="text-sm text-muted-foreground">Verify your identity as a member of:</p>
 
               <ul className="space-y-2 text-sm">
                 <li className="flex items-center gap-2">
@@ -211,7 +209,7 @@ export function IDmeVerification({ userId, onVerificationComplete }: IDmeVerific
                 )}
               </Button>
 
-              <p className="text-xs text-center text-muted-foreground">
+              <p className="text-center text-xs text-muted-foreground">
                 Secure verification powered by{' '}
                 <a
                   href="https://www.id.me"

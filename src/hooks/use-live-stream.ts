@@ -108,7 +108,7 @@ export function useLiveStream(options: UseLiveStreamOptions = {}): UseLiveStream
       setAvailableCameras(devices.filter((d) => d.kind === 'videoinput'))
       setAvailableMicrophones(devices.filter((d) => d.kind === 'audioinput'))
     } catch (err) {
-      logger.error('Failed to enumerate devices:',  err)
+      logger.error('Failed to enumerate devices:', err)
     }
   }, [])
 

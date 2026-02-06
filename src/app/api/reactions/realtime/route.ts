@@ -117,10 +117,7 @@ export async function POST(request: NextRequest) {
     })
 
     if (errors || !messageData?.nchat_messages_by_pk) {
-      return NextResponse.json(
-        { success: false, error: 'Message not found' },
-        { status: 404 }
-      )
+      return NextResponse.json({ success: false, error: 'Message not found' }, { status: 404 })
     }
 
     const message = messageData.nchat_messages_by_pk

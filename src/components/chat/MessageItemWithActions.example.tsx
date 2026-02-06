@@ -136,10 +136,7 @@ export function MessageListWithBulk({
             >
               {selection.isSelectionMode ? (
                 <div
-                  className={cn(
-                    'relative cursor-pointer',
-                    isSelected && 'bg-primary/5'
-                  )}
+                  className={cn('relative cursor-pointer', isSelected && 'bg-primary/5')}
                   role="button"
                   tabIndex={0}
                   onClick={() => selection.toggleSelection(message.id)}

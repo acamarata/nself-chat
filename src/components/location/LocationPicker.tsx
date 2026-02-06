@@ -90,7 +90,7 @@ export function LocationPicker({
       setCoordinates(position)
       setSelectedPlace(null)
     } catch (error) {
-      logger.error('Failed to get current location:',  error)
+      logger.error('Failed to get current location:', error)
     } finally {
       setIsGettingLocation(false)
     }
@@ -117,7 +117,7 @@ export function LocationPicker({
       const results = await searchPlaces(searchQuery, coordinates || undefined)
       setSearchResults(results)
     } catch (error) {
-      logger.error('Search failed:',  error)
+      logger.error('Search failed:', error)
     } finally {
       setIsSearching(false)
     }

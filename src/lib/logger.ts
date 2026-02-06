@@ -26,7 +26,11 @@ async function captureSentryError(error: Error, extra?: LogContext): Promise<voi
   }
 }
 
-async function captureSentryMessage(message: string, level: 'info' | 'warning', extra?: LogContext): Promise<void> {
+async function captureSentryMessage(
+  message: string,
+  level: 'info' | 'warning',
+  extra?: LogContext
+): Promise<void> {
   if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
     try {
       const { captureMessage } = await import('@sentry/nextjs')

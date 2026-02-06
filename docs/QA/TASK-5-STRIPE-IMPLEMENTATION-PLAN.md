@@ -10,6 +10,7 @@
 ## Current State Analysis
 
 ### What Exists ✅
+
 1. **Complete Type Definitions** (lines 1-158)
    - PaymentIntent, Subscription, Invoice, Customer, PaymentMethod
    - All interfaces properly typed
@@ -26,6 +27,7 @@
    - Server-to-server communication working
 
 ### What's Missing ❌
+
 1. **Real Stripe.js Loading** (line 190)
    - Currently just sets `initialized = true`
    - Needs to load `@stripe/stripe-js` library
@@ -47,12 +49,14 @@
 ### Phase 1: Setup & Dependencies (30 min)
 
 **1.1: Install Stripe.js**
+
 ```bash
 pnpm add @stripe/stripe-js
 pnpm add -D @types/stripe-js
 ```
 
 **1.2: Configure Environment**
+
 ```bash
 # .env.local
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
@@ -61,6 +65,7 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 ```
 
 **1.3: Verify Server Integration**
+
 - Check `/src/lib/billing/stripe-service.ts` is using real API
 - Ensure webhook endpoints exist
 - Confirm database schema for payments
@@ -72,6 +77,7 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 **2.1: Update `initialize()` Method**
 
 **Current** (line 184-196):
+
 ```typescript
 async initialize(): Promise<boolean> {
   if (this.initialized) {
@@ -88,13 +94,14 @@ async initialize(): Promise<boolean> {
 ```
 
 **New**:
+
 ```typescript
 import { loadStripe, Stripe } from '@stripe/stripe-js'
 
 export class StripeClient {
   private config: StripeConfig
   private initialized: boolean = false
-  private stripe: Stripe | null = null  // Add this
+  private stripe: Stripe | null = null // Add this
 
   async initialize(): Promise<boolean> {
     if (this.initialized && this.stripe) {
@@ -273,6 +280,7 @@ async confirmPaymentIntent(
 ```
 
 **3.3: Cancel & Retrieve Payment Intents**
+
 - Similar pattern: call server API
 - Transform response to our types
 - Handle errors properly
@@ -284,6 +292,7 @@ async confirmPaymentIntent(
 Need to create server-side API routes that use the real Stripe SDK:
 
 **4.1: Create Intent Route**
+
 ```typescript
 // /src/app/api/payments/create-intent/route.ts
 import Stripe from 'stripe'
@@ -309,15 +318,13 @@ export async function POST(request: NextRequest) {
 
     return Response.json(paymentIntent)
   } catch (error) {
-    return Response.json(
-      { error: error.message },
-      { status: 400 }
-    )
+    return Response.json({ error: error.message }, { status: 400 })
   }
 }
 ```
 
 **4.2: Other Routes Needed**
+
 - `/api/payments/webhooks` - Handle Stripe webhooks
 - `/api/payments/customers` - Customer CRUD
 - `/api/payments/subscriptions` - Subscription management
@@ -328,16 +335,19 @@ export async function POST(request: NextRequest) {
 ### Phase 5: Subscriptions (2 hours)
 
 **5.1: Create Subscription**
+
 - Call `/api/payments/subscriptions` POST
 - Handle trial periods
 - Return properly typed Subscription
 
 **5.2: Update/Cancel Subscription**
+
 - Implement immediate vs. end-of-period cancellation
 - Handle proration logic
 - Update subscription items
 
 **5.3: List Subscriptions**
+
 - Fetch from Stripe API
 - Filter by customer
 - Handle pagination
@@ -347,11 +357,13 @@ export async function POST(request: NextRequest) {
 ### Phase 6: Customers & Payment Methods (1.5 hours)
 
 **6.1: Customer Management**
+
 - Create, retrieve, update, delete
 - Link to internal user IDs
 - Store in database
 
 **6.2: Payment Methods**
+
 - Attach/detach from customers
 - List payment methods
 - Set default payment method
@@ -411,6 +423,7 @@ verifyWebhookSignature(
 ```
 
 **7.2: Handle Webhook Events**
+
 - Process different event types
 - Update database
 - Send notifications
@@ -422,6 +435,7 @@ verifyWebhookSignature(
 Create React components for payment forms:
 
 **8.1: Elements Provider**
+
 ```typescript
 // /src/components/payments/stripe-elements-provider.tsx
 import { Elements } from '@stripe/react-stripe-js'
@@ -445,6 +459,7 @@ export function StripeElementsProvider({
 ```
 
 **8.2: Payment Form Component**
+
 ```typescript
 // /src/components/payments/payment-form.tsx
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
@@ -488,13 +503,14 @@ export function PaymentForm() {
 ### Phase 9: Testing (1 hour)
 
 **9.1: Update Tests**
+
 ```typescript
 // /src/lib/payments/__tests__/stripe-client.test.ts
 
 describe('StripeClient (Real API)', () => {
   it('should load Stripe.js', async () => {
     const client = new StripeClient({
-      publishableKey: 'pk_test_123'
+      publishableKey: 'pk_test_123',
     })
 
     const result = await client.initialize()
@@ -504,7 +520,7 @@ describe('StripeClient (Real API)', () => {
 
   it('should create real payment intent', async () => {
     const client = new StripeClient({
-      publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+      publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
     })
     await client.initialize()
 
@@ -521,6 +537,7 @@ describe('StripeClient (Real API)', () => {
 ```
 
 **9.2: Integration Tests**
+
 - Test full payment flow
 - Test webhook handling
 - Test error scenarios
@@ -530,21 +547,25 @@ describe('StripeClient (Real API)', () => {
 ### Phase 10: Documentation (30 min)
 
 **10.1: Update README**
+
 - Document Stripe setup
 - Add environment variable requirements
 - Explain test mode vs. live mode
 
 **10.2: Create Integration Guide**
+
 ```markdown
 # Stripe Integration Guide
 
 ## Setup
+
 1. Create Stripe account
 2. Get API keys from dashboard
 3. Set environment variables
 4. Configure webhooks
 
 ## Usage
+
 ...
 ```
 
@@ -553,6 +574,7 @@ describe('StripeClient (Real API)', () => {
 ## File Changes Summary
 
 ### Files to Modify
+
 1. `/src/lib/payments/stripe-client.ts` (~1,358 lines)
    - Replace all mock implementations
    - Add real Stripe.js integration
@@ -564,6 +586,7 @@ describe('StripeClient (Real API)', () => {
    - Mock Stripe.js for unit tests
 
 ### Files to Create
+
 1. `/src/app/api/payments/create-intent/route.ts`
 2. `/src/app/api/payments/webhooks/route.ts`
 3. `/src/app/api/payments/customers/route.ts`
@@ -578,16 +601,19 @@ describe('StripeClient (Real API)', () => {
 ## Testing Strategy
 
 ### Unit Tests
+
 - Mock Stripe.js for isolated testing
 - Test error handling
 - Test validation logic
 
 ### Integration Tests
+
 - Use Stripe test mode
 - Test real API calls
 - Verify webhook handling
 
 ### E2E Tests
+
 - Complete payment flow
 - Subscription creation
 - Payment method management
@@ -597,16 +623,19 @@ describe('StripeClient (Real API)', () => {
 ## Rollout Plan
 
 ### Phase 1: Test Mode (Week 1)
+
 - Deploy with test keys only
 - Internal testing
 - Fix any issues
 
 ### Phase 2: Limited Live (Week 2)
+
 - Enable for beta users
 - Monitor closely
 - Gather feedback
 
 ### Phase 3: Full Production (Week 3)
+
 - Enable for all users
 - Full monitoring
 - Support documentation
@@ -616,15 +645,18 @@ describe('StripeClient (Real API)', () => {
 ## Dependencies
 
 ### NPM Packages
+
 - `@stripe/stripe-js` - Client-side Stripe.js
 - `stripe` - Server-side Stripe SDK (already installed)
 
 ### Environment Variables
+
 - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Public key
 - `STRIPE_SECRET_KEY` - Secret key (server-only)
 - `STRIPE_WEBHOOK_SECRET` - Webhook signing secret
 
 ### Backend Requirements
+
 - Webhook endpoint accessible from internet
 - Database tables for payments
 - Email service for receipts
@@ -634,6 +666,7 @@ describe('StripeClient (Real API)', () => {
 ## Success Criteria
 
 ✅ **Complete When**:
+
 1. Real Stripe.js loaded and initialized
 2. All payment intent methods call real API
 3. Subscription management works end-to-end
@@ -648,34 +681,38 @@ describe('StripeClient (Real API)', () => {
 ## Risks & Mitigation
 
 ### Risk 1: API Key Exposure
+
 **Mitigation**: Use environment variables, never commit keys
 
 ### Risk 2: Webhook Verification Failures
+
 **Mitigation**: Comprehensive testing, proper signature validation
 
 ### Risk 3: Payment Failures
+
 **Mitigation**: Proper error handling, retry logic, user notifications
 
 ### Risk 4: 3D Secure Issues
+
 **Mitigation**: Use Stripe Elements, handle SCA properly
 
 ---
 
 ## Estimated Timeline
 
-| Phase | Task | Time |
-|-------|------|------|
-| 1 | Setup & Dependencies | 30 min |
-| 2 | Initialize Stripe.js | 1 hour |
-| 3 | Payment Intent Methods | 2 hours |
-| 4 | API Routes | 2 hours |
-| 5 | Subscriptions | 2 hours |
-| 6 | Customers & Payment Methods | 1.5 hours |
-| 7 | Webhooks | 1 hour |
-| 8 | Stripe Elements | 2 hours |
-| 9 | Testing | 1 hour |
-| 10 | Documentation | 30 min |
-| **Total** | | **13.5 hours** |
+| Phase     | Task                        | Time           |
+| --------- | --------------------------- | -------------- |
+| 1         | Setup & Dependencies        | 30 min         |
+| 2         | Initialize Stripe.js        | 1 hour         |
+| 3         | Payment Intent Methods      | 2 hours        |
+| 4         | API Routes                  | 2 hours        |
+| 5         | Subscriptions               | 2 hours        |
+| 6         | Customers & Payment Methods | 1.5 hours      |
+| 7         | Webhooks                    | 1 hour         |
+| 8         | Stripe Elements             | 2 hours        |
+| 9         | Testing                     | 1 hour         |
+| 10        | Documentation               | 30 min         |
+| **Total** |                             | **13.5 hours** |
 
 **Buffer**: +2-4 hours for debugging and unexpected issues
 

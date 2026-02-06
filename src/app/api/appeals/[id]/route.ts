@@ -9,10 +9,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { logger } from '@/lib/logger'
 import { getAppealQueue } from '@/lib/moderation/appeal-system'
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     const appealQueue = getAppealQueue()
@@ -29,10 +26,7 @@ export async function GET(
   }
 }
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     const body = await request.json()
@@ -77,10 +71,7 @@ export async function PATCH(
       const { author_id, author_name, content, is_internal } = body
 
       if (!author_id || !content) {
-        return NextResponse.json(
-          { error: 'author_id and content are required' },
-          { status: 400 }
-        )
+        return NextResponse.json({ error: 'author_id and content are required' }, { status: 400 })
       }
 
       const result = await appealQueue.addReviewNote(

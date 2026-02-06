@@ -181,7 +181,7 @@ export const changeLanguage = async (lng: string) => {
 
     // Update HTML dir attribute for RTL languages
     if (typeof document !== 'undefined') {
-      const localeConfig = await import('./locales').then(m => m.getLocaleConfig(lng))
+      const localeConfig = await import('./locales').then((m) => m.getLocaleConfig(lng))
       if (localeConfig) {
         document.documentElement.dir = localeConfig.direction
       }

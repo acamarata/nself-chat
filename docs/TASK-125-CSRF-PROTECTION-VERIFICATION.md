@@ -22,6 +22,7 @@ Task 125 (CSRF Protection) is **95% complete** and **PRODUCTION-READY** with min
 **Location**: `/Users/admin/Sites/nself-chat/src/lib/security/csrf.ts` (lines 85-99)
 
 **Implementation**:
+
 - ✅ Cryptographically secure token generation using `crypto.randomBytes(32)`
 - ✅ Hex-encoded tokens (64 characters)
 - ✅ HMAC signing with SHA-256 for integrity
@@ -29,15 +30,14 @@ Task 125 (CSRF Protection) is **95% complete** and **PRODUCTION-READY** with min
 - ✅ Lazy validation of `CSRF_SECRET` (build-safe)
 
 **Code Evidence**:
+
 ```typescript
 export function generateCsrfToken(): string {
   return randomBytes(CSRF_CONFIG.TOKEN_LENGTH).toString('hex')
 }
 
 function signToken(token: string): string {
-  const signature = createHmac('sha256', CSRF_CONFIG.SECRET)
-    .update(token)
-    .digest('hex')
+  const signature = createHmac('sha256', CSRF_CONFIG.SECRET).update(token).digest('hex')
   return `${token}:${signature}`
 }
 ```
@@ -49,10 +49,12 @@ function signToken(token: string): string {
 ### 2. CSRF Token Validation Middleware ✅ COMPLETE
 
 **Location**:
+
 - `/Users/admin/Sites/nself-chat/src/lib/security/csrf.ts` (lines 206-239, 255-275)
 - `/Users/admin/Sites/nself-chat/src/middleware/csrf-protection.ts` (lines 40-104)
 
 **Implementation**:
+
 - ✅ Validates tokens for state-changing methods (POST, PUT, PATCH, DELETE)
 - ✅ Skips validation for safe methods (GET, HEAD, OPTIONS)
 - ✅ Double-submit cookie pattern implemented
@@ -61,6 +63,7 @@ function signToken(token: string): string {
 - ✅ Automatic token refresh on validation
 
 **Code Evidence**:
+
 ```typescript
 export function withCsrfProtection(
   handler: (request: NextRequest, context: any) => Promise<NextResponse>
@@ -90,12 +93,14 @@ export function withCsrfProtection(
 **Location**: `/Users/admin/Sites/nself-chat/src/lib/security/csrf.ts` (lines 206-239)
 
 **Implementation**:
+
 - ✅ Double-submit cookie pattern with HMAC verification
 - ✅ Cookie and header must match for validation
 - ✅ Signed tokens prevent forgery
 - ✅ Token extracted from both cookie and header
 
 **Code Evidence**:
+
 ```typescript
 export function validateCsrfToken(request: NextRequest): boolean {
   // Skip CSRF validation for safe methods
@@ -132,6 +137,7 @@ export function validateCsrfToken(request: NextRequest): boolean {
 **Location**: `/Users/admin/Sites/nself-chat/src/lib/security/csrf.ts` (line 192)
 
 **Implementation**:
+
 - ✅ `sameSite: 'lax'` configured
 - ✅ `httpOnly: true` prevents JavaScript access
 - ✅ `secure: true` in production (HTTPS only)
@@ -139,6 +145,7 @@ export function validateCsrfToken(request: NextRequest): boolean {
 - ✅ Path set to `/` for site-wide coverage
 
 **Code Evidence**:
+
 ```typescript
 response.cookies.set(CSRF_CONFIG.COOKIE_NAME, signedToken, {
   httpOnly: true,
@@ -158,10 +165,12 @@ response.cookies.set(CSRF_CONFIG.COOKIE_NAME, signedToken, {
 ### 5. Origin/Referer Header Validation ✅ COMPLETE
 
 **Location**:
+
 - `/Users/admin/Sites/nself-chat/src/middleware/csrf-protection.ts` (lines 139-167)
 - `/Users/admin/Sites/nself-chat/src/middleware.ts` (CSP headers)
 
 **Implementation**:
+
 - ✅ Origin header validation
 - ✅ Referer header validation
 - ✅ Allowlist of trusted origins
@@ -169,6 +178,7 @@ response.cookies.set(CSRF_CONFIG.COOKIE_NAME, signedToken, {
 - ✅ Combined with CSRF token validation in `enhancedCsrfProtection`
 
 **Code Evidence**:
+
 ```typescript
 export function validateOrigin(request: NextRequest): boolean {
   const origin = request.headers.get('origin')
@@ -207,12 +217,14 @@ export function validateOrigin(request: NextRequest): boolean {
 ### 6. CSRF Tokens in Forms ⚠️ PARTIAL
 
 **Current State**:
+
 - ✅ API routes protected with `withCsrfProtection` middleware
 - ✅ Token available via `/api/csrf` endpoint
 - ⚠️ No evidence of automatic form token injection
 - ⚠️ No React hook for easy token retrieval (`use-csrf.ts` not found)
 
 **Evidence of API Route Protection**:
+
 ```bash
 # Routes using withCsrfProtection:
 - /api/config (POST, PATCH)
@@ -223,6 +235,7 @@ export function validateOrigin(request: NextRequest): boolean {
 ```
 
 **Recommendations**:
+
 1. Create `src/hooks/use-csrf.ts` hook for client-side token management
 2. Add hidden input field support for traditional forms
 3. Document form integration patterns
@@ -236,6 +249,7 @@ export function validateOrigin(request: NextRequest): boolean {
 **Location**: Multiple API routes across `/Users/admin/Sites/nself-chat/src/app/api/`
 
 **Protected Routes** (Sample):
+
 - ✅ `/api/config` - POST, PATCH (admin config updates)
 - ✅ `/api/example-protected` - POST, DELETE
 - ✅ `/api/calls/accept` - POST
@@ -243,15 +257,17 @@ export function validateOrigin(request: NextRequest): boolean {
 - ✅ `/api/calls/end` - POST
 
 **Unprotected Routes** (Intentional):
+
 - ⚠️ `/api/upload` - POST (CSRF protection commented out - see Task 45)
 - ⚠️ `/api/auth/*` - POST (rate-limited instead)
 - ⚠️ `/api/webhooks/*` - POST (uses signature verification)
 
 **Code Pattern**:
+
 ```typescript
 export const POST = compose(
   withErrorHandler,
-  withCsrfProtection,  // ← CSRF protection
+  withCsrfProtection, // ← CSRF protection
   withAuth,
   withAdmin
 )(handlePost)
@@ -264,10 +280,12 @@ export const POST = compose(
 ### 8. Exempt Routes (Public APIs) ✅ COMPLETE
 
 **Location**:
+
 - `/Users/admin/Sites/nself-chat/src/middleware/csrf-protection.ts` (lines 17-21)
 - `/Users/admin/Sites/nself-chat/src/lib/security/csrf.ts` (lines 208-215)
 
 **Exempt Routes**:
+
 - ✅ Webhooks (`/api/webhooks/`)
 - ✅ Auth callbacks (`/api/auth/callback`)
 - ✅ Health checks (`/api/health`)
@@ -275,12 +293,9 @@ export const POST = compose(
 - ✅ Development mode bypass (when `SKIP_CSRF=true`)
 
 **Code Evidence**:
+
 ```typescript
-const CSRF_EXEMPT_PATHS = [
-  '/api/webhooks/',
-  '/api/auth/callback',
-  '/api/health',
-]
+const CSRF_EXEMPT_PATHS = ['/api/webhooks/', '/api/auth/callback', '/api/health']
 
 if (CSRF_EXEMPT_PATHS.some((path) => pathname.startsWith(path))) {
   return null
@@ -294,10 +309,12 @@ if (CSRF_EXEMPT_PATHS.some((path) => pathname.startsWith(path))) {
 ### 9. Error Handling for Invalid Tokens ✅ COMPLETE
 
 **Location**:
+
 - `/Users/admin/Sites/nself-chat/src/lib/security/csrf.ts` (line 261)
 - `/Users/admin/Sites/nself-chat/src/middleware/csrf-protection.ts` (lines 63-100)
 
 **Implementation**:
+
 - ✅ 403 Forbidden status for missing/invalid tokens
 - ✅ Clear error messages
 - ✅ Error codes for client handling
@@ -305,17 +322,15 @@ if (CSRF_EXEMPT_PATHS.some((path) => pathname.startsWith(path))) {
 - ✅ Automatic token regeneration on error
 
 **Code Evidence**:
+
 ```typescript
 if (!validateCsrfToken(request)) {
-  throw new ApiError(
-    'Invalid or missing CSRF token',
-    'CSRF_VALIDATION_FAILED',
-    403
-  )
+  throw new ApiError('Invalid or missing CSRF token', 'CSRF_VALIDATION_FAILED', 403)
 }
 ```
 
 **Error Response Format**:
+
 ```json
 {
   "error": "CSRF token missing",
@@ -332,12 +347,14 @@ if (!validateCsrfToken(request)) {
 **Current State**: No dedicated CSRF tests found
 
 **Search Results**:
+
 ```bash
 # Test files containing "csrf" or "CSRF": 0 found
 # Jest test files: None specific to CSRF
 ```
 
 **Required Tests**:
+
 1. ❌ Token generation tests
 2. ❌ Token validation tests (valid/invalid/expired)
 3. ❌ Middleware integration tests
@@ -388,6 +405,7 @@ if (!validateCsrfToken(request)) {
 ## Environment Configuration ⚠️ MISSING FROM .env.example
 
 **Current State**:
+
 - ✅ `CSRF_SECRET` used in code with lazy validation
 - ❌ `CSRF_SECRET` NOT documented in `.env.example`
 - ✅ Production validation enforces 32+ character requirement
@@ -396,6 +414,7 @@ if (!validateCsrfToken(request)) {
 **Location**: `/Users/admin/Sites/nself-chat/src/lib/security/csrf.ts` (lines 27-55)
 
 **Code Evidence**:
+
 ```typescript
 function getCsrfSecret(): string {
   // Skip validation during build if requested
@@ -420,6 +439,7 @@ function getCsrfSecret(): string {
 ```
 
 **Recommendation**: Add to `.env.example`:
+
 ```bash
 # ═══════════════════════════════════════════════════════════════════════════════
 # SECURITY CONFIGURATION
@@ -439,17 +459,19 @@ function getCsrfSecret(): string {
 ### API Route Integration ✅ EXCELLENT
 
 **Middleware Composition Pattern**:
+
 ```typescript
 import { compose, withErrorHandler, withCsrfProtection, withAuth } from '@/lib/api/middleware'
 
 export const POST = compose(
-  withErrorHandler,    // Error handling
-  withCsrfProtection,  // CSRF validation
-  withAuth             // Authentication
+  withErrorHandler, // Error handling
+  withCsrfProtection, // CSRF validation
+  withAuth // Authentication
 )(handler)
 ```
 
 **Coverage**:
+
 - ✅ 10+ API routes using `withCsrfProtection`
 - ✅ Consistent middleware ordering
 - ✅ Example route with full documentation
@@ -457,12 +479,14 @@ export const POST = compose(
 ### Client-Side Integration ⚠️ NEEDS ENHANCEMENT
 
 **Current**:
+
 - ✅ `/api/csrf` endpoint provides tokens
 - ✅ Documentation shows fetch usage
 - ⚠️ No React hook for easy integration
 - ⚠️ No automatic header injection
 
 **Recommended Enhancement**:
+
 ```typescript
 // src/hooks/use-csrf.ts
 export function useCsrf() {
@@ -490,6 +514,7 @@ export function useCsrf() {
 ### OWASP Compliance ✅ PASS
 
 **Coverage**:
+
 - ✅ A08: Software and Data Integrity Failures - CSRF protection prevents unauthorized state changes
 - ✅ Double-submit cookie pattern (OWASP recommended)
 - ✅ HMAC signing for token integrity
@@ -502,26 +527,28 @@ export function useCsrf() {
 
 ### Threat Coverage
 
-| Threat | Protected | Evidence |
-|--------|-----------|----------|
-| CSRF attacks | ✅ YES | Double-submit cookie + HMAC |
-| Token fixation | ✅ YES | Signed tokens, auto-rotation |
-| Timing attacks | ✅ YES | Timing-safe comparison (lines 133-144) |
-| Token leakage | ✅ YES | HttpOnly cookies |
-| Replay attacks | ✅ YES | 24-hour token expiry |
-| Origin spoofing | ✅ YES | Origin validation |
-| Man-in-the-middle | ✅ YES | Secure flag in production + HTTPS |
+| Threat            | Protected | Evidence                               |
+| ----------------- | --------- | -------------------------------------- |
+| CSRF attacks      | ✅ YES    | Double-submit cookie + HMAC            |
+| Token fixation    | ✅ YES    | Signed tokens, auto-rotation           |
+| Timing attacks    | ✅ YES    | Timing-safe comparison (lines 133-144) |
+| Token leakage     | ✅ YES    | HttpOnly cookies                       |
+| Replay attacks    | ✅ YES    | 24-hour token expiry                   |
+| Origin spoofing   | ✅ YES    | Origin validation                      |
+| Man-in-the-middle | ✅ YES    | Secure flag in production + HTTPS      |
 
 ---
 
 ## Performance Considerations ✅ OPTIMAL
 
 **Token Storage**:
+
 - ✅ Efficient in-memory token verification (no database lookup)
 - ✅ Signed tokens eliminate server-side storage
 - ✅ 24-hour expiry prevents unbounded growth
 
 **Validation Overhead**:
+
 - ✅ Fast HMAC verification
 - ✅ Skips validation for safe methods (GET, HEAD, OPTIONS)
 - ✅ Single validation per request
@@ -636,8 +663,9 @@ export function useCsrf() {
    - Client usage examples
 
 6-15. Additional protected routes:
-   - `/api/calls/accept`, `/api/calls/decline`, `/api/calls/end`
-   - Various other state-changing endpoints
+
+- `/api/calls/accept`, `/api/calls/decline`, `/api/calls/end`
+- Various other state-changing endpoints
 
 ### Documentation (4+ files)
 
@@ -681,6 +709,7 @@ export function useCsrf() {
 **Production Ready**: YES, with recommendations
 
 **Breakdown**:
+
 - ✅ **Core Implementation**: 100% complete
 - ✅ **Middleware Integration**: 100% complete
 - ✅ **Security Features**: 100% complete
@@ -692,6 +721,7 @@ export function useCsrf() {
 ### Confidence: 92%
 
 **High confidence based on**:
+
 - Comprehensive code review of all CSRF-related files
 - Multiple implementation files verified
 - Excellent documentation across 4+ files
@@ -700,6 +730,7 @@ export function useCsrf() {
 - OWASP compliance verified
 
 **Confidence reduced by**:
+
 - Lack of automated tests
 - No verification of runtime behavior
 - Cannot confirm edge cases without tests

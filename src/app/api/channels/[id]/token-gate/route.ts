@@ -26,10 +26,7 @@ const tokenGateSchema = z.object({
   cacheTTL: z.number().int().positive().default(3600),
 })
 
-export async function POST(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id: channelId } = await context.params
     const body = await request.json()
@@ -73,10 +70,7 @@ export async function POST(
   }
 }
 
-export async function PUT(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id: channelId } = await context.params
     const body = await request.json()
@@ -104,10 +98,7 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id: channelId } = await context.params
     const searchParams = request.nextUrl.searchParams

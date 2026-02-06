@@ -626,7 +626,7 @@ class EventDispatcherService {
       try {
         listener(eventType, roomName, payload)
       } catch (error) {
-        logger.error('[EventDispatcher] Listener error:',  error)
+        logger.error('[EventDispatcher] Listener error:', error)
       }
     })
 

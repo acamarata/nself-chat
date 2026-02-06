@@ -89,12 +89,21 @@ describe('MessageFormatterService', () => {
 
       it('should remove all event handlers', () => {
         const handlers = [
-          'onclick', 'ondblclick', 'onmousedown', 'onmouseup',
-          'onmouseover', 'onmouseout', 'onload', 'onerror',
-          'onfocus', 'onblur', 'onchange', 'onsubmit'
+          'onclick',
+          'ondblclick',
+          'onmousedown',
+          'onmouseup',
+          'onmouseover',
+          'onmouseout',
+          'onload',
+          'onerror',
+          'onfocus',
+          'onblur',
+          'onchange',
+          'onsubmit',
         ]
 
-        handlers.forEach(handler => {
+        handlers.forEach((handler) => {
           const content = `<div ${handler}="alert('XSS')">Text</div>`
           const result = service.formatMessage(content)
           expect(result.html).not.toContain(handler)

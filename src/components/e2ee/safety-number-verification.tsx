@@ -231,9 +231,7 @@ export function SafetyNumberVerification({
               <Card>
                 <CardHeader>
                   <CardTitle className="text-sm">QR Code</CardTitle>
-                  <CardDescription>
-                    Scan with {peerName}&apos;s device to verify
-                  </CardDescription>
+                  <CardDescription>Scan with {peerName}&apos;s device to verify</CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-center">
                   {qrCodeData && (
@@ -248,9 +246,7 @@ export function SafetyNumberVerification({
               <Card>
                 <CardHeader>
                   <CardTitle className="text-sm">Safety Number</CardTitle>
-                  <CardDescription>
-                    Compare this number with {peerName}
-                  </CardDescription>
+                  <CardDescription>Compare this number with {peerName}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="rounded-lg bg-muted p-4">
@@ -262,12 +258,7 @@ export function SafetyNumberVerification({
                       ))}
                     </div>
                   </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full"
-                    onClick={copySafetyNumber}
-                  >
+                  <Button variant="outline" size="sm" className="w-full" onClick={copySafetyNumber}>
                     <Copy className="mr-2 h-4 w-4" />
                     Copy Number
                   </Button>
@@ -286,8 +277,8 @@ export function SafetyNumberVerification({
                 <li className="flex gap-2">
                   <span className="font-semibold text-primary">1.</span>
                   <span>
-                    Meet {peerName} in person or contact them through a trusted channel (phone
-                    call, video call).
+                    Meet {peerName} in person or contact them through a trusted channel (phone call,
+                    video call).
                   </span>
                 </li>
                 <li className="flex gap-2">

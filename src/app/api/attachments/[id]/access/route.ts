@@ -74,11 +74,7 @@ const GET_ATTACHMENT_WITH_PERMISSIONS = gql`
 `
 
 const UPDATE_ACCESS_TOKEN = gql`
-  mutation UpdateAccessToken(
-    $id: uuid!
-    $accessToken: String!
-    $accessExpiresAt: timestamptz!
-  ) {
+  mutation UpdateAccessToken($id: uuid!, $accessToken: String!, $accessExpiresAt: timestamptz!) {
     update_nchat_attachments_by_pk(
       pk_columns: { id: $id }
       _set: { access_token: $accessToken, access_expires_at: $accessExpiresAt }
@@ -147,10 +143,7 @@ function checkPermissions(
 // GET - Generate signed access URL
 // ============================================================================
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params
   const attachmentId = resolvedParams.id
 
@@ -197,10 +190,7 @@ export async function GET(
     })
 
     if (errors || !data?.nchat_attachments_by_pk) {
-      return NextResponse.json(
-        { success: false, error: 'Attachment not found' },
-        { status: 404 }
-      )
+      return NextResponse.json({ success: false, error: 'Attachment not found' }, { status: 404 })
     }
 
     const attachment = data.nchat_attachments_by_pk

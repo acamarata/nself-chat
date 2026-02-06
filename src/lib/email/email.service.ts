@@ -123,7 +123,8 @@ class EmailService {
       logger.warn('[Email] No email provider configured, using console fallback')
     }
 
-    this.fromEmail = process.env.EMAIL_FROM || process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'noreply@nchat.app'
+    this.fromEmail =
+      process.env.EMAIL_FROM || process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'noreply@nchat.app'
     this.fromName = process.env.EMAIL_FROM_NAME || 'nChat'
     this.appName = process.env.NEXT_PUBLIC_APP_NAME || 'nChat'
 

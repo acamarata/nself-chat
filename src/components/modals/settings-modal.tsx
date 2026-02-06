@@ -119,7 +119,7 @@ export function SettingsModal({
       await onSave(values)
       onOpenChange(false)
     } catch (error) {
-      logger.error('Save settings failed:',  error)
+      logger.error('Save settings failed:', error)
     } finally {
       if (externalLoading === undefined) {
         setInternalLoading(false)

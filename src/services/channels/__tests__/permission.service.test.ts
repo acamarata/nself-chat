@@ -250,11 +250,7 @@ describe('PermissionService', () => {
     })
 
     it('should handle duplicate permissions', () => {
-      const bitfield = service.createBitfield([
-        'VIEW_CHANNEL',
-        'VIEW_CHANNEL',
-        'SEND_MESSAGES',
-      ])
+      const bitfield = service.createBitfield(['VIEW_CHANNEL', 'VIEW_CHANNEL', 'SEND_MESSAGES'])
 
       const parsed = service.parseBitfield(bitfield)
       const viewChannelCount = parsed.filter((p) => p === 'VIEW_CHANNEL').length

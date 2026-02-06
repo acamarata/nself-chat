@@ -196,7 +196,10 @@ export function Step6EmailTemplates({ onValidChange, className }: Step6EmailTemp
 
             {/* Footer text */}
             <div className="space-y-2">
-              <label htmlFor="email-footer-text" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              <label
+                htmlFor="email-footer-text"
+                className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
+              >
                 Footer Text
               </label>
               <input

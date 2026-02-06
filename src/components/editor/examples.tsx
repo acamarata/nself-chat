@@ -124,10 +124,7 @@ export function BasicEditorExample() {
   const editorRef = useRef<RichEditorRef>(null)
 
   const handleSubmit = (html: string, json: JSONContent) => {
-    setMessages((prev) => [
-      ...prev,
-      { id: Date.now().toString(), content: json },
-    ])
+    setMessages((prev) => [...prev, { id: Date.now().toString(), content: json }])
     editorRef.current?.clear()
   }
 
@@ -135,15 +132,13 @@ export function BasicEditorExample() {
     <Card>
       <CardHeader>
         <CardTitle>Basic Editor</CardTitle>
-        <CardDescription>
-          Simple chat-style editor with message history
-        </CardDescription>
+        <CardDescription>Simple chat-style editor with message history</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Message history */}
-        <div className="space-y-3 max-h-[400px] overflow-y-auto">
+        <div className="max-h-[400px] space-y-3 overflow-y-auto">
           {messages.length === 0 ? (
-            <p className="text-sm text-muted-foreground text-center py-8">
+            <p className="py-8 text-center text-sm text-muted-foreground">
               No messages yet. Type something below!
             </p>
           ) : (
@@ -151,9 +146,7 @@ export function BasicEditorExample() {
               <div key={msg.id} className="rounded-lg border p-3">
                 <MarkdownRenderer
                   content={msg.content}
-                  onMentionClick={(userId, username) =>
-                    alert(`Clicked mention: @${username}`)
-                  }
+                  onMentionClick={(userId, username) => alert(`Clicked mention: @${username}`)}
                   onChannelClick={(channelId, channelName) =>
                     alert(`Clicked channel: #${channelName}`)
                   }
@@ -195,9 +188,7 @@ export function EditorWithPreviewExample() {
     <Card>
       <CardHeader>
         <CardTitle>Editor with Live Preview</CardTitle>
-        <CardDescription>
-          See your formatted content in real-time
-        </CardDescription>
+        <CardDescription>See your formatted content in real-time</CardDescription>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="editor">
@@ -219,18 +210,18 @@ export function EditorWithPreviewExample() {
 
           <TabsContent value="preview" className="mt-4">
             {content ? (
-              <div className="rounded-lg border p-4 min-h-[200px]">
+              <div className="min-h-[200px] rounded-lg border p-4">
                 <MarkdownRenderer content={content} />
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground text-center py-8">
+              <p className="py-8 text-center text-sm text-muted-foreground">
                 Start typing to see the preview
               </p>
             )}
           </TabsContent>
 
           <TabsContent value="markdown" className="mt-4">
-            <pre className="rounded-lg border bg-muted p-4 overflow-x-auto">
+            <pre className="overflow-x-auto rounded-lg border bg-muted p-4">
               <code>{markdown || '// Start typing to see markdown...'}</code>
             </pre>
           </TabsContent>
@@ -252,9 +243,7 @@ export function MarkdownRendererExample() {
     <Card>
       <CardHeader>
         <CardTitle>Markdown Renderer</CardTitle>
-        <CardDescription>
-          Render markdown with full formatting support
-        </CardDescription>
+        <CardDescription>Render markdown with full formatting support</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex gap-2">
@@ -278,16 +267,14 @@ export function MarkdownRendererExample() {
           <div className="rounded-lg border p-4">
             <MarkdownRenderer
               content={jsonContent}
-              onMentionClick={(userId, username) =>
-                alert(`Navigate to user: ${username}`)
-              }
+              onMentionClick={(userId, username) => alert(`Navigate to user: ${username}`)}
               onChannelClick={(channelId, channelName) =>
                 alert(`Navigate to channel: ${channelName}`)
               }
             />
           </div>
         ) : (
-          <pre className="rounded-lg border bg-muted p-4 overflow-x-auto text-sm">
+          <pre className="overflow-x-auto rounded-lg border bg-muted p-4 text-sm">
             {sampleMarkdown}
           </pre>
         )}
@@ -351,18 +338,14 @@ export function AllFeaturesExample() {
           <Button onClick={clearEditor} variant="outline" size="sm">
             Clear
           </Button>
-          <Button
-            onClick={() => editorRef.current?.focus()}
-            variant="outline"
-            size="sm"
-          >
+          <Button onClick={() => editorRef.current?.focus()} variant="outline" size="sm">
             Focus Editor
           </Button>
         </div>
 
         {/* Editor */}
         <div>
-          <h3 className="text-sm font-medium mb-2">Rich Text Editor</h3>
+          <h3 className="mb-2 text-sm font-medium">Rich Text Editor</h3>
           <RichEditor
             ref={editorRef}
             placeholder="Try all features: @mentions, #channels, :emoji:, **bold**, code blocks..."
@@ -395,56 +378,40 @@ export function AllFeaturesExample() {
               </TabsContent>
 
               <TabsContent value="html">
-                <pre className="rounded-lg border bg-muted p-4 overflow-x-auto text-xs">
+                <pre className="overflow-x-auto rounded-lg border bg-muted p-4 text-xs">
                   <code>{output.html}</code>
                 </pre>
               </TabsContent>
 
               <TabsContent value="markdown">
-                <pre className="rounded-lg border bg-muted p-4 overflow-x-auto text-sm">
+                <pre className="overflow-x-auto rounded-lg border bg-muted p-4 text-sm">
                   <code>{output.markdown}</code>
                 </pre>
               </TabsContent>
 
               <TabsContent value="json">
-                <pre className="rounded-lg border bg-muted p-4 overflow-x-auto text-xs">
+                <pre className="overflow-x-auto rounded-lg border bg-muted p-4 text-xs">
                   <code>{JSON.stringify(output.json, null, 2)}</code>
                 </pre>
               </TabsContent>
 
               <TabsContent value="stats">
-                <div className="rounded-lg border p-4 space-y-2">
+                <div className="space-y-2 rounded-lg border p-4">
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Plain Text:
-                    </span>
-                    <span className="text-sm font-mono">
-                      {output.plainText.length} chars
-                    </span>
+                    <span className="text-sm text-muted-foreground">Plain Text:</span>
+                    <span className="font-mono text-sm">{output.plainText.length} chars</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Word Count:
-                    </span>
-                    <span className="text-sm font-mono">
-                      {output.wordCount} words
-                    </span>
+                    <span className="text-sm text-muted-foreground">Word Count:</span>
+                    <span className="font-mono text-sm">{output.wordCount} words</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Markdown Size:
-                    </span>
-                    <span className="text-sm font-mono">
-                      {output.markdown.length} chars
-                    </span>
+                    <span className="text-sm text-muted-foreground">Markdown Size:</span>
+                    <span className="font-mono text-sm">{output.markdown.length} chars</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      HTML Size:
-                    </span>
-                    <span className="text-sm font-mono">
-                      {output.html.length} chars
-                    </span>
+                    <span className="text-sm text-muted-foreground">HTML Size:</span>
+                    <span className="font-mono text-sm">{output.html.length} chars</span>
                   </div>
                 </div>
               </TabsContent>
@@ -465,15 +432,13 @@ export function KeyboardShortcutsExample() {
     <Card>
       <CardHeader>
         <CardTitle>Keyboard Shortcuts</CardTitle>
-        <CardDescription>
-          All available keyboard shortcuts for the editor
-        </CardDescription>
+        <CardDescription>All available keyboard shortcuts for the editor</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
           {/* Text Formatting */}
           <div>
-            <h3 className="font-semibold mb-3">Text Formatting</h3>
+            <h3 className="mb-3 font-semibold">Text Formatting</h3>
             <div className="grid gap-2">
               <ShortcutRow shortcut="Cmd+B" action="Bold" />
               <ShortcutRow shortcut="Cmd+I" action="Italic" />
@@ -486,7 +451,7 @@ export function KeyboardShortcutsExample() {
 
           {/* Links & Lists */}
           <div>
-            <h3 className="font-semibold mb-3">Links & Lists</h3>
+            <h3 className="mb-3 font-semibold">Links & Lists</h3>
             <div className="grid gap-2">
               <ShortcutRow shortcut="Cmd+K" action="Insert Link" />
               <ShortcutRow shortcut="Cmd+Shift+8" action="Bullet List" />
@@ -496,7 +461,7 @@ export function KeyboardShortcutsExample() {
 
           {/* Editor Actions */}
           <div>
-            <h3 className="font-semibold mb-3">Editor Actions</h3>
+            <h3 className="mb-3 font-semibold">Editor Actions</h3>
             <div className="grid gap-2">
               <ShortcutRow shortcut="Enter" action="Submit message" />
               <ShortcutRow shortcut="Shift+Enter" action="New line" />
@@ -507,15 +472,12 @@ export function KeyboardShortcutsExample() {
 
           {/* Autocomplete */}
           <div>
-            <h3 className="font-semibold mb-3">Autocomplete</h3>
+            <h3 className="mb-3 font-semibold">Autocomplete</h3>
             <div className="grid gap-2">
               <ShortcutRow shortcut="@" action="Mention user" />
               <ShortcutRow shortcut="#" action="Mention channel" />
               <ShortcutRow shortcut=":" action="Insert emoji" />
-              <ShortcutRow
-                shortcut="↑/↓"
-                action="Navigate suggestions"
-              />
+              <ShortcutRow shortcut="↑/↓" action="Navigate suggestions" />
               <ShortcutRow shortcut="Enter" action="Select suggestion" />
               <ShortcutRow shortcut="Esc" action="Close suggestions" />
             </div>
@@ -530,9 +492,7 @@ function ShortcutRow({ shortcut, action }: { shortcut: string; action: string })
   return (
     <div className="flex items-center justify-between py-1.5">
       <span className="text-sm text-muted-foreground">{action}</span>
-      <kbd className="px-2 py-1 text-xs font-mono bg-muted rounded border">
-        {shortcut}
-      </kbd>
+      <kbd className="rounded border bg-muted px-2 py-1 font-mono text-xs">{shortcut}</kbd>
     </div>
   )
 }
@@ -543,12 +503,11 @@ function ShortcutRow({ shortcut, action }: { shortcut: string; action: string })
 
 export default function EditorExamplesPage() {
   return (
-    <div className="container mx-auto py-8 space-y-8">
+    <div className="container mx-auto space-y-8 py-8">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Rich Text Editor Examples</h1>
+        <h1 className="mb-2 text-3xl font-bold">Rich Text Editor Examples</h1>
         <p className="text-muted-foreground">
-          Complete examples demonstrating all features of the TipTap editor and
-          markdown system.
+          Complete examples demonstrating all features of the TipTap editor and markdown system.
         </p>
       </div>
 

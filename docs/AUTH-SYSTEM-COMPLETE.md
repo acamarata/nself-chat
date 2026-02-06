@@ -58,6 +58,7 @@ Password: password123
 ### Production Setup
 
 1. **Configure Email Service**:
+
 ```bash
 # Option A: SendGrid (recommended for production)
 SENDGRID_API_KEY=your_sendgrid_api_key
@@ -73,6 +74,7 @@ SMTP_PASSWORD=your_smtp_password
 ```
 
 2. **Configure OAuth Providers** (optional):
+
 ```bash
 NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
@@ -84,12 +86,14 @@ GITHUB_CLIENT_SECRET=your_github_client_secret
 ```
 
 3. **Set JWT Secret**:
+
 ```bash
 # Generate a strong random secret (32+ characters)
 JWT_SECRET=$(openssl rand -base64 32)
 ```
 
 4. **Enable Features**:
+
 ```bash
 # Email verification (recommended for production)
 NEXT_PUBLIC_AUTH_REQUIRE_EMAIL_VERIFICATION=true
@@ -107,11 +111,13 @@ NEXT_PUBLIC_2FA_ENFORCE_ADMIN=true
 The email service supports multiple providers and automatically selects the appropriate one:
 
 **Priority Order**:
+
 1. SendGrid (if `SENDGRID_API_KEY` is set)
 2. SMTP (if `SMTP_HOST` is set)
 3. Console logging (development fallback)
 
 ### Location
+
 - **Service**: `/Users/admin/Sites/nself-chat/src/lib/email/email.service.ts`
 - **Templates**: `/Users/admin/Sites/nself-chat/src/emails/templates/`
 
@@ -200,10 +206,12 @@ await emailService.sendMagicLink({
 ### 1. Email/Password
 
 **Endpoints**:
+
 - `POST /api/auth/signup` - Register new account
 - `POST /api/auth/signin` - Login with credentials
 
 **Password Requirements** (configurable in `auth.config.ts`):
+
 - Minimum 8 characters
 - At least one uppercase letter
 - At least one lowercase letter
@@ -211,12 +219,14 @@ await emailService.sendMagicLink({
 - Optional: Special character
 
 **Features**:
+
 - Automatic password hashing (bcrypt)
 - Email verification (optional, configurable)
 - First user becomes owner
 - Subsequent users are members by default
 
 **Example**:
+
 ```typescript
 // Signup
 const response = await fetch('/api/auth/signup', {
@@ -246,12 +256,14 @@ const response = await fetch('/api/auth/signin', {
 **Endpoint**: `POST /api/auth/magic-link`
 
 **Features**:
+
 - No password required
 - Time-limited one-time link
 - Email delivery with fallback to SMS (future)
 - Automatic account creation if not exists
 
 **Example**:
+
 ```typescript
 const response = await fetch('/api/auth/magic-link', {
   method: 'POST',
@@ -267,6 +279,7 @@ const response = await fetch('/api/auth/magic-link', {
 **Endpoint**: `GET /api/auth/oauth/connect?provider={provider}`
 
 **Supported Providers**:
+
 1. Google - `provider=google`
 2. GitHub - `provider=github`
 3. Microsoft - `provider=microsoft`
@@ -280,6 +293,7 @@ const response = await fetch('/api/auth/magic-link', {
 11. ID.me - `provider=idme` (special verification provider)
 
 **OAuth Flow**:
+
 1. User clicks "Sign in with {Provider}"
 2. Redirect to `/api/auth/oauth/connect?provider={provider}`
 3. User authorizes on provider site
@@ -288,6 +302,7 @@ const response = await fetch('/api/auth/magic-link', {
 6. Redirect to app with session
 
 **Configuration**:
+
 ```typescript
 // src/lib/auth/oauth-providers.ts
 import { oauthProviders, generateAuthUrl } from '@/lib/auth/oauth-providers'
@@ -321,6 +336,7 @@ if (!result.success) {
 ### Setup Flow
 
 1. **Initiate Setup**: `POST /api/auth/2fa/setup`
+
    ```json
    {
      "qrCode": "data:image/png;base64,...",
@@ -330,6 +346,7 @@ if (!result.success) {
    ```
 
 2. **Verify Setup**: `POST /api/auth/2fa/verify-setup`
+
    ```json
    {
      "secret": "JBSWY3DPEHPK3PXP",
@@ -345,7 +362,7 @@ if (!result.success) {
 2. **Step 2**: `POST /api/auth/2fa/verify`
    ```json
    {
-     "code": "123456"  // or backup code
+     "code": "123456" // or backup code
    }
    ```
 
@@ -414,7 +431,7 @@ Each OAuth provider requires client credentials from the provider's developer co
    MICROSOFT_CLIENT_SECRET=your_client_secret
    ```
 
-*Repeat similar steps for other providers (Facebook, Twitter, LinkedIn, Apple, Discord, Slack, GitLab)*
+_Repeat similar steps for other providers (Facebook, Twitter, LinkedIn, Apple, Discord, Slack, GitLab)_
 
 ### Testing OAuth Providers
 
@@ -438,6 +455,7 @@ Object.entries(results).forEach(([provider, result]) => {
 ### What is ID.me?
 
 ID.me is a trusted identity verification service that verifies:
+
 - 🎖️ Military (Active, Reserve, Veteran, Family)
 - 🚒 First Responders (Police, Fire, EMT)
 - 🎓 Students & Teachers
@@ -462,8 +480,7 @@ ID.me is a trusted identity verification service that verifies:
 
 ```tsx
 import { IDmeVerification } from '@/components/auth/IDmeVerification'
-
-<IDmeVerification
+;<IDmeVerification
   userId={user.id}
   onVerificationComplete={() => {
     console.log('User verified!')
@@ -472,6 +489,7 @@ import { IDmeVerification } from '@/components/auth/IDmeVerification'
 ```
 
 **API Routes**:
+
 - `GET /api/auth/idme/status?userId={userId}` - Get verification status
 - `GET /api/auth/idme/callback` - Handle OAuth callback
 
@@ -510,6 +528,7 @@ The system automatically displays badges based on verification type:
 ### Password Reset Flow
 
 1. **Request Reset**: `POST /api/auth/password-reset`
+
    ```json
    {
      "email": "user@example.com"
@@ -552,6 +571,7 @@ The system automatically displays badges based on verification type:
 ```
 
 **Features**:
+
 - Requires current password verification
 - Password strength validation
 - Email notification to user
@@ -577,11 +597,13 @@ session: {
 ### Token Management
 
 **Access Token**:
+
 - Short-lived (15 minutes default)
 - Used for API authentication
 - Contains user claims (id, email, role)
 
 **Refresh Token**:
+
 - Long-lived (30 days default)
 - Used to obtain new access tokens
 - Stored securely in database
@@ -627,6 +649,7 @@ Configured per endpoint to prevent abuse:
 ### Account Lockout
 
 After exceeding max login attempts:
+
 - Account locked for configurable duration (15 minutes default)
 - Email notification sent to user
 - Unlock via password reset or time expiration
@@ -634,6 +657,7 @@ After exceeding max login attempts:
 ### Security Headers
 
 Implemented via middleware:
+
 - Content Security Policy (CSP)
 - X-Frame-Options
 - X-Content-Type-Options
@@ -642,6 +666,7 @@ Implemented via middleware:
 ### Input Validation
 
 All inputs validated using:
+
 - Email format regex
 - Password strength requirements
 - Username format (alphanumeric + underscore, 3-30 chars)
@@ -664,57 +689,57 @@ All inputs validated using:
 
 ### Authentication Endpoints
 
-| Endpoint | Method | Purpose | Rate Limit |
-|----------|--------|---------|------------|
-| `/api/auth/signup` | POST | Register new account | 3/hour |
-| `/api/auth/signin` | POST | Login with credentials | 5/15min |
-| `/api/auth/signout` | POST | Logout current session | - |
-| `/api/auth/refresh` | POST | Refresh access token | - |
-| `/api/auth/sessions` | GET | List active sessions | - |
-| `/api/auth/sessions/{id}` | DELETE | Revoke session | - |
+| Endpoint                  | Method | Purpose                | Rate Limit |
+| ------------------------- | ------ | ---------------------- | ---------- |
+| `/api/auth/signup`        | POST   | Register new account   | 3/hour     |
+| `/api/auth/signin`        | POST   | Login with credentials | 5/15min    |
+| `/api/auth/signout`       | POST   | Logout current session | -          |
+| `/api/auth/refresh`       | POST   | Refresh access token   | -          |
+| `/api/auth/sessions`      | GET    | List active sessions   | -          |
+| `/api/auth/sessions/{id}` | DELETE | Revoke session         | -          |
 
 ### Password Management
 
-| Endpoint | Method | Purpose | Rate Limit |
-|----------|--------|---------|------------|
-| `/api/auth/password-reset` | POST | Request password reset | 3/15min |
-| `/api/auth/password-reset` | PUT | Reset password with token | 5/15min |
-| `/api/auth/change-password` | POST | Change password (authenticated) | - |
-| `/api/auth/verify-password` | POST | Verify current password | - |
+| Endpoint                    | Method | Purpose                         | Rate Limit |
+| --------------------------- | ------ | ------------------------------- | ---------- |
+| `/api/auth/password-reset`  | POST   | Request password reset          | 3/15min    |
+| `/api/auth/password-reset`  | PUT    | Reset password with token       | 5/15min    |
+| `/api/auth/change-password` | POST   | Change password (authenticated) | -          |
+| `/api/auth/verify-password` | POST   | Verify current password         | -          |
 
 ### Email Verification
 
-| Endpoint | Method | Purpose | Rate Limit |
-|----------|--------|---------|------------|
-| `/api/auth/verify-email` | POST/GET | Verify email with token | - |
-| `/api/auth/resend-verification` | POST | Resend verification email | 3/hour |
+| Endpoint                        | Method   | Purpose                   | Rate Limit |
+| ------------------------------- | -------- | ------------------------- | ---------- |
+| `/api/auth/verify-email`        | POST/GET | Verify email with token   | -          |
+| `/api/auth/resend-verification` | POST     | Resend verification email | 3/hour     |
 
 ### Two-Factor Authentication
 
-| Endpoint | Method | Purpose | Rate Limit |
-|----------|--------|---------|------------|
-| `/api/auth/2fa/setup` | POST | Initialize 2FA setup | - |
-| `/api/auth/2fa/verify-setup` | POST | Verify and enable 2FA | - |
-| `/api/auth/2fa/verify` | POST | Verify 2FA code during login | - |
-| `/api/auth/2fa/disable` | POST | Disable 2FA | - |
-| `/api/auth/2fa/status` | GET | Get 2FA status | - |
-| `/api/auth/2fa/backup-codes` | POST | Generate new backup codes | - |
-| `/api/auth/2fa/trusted-devices` | GET | List trusted devices | - |
-| `/api/auth/2fa/trusted-devices/{id}` | DELETE | Remove trusted device | - |
+| Endpoint                             | Method | Purpose                      | Rate Limit |
+| ------------------------------------ | ------ | ---------------------------- | ---------- |
+| `/api/auth/2fa/setup`                | POST   | Initialize 2FA setup         | -          |
+| `/api/auth/2fa/verify-setup`         | POST   | Verify and enable 2FA        | -          |
+| `/api/auth/2fa/verify`               | POST   | Verify 2FA code during login | -          |
+| `/api/auth/2fa/disable`              | POST   | Disable 2FA                  | -          |
+| `/api/auth/2fa/status`               | GET    | Get 2FA status               | -          |
+| `/api/auth/2fa/backup-codes`         | POST   | Generate new backup codes    | -          |
+| `/api/auth/2fa/trusted-devices`      | GET    | List trusted devices         | -          |
+| `/api/auth/2fa/trusted-devices/{id}` | DELETE | Remove trusted device        | -          |
 
 ### OAuth
 
-| Endpoint | Method | Purpose | Rate Limit |
-|----------|--------|---------|------------|
-| `/api/auth/oauth/connect` | GET | Initiate OAuth flow | - |
-| `/api/auth/oauth/callback` | GET | Handle OAuth callback | - |
+| Endpoint                   | Method | Purpose               | Rate Limit |
+| -------------------------- | ------ | --------------------- | ---------- |
+| `/api/auth/oauth/connect`  | GET    | Initiate OAuth flow   | -          |
+| `/api/auth/oauth/callback` | GET    | Handle OAuth callback | -          |
 
 ### ID.me Verification
 
-| Endpoint | Method | Purpose | Rate Limit |
-|----------|--------|---------|------------|
-| `/api/auth/idme/status` | GET | Get verification status | - |
-| `/api/auth/idme/callback` | GET | Handle ID.me callback | - |
+| Endpoint                  | Method | Purpose                 | Rate Limit |
+| ------------------------- | ------ | ----------------------- | ---------- |
+| `/api/auth/idme/status`   | GET    | Get verification status | -          |
+| `/api/auth/idme/callback` | GET    | Handle ID.me callback   | -          |
 
 ---
 
@@ -725,6 +750,7 @@ All inputs validated using:
 Location: `/Users/admin/Sites/nself-chat/src/__tests__/integration/auth-system-complete.integration.test.ts`
 
 **Coverage**:
+
 - ✅ Email/password authentication (signup, login, password validation)
 - ✅ Password reset flow (request, verify, rate limiting)
 - ✅ Email verification (send, verify, resend)
@@ -895,6 +921,7 @@ SESSION_SECURE_ONLY=true  # true for production
 Location: `/Users/admin/Sites/nself-chat/src/config/auth.config.ts`
 
 This file centralizes all auth configuration and provides:
+
 - OAuth provider settings
 - 2FA configuration
 - Session settings
@@ -912,22 +939,22 @@ export const authConfig: AuthConfig = {
 
   // Customize password requirements
   security: {
-    passwordMinLength: 12,  // Increase minimum length
-    passwordRequireSpecial: true,  // Require special characters
-    maxLoginAttempts: 3,  // Reduce max attempts
+    passwordMinLength: 12, // Increase minimum length
+    passwordRequireSpecial: true, // Require special characters
+    maxLoginAttempts: 3, // Reduce max attempts
     // ...
   },
 
   // Customize 2FA settings
   twoFactor: {
-    enforceForRoles: ['owner', 'admin', 'moderator'],  // Expand enforcement
-    gracePeriodDays: 3,  // Shorter grace period
+    enforceForRoles: ['owner', 'admin', 'moderator'], // Expand enforcement
+    gracePeriodDays: 3, // Shorter grace period
     // ...
   },
 
   // Customize session settings
   session: {
-    maxAge: 7 * 24 * 60 * 60,  // 7 days instead of 30
+    maxAge: 7 * 24 * 60 * 60, // 7 days instead of 30
     // ...
   },
 }
@@ -979,7 +1006,9 @@ Before deploying to production:
 **Symptom**: Users not receiving verification/reset emails
 
 **Solutions**:
+
 1. Check email service configuration:
+
    ```bash
    # For SendGrid
    echo $SENDGRID_API_KEY
@@ -989,12 +1018,14 @@ Before deploying to production:
    ```
 
 2. Check email service logs:
+
    ```bash
    # Dev mode logs
    pnpm dev | grep -i email
    ```
 
 3. Verify email templates render correctly:
+
    ```typescript
    import { emailService } from '@/lib/email/email.service'
 
@@ -1011,17 +1042,20 @@ Before deploying to production:
 **Symptom**: OAuth providers return errors
 
 **Solutions**:
+
 1. Verify callback URL is correct:
    - Should be: `https://yourapp.com/api/auth/oauth/callback`
    - Check provider developer console
 
 2. Verify credentials are set:
+
    ```bash
    echo $NEXT_PUBLIC_GOOGLE_CLIENT_ID
    echo $GOOGLE_CLIENT_SECRET
    ```
 
 3. Test provider configuration:
+
    ```typescript
    import { testProviderConfig } from '@/lib/auth/oauth-providers'
 
@@ -1034,6 +1068,7 @@ Before deploying to production:
 **Symptom**: 2FA codes not accepted
 
 **Solutions**:
+
 1. Verify server time is synchronized (TOTP is time-based)
 2. Check authenticator app time
 3. Use backup codes as fallback
@@ -1044,7 +1079,9 @@ Before deploying to production:
 **Symptom**: Users logged out frequently
 
 **Solutions**:
+
 1. Check session configuration:
+
    ```typescript
    // src/config/auth.config.ts
    session: {
@@ -1056,12 +1093,15 @@ Before deploying to production:
 2. Implement token refresh on activity:
    ```typescript
    // Automatically refresh tokens before expiry
-   setInterval(async () => {
-     const response = await fetch('/api/auth/refresh', {
-       method: 'POST',
-       body: JSON.stringify({ refreshToken }),
-     })
-   }, 10 * 60 * 1000) // Every 10 minutes
+   setInterval(
+     async () => {
+       const response = await fetch('/api/auth/refresh', {
+         method: 'POST',
+         body: JSON.stringify({ refreshToken }),
+       })
+     },
+     10 * 60 * 1000
+   ) // Every 10 minutes
    ```
 
 ---

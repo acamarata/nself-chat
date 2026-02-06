@@ -175,7 +175,7 @@ export class GoogleProvider extends BaseAuthProvider {
 
         return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
       } catch (error) {
-        logger.error('Google callback error:',  error)
+        logger.error('Google callback error:', error)
         return this.createErrorResult(
           this.createError('NETWORK_ERROR', 'Failed to complete Google authentication')
         )
@@ -220,7 +220,7 @@ export class GoogleProvider extends BaseAuthProvider {
 
         return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
       } catch (error) {
-        logger.error('Google code exchange error:',  error)
+        logger.error('Google code exchange error:', error)
         return this.createErrorResult(
           this.createError('NETWORK_ERROR', 'Failed to complete Google authentication')
         )
@@ -239,7 +239,7 @@ export class GoogleProvider extends BaseAuthProvider {
         headers: this.getAuthHeaders(),
       })
     } catch (error) {
-      logger.error('Sign out error:',  error)
+      logger.error('Sign out error:', error)
     }
 
     this.clearSession()
@@ -277,7 +277,7 @@ export class GoogleProvider extends BaseAuthProvider {
         data.session.refreshToken
       )
     } catch (error) {
-      logger.error('Token refresh error:',  error)
+      logger.error('Token refresh error:', error)
       return this.createErrorResult(this.createError('NETWORK_ERROR', 'Failed to refresh token'))
     }
   }

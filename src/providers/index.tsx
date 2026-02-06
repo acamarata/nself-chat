@@ -74,7 +74,7 @@ class ErrorBoundary extends React.Component<
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     logger.error('App Error Boundary caught an error:', error, {
-      componentStack: errorInfo.componentStack
+      componentStack: errorInfo.componentStack,
     })
 
     // Report to error tracking service

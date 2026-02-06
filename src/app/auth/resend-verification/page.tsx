@@ -53,10 +53,10 @@ export default function ResendVerificationPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
+          <div className="mb-4 flex justify-center">
             <Mail className="h-12 w-12 text-indigo-600" />
           </div>
           <CardTitle>Resend Verification Email</CardTitle>
@@ -74,7 +74,7 @@ export default function ResendVerificationPage() {
               </Alert>
 
               <div className="space-y-3">
-                <p className="text-sm text-center text-muted-foreground">
+                <p className="text-center text-sm text-muted-foreground">
                   Check your email inbox and spam folder for the verification link.
                 </p>
                 <Button onClick={() => router.push('/login')} className="w-full">

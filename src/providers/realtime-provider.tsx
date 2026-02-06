@@ -425,7 +425,7 @@ export function RealtimeProvider({
     if (autoConnect && user && connectionState === 'disconnected') {
       connect().catch((err) => {
         if (debug) {
-          logger.error('[RealtimeProvider] Auto-connect failed:',  err)
+          logger.error('[RealtimeProvider] Auto-connect failed:', err)
         }
       })
     }

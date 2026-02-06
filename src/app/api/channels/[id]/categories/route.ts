@@ -17,10 +17,7 @@ const moveChannelSchema = z.object({
  * PUT /api/channels/[id]/categories
  * Move channel to a category (or remove from category if categoryId is null)
  */
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     const channelId = id
@@ -89,10 +86,7 @@ export async function PUT(
     })
   } catch (error) {
     console.error('Error moving channel to category:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
@@ -144,9 +138,6 @@ export async function DELETE(
     })
   } catch (error) {
     console.error('Error removing channel from category:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

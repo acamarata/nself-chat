@@ -230,7 +230,7 @@ export function LogoEditor({
 
       onSave(result)
     } catch (error) {
-      logger.error('Failed to save logo:',  error)
+      logger.error('Failed to save logo:', error)
     } finally {
       setIsProcessing(false)
     }

@@ -10,11 +10,11 @@ services:
     container_name: nself-livekit
     command: --config /livekit.yaml
     ports:
-      - "7880:7880"       # HTTP API
-      - "7881:7881/tcp"   # WebRTC TCP
-      - "7881:7881/udp"   # WebRTC UDP
-      - "7882:7882/udp"   # TURN UDP
-      - "50000-60000:50000-60000/udp"  # WebRTC media ports
+      - '7880:7880' # HTTP API
+      - '7881:7881/tcp' # WebRTC TCP
+      - '7881:7881/udp' # WebRTC UDP
+      - '7882:7882/udp' # TURN UDP
+      - '50000-60000:50000-60000/udp' # WebRTC media ports
     volumes:
       - ./livekit.yaml:/livekit.yaml:ro
     environment:
@@ -23,7 +23,7 @@ services:
       - nself-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:7880/"]
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:7880/']
       interval: 30s
       timeout: 10s
       retries: 3

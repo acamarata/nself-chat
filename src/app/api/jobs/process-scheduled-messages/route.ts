@@ -88,11 +88,7 @@ const MARK_MESSAGE_AS_SENT = gql`
 `
 
 const MARK_MESSAGE_AS_FAILED = gql`
-  mutation MarkScheduledMessageAsFailed(
-    $id: uuid!
-    $errorMessage: String!
-    $retryCount: Int!
-  ) {
+  mutation MarkScheduledMessageAsFailed($id: uuid!, $errorMessage: String!, $retryCount: Int!) {
     update_nchat_scheduled_message_by_pk(
       pk_columns: { id: $id }
       _set: { error_message: $errorMessage, retry_count: $retryCount }

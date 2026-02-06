@@ -339,7 +339,9 @@ export function DataExport() {
 
         {/* Scope Selection */}
         <div className="space-y-2">
-          <label htmlFor="export-scope" className="text-sm font-medium">Export Scope</label>
+          <label htmlFor="export-scope" className="text-sm font-medium">
+            Export Scope
+          </label>
           <Select value={scope} onValueChange={(v) => setScope(v as ExportScope)}>
             <SelectTrigger>
               <SelectValue />
@@ -401,7 +403,9 @@ export function DataExport() {
         {/* Date Range */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <label htmlFor="from-date" className="text-sm font-medium">From Date</label>
+            <label htmlFor="from-date" className="text-sm font-medium">
+              From Date
+            </label>
             <div className="relative">
               <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
@@ -414,7 +418,9 @@ export function DataExport() {
             </div>
           </div>
           <div className="space-y-2">
-            <label htmlFor="to-date" className="text-sm font-medium">To Date</label>
+            <label htmlFor="to-date" className="text-sm font-medium">
+              To Date
+            </label>
             <div className="relative">
               <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input

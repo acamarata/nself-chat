@@ -7,13 +7,7 @@
 
 import { Play, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
   TableBody,
@@ -60,7 +54,7 @@ export function WorkflowList({ onCreateClick }: WorkflowListProps) {
           <CardDescription>Loading workflows...</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-64 bg-muted animate-pulse rounded" />
+          <div className="h-64 animate-pulse rounded bg-muted" />
         </CardContent>
       </Card>
     )
@@ -71,9 +65,7 @@ export function WorkflowList({ onCreateClick }: WorkflowListProps) {
       <Card className="border-destructive">
         <CardHeader>
           <CardTitle>Error Loading Workflows</CardTitle>
-          <CardDescription>
-            Failed to load workflows. Please try again later.
-          </CardDescription>
+          <CardDescription>Failed to load workflows. Please try again later.</CardDescription>
         </CardHeader>
       </Card>
     )
@@ -84,27 +76,21 @@ export function WorkflowList({ onCreateClick }: WorkflowListProps) {
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
           <CardTitle>Workflows</CardTitle>
-          <CardDescription>
-            Automated workflows for your workspace
-          </CardDescription>
+          <CardDescription>Automated workflows for your workspace</CardDescription>
         </div>
         {onCreateClick && (
           <Button onClick={onCreateClick}>
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="mr-2 h-4 w-4" />
             Create Workflow
           </Button>
         )}
       </CardHeader>
       <CardContent>
         {workflows.length === 0 ? (
-          <div className="text-center py-12 text-muted-foreground">
+          <div className="py-12 text-center text-muted-foreground">
             <p>No workflows yet</p>
             {onCreateClick && (
-              <Button
-                variant="outline"
-                className="mt-4"
-                onClick={onCreateClick}
-              >
+              <Button variant="outline" className="mt-4" onClick={onCreateClick}>
                 Create your first workflow
               </Button>
             )}
@@ -126,15 +112,11 @@ export function WorkflowList({ onCreateClick }: WorkflowListProps) {
                   <TableCell>
                     <div>
                       <div className="font-medium">{workflow.name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {workflow.description}
-                      </div>
+                      <div className="text-sm text-muted-foreground">{workflow.description}</div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline">
-                      {workflow.trigger.type}
-                    </Badge>
+                    <Badge variant="outline">{workflow.trigger.type}</Badge>
                   </TableCell>
                   <TableCell>{workflow.actions.length} actions</TableCell>
                   <TableCell>
@@ -149,7 +131,7 @@ export function WorkflowList({ onCreateClick }: WorkflowListProps) {
                       onClick={() => handleExecute(workflow.id, workflow.name)}
                       disabled={!workflow.enabled || isExecuting}
                     >
-                      <Play className="h-4 w-4 mr-2" />
+                      <Play className="mr-2 h-4 w-4" />
                       Run
                     </Button>
                   </TableCell>

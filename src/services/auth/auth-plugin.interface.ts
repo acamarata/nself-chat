@@ -313,7 +313,7 @@ export abstract class BaseAuthProvider implements AuthProvider {
       try {
         listener(event)
       } catch (error) {
-        logger.error('Auth event listener error:',  error)
+        logger.error('Auth event listener error:', error)
       }
     })
   }

@@ -522,7 +522,7 @@ class OfflineQueue {
       try {
         listener(event)
       } catch (error) {
-        logger.error('[OfflineQueue] Event listener error:',  error)
+        logger.error('[OfflineQueue] Event listener error:', error)
       }
     })
   }

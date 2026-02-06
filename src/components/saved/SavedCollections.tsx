@@ -148,7 +148,12 @@ function CollectionCard({ collection, onSelect, onEdit, onDelete, onShare }: Col
       role="button"
       tabIndex={0}
       onClick={onSelect}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onSelect()
+        }
+      }}
     >
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between">

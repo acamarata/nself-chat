@@ -59,7 +59,7 @@ export function loadPreferences(): NotificationPreferences {
     return mergeWithDefaults(migrated)
   } catch (error) {
     logger.warn('Failed to load notification preferences:', {
-      error: error instanceof Error ? error.message : String(error)
+      error: error instanceof Error ? error.message : String(error),
     })
     return DEFAULT_NOTIFICATION_PREFERENCES
   }
@@ -84,7 +84,7 @@ export function savePreferences(preferences: NotificationPreferences): boolean {
     return true
   } catch (error) {
     logger.warn('Failed to save notification preferences:', {
-      error: error instanceof Error ? error.message : String(error)
+      error: error instanceof Error ? error.message : String(error),
     })
     return false
   }

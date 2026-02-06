@@ -13,18 +13,18 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 
 ### Overall Assessment
 
-| Category | Status | Completion | Evidence |
-|----------|--------|------------|----------|
-| **Linting Infrastructure** | ✅ Complete | 100% | eslint-plugin-jsx-a11y configured with 40+ rules |
-| **Testing Infrastructure** | ✅ Complete | 100% | jest-axe, @axe-core/playwright, Lighthouse CI |
-| **Accessibility Library** | ✅ Complete | 100% | Full a11y utilities in src/lib/a11y/ |
-| **Screen Reader Support** | ✅ Complete | 100% | Comprehensive testing report, live regions |
-| **Keyboard Navigation** | ✅ Complete | 100% | Full keyboard support, focus management |
-| **Color Contrast** | ✅ Complete | 100% | WCAG AA contrast utilities, 4.5:1 enforcement |
-| **CI/CD Integration** | ✅ Complete | 100% | Dedicated accessibility.yml workflow |
-| **Documentation** | ✅ Complete | 100% | Accessibility guide, screen reader report |
-| **Component Implementation** | ⚠️ Partial | 70% | Some components need ARIA attributes |
-| **Unit Test Coverage** | ⚠️ Partial | 83% | 26/31 WCAG tests passing |
+| Category                     | Status      | Completion | Evidence                                         |
+| ---------------------------- | ----------- | ---------- | ------------------------------------------------ |
+| **Linting Infrastructure**   | ✅ Complete | 100%       | eslint-plugin-jsx-a11y configured with 40+ rules |
+| **Testing Infrastructure**   | ✅ Complete | 100%       | jest-axe, @axe-core/playwright, Lighthouse CI    |
+| **Accessibility Library**    | ✅ Complete | 100%       | Full a11y utilities in src/lib/a11y/             |
+| **Screen Reader Support**    | ✅ Complete | 100%       | Comprehensive testing report, live regions       |
+| **Keyboard Navigation**      | ✅ Complete | 100%       | Full keyboard support, focus management          |
+| **Color Contrast**           | ✅ Complete | 100%       | WCAG AA contrast utilities, 4.5:1 enforcement    |
+| **CI/CD Integration**        | ✅ Complete | 100%       | Dedicated accessibility.yml workflow             |
+| **Documentation**            | ✅ Complete | 100%       | Accessibility guide, screen reader report        |
+| **Component Implementation** | ⚠️ Partial  | 70%        | Some components need ARIA attributes             |
+| **Unit Test Coverage**       | ⚠️ Partial  | 83%        | 26/31 WCAG tests passing                         |
 
 **Confidence Level**: 92%
 
@@ -64,6 +64,7 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 ```
 
 **Current Linting Issues**: 11 warnings (non-blocking)
+
 - 8 warnings: autoFocus prop usage (UX preference, not WCAG violation)
 - 3 errors: Non-interactive elements with click handlers (fixable)
 
@@ -74,10 +75,12 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 **File**: `/Users/admin/Sites/nself-chat/src/__tests__/accessibility/wcag-compliance.test.tsx`
 
 **Coverage**: 31 WCAG 2.1 AA tests
+
 - **Passing**: 26 tests (83%)
 - **Failing**: 5 tests (17%)
 
 **Test Categories**:
+
 - ✅ Perceivable (5/5) - 100%
 - ✅ Operable (8/8) - 100%
 - ⚠️ Understandable (3/5) - 60%
@@ -87,6 +90,7 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 - ✅ Screen Reader Support (2/2) - 100%
 
 **Failing Tests** (Fixable):
+
 1. `3.2.1 - On Focus`: Input without label (needs aria-label)
 2. `3.3.2 - Labels or Instructions`: Checkbox without proper label
 3. `4.1.2 - Name, Role, Value`: Interactive elements missing ARIA labels
@@ -96,6 +100,7 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 **File**: `/Users/admin/Sites/nself-chat/e2e/accessibility.spec.ts`
 
 **Coverage**: 1,046 lines, comprehensive testing
+
 - WCAG 2.1 AA compliance tests
 - Keyboard navigation tests
 - Screen reader compatibility tests
@@ -110,6 +115,7 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 **File**: `/Users/admin/Sites/nself-chat/src/lib/accessibility/test-utils.tsx`
 
 **Features**: 437 lines of utilities
+
 - `expectNoA11yViolations()` - Jest matcher for axe violations
 - `testKeyboardNavigation()` - Keyboard accessibility testing
 - `testColorContrast()` - WCAG contrast ratio validation
@@ -125,9 +131,11 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 **Files** (9 total, ~3,000 lines):
 
 #### A. Screen Reader Utilities ✅
+
 **File**: `src/lib/a11y/screen-reader.ts` (428 lines)
 
 **Features**:
+
 - Live region manager (polite, assertive, status)
 - `announce()` - Screen reader announcements
 - `announceStatus()` - Status updates
@@ -140,9 +148,11 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 - Keyboard descriptions for complex widgets
 
 #### B. Keyboard Navigation ✅
+
 **File**: `src/lib/a11y/keyboard-navigation.ts` (594 lines)
 
 **Features**:
+
 - Arrow key navigation (vertical, horizontal, grid)
 - Roving tabindex implementation
 - Focus trap utilities
@@ -152,6 +162,7 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 - Platform-specific modifier keys (Cmd/Ctrl)
 
 **Functions** (20+):
+
 - `handleKeyboardNavigation()` - Complete navigation handler
 - `getNextIndex()` - Calculate next focus target
 - `getNextGridIndex()` - Grid navigation
@@ -160,9 +171,11 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 - `matchesShortcut()` - Keyboard shortcut matching
 
 #### C. Color Contrast ✅
+
 **File**: `src/lib/a11y/color-contrast.ts` (595 lines)
 
 **Features**:
+
 - WCAG AA/AAA contrast calculations
 - Hex, RGB, HSL color parsing
 - Relative luminance calculation
@@ -172,6 +185,7 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 - Color blindness simulation
 
 **WCAG Requirements Enforced**:
+
 ```typescript
 {
   AA: {
@@ -188,6 +202,7 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 ```
 
 **Functions** (30+):
+
 - `getContrastRatio()` - Calculate contrast between colors
 - `meetsWCAG_AA()` - Check AA compliance
 - `adjustForContrast()` - Auto-fix colors for accessibility
@@ -195,6 +210,7 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 - `detectHighContrastMode()` - System preference detection
 
 #### D. Additional Modules ✅
+
 - `src/lib/a11y/focus-manager.ts` - Focus management utilities
 - `src/lib/a11y/announcer.ts` - Live region announcements
 - `src/lib/a11y/reduced-motion.ts` - Respects prefers-reduced-motion
@@ -205,6 +221,7 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 **File**: `/Users/admin/Sites/nself-chat/.github/workflows/accessibility.yml`
 
 **Jobs** (6):
+
 1. **a11y-lint** - ESLint jsx-a11y rules (40+ checks)
 2. **a11y-unit** - jest-axe unit tests
 3. **a11y-e2e** - Playwright + @axe-core/playwright E2E tests
@@ -213,6 +230,7 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 6. **accessibility-summary** - Consolidated results
 
 **Configuration**:
+
 - Runs on push to main/develop
 - Runs on all PRs
 - Blocks merge if critical violations
@@ -223,6 +241,7 @@ nChat v0.9.1 has **substantial WCAG 2.1 AA compliance infrastructure** in place 
 #### A. UI Components with Focus Management ✅
 
 **Button Component** (`src/components/ui/button.tsx`):
+
 ```typescript
 // Focus-visible styles
 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
@@ -238,6 +257,7 @@ size: {
 ```
 
 **Input Component** (`src/components/ui/input.tsx`):
+
 ```typescript
 // ARIA invalid state
 aria-invalid={!!error || ariaInvalid === true}
@@ -254,6 +274,7 @@ aria-invalid={!!error || ariaInvalid === true}
 #### B. Missing ARIA Attributes ⚠️
 
 **Issues Found** (from lint):
+
 1. **Activity Page** (3 violations):
    - Non-interactive elements with click handlers need `role="button"` + `tabIndex={0}`
 
@@ -270,6 +291,7 @@ aria-invalid={!!error || ariaInvalid === true}
 **File**: `/Users/admin/Sites/nself-chat/docs/guides/screen-reader-testing-report.md`
 
 **Testing Completed**:
+
 - ✅ **NVDA** 2024.1 (Windows) - 35/35 tests passed
 - ✅ **JAWS** 2024 (Windows) - 26/26 tests passed
 - ✅ **VoiceOver** macOS 14.2 - 26/26 tests passed
@@ -279,6 +301,7 @@ aria-invalid={!!error || ariaInvalid === true}
 **Total**: 139/139 screen reader tests passed (100%)
 
 **Test Coverage**:
+
 - Landmark navigation
 - Form controls and labels
 - Button names and roles
@@ -290,6 +313,7 @@ aria-invalid={!!error || ariaInvalid === true}
 ### 7. Keyboard Navigation ✅ (100%)
 
 **Implemented**:
+
 - ✅ Tab/Shift+Tab - Focus traversal
 - ✅ Enter/Space - Activation
 - ✅ Arrow keys - List/grid navigation
@@ -302,6 +326,7 @@ aria-invalid={!!error || ariaInvalid === true}
 - ✅ No keyboard traps
 
 **Focus Indicators**:
+
 ```css
 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 ```
@@ -309,17 +334,20 @@ focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 ### 8. Color Contrast ✅ (100%)
 
 **Requirements**:
+
 - Normal text: 4.5:1 (WCAG AA)
 - Large text: 3:1 (WCAG AA)
 - UI components: 3:1 (WCAG AA)
 
 **Implementation**:
+
 - Theme system enforces contrast ratios
 - Color contrast checker in theme editor
 - Automatic color adjustment for accessibility
 - High contrast mode support
 
 **Contrast Utilities**:
+
 - `getContrastRatio()` - Calculate ratio
 - `meetsWCAG_AA()` - Validate compliance
 - `adjustColorForContrast()` - Auto-fix colors
@@ -328,9 +356,11 @@ focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 ### 9. Documentation ✅ (100%)
 
 #### A. Accessibility Guide
+
 **File**: `/Users/admin/Sites/nself-chat/docs/Accessibility-Guide.md`
 
 **Contents**:
+
 - Keyboard shortcuts reference
 - Screen reader support details
 - Color contrast requirements
@@ -338,9 +368,11 @@ focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 - Compliance statement
 
 #### B. Implementation Complete Doc
+
 **File**: `/Users/admin/Sites/nself-chat/docs/I18N-ACCESSIBILITY-COMPLETE.md`
 
 **Contents** (465 lines):
+
 - Executive summary
 - Implementation details
 - Testing results
@@ -349,9 +381,11 @@ focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 - Next steps
 
 #### C. Screen Reader Testing Report
+
 **File**: `/Users/admin/Sites/nself-chat/docs/guides/screen-reader-testing-report.md`
 
 **Contents** (622 lines):
+
 - Detailed test results for 5 screen readers
 - Test methodology
 - Best practices implemented
@@ -366,6 +400,7 @@ focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 **Issues** (11 from ESLint):
 
 #### A. Interactive Elements Missing Keyboard Handlers (3 errors)
+
 ```tsx
 // Current (incorrect)
 <div onClick={handleClick}>...</div>
@@ -380,11 +415,14 @@ focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 ```
 
 **Files**:
+
 - `src/app/activity/page.tsx` (1 occurrence)
 - `src/app/admin/export/page.tsx` (3 occurrences)
 
 #### B. AutoFocus Warnings (8 warnings)
+
 **Files**:
+
 - `src/app/auth/2fa-backup/page.tsx`
 - `src/app/auth/forgot-password/page.tsx`
 - `src/app/auth/magic-link/page.tsx`
@@ -396,6 +434,7 @@ focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 ### 2. Test Failures (5 tests, 17% of unit tests)
 
 **Failing Tests**:
+
 1. `3.2.1 - On Focus` - Input missing label
 2. `3.3.2 - Labels or Instructions` - Form fields need labels
 3. `4.1.2 - Name, Role, Value` - Missing ARIA labels on custom controls
@@ -410,45 +449,45 @@ focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 
 ### 1. Perceivable ✅ (100%)
 
-| Criterion | Status | Evidence |
-|-----------|--------|----------|
-| 1.1.1 - Text Alternatives | ✅ Pass | All images have alt text, decorative images marked |
-| 1.3.1 - Info and Relationships | ✅ Pass | Proper heading hierarchy, semantic HTML |
-| 1.4.3 - Contrast (Minimum) | ✅ Pass | 4.5:1 enforced, color contrast utilities |
-| 1.4.4 - Resize Text | ✅ Pass | Text resizable to 200% without loss |
-| 1.4.10 - Reflow | ✅ Pass | Content reflows at 320px viewport |
+| Criterion                      | Status  | Evidence                                           |
+| ------------------------------ | ------- | -------------------------------------------------- |
+| 1.1.1 - Text Alternatives      | ✅ Pass | All images have alt text, decorative images marked |
+| 1.3.1 - Info and Relationships | ✅ Pass | Proper heading hierarchy, semantic HTML            |
+| 1.4.3 - Contrast (Minimum)     | ✅ Pass | 4.5:1 enforced, color contrast utilities           |
+| 1.4.4 - Resize Text            | ✅ Pass | Text resizable to 200% without loss                |
+| 1.4.10 - Reflow                | ✅ Pass | Content reflows at 320px viewport                  |
 
 ### 2. Operable ✅ (95%)
 
-| Criterion | Status | Evidence |
-|-----------|--------|----------|
-| 2.1.1 - Keyboard | ⚠️ Partial | Most functionality keyboard accessible, 3 divs need fixes |
-| 2.1.2 - No Keyboard Trap | ✅ Pass | No keyboard traps, focus management working |
-| 2.4.1 - Bypass Blocks | ✅ Pass | Skip links implemented |
-| 2.4.2 - Page Titled | ✅ Pass | All pages have descriptive titles |
-| 2.4.3 - Focus Order | ✅ Pass | Logical tab order maintained |
-| 2.4.4 - Link Purpose | ✅ Pass | All links have clear purposes |
-| 2.4.6 - Headings and Labels | ✅ Pass | Descriptive headings and labels |
-| 2.4.7 - Focus Visible | ✅ Pass | Focus indicators on all elements |
-| 2.5.3 - Label in Name | ✅ Pass | Visible labels match accessible names |
+| Criterion                   | Status     | Evidence                                                  |
+| --------------------------- | ---------- | --------------------------------------------------------- |
+| 2.1.1 - Keyboard            | ⚠️ Partial | Most functionality keyboard accessible, 3 divs need fixes |
+| 2.1.2 - No Keyboard Trap    | ✅ Pass    | No keyboard traps, focus management working               |
+| 2.4.1 - Bypass Blocks       | ✅ Pass    | Skip links implemented                                    |
+| 2.4.2 - Page Titled         | ✅ Pass    | All pages have descriptive titles                         |
+| 2.4.3 - Focus Order         | ✅ Pass    | Logical tab order maintained                              |
+| 2.4.4 - Link Purpose        | ✅ Pass    | All links have clear purposes                             |
+| 2.4.6 - Headings and Labels | ✅ Pass    | Descriptive headings and labels                           |
+| 2.4.7 - Focus Visible       | ✅ Pass    | Focus indicators on all elements                          |
+| 2.5.3 - Label in Name       | ✅ Pass    | Visible labels match accessible names                     |
 
 ### 3. Understandable ✅ (90%)
 
-| Criterion | Status | Evidence |
-|-----------|--------|----------|
-| 3.1.1 - Language of Page | ✅ Pass | HTML lang attribute set |
-| 3.2.1 - On Focus | ⚠️ Partial | 1 test failing (test fixture issue) |
-| 3.2.2 - On Input | ✅ Pass | No unexpected context changes |
-| 3.3.1 - Error Identification | ✅ Pass | Errors identified with role="alert" |
+| Criterion                      | Status     | Evidence                            |
+| ------------------------------ | ---------- | ----------------------------------- |
+| 3.1.1 - Language of Page       | ✅ Pass    | HTML lang attribute set             |
+| 3.2.1 - On Focus               | ⚠️ Partial | 1 test failing (test fixture issue) |
+| 3.2.2 - On Input               | ✅ Pass    | No unexpected context changes       |
+| 3.3.1 - Error Identification   | ✅ Pass    | Errors identified with role="alert" |
 | 3.3.2 - Labels or Instructions | ⚠️ Partial | 1 test failing (test fixture issue) |
 
 ### 4. Robust ✅ (85%)
 
-| Criterion | Status | Evidence |
-|-----------|--------|----------|
-| 4.1.1 - Parsing | ✅ Pass | Valid HTML throughout |
+| Criterion                 | Status     | Evidence                               |
+| ------------------------- | ---------- | -------------------------------------- |
+| 4.1.1 - Parsing           | ✅ Pass    | Valid HTML throughout                  |
 | 4.1.2 - Name, Role, Value | ⚠️ Partial | 1 test failing, 3 components need ARIA |
-| 4.1.3 - Status Messages | ✅ Pass | Proper ARIA live regions |
+| 4.1.3 - Status Messages   | ✅ Pass    | Proper ARIA live regions               |
 
 ---
 
@@ -500,6 +539,7 @@ focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 ### Overall Confidence: 92%
 
 **Reasoning**:
+
 - Core infrastructure: 100% complete
 - Library implementation: 100% complete
 - Screen reader compatibility: 100% complete
@@ -513,6 +553,7 @@ focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 ### Immediate Actions (1-2 days)
 
 1. **Fix Interactive Elements** (Priority: HIGH)
+
    ```bash
    # Fix 3 interactive divs
    - Add role="button"
@@ -521,6 +562,7 @@ focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
    ```
 
 2. **Fix Test Fixtures** (Priority: MEDIUM)
+
    ```bash
    # Update 5 failing unit tests
    - Add proper labels to test components
@@ -554,17 +596,17 @@ focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 
 ## Metrics Summary
 
-| Metric | Value | Target | Status |
-|--------|-------|--------|--------|
-| **WCAG 2.1 AA Compliance** | 85% | 100% | ⚠️ Partial |
-| **Screen Reader Tests** | 139/139 | 100% | ✅ Pass |
-| **Unit Tests** | 26/31 | 100% | ⚠️ 83% |
-| **E2E Tests** | 50/50 | 100% | ✅ Pass |
-| **ESLint Rules** | 40+ | 40+ | ✅ Pass |
-| **Lighthouse Score** | ≥90 | ≥90 | ✅ Pass |
-| **Code Lines** | 52,000+ | - | ✅ Complete |
-| **Components Fixed** | 70% | 100% | ⚠️ Partial |
-| **Documentation** | 1,100+ lines | - | ✅ Complete |
+| Metric                     | Value        | Target | Status      |
+| -------------------------- | ------------ | ------ | ----------- |
+| **WCAG 2.1 AA Compliance** | 85%          | 100%   | ⚠️ Partial  |
+| **Screen Reader Tests**    | 139/139      | 100%   | ✅ Pass     |
+| **Unit Tests**             | 26/31        | 100%   | ⚠️ 83%      |
+| **E2E Tests**              | 50/50        | 100%   | ✅ Pass     |
+| **ESLint Rules**           | 40+          | 40+    | ✅ Pass     |
+| **Lighthouse Score**       | ≥90          | ≥90    | ✅ Pass     |
+| **Code Lines**             | 52,000+      | -      | ✅ Complete |
+| **Components Fixed**       | 70%          | 100%   | ⚠️ Partial  |
+| **Documentation**          | 1,100+ lines | -      | ✅ Complete |
 
 ---
 
@@ -575,6 +617,7 @@ focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 ### What's Built ✅
 
 nChat has **enterprise-grade accessibility infrastructure**:
+
 - Complete testing framework (jest-axe, Playwright, Lighthouse)
 - Comprehensive accessibility library (3,000+ lines)
 - Full screen reader compatibility (5 platforms tested)
@@ -586,6 +629,7 @@ nChat has **enterprise-grade accessibility infrastructure**:
 ### What's Needed ⚠️
 
 To reach **100% WCAG 2.1 AA compliance**:
+
 - Fix 3-4 interactive elements (add role/tabIndex/keyboard handlers)
 - Update 5 test fixtures with proper labels
 - (Optional) Address 8 autoFocus warnings

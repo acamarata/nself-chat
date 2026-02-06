@@ -112,10 +112,10 @@ export default function BillingPage() {
   }
 
   return (
-    <div className="container max-w-7xl py-8 space-y-8">
+    <div className="container max-w-7xl space-y-8 py-8">
       <div>
         <h1 className="text-3xl font-bold">Billing & Subscriptions</h1>
-        <p className="text-muted-foreground mt-2">
+        <p className="mt-2 text-muted-foreground">
           Manage your subscription, usage, and payment methods
         </p>
       </div>
@@ -134,14 +134,11 @@ export default function BillingPage() {
         </TabsContent>
 
         <TabsContent value="plans">
-          <PricingTable
-            currentPlan={mockUsage.plan}
-            onSelectPlan={handleSelectPlan}
-          />
+          <PricingTable currentPlan={mockUsage.plan} onSelectPlan={handleSelectPlan} />
         </TabsContent>
 
         <TabsContent value="history">
-          <div className="text-center py-12 text-muted-foreground">
+          <div className="py-12 text-center text-muted-foreground">
             <p>No billing history yet</p>
           </div>
         </TabsContent>
@@ -152,9 +149,7 @@ export default function BillingPage() {
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Complete Your Subscription</DialogTitle>
-            <DialogDescription>
-              Choose your payment method to subscribe
-            </DialogDescription>
+            <DialogDescription>Choose your payment method to subscribe</DialogDescription>
           </DialogHeader>
 
           {selectedPlan && (
@@ -174,7 +169,7 @@ export default function BillingPage() {
                       // In production, call /api/billing/checkout
                       alert('Stripe checkout would open here')
                     }}
-                    className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+                    className="text-primary-foreground hover:bg-primary/90 w-full rounded-md bg-primary px-4 py-2"
                   >
                     Continue to Stripe
                   </button>

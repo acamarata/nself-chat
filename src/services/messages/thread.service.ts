@@ -525,7 +525,7 @@ export class ThreadService {
       id: data.id as string,
       channelId: data.channel_id as string,
       content: data.content as string,
-      type: (data.type as string || 'text') as MessageType,
+      type: ((data.type as string) || 'text') as MessageType,
       userId: data.user_id as string,
       user: this.transformUser(data.user as Record<string, unknown>),
       createdAt: new Date(data.created_at as string),
@@ -591,7 +591,9 @@ export class ThreadService {
   /**
    * Transform attachment data
    */
-  private transformAttachment(data: Record<string, unknown>): NonNullable<Message['attachments']>[number] {
+  private transformAttachment(
+    data: Record<string, unknown>
+  ): NonNullable<Message['attachments']>[number] {
     return {
       id: data.id as string,
       type: (data.type as 'image' | 'video' | 'audio' | 'file' | 'link') || 'file',

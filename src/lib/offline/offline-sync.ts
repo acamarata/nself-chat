@@ -263,7 +263,7 @@ class OfflineSync {
         result,
       })
 
-      logger.error('[OfflineSync] Sync failed:',  errorMessage)
+      logger.error('[OfflineSync] Sync failed:', errorMessage)
 
       return result
     }
@@ -518,7 +518,7 @@ class OfflineSync {
       try {
         listener(event)
       } catch (error) {
-        logger.error('[OfflineSync] Event listener error:',  error)
+        logger.error('[OfflineSync] Event listener error:', error)
       }
     })
   }

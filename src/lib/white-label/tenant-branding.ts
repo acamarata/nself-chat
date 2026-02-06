@@ -173,10 +173,7 @@ export class TenantBrandingService {
   /**
    * Delete logo file
    */
-  async deleteLogo(
-    tenantId: string,
-    storageKey: string
-  ): Promise<void> {
+  async deleteLogo(tenantId: string, storageKey: string): Promise<void> {
     try {
       const response = await fetch(
         `/api/tenants/${tenantId}/branding/upload/${encodeURIComponent(storageKey)}`,
@@ -257,11 +254,7 @@ export class TenantBrandingService {
   /**
    * Import branding configuration
    */
-  async importBranding(
-    tenantId: string,
-    file: File,
-    userId: string
-  ): Promise<TenantBranding> {
+  async importBranding(tenantId: string, file: File, userId: string): Promise<TenantBranding> {
     try {
       const formData = new FormData()
       formData.append('file', file)
@@ -333,16 +326,13 @@ export class TenantBrandingService {
     domain: string
   ): Promise<{ verified: boolean; errors?: string[] }> {
     try {
-      const response = await fetch(
-        `/api/tenants/${tenantId}/branding/domain/verify`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ domain }),
-        }
-      )
+      const response = await fetch(`/api/tenants/${tenantId}/branding/domain/verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ domain }),
+      })
 
       if (!response.ok) {
         throw new Error(`Domain verification failed: ${response.statusText}`)
@@ -358,11 +348,7 @@ export class TenantBrandingService {
   /**
    * Apply custom CSS
    */
-  async applyCustomCSS(
-    tenantId: string,
-    css: string,
-    userId: string
-  ): Promise<TenantBranding> {
+  async applyCustomCSS(tenantId: string, css: string, userId: string): Promise<TenantBranding> {
     try {
       const response = await fetch(`/api/tenants/${tenantId}/branding/css`, {
         method: 'POST',
@@ -418,9 +404,7 @@ export class TenantBrandingService {
   /**
    * Listen to branding changes
    */
-  onBrandingChange(
-    callback: (tenantId: string, branding: TenantBranding) => void
-  ): () => void {
+  onBrandingChange(callback: (tenantId: string, branding: TenantBranding) => void): () => void {
     const handler = (event: Event) => {
       const customEvent = event as CustomEvent<{
         tenantId: string

@@ -233,7 +233,7 @@ export class IdentityKeyManager {
 
       return parsed
     } catch (error) {
-      logger.error('Failed to load identity from storage:',  error)
+      logger.error('Failed to load identity from storage:', error)
       return null
     }
   }

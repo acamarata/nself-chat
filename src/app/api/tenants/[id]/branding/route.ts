@@ -13,10 +13,7 @@ export const dynamic = 'force-dynamic'
 /**
  * GET - Fetch tenant branding configuration
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: tenantId } = await params
 
@@ -57,20 +54,14 @@ export async function GET(
     return NextResponse.json(branding)
   } catch (error) {
     logger.error('GET /api/tenants/[id]/branding failed:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch branding configuration' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to fetch branding configuration' }, { status: 500 })
   }
 }
 
 /**
  * PATCH - Update tenant branding configuration
  */
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: tenantId } = await params
 
@@ -109,9 +100,6 @@ export async function PATCH(
     return NextResponse.json(branding)
   } catch (error) {
     logger.error('PATCH /api/tenants/[id]/branding failed:', error)
-    return NextResponse.json(
-      { error: 'Failed to update branding configuration' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to update branding configuration' }, { status: 500 })
   }
 }

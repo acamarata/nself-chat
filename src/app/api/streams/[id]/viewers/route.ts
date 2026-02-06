@@ -93,9 +93,7 @@ const GET_STREAM_VIEWER_STATS = gql`
         count
       }
     }
-    total_viewers: nchat_call_participants_aggregate(
-      where: { call_id: { _eq: $streamId } }
-    ) {
+    total_viewers: nchat_call_participants_aggregate(where: { call_id: { _eq: $streamId } }) {
       aggregate {
         count
       }
@@ -163,9 +161,7 @@ function mergeViewerData(
   livekitParticipants: ParticipantInfo[],
   includeMetadata: boolean
 ): ViewerInfo[] {
-  const livekitMap = new Map(
-    livekitParticipants.map((p) => [p.identity, p])
-  )
+  const livekitMap = new Map(livekitParticipants.map((p) => [p.identity, p]))
 
   return dbParticipants.map((dbViewer) => {
     const livekitViewer = livekitMap.get(dbViewer.livekit_identity || dbViewer.user_id)

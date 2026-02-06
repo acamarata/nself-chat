@@ -180,7 +180,11 @@ export function hasAccessibleName(element: Element): boolean {
   }
 
   // Check for label element (for form controls)
-  if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
+  if (
+    element instanceof HTMLInputElement ||
+    element instanceof HTMLTextAreaElement ||
+    element instanceof HTMLSelectElement
+  ) {
     const id = element.id
     if (id) {
       const label = document.querySelector(`label[for="${id}"]`)
@@ -236,7 +240,19 @@ export function hasAppropriateRole(element: Element): boolean {
   const tagName = element.tagName.toLowerCase()
 
   // Native semantic elements don't need explicit roles
-  const semanticElements = ['button', 'a', 'input', 'select', 'textarea', 'nav', 'main', 'header', 'footer', 'article', 'section']
+  const semanticElements = [
+    'button',
+    'a',
+    'input',
+    'select',
+    'textarea',
+    'nav',
+    'main',
+    'header',
+    'footer',
+    'article',
+    'section',
+  ]
   if (semanticElements.includes(tagName)) {
     return true
   }
@@ -249,7 +265,9 @@ export function hasAppropriateRole(element: Element): boolean {
  * Check if page has proper language attribute (WCAG 3.1.1)
  */
 export function hasLanguageAttribute(): boolean {
-  return document.documentElement.hasAttribute('lang') && document.documentElement.lang.trim().length > 0
+  return (
+    document.documentElement.hasAttribute('lang') && document.documentElement.lang.trim().length > 0
+  )
 }
 
 /**
@@ -357,7 +375,9 @@ export function runWCAGAudit(): AuditResult[] {
   })
 
   // Check interactive elements for keyboard accessibility
-  const interactiveElements = document.querySelectorAll('button, a, [role="button"], [role="link"], [onclick]')
+  const interactiveElements = document.querySelectorAll(
+    'button, a, [role="button"], [role="link"], [onclick]'
+  )
   let keyboardInaccessible = 0
 
   interactiveElements.forEach((element) => {
@@ -377,7 +397,10 @@ export function runWCAGAudit(): AuditResult[] {
     suggestions:
       keyboardInaccessible === 0
         ? undefined
-        : ['Add tabindex="0" to interactive elements', 'Use semantic HTML elements (button, a) instead of div/span with onclick'],
+        : [
+            'Add tabindex="0" to interactive elements',
+            'Use semantic HTML elements (button, a) instead of div/span with onclick',
+          ],
   })
 
   // Check images for alt text
@@ -394,8 +417,12 @@ export function runWCAGAudit(): AuditResult[] {
     criteria: WCAGCriteria.TextAlternatives,
     level: ConformanceLevel.A,
     passed: missingAlt === 0,
-    message: missingAlt === 0 ? 'All images have alt text' : `${missingAlt} images are missing alt text`,
-    suggestions: missingAlt === 0 ? undefined : ['Add alt attribute to all images', 'Use alt="" for decorative images'],
+    message:
+      missingAlt === 0 ? 'All images have alt text' : `${missingAlt} images are missing alt text`,
+    suggestions:
+      missingAlt === 0
+        ? undefined
+        : ['Add alt attribute to all images', 'Use alt="" for decorative images'],
   })
 
   return results

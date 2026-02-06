@@ -12,11 +12,7 @@
 import { offlineDB, QueuedMessage, QueuedUpload } from './indexeddb'
 import { ConflictResolver } from './conflict-resolver'
 
-export type SyncStatus =
-  | 'idle'
-  | 'syncing'
-  | 'paused'
-  | 'error'
+export type SyncStatus = 'idle' | 'syncing' | 'paused' | 'error'
 
 export interface SyncProgress {
   total: number
@@ -228,17 +224,12 @@ class OfflineSyncService {
           attempts: message.attempts + 1,
           lastAttempt: Date.now(),
           error: error instanceof Error ? error.message : 'Unknown error',
-          status:
-            message.attempts + 1 >= this.options.maxRetries
-              ? 'failed'
-              : 'pending',
+          status: message.attempts + 1 >= this.options.maxRetries ? 'failed' : 'pending',
         })
       }
     }
 
-    console.log(
-      `[OfflineSync] Messages synced: ${completed} succeeded, ${failed} failed`
-    )
+    console.log(`[OfflineSync] Messages synced: ${completed} succeeded, ${failed} failed`)
   }
 
   /**
@@ -327,17 +318,12 @@ class OfflineSyncService {
           attempts: upload.attempts + 1,
           lastAttempt: Date.now(),
           error: error instanceof Error ? error.message : 'Unknown error',
-          status:
-            upload.attempts + 1 >= this.options.maxRetries
-              ? 'failed'
-              : 'pending',
+          status: upload.attempts + 1 >= this.options.maxRetries ? 'failed' : 'pending',
         })
       }
     }
 
-    console.log(
-      `[OfflineSync] Uploads synced: ${completed} succeeded, ${failed} failed`
-    )
+    console.log(`[OfflineSync] Uploads synced: ${completed} succeeded, ${failed} failed`)
   }
 
   /**
@@ -463,10 +449,7 @@ class OfflineSyncService {
         try {
           // @ts-expect-error - SyncMetadata and Conflict types are compatible but not exact
           await this.conflictResolver.resolve(conflict)
-          await offlineDB.resolveConflict(
-            conflict.entityType,
-            conflict.entityId
-          )
+          await offlineDB.resolveConflict(conflict.entityType, conflict.entityId)
         } catch (error) {
           console.error('[OfflineSync] Failed to resolve conflict:', error)
         }
@@ -479,9 +462,7 @@ class OfflineSyncService {
    */
   private getCurrentUserId(): string | null {
     // TODO: Implement actual user ID retrieval
-    return typeof window !== 'undefined'
-      ? localStorage.getItem('userId')
-      : null
+    return typeof window !== 'undefined' ? localStorage.getItem('userId') : null
   }
 
   /**
@@ -581,9 +562,7 @@ class OfflineSyncService {
     await offlineDB.clearMessageQueue()
     // Upload queue needs individual deletion to revoke object URLs
     const uploads = await offlineDB.getUploadQueue()
-    await Promise.all(
-      uploads.map((upload) => offlineDB.removeFromUploadQueue(upload.id))
-    )
+    await Promise.all(uploads.map((upload) => offlineDB.removeFromUploadQueue(upload.id)))
   }
 
   /**
@@ -595,10 +574,7 @@ class OfflineSyncService {
     if (typeof window !== 'undefined') {
       window.removeEventListener('online', this.handleOnline)
       window.removeEventListener('offline', this.handleOffline)
-      document.removeEventListener(
-        'visibilitychange',
-        this.handleVisibilityChange
-      )
+      document.removeEventListener('visibilitychange', this.handleVisibilityChange)
     }
 
     this.listeners.clear()

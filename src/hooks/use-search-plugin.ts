@@ -95,10 +95,7 @@ interface UseSearchSuggestionsOptions {
   debounceMs?: number
 }
 
-export function useSearchSuggestions(
-  query: string,
-  options: UseSearchSuggestionsOptions = {}
-) {
+export function useSearchSuggestions(query: string, options: UseSearchSuggestionsOptions = {}) {
   const { debounceMs = 300 } = options
   const [debouncedQuery, setDebouncedQuery] = useState(query)
 

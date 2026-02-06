@@ -144,8 +144,8 @@ export function TemplateSelector({
         <div className="space-y-2">
           <h2 className="text-2xl font-bold">Choose Your Platform Template</h2>
           <p className="text-muted-foreground">
-            Select a pre-built template that matches your preferred communication style.
-            Each template includes authentic colors, layouts, and features.
+            Select a pre-built template that matches your preferred communication style. Each
+            template includes authentic colors, layouts, and features.
           </p>
         </div>
 
@@ -210,7 +210,7 @@ export function TemplateSelector({
                       </ul>
                     </div>
 
-                    <div className="rounded-lg bg-background/50 p-4">
+                    <div className="bg-background/50 rounded-lg p-4">
                       <p className="text-sm">
                         <span className="font-semibold">Best for:</span> {metadata.bestFor}
                       </p>
@@ -307,7 +307,8 @@ export function TemplateSelector({
           </DialogHeader>
           <div className="my-4 rounded-lg bg-muted p-4">
             <p className="text-sm">
-              <span className="font-semibold">Current:</span> {templateRegistry[currentTemplateId].name}
+              <span className="font-semibold">Current:</span>{' '}
+              {templateRegistry[currentTemplateId].name}
             </p>
             <p className="mt-2 text-sm">
               <span className="font-semibold">New:</span>{' '}

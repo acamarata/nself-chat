@@ -331,6 +331,7 @@ console.log('Custom status:', presence.getCustomStatus())
 ## Performance Tips
 
 1. **Subscribe only to needed users**
+
    ```typescript
    // Good: Subscribe to visible users
    presence?.subscribeToUsers(visibleUserIds)
@@ -340,6 +341,7 @@ console.log('Custom status:', presence.getCustomStatus())
    ```
 
 2. **Unsubscribe when done**
+
    ```typescript
    useEffect(() => {
      presence?.subscribeToUsers(userIds)
@@ -348,6 +350,7 @@ console.log('Custom status:', presence.getCustomStatus())
    ```
 
 3. **Use typing service's built-in debouncing**
+
    ```typescript
    // Good: Let service handle it
    typing?.handleInputChange(channelId, value)

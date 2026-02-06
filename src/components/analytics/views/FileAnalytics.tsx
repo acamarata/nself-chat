@@ -5,7 +5,16 @@
  */
 
 import * as React from 'react'
-import { FileText, Image as ImageIcon, Video, Music, Archive, File, Upload, HardDrive } from 'lucide-react'
+import {
+  FileText,
+  Image as ImageIcon,
+  Video,
+  Music,
+  Archive,
+  File,
+  Upload,
+  HardDrive,
+} from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'

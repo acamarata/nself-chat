@@ -127,7 +127,8 @@ class RealtimeIntegrationService {
 
     // Initialize realtime client
     const clientConfig: RealtimeClientConfig = {
-      url: this.config.realtimeUrl || process.env.NEXT_PUBLIC_REALTIME_URL || 'http://localhost:3101',
+      url:
+        this.config.realtimeUrl || process.env.NEXT_PUBLIC_REALTIME_URL || 'http://localhost:3101',
       token: this.config.token,
       debug: this.config.debug,
       autoReconnect: true,

@@ -22,9 +22,7 @@ export const PERMISSION_OVERRIDE_FRAGMENT = gql`
 export const GET_CHANNEL_PERMISSIONS = gql`
   ${PERMISSION_OVERRIDE_FRAGMENT}
   query GetChannelPermissions($channel_id: uuid!) {
-    nchat_channel_permission_overrides(
-      where: { channel_id: { _eq: $channel_id } }
-    ) {
+    nchat_channel_permission_overrides(where: { channel_id: { _eq: $channel_id } }) {
       ...PermissionOverrideFragment
     }
   }

@@ -50,7 +50,10 @@ export function GDPRDataRequest({ userId, userEmail }: GDPRDataRequestProps) {
       {/* Request Type Selection */}
       {!requestType && (
         <div className="grid gap-4 md:grid-cols-2">
-          <Card className="cursor-pointer hover:border-primary" onClick={() => setRequestType('export')}>
+          <Card
+            className="cursor-pointer hover:border-primary"
+            onClick={() => setRequestType('export')}
+          >
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Download className="h-5 w-5" />
@@ -78,7 +81,10 @@ export function GDPRDataRequest({ userId, userEmail }: GDPRDataRequestProps) {
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:border-destructive" onClick={() => setRequestType('delete')}>
+          <Card
+            className="cursor-pointer hover:border-destructive"
+            onClick={() => setRequestType('delete')}
+          >
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Trash2 className="h-5 w-5 text-destructive" />
@@ -110,18 +116,30 @@ export function GDPRDataRequest({ userId, userEmail }: GDPRDataRequestProps) {
 
       {/* Export Request Form */}
       {requestType === 'export' && (
-        <DataExportForm userId={userId} userEmail={userEmail} onCancel={() => setRequestType(null)} />
+        <DataExportForm
+          userId={userId}
+          userEmail={userEmail}
+          onCancel={() => setRequestType(null)}
+        />
       )}
 
       {/* Delete Request Form */}
       {requestType === 'delete' && (
-        <DataDeletionForm userId={userId} userEmail={userEmail} onCancel={() => setRequestType(null)} />
+        <DataDeletionForm
+          userId={userId}
+          userEmail={userEmail}
+          onCancel={() => setRequestType(null)}
+        />
       )}
     </div>
   )
 }
 
-function DataExportForm({ userId, userEmail, onCancel }: {
+function DataExportForm({
+  userId,
+  userEmail,
+  onCancel,
+}: {
   userId: string
   userEmail: string
   onCancel: () => void
@@ -269,7 +287,11 @@ function DataExportForm({ userId, userEmail, onCancel }: {
   )
 }
 
-function DataDeletionForm({ userId, userEmail, onCancel }: {
+function DataDeletionForm({
+  userId,
+  userEmail,
+  onCancel,
+}: {
   userId: string
   userEmail: string
   onCancel: () => void
@@ -352,7 +374,7 @@ function DataDeletionForm({ userId, userEmail, onCancel }: {
             {scopes.map((s) => (
               <div key={s.value} className="flex items-start space-x-3 rounded-lg border p-4">
                 <RadioGroupItem value={s.value} id={s.value} className="mt-1" />
-                <div className="grid gap-1.5 leading-none flex-1">
+                <div className="grid flex-1 gap-1.5 leading-none">
                   <Label htmlFor={s.value} className="font-medium">
                     {s.label}
                   </Label>
@@ -402,8 +424,8 @@ function DataDeletionForm({ userId, userEmail, onCancel }: {
           <Shield className="h-4 w-4" />
           <AlertDescription>
             You will receive an email to verify your identity. After verification, there is a 14-day
-            cooling-off period during which you can cancel. Deletion begins after this period and may
-            take up to 30 days to complete.
+            cooling-off period during which you can cancel. Deletion begins after this period and
+            may take up to 30 days to complete.
           </AlertDescription>
         </Alert>
 
@@ -412,11 +434,7 @@ function DataDeletionForm({ userId, userEmail, onCancel }: {
           <Button variant="outline" onClick={onCancel} disabled={submitting}>
             Cancel
           </Button>
-          <Button
-            variant="destructive"
-            onClick={handleSubmit}
-            disabled={submitting || !understood}
-          >
+          <Button variant="destructive" onClick={handleSubmit} disabled={submitting || !understood}>
             {submitting ? 'Submitting...' : 'Submit Deletion Request'}
           </Button>
         </div>

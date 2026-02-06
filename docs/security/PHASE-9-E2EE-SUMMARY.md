@@ -31,6 +31,7 @@ Phase 9 completes the **Signal Protocol End-to-End Encryption (E2EE)** implement
 **Files Created/Modified**: 7 API route files
 
 **Routes Verified**:
+
 - `/api/e2ee/initialize` - Initialize E2EE for current user
 - `/api/e2ee/recover` - Recover E2EE using recovery code
 - `/api/e2ee/keys/replenish` - Replenish one-time prekeys
@@ -48,6 +49,7 @@ All routes functional and tested.
 **File**: `/Users/admin/Sites/nself-chat/src/lib/e2ee/encrypted-storage.ts` (428 lines)
 
 **Features Implemented**:
+
 - Encrypted IndexedDB storage layer
 - Hardware-backed encryption via Web Crypto API
 - AES-256-GCM encryption for all stored data
@@ -57,6 +59,7 @@ All routes functional and tested.
 - Complete wipe functionality
 
 **API Example**:
+
 ```typescript
 const storage = getEncryptedStorage()
 await storage.initialize(masterKey)
@@ -70,10 +73,12 @@ await storage.wipeAll() // Complete wipe
 ### Task 80: Forward Secrecy (Double Ratchet) ✅
 
 **Files**:
+
 - `src/lib/e2ee/session-manager.ts` (663 lines)
 - `src/lib/e2ee/signal-client.ts` (485 lines)
 
 **Features Implemented**:
+
 - X3DH (Extended Triple Diffie-Hellman) key exchange
 - Double Ratchet algorithm for session management
 - Forward secrecy (past messages secure even if keys compromised)
@@ -82,6 +87,7 @@ await storage.wipeAll() // Complete wipe
 - Automatic key rotation
 
 **Security Properties**:
+
 - Perfect forward secrecy
 - Post-compromise security
 - Break-in recovery
@@ -94,6 +100,7 @@ await storage.wipeAll() // Complete wipe
 **File**: `/Users/admin/Sites/nself-chat/src/components/e2ee/safety-number-verification.tsx` (289 lines)
 
 **Features Implemented**:
+
 - 60-digit safety number generation
 - QR code generation and display
 - Manual number comparison UI
@@ -102,6 +109,7 @@ await storage.wipeAll() // Complete wipe
 - Step-by-step instructions
 
 **UI Components**:
+
 ```tsx
 <SafetyNumberVerification
   open={isOpen}
@@ -116,6 +124,7 @@ await storage.wipeAll() // Complete wipe
 ```
 
 **Dependencies Added**:
+
 - `qrcode.react` - QR code generation
 
 ---
@@ -125,6 +134,7 @@ await storage.wipeAll() // Complete wipe
 **File**: `/Users/admin/Sites/nself-chat/src/lib/e2ee/device-lock.ts` (567 lines)
 
 **Features Implemented**:
+
 - PIN lock (4+ digits, PBKDF2 hashed with 10k iterations)
 - Biometric authentication (WebAuthn platform authenticator)
 - Auto-lock timers (configurable)
@@ -135,6 +145,7 @@ await storage.wipeAll() // Complete wipe
 - Lock on startup option
 
 **Configuration**:
+
 ```typescript
 const lockManager = getDeviceLockManager({
   enabled: true,
@@ -155,6 +166,7 @@ const lockManager = getDeviceLockManager({
 **File**: `/Users/admin/Sites/nself-chat/src/lib/e2ee/wipe-policy.ts` (498 lines)
 
 **Features Implemented**:
+
 - Device wipe on max failed attempts (configurable)
 - Remote wipe capability via server command
 - Partial wipe (E2EE data only)
@@ -164,6 +176,7 @@ const lockManager = getDeviceLockManager({
 - Failed attempts tracking
 
 **Wipe Operations**:
+
 1. Clear encrypted storage (IndexedDB)
 2. Clear device lock data
 3. Clear E2EE keys
@@ -174,6 +187,7 @@ const lockManager = getDeviceLockManager({
 8. Redirect to login
 
 **API**:
+
 ```typescript
 const wipeManager = getWipeManager()
 
@@ -194,6 +208,7 @@ const wiped = await wipeManager.checkRemoteWipe(deviceId)
 **File**: `/Users/admin/Sites/nself-chat/docs/security/E2EE-THREAT-MODEL.md` (1100+ lines)
 
 **Contents**:
+
 1. **Executive Summary** - Security overview and key features
 2. **System Overview** - Architecture diagrams and components
 3. **Trust Boundaries** - Trusted vs untrusted components
@@ -206,6 +221,7 @@ const wiped = await wipeManager.checkRemoteWipe(deviceId)
 10. **Incident Response** - 5-phase response plan
 
 **Threats Covered**:
+
 - T1: Message Interception
 - T2: Key Compromise
 - T3: Server Compromise
@@ -249,33 +265,33 @@ Storage Layer
 
 ## Security Features Matrix
 
-| Feature | Status | Implementation |
-|---------|--------|----------------|
-| E2EE Encryption | ✅ Complete | Signal Protocol (libsignal-client) |
-| Key Exchange | ✅ Complete | X3DH (Extended Triple DH) |
-| Forward Secrecy | ✅ Complete | Double Ratchet algorithm |
-| Break-in Recovery | ✅ Complete | Double Ratchet feature |
-| Safety Numbers | ✅ Complete | SHA-512 fingerprints |
-| Identity Verification | ✅ Complete | QR codes + manual comparison |
-| Device Lock | ✅ Complete | PIN + biometric (WebAuthn) |
-| Remote Wipe | ✅ Complete | Server-triggered wipe |
-| Encrypted Storage | ✅ Complete | IndexedDB + AES-256-GCM |
-| Key Rotation | ✅ Complete | Weekly signed prekey rotation |
-| Deniability | ✅ Complete | Signal Protocol feature |
+| Feature               | Status      | Implementation                     |
+| --------------------- | ----------- | ---------------------------------- |
+| E2EE Encryption       | ✅ Complete | Signal Protocol (libsignal-client) |
+| Key Exchange          | ✅ Complete | X3DH (Extended Triple DH)          |
+| Forward Secrecy       | ✅ Complete | Double Ratchet algorithm           |
+| Break-in Recovery     | ✅ Complete | Double Ratchet feature             |
+| Safety Numbers        | ✅ Complete | SHA-512 fingerprints               |
+| Identity Verification | ✅ Complete | QR codes + manual comparison       |
+| Device Lock           | ✅ Complete | PIN + biometric (WebAuthn)         |
+| Remote Wipe           | ✅ Complete | Server-triggered wipe              |
+| Encrypted Storage     | ✅ Complete | IndexedDB + AES-256-GCM            |
+| Key Rotation          | ✅ Complete | Weekly signed prekey rotation      |
+| Deniability           | ✅ Complete | Signal Protocol feature            |
 
 ---
 
 ## Cryptographic Algorithms
 
-| Component | Algorithm | Key Size | Purpose |
-|-----------|-----------|----------|---------|
-| Identity Keys | Curve25519 | 256-bit | Long-term device identity |
-| Ephemeral Keys | Curve25519 | 256-bit | Per-session keys |
-| Signing | Ed25519 | 256-bit | Signed prekeys |
-| Message Encryption | AES-256-GCM | 256-bit | Symmetric encryption |
-| Key Derivation | PBKDF2-SHA256 | 256-bit | Master key (100k iterations) |
-| Hashing | SHA-256/512 | 256/512-bit | Fingerprints, integrity |
-| Random Generation | Web Crypto API | N/A | CSPRNG |
+| Component          | Algorithm      | Key Size    | Purpose                      |
+| ------------------ | -------------- | ----------- | ---------------------------- |
+| Identity Keys      | Curve25519     | 256-bit     | Long-term device identity    |
+| Ephemeral Keys     | Curve25519     | 256-bit     | Per-session keys             |
+| Signing            | Ed25519        | 256-bit     | Signed prekeys               |
+| Message Encryption | AES-256-GCM    | 256-bit     | Symmetric encryption         |
+| Key Derivation     | PBKDF2-SHA256  | 256-bit     | Master key (100k iterations) |
+| Hashing            | SHA-256/512    | 256/512-bit | Fingerprints, integrity      |
+| Random Generation  | Web Crypto API | N/A         | CSPRNG                       |
 
 ---
 
@@ -283,28 +299,28 @@ Storage Layer
 
 ### New Files Created (Phase 9)
 
-| File | Lines | Purpose |
-|------|-------|---------|
-| `src/lib/e2ee/encrypted-storage.ts` | 428 | Encrypted IndexedDB storage |
-| `src/lib/e2ee/device-lock.ts` | 567 | Device lock policies |
-| `src/lib/e2ee/wipe-policy.ts` | 498 | Wipe/lockout policies |
-| `src/components/e2ee/safety-number-verification.tsx` | 289 | Safety number UI |
-| `docs/security/E2EE-THREAT-MODEL.md` | 1100+ | Threat model documentation |
-| `docs/security/PHASE-9-E2EE-SUMMARY.md` | 500+ | This document |
+| File                                                 | Lines | Purpose                     |
+| ---------------------------------------------------- | ----- | --------------------------- |
+| `src/lib/e2ee/encrypted-storage.ts`                  | 428   | Encrypted IndexedDB storage |
+| `src/lib/e2ee/device-lock.ts`                        | 567   | Device lock policies        |
+| `src/lib/e2ee/wipe-policy.ts`                        | 498   | Wipe/lockout policies       |
+| `src/components/e2ee/safety-number-verification.tsx` | 289   | Safety number UI            |
+| `docs/security/E2EE-THREAT-MODEL.md`                 | 1100+ | Threat model documentation  |
+| `docs/security/PHASE-9-E2EE-SUMMARY.md`              | 500+  | This document               |
 
 **Total New Code**: ~3,400 lines
 
 ### Existing Files Verified
 
-| File | Lines | Status |
-|------|-------|--------|
-| `src/lib/e2ee/index.ts` | 355 | ✅ Verified |
-| `src/lib/e2ee/crypto.ts` | 467 | ✅ Verified |
-| `src/lib/e2ee/signal-client.ts` | 485 | ✅ Verified |
-| `src/lib/e2ee/key-manager.ts` | 543 | ✅ Verified |
-| `src/lib/e2ee/session-manager.ts` | 663 | ✅ Verified |
-| `src/lib/e2ee/message-encryption.ts` | 341 | ✅ Verified |
-| `src/contexts/e2ee-context.tsx` | 334 | ✅ Verified |
+| File                                 | Lines | Status      |
+| ------------------------------------ | ----- | ----------- |
+| `src/lib/e2ee/index.ts`              | 355   | ✅ Verified |
+| `src/lib/e2ee/crypto.ts`             | 467   | ✅ Verified |
+| `src/lib/e2ee/signal-client.ts`      | 485   | ✅ Verified |
+| `src/lib/e2ee/key-manager.ts`        | 543   | ✅ Verified |
+| `src/lib/e2ee/session-manager.ts`    | 663   | ✅ Verified |
+| `src/lib/e2ee/message-encryption.ts` | 341   | ✅ Verified |
+| `src/contexts/e2ee-context.tsx`      | 334   | ✅ Verified |
 
 **Total E2EE Code**: ~7,000 lines
 
@@ -316,16 +332,16 @@ Storage Layer
 
 Created in migration `022_e2ee_system.sql`:
 
-| Table | Purpose | Columns |
-|-------|---------|---------|
-| `nchat_identity_keys` | Device identity keys | device_id, public_key, private_encrypted, registration_id |
-| `nchat_signed_prekeys` | Signed prekeys (rotated weekly) | key_id, public_key, private_encrypted, signature, expires_at |
-| `nchat_one_time_prekeys` | One-time prekeys (consumed) | key_id, public_key, private_encrypted, is_consumed |
-| `nchat_signal_sessions` | Session state (encrypted) | peer_user_id, peer_device_id, session_state_encrypted |
-| `nchat_sender_keys` | Group encryption keys | channel_id, sender_key_public, sender_key_private_encrypted |
-| `nchat_safety_numbers` | Verified safety numbers | peer_user_id, safety_number, is_verified |
-| `nchat_user_master_keys` | Master key metadata | salt, key_hash, iterations, recovery_code_hash |
-| `nchat_e2ee_audit_log` | E2EE audit events | event_type, event_data, ip_address |
+| Table                    | Purpose                         | Columns                                                      |
+| ------------------------ | ------------------------------- | ------------------------------------------------------------ |
+| `nchat_identity_keys`    | Device identity keys            | device_id, public_key, private_encrypted, registration_id    |
+| `nchat_signed_prekeys`   | Signed prekeys (rotated weekly) | key_id, public_key, private_encrypted, signature, expires_at |
+| `nchat_one_time_prekeys` | One-time prekeys (consumed)     | key_id, public_key, private_encrypted, is_consumed           |
+| `nchat_signal_sessions`  | Session state (encrypted)       | peer_user_id, peer_device_id, session_state_encrypted        |
+| `nchat_sender_keys`      | Group encryption keys           | channel_id, sender_key_public, sender_key_private_encrypted  |
+| `nchat_safety_numbers`   | Verified safety numbers         | peer_user_id, safety_number, is_verified                     |
+| `nchat_user_master_keys` | Master key metadata             | salt, key_hash, iterations, recovery_code_hash               |
+| `nchat_e2ee_audit_log`   | E2EE audit events               | event_type, event_data, ip_address                           |
 
 **Row Level Security (RLS)**: Enabled on all tables
 **Indexes**: Optimized for key lookup and session retrieval
@@ -334,15 +350,15 @@ Created in migration `022_e2ee_system.sql`:
 
 ## Performance Benchmarks
 
-| Operation | Time | Notes |
-|-----------|------|-------|
-| Generate Identity Key | ~50ms | One-time per device |
-| Generate Prekeys (100) | ~500ms | One-time setup |
-| Encrypt Message | ~5ms | Per message |
-| Decrypt Message | ~5ms | Per message |
-| Safety Number Generation | ~10ms | On-demand |
-| PIN Verification | ~100ms | PBKDF2 10k iterations |
-| Biometric Auth | ~1000ms | OS prompt |
+| Operation                | Time    | Notes                 |
+| ------------------------ | ------- | --------------------- |
+| Generate Identity Key    | ~50ms   | One-time per device   |
+| Generate Prekeys (100)   | ~500ms  | One-time setup        |
+| Encrypt Message          | ~5ms    | Per message           |
+| Decrypt Message          | ~5ms    | Per message           |
+| Safety Number Generation | ~10ms   | On-demand             |
+| PIN Verification         | ~100ms  | PBKDF2 10k iterations |
+| Biometric Auth           | ~1000ms | OS prompt             |
 
 **Test Environment**: MacBook Pro M1, Chrome 126
 
@@ -446,12 +462,14 @@ All dependencies are production-ready and well-maintained.
 ### Deployment Steps
 
 1. **Database Migration**
+
    ```bash
    cd .backend
    hasura migrate apply --version 022
    ```
 
 2. **Environment Variables**
+
    ```bash
    NEXT_PUBLIC_E2EE_ENABLED=true
    NEXT_PUBLIC_DEVICE_LOCK_ENABLED=true
@@ -575,6 +593,7 @@ All dependencies are production-ready and well-maintained.
 ✅ **Production-Ready**: Tested, audited, deployable
 
 **Security Status**:
+
 - **Confidentiality**: ✅ End-to-end encryption (Signal Protocol)
 - **Authenticity**: ✅ Cryptographic signatures and safety numbers
 - **Forward Secrecy**: ✅ Double Ratchet algorithm
@@ -582,6 +601,7 @@ All dependencies are production-ready and well-maintained.
 - **Key Management**: ✅ Encrypted storage, secure generation
 
 **Next Steps**:
+
 1. Deploy to staging environment
 2. Conduct security audit (recommended)
 3. User acceptance testing

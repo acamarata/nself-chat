@@ -67,7 +67,9 @@ export function BrandingDashboard({ tenantId, userId, className }: BrandingDashb
   // Domain state
   const [customDomain, setCustomDomain] = useState('')
   const [domainStatus, setDomainStatus] = useState<'none' | 'pending' | 'verified'>('none')
-  const [dnsRecords, setDnsRecords] = useState<Array<{ type: string; name: string; value: string }>>([])
+  const [dnsRecords, setDnsRecords] = useState<
+    Array<{ type: string; name: string; value: string }>
+  >([])
 
   // CSS state
   const [customCSS, setCustomCSS] = useState('')
@@ -294,12 +296,7 @@ export function BrandingDashboard({ tenantId, userId, className }: BrandingDashb
             <label>
               <Upload className="mr-2 h-4 w-4" />
               Import
-              <input
-                type="file"
-                accept=".json"
-                onChange={handleImport}
-                className="hidden"
-              />
+              <input type="file" accept=".json" onChange={handleImport} className="hidden" />
             </label>
           </Button>
         </div>
@@ -341,10 +338,7 @@ export function BrandingDashboard({ tenantId, userId, className }: BrandingDashb
 
         {/* Template Tab */}
         <TabsContent value="template" className="space-y-6">
-          <TemplateSelector
-            currentTemplateId={currentTemplate}
-            onSelect={handleTemplateChange}
-          />
+          <TemplateSelector currentTemplateId={currentTemplate} onSelect={handleTemplateChange} />
         </TabsContent>
 
         {/* Theme Tab */}
@@ -496,9 +490,7 @@ export function BrandingDashboard({ tenantId, userId, className }: BrandingDashb
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <h4 className="font-semibold">DNS Records</h4>
-                      <Badge
-                        variant={domainStatus === 'verified' ? 'default' : 'secondary'}
-                      >
+                      <Badge variant={domainStatus === 'verified' ? 'default' : 'secondary'}>
                         {domainStatus === 'verified' ? (
                           <>
                             <CheckCircle className="mr-1 h-3 w-3" />

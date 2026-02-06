@@ -31,6 +31,7 @@ Task 108 (Usage Tracking Scaffolds) is **65% complete**. The implementation incl
 **File**: `/Users/admin/Sites/nself-chat/src/lib/usage-tracker.ts` (276 lines)
 
 **Implemented Features**:
+
 - ✅ Plan feature checking (`isFeatureAllowed`)
 - ✅ Limit validation (`checkLimit`)
 - ✅ Warning calculation (`calculateWarnings`)
@@ -39,6 +40,7 @@ Task 108 (Usage Tracking Scaffolds) is **65% complete**. The implementation incl
 - ✅ Plan restriction middleware
 
 **Critical Gap**:
+
 ```typescript
 // Line 246-265: Mock implementation
 export async function getCurrentUsage(userId: string): Promise<UsageMetrics> {
@@ -49,7 +51,7 @@ export async function getCurrentUsage(userId: string): Promise<UsageMetrics> {
   return {
     userId,
     period,
-    users: 0,  // ⚠️ Mock data
+    users: 0, // ⚠️ Mock data
     channels: 0,
     messages: 0,
     storageGB: 0,
@@ -64,6 +66,7 @@ export async function getCurrentUsage(userId: string): Promise<UsageMetrics> {
 ```
 
 **What's Missing**:
+
 - Real database query to fetch usage from `nchat_subscription_usage` table
 - Integration with GraphQL/Hasura to get actual metrics
 - Real-time usage calculation from various tables
@@ -75,6 +78,7 @@ export async function getCurrentUsage(userId: string): Promise<UsageMetrics> {
 **File**: `/Users/admin/Sites/nself-chat/backend/nself/migrations/00013_billing_and_subscriptions.sql`
 
 **Table: `nchat_subscription_usage`** (Lines 253-303)
+
 ```sql
 CREATE TABLE IF NOT EXISTS nchat_subscription_usage (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -138,6 +142,7 @@ CREATE INDEX idx_usage_workspace ON nchat_subscription_usage(workspace_id);
 **File**: `/Users/admin/Sites/nself-chat/src/lib/analytics/database-schema.sql` (585 lines)
 
 **Tables Created**:
+
 1. `nchat_analytics_events` - TimescaleDB hypertable for all events
 2. `nchat_analytics_user_activity` - Aggregated hourly user metrics
 3. `nchat_analytics_channel_activity` - Aggregated hourly channel metrics
@@ -146,6 +151,7 @@ CREATE INDEX idx_usage_workspace ON nchat_subscription_usage(workspace_id);
 6. `nchat_analytics_search_logs` - Search query tracking
 
 **API Route**: `/Users/admin/Sites/nself-chat/src/app/api/analytics/track/route.ts`
+
 ```typescript
 export async function POST(request: NextRequest) {
   try {
@@ -186,6 +192,7 @@ export async function POST(request: NextRequest) {
 **File**: `/Users/admin/Sites/nself-chat/src/components/analytics/overview/UsageTrackingDashboard.tsx` (344 lines)
 
 **Features Implemented**:
+
 - ✅ Real-time progress bars for 5 metrics
 - ✅ Color-coded status indicators (safe/warning/critical)
 - ✅ Usage warnings and alerts
@@ -197,6 +204,7 @@ export async function POST(request: NextRequest) {
 **File**: `/Users/admin/Sites/nself-chat/src/components/billing/UsageTracker.tsx` (274 lines)
 
 **Features Implemented**:
+
 - ✅ Plan limit visualization
 - ✅ Warning cards by severity
 - ✅ Usage metrics display
@@ -212,6 +220,7 @@ export async function POST(request: NextRequest) {
 **File**: `/Users/admin/Sites/nself-chat/src/middleware/plan-restrictions.ts` (268 lines)
 
 **Features Implemented**:
+
 - ✅ `requireFeature()` - Feature gating
 - ✅ `requireMinimumPlan()` - Tier enforcement
 - ✅ `checkUsageLimit()` - Quota enforcement
@@ -225,6 +234,7 @@ export async function POST(request: NextRequest) {
   - Enterprise: 50000 req/min
 
 **Example Usage**:
+
 ```typescript
 export async function GET(request: NextRequest) {
   const restriction = await applyPlanRestrictions(
@@ -248,6 +258,7 @@ export async function GET(request: NextRequest) {
 **File**: `/Users/admin/Sites/nself-chat/src/lib/ai/cost-tracker.ts` (603 lines)
 
 **Features Implemented**:
+
 - ✅ Token usage tracking
 - ✅ Cost calculation per model
 - ✅ Per-user and per-org tracking
@@ -256,6 +267,7 @@ export async function GET(request: NextRequest) {
 - ✅ PostgreSQL-backed storage
 
 **API Route**: `/Users/admin/Sites/nself-chat/src/app/api/admin/ai/usage/route.ts`
+
 ```typescript
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -288,6 +300,7 @@ export async function GET(request: NextRequest) {
 **File**: `/Users/admin/Sites/nself-chat/src/stores/telemetry-store.ts` (544 lines)
 
 **Features Implemented**:
+
 - ✅ Consent management
 - ✅ Event queue tracking
 - ✅ Debug mode
@@ -307,6 +320,7 @@ export async function GET(request: NextRequest) {
 **Required**: Worker job to aggregate usage data into `nchat_subscription_usage`
 
 **Example Implementation Needed**:
+
 ```typescript
 // src/jobs/aggregate-usage.ts
 export async function aggregateUsageForPeriod(period: string) {
@@ -355,6 +369,7 @@ export async function aggregateUsageForPeriod(period: string) {
 **Required**: Middleware to track API usage per workspace/user
 
 **Example Implementation Needed**:
+
 ```typescript
 // src/middleware/api-usage-tracker.ts
 export async function trackApiUsage(
@@ -366,7 +381,8 @@ export async function trackApiUsage(
   const period = new Date().toISOString().slice(0, 7)
 
   // Increment API call counter
-  await db.raw(`
+  await db.raw(
+    `
     INSERT INTO nchat_subscription_usage
       (workspace_id, subscription_id, period, api_calls)
     VALUES
@@ -375,14 +391,16 @@ export async function trackApiUsage(
     DO UPDATE SET
       api_calls = nchat_subscription_usage.api_calls + 1,
       updated_at = NOW()
-  `, [workspaceId, workspaceId, period])
+  `,
+    [workspaceId, workspaceId, period]
+  )
 
   // Also track in analytics
   await trackEvent({
     event_name: 'api_call',
     event_category: 'usage',
     user_id: userId,
-    properties: { endpoint, method: request.method }
+    properties: { endpoint, method: request.method },
   })
 }
 ```
@@ -396,11 +414,9 @@ export async function trackApiUsage(
 **Required**: Replace mock data in `getCurrentUsage()` with real queries
 
 **Example Implementation Needed**:
+
 ```typescript
-export async function getCurrentUsage(
-  workspaceId: string,
-  period?: string
-): Promise<UsageMetrics> {
+export async function getCurrentUsage(workspaceId: string, period?: string): Promise<UsageMetrics> {
   const currentPeriod = period || new Date().toISOString().slice(0, 7)
 
   // Fetch from database
@@ -420,13 +436,13 @@ export async function getCurrentUsage(
     users: usage.current_members,
     channels: usage.current_channels,
     messages: usage.messages_sent,
-    storageGB: Math.round(usage.current_storage_bytes / (1024 ** 3)),
+    storageGB: Math.round(usage.current_storage_bytes / 1024 ** 3),
     integrations: usage.integrations || 0,
     bots: usage.bots || 0,
     aiMinutes: usage.ai_minutes || 0,
     aiQueries: usage.ai_queries || 0,
     callMinutes: usage.call_minutes,
-    recordingGB: Math.round(usage.recording_bytes / (1024 ** 3)),
+    recordingGB: Math.round(usage.recording_bytes / 1024 ** 3),
   }
 }
 ```
@@ -452,18 +468,17 @@ export async function getCurrentUsage(
 **Required**: Global API middleware to enforce rate limits
 
 **Example Implementation Needed**:
+
 ```typescript
 // src/middleware/rate-limiter.ts
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
 
-const redis = new Redis({ /* config */ })
+const redis = new Redis({
+  /* config */
+})
 
-export async function rateLimit(
-  request: NextRequest,
-  workspaceId: string,
-  planTier: PlanTier
-) {
+export async function rateLimit(request: NextRequest, workspaceId: string, planTier: PlanTier) {
   const { requests, window } = getPlanRateLimit(planTier)
 
   const ratelimit = new Ratelimit({
@@ -472,9 +487,7 @@ export async function rateLimit(
     analytics: true,
   })
 
-  const { success, limit, remaining, reset } = await ratelimit.limit(
-    `api:${workspaceId}`
-  )
+  const { success, limit, remaining, reset } = await ratelimit.limit(`api:${workspaceId}`)
 
   if (!success) {
     return NextResponse.json(
@@ -485,7 +498,7 @@ export async function rateLimit(
           'X-RateLimit-Limit': limit.toString(),
           'X-RateLimit-Remaining': remaining.toString(),
           'X-RateLimit-Reset': reset.toString(),
-        }
+        },
       }
     )
   }
@@ -538,11 +551,13 @@ export async function rateLimit(
 Based on implementation review:
 
 ### Expected Performance ✅
+
 - **UI Render**: <100ms (UsageTrackingDashboard)
 - **Usage Query**: <50ms (single workspace)
 - **Rate Limit Check**: <10ms (with Redis)
 
 ### Concerns ⚠️
+
 - **Background Aggregation**: Not benchmarked (not implemented)
 - **API Tracking Overhead**: Unknown (not implemented)
 - **Database Load**: Heavy queries if not indexed properly
@@ -551,20 +566,20 @@ Based on implementation review:
 
 ## Production Readiness Checklist
 
-| Item | Status | Notes |
-|------|--------|-------|
-| UI Components | ✅ | Complete and functional |
-| Database Schema | ✅ | Proper indexes and constraints |
-| Plan Enforcement | ✅ | Middleware ready |
-| Analytics Events | ⚠️ | Events not persisted to DB |
-| Real Usage Data | ❌ | Mock implementation |
-| Background Jobs | ❌ | Not implemented |
-| API Usage Tracking | ❌ | Not implemented |
-| Rate Limiting | ⚠️ | Logic exists, not integrated |
-| Tests | ⚠️ | Limited coverage |
-| Documentation | ⚠️ | Gaps in implementation docs |
-| Error Handling | ✅ | Try/catch blocks present |
-| Monitoring | ✅ | Sentry integration |
+| Item               | Status | Notes                          |
+| ------------------ | ------ | ------------------------------ |
+| UI Components      | ✅     | Complete and functional        |
+| Database Schema    | ✅     | Proper indexes and constraints |
+| Plan Enforcement   | ✅     | Middleware ready               |
+| Analytics Events   | ⚠️     | Events not persisted to DB     |
+| Real Usage Data    | ❌     | Mock implementation            |
+| Background Jobs    | ❌     | Not implemented                |
+| API Usage Tracking | ❌     | Not implemented                |
+| Rate Limiting      | ⚠️     | Logic exists, not integrated   |
+| Tests              | ⚠️     | Limited coverage               |
+| Documentation      | ⚠️     | Gaps in implementation docs    |
+| Error Handling     | ✅     | Try/catch blocks present       |
+| Monitoring         | ✅     | Sentry integration             |
 
 ---
 
@@ -611,6 +626,7 @@ Based on implementation review:
 ### Immediate (Required for 100%) 🎯
 
 1. **Implement Real Data Collection**
+
    ```typescript
    // Replace mock in getCurrentUsage()
    // Connect to nchat_subscription_usage table
@@ -618,6 +634,7 @@ Based on implementation review:
    ```
 
 2. **Create Background Aggregation Job**
+
    ```typescript
    // src/jobs/aggregate-usage.ts
    // Schedule hourly via cron or job queue
@@ -655,6 +672,7 @@ Based on implementation review:
 **Task 108 Status**: PARTIAL (65% complete)
 
 **What's Done**:
+
 - ✅ Comprehensive UI for usage tracking
 - ✅ Database schema for usage data
 - ✅ Plan enforcement logic
@@ -662,6 +680,7 @@ Based on implementation review:
 - ✅ AI usage tracking (complete)
 
 **What's Missing**:
+
 - ❌ Real usage data integration (mock only)
 - ❌ Background aggregation jobs
 - ❌ API usage tracking middleware
@@ -677,6 +696,7 @@ The scaffolding is comprehensive and well-designed. However, the critical data c
 3. Middleware to track API calls in real-time
 
 **Estimated Effort to Complete**: 2-3 days
+
 - Day 1: Real data integration + tests
 - Day 2: Background jobs + API tracking
 - Day 3: Rate limiting + documentation

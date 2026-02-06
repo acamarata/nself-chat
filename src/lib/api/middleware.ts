@@ -286,7 +286,7 @@ export function withRateLimit(options: RateLimitOptions = {}): Middleware {
 
       return response
     } catch (error) {
-      logger.error('[withRateLimit] Error:',  error)
+      logger.error('[withRateLimit] Error:', error)
       // On rate limit service error, allow request (fail open)
       return handler(request, context)
     }
@@ -369,7 +369,7 @@ async function validateToken(token: string): Promise<AuthenticatedUser | null> {
       avatarUrl: data.avatarUrl || data.metadata?.avatarUrl,
     }
   } catch (error) {
-    logger.error('Token validation error:',  error)
+    logger.error('Token validation error:', error)
     return null
   }
 }
@@ -412,7 +412,7 @@ async function validateSession(sessionToken: string): Promise<AuthenticatedUser 
       avatarUrl: data.avatarUrl || data.metadata?.avatarUrl,
     }
   } catch (error) {
-    logger.error('Session validation error:',  error)
+    logger.error('Session validation error:', error)
     return null
   }
 }
@@ -533,7 +533,7 @@ export function withErrorHandler(handler: ApiHandler): ApiHandler {
     try {
       return await handler(request, context)
     } catch (error) {
-      logger.error('API Error:',  error)
+      logger.error('API Error:', error)
 
       // Handle known error types
       if (error instanceof ApiError) {
@@ -548,7 +548,7 @@ export function withErrorHandler(handler: ApiHandler): ApiHandler {
       }
 
       // Log unexpected errors
-      logger.error('Unexpected API error:',  error)
+      logger.error('Unexpected API error:', error)
 
       // Return generic error for unexpected errors
       return internalErrorResponse()
@@ -630,7 +630,7 @@ export function withLogging(handler: ApiHandler): ApiHandler {
       logEntry.error = error instanceof Error ? error.message : 'Unknown error'
 
       // Always log errors
-      logger.error(`[API ERROR] ${logEntry.method} ${logEntry.path}:`,  error)
+      logger.error(`[API ERROR] ${logEntry.method} ${logEntry.path}:`, error)
 
       throw error
     }

@@ -69,8 +69,12 @@ export class Renderer {
   blockquote = jest.fn((quote: string) => `<blockquote>${quote}</blockquote>`)
   heading = jest.fn((text: string, level: number) => `<h${level}>${text}</h${level}>`)
   paragraph = jest.fn((text: string) => `<p>${text}</p>`)
-  link = jest.fn((href: string, _title: string | null, text: string) => `<a href="${href}">${text}</a>`)
-  image = jest.fn((href: string, _title: string | null, text: string) => `<img src="${href}" alt="${text}">`)
+  link = jest.fn(
+    (href: string, _title: string | null, text: string) => `<a href="${href}">${text}</a>`
+  )
+  image = jest.fn(
+    (href: string, _title: string | null, text: string) => `<img src="${href}" alt="${text}">`
+  )
   text = jest.fn((text: string) => text)
 }
 

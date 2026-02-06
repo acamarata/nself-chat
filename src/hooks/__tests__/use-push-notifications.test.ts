@@ -78,7 +78,9 @@ const mockRemoveEventListener = jest.fn()
 beforeEach(() => {
   if (typeof navigator !== 'undefined' && navigator.serviceWorker) {
     jest.spyOn(navigator.serviceWorker, 'addEventListener').mockImplementation(mockAddEventListener)
-    jest.spyOn(navigator.serviceWorker, 'removeEventListener').mockImplementation(mockRemoveEventListener)
+    jest
+      .spyOn(navigator.serviceWorker, 'removeEventListener')
+      .mockImplementation(mockRemoveEventListener)
   }
 })
 

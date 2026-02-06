@@ -1,4 +1,5 @@
 # Phase 2 QA: Action Plan
+
 ## Immediate Steps to Fix Critical Issues
 
 **Date**: February 5, 2026
@@ -10,12 +11,14 @@
 ## 🔥 CRITICAL: Fix Broken Build (15 minutes)
 
 ### Issue
+
 ```
 Failed to compile.
 Module not found: Can't resolve 'next-auth'
 ```
 
 ### Solution
+
 ```bash
 # Install missing dependency
 npm install next-auth@latest
@@ -25,6 +28,7 @@ npm run build
 ```
 
 ### Files Affected
+
 - `src/app/api/channels/categories/route.ts`
 
 ---
@@ -32,18 +36,21 @@ npm run build
 ## 🔥 CRITICAL: Fix TypeScript Errors (15 minutes)
 
 ### Issue
+
 ```
 src/lib/security/secret-scanner.ts(42,61): error TS1005: ',' expected.
 src/lib/security/secret-scanner.ts(77,57): error TS1005: ',' expected.
 ```
 
 ### Solution
+
 ```bash
 # Edit the file and fix syntax errors on lines 42 and 77
 code src/lib/security/secret-scanner.ts
 ```
 
 ### Verification
+
 ```bash
 npm run type-check
 ```
@@ -53,16 +60,20 @@ npm run type-check
 ## ⚠️ HIGH PRIORITY: Update Documentation (1 hour)
 
 ### Issue
+
 Documentation claims features are "implemented" when they're MVP mocks.
 
 ### Files to Update
 
 #### 1. `.claude/CLAUDE.md`
+
 Add implementation status section:
+
 ```markdown
 ## Implementation Status (v0.9.1)
 
 ### Production-Ready ✅
+
 - WebRTC/LiveKit integration
 - End-to-end encryption (Web Crypto API)
 - Backend microservices (5 services)
@@ -70,47 +81,56 @@ Add implementation status section:
 - Chat core functionality
 
 ### MVP/Partial ⚠️
+
 - **Stripe Payments**: Client is mock, server integration exists
 - **Media Pipeline**: Images ✅, Video ❌ (FFmpeg required)
 - **Signal Protocol**: Custom implementation, not using @signalapp/libsignal-client
 
 ### Planned 🚧
+
 - Video transcoding (requires FFmpeg)
 - Real Stripe.js integration
 - Advanced analytics (real-time)
 ```
 
 #### 2. `README.md`
+
 Add feature status badges:
+
 ```markdown
 ## Features
 
 ### Communication
+
 - [x] **Text Chat** - ✅ Production Ready
 - [x] **Voice/Video Calls** - ✅ LiveKit Integration
 - [x] **Screen Sharing** - ✅ WebRTC Implementation
 - [x] **End-to-End Encryption** - ✅ Signal Protocol Algorithms
 
 ### Monetization
+
 - [x] **Stripe Integration** - ⚠️ MVP (Client mock, server ready)
 - [ ] **Subscription Management** - 🚧 Planned
 - [ ] **Payment Processing** - 🚧 Needs Stripe.js integration
 
 ### Media
+
 - [x] **Image Upload/Processing** - ✅ Sharp.js
 - [ ] **Video Transcoding** - 🚧 Requires FFmpeg
 - [ ] **Text Extraction (OCR)** - 🚧 Planned
 ```
 
 #### 3. `docs/Features-Complete.md`
+
 Add "Implementation Details" column:
+
 ```markdown
-| Feature | Status | Implementation | Notes |
-|---------|--------|----------------|-------|
-| WebRTC Calls | ✅ | Production | Real RTCPeerConnection API |
-| E2EE | ✅ | Production | Web Crypto API, not libsignal |
-| Stripe | ⚠️ | MVP | Mock client, real server endpoints |
-| Media | ⚠️ | Partial | Images ✅, Video ❌ |
+| Feature      | Status | Implementation | Notes                              |
+| ------------ | ------ | -------------- | ---------------------------------- |
+| WebRTC Calls | ✅     | Production     | Real RTCPeerConnection API         |
+| E2EE         | ✅     | Production     | Web Crypto API, not libsignal      |
+| Stripe       | ⚠️     | MVP            | Mock client, real server endpoints |
+| Media        | ⚠️     | Partial        | Images ✅, Video ❌                |
 ```
 
 ---
@@ -122,22 +142,24 @@ Add "Implementation Details" column:
 **File**: `src/lib/webrtc/__tests__/screen-capture.test.ts`
 
 **Issue**: Mock causes infinite recursion
+
 ```
 RangeError: Maximum call stack size exceeded
 at ScreenCaptureManager.handleTrackEnded
 ```
 
 **Solution**: Fix mock track event listeners
+
 ```typescript
 // Before (line 71)
 stop: jest.fn(() => {
-  callbacks.forEach(cb => cb(new Event('ended'))) // ❌ Causes recursion
+  callbacks.forEach((cb) => cb(new Event('ended'))) // ❌ Causes recursion
 })
 
 // After
-stop: jest.fn(function() {
-  const track = this;
-  track.readyState = 'ended';
+stop: jest.fn(function () {
+  const track = this
+  track.readyState = 'ended'
   // Don't trigger callbacks during cleanup
 })
 ```
@@ -147,18 +169,18 @@ stop: jest.fn(function() {
 **File**: `jest.config.js`
 
 **Issue**: ESM module not transformed
+
 ```
 SyntaxError: Unexpected token 'export'
 at jose@5.10.0/dist/browser/index.js
 ```
 
 **Solution**: Add to `transformIgnorePatterns`
+
 ```javascript
 // jest.config.js
 module.exports = {
-  transformIgnorePatterns: [
-    'node_modules/(?!(jose|livekit-server-sdk|livekit-client)/)',
-  ],
+  transformIgnorePatterns: ['node_modules/(?!(jose|livekit-server-sdk|livekit-client)/)'],
 }
 ```
 
@@ -167,11 +189,13 @@ module.exports = {
 **File**: `src/services/__tests__/plugin-integration.test.ts`
 
 **Issue**: Tests timeout waiting for services
+
 ```
 thrown: "Exceeded timeout of 10000 ms for a hook"
 ```
 
 **Solution**: Skip integration tests in CI until services are running
+
 ```typescript
 // Use environment variable
 const PLUGINS_ENABLED = process.env.PLUGINS_ENABLED === 'true'
@@ -188,24 +212,29 @@ describe.skip('Plugin Integration Tests', () => {
 ## 📋 MEDIUM PRIORITY: Signal Protocol Decision (30 minutes)
 
 ### Issue
+
 Installed `@signalapp/libsignal-client` but using Web Crypto API instead.
 
 ### Option 1: Use Official Library (Recommended)
+
 ```bash
 # Update encryption implementation to use libsignal
 # This will take ~1 week of development
 ```
 
 **Pros**:
+
 - Official Signal implementation
 - Better compatibility
 - Standard X25519/Ed25519
 
 **Cons**:
+
 - Significant refactoring required
 - May break existing encrypted data
 
 ### Option 2: Document Web Crypto Approach
+
 ```markdown
 # In .claude/CLAUDE.md
 
@@ -226,14 +255,17 @@ installed and can be integrated.
 ```
 
 **Pros**:
+
 - Transparent about implementation
 - No code changes needed
 - Current implementation is secure
 
 **Cons**:
+
 - May confuse users expecting official Signal library
 
 ### Recommendation
+
 **Option 2** for now, **Option 1** for future release.
 
 ---
@@ -241,6 +273,7 @@ installed and can be integrated.
 ## 📋 MEDIUM PRIORITY: Stripe Integration Plan (4-8 hours)
 
 ### Current State
+
 - ✅ Server-side Stripe SDK installed and used
 - ✅ Webhook handling implemented
 - ✅ Well-structured client interface
@@ -249,6 +282,7 @@ installed and can be integrated.
 ### Implementation Steps
 
 #### Step 1: Load Stripe.js (1 hour)
+
 ```typescript
 // src/lib/payments/stripe-client.ts
 
@@ -272,6 +306,7 @@ export class StripeClient {
 ```
 
 #### Step 2: Real Payment Intent (2 hours)
+
 ```typescript
 async createPaymentIntent(params: PaymentIntentParams): Promise<StripeClientResult<PaymentIntent>> {
   if (!this.stripe) {
@@ -302,6 +337,7 @@ async createPaymentIntent(params: PaymentIntentParams): Promise<StripeClientResu
 ```
 
 #### Step 3: Payment Confirmation (2 hours)
+
 ```typescript
 async confirmPaymentIntent(paymentIntentId: string, paymentMethodId: string): Promise<StripeClientResult<PaymentIntent>> {
   if (!this.stripe) {
@@ -329,6 +365,7 @@ async confirmPaymentIntent(paymentIntentId: string, paymentMethodId: string): Pr
 ```
 
 #### Step 4: Testing (2 hours)
+
 ```bash
 # Use Stripe test mode
 STRIPE_PUBLISHABLE_KEY=pk_test_xxx
@@ -340,11 +377,13 @@ STRIPE_SECRET_KEY=sk_test_xxx
 ```
 
 #### Step 5: Update Dependencies (15 minutes)
+
 ```bash
 npm install @stripe/stripe-js@latest
 ```
 
 ### Time Estimate
+
 - **Quick Fix** (mock → backend proxy): 2 hours
 - **Full Integration** (real Stripe.js): 8 hours
 - **Testing & Polish**: 4 hours
@@ -357,6 +396,7 @@ npm install @stripe/stripe-js@latest
 After completing fixes, verify:
 
 ### Build
+
 ```bash
 ✅ npm run build                    # Should succeed
 ✅ npm run type-check               # No errors
@@ -364,6 +404,7 @@ After completing fixes, verify:
 ```
 
 ### Tests
+
 ```bash
 ✅ npm run test                     # >95% pass rate
 ✅ npm run test -- --coverage       # Measure actual coverage
@@ -371,6 +412,7 @@ After completing fixes, verify:
 ```
 
 ### Documentation
+
 ```bash
 ✅ .claude/CLAUDE.md updated        # Implementation status added
 ✅ README.md updated                # Feature status badges
@@ -378,6 +420,7 @@ After completing fixes, verify:
 ```
 
 ### Code Quality
+
 ```bash
 ✅ No "TODO" in critical paths
 ✅ No misleading comments
@@ -389,16 +432,19 @@ After completing fixes, verify:
 ## Timeline
 
 ### Day 1 (2 hours)
+
 - [x] Fix build (next-auth)
 - [x] Fix TypeScript errors
 - [x] Update documentation
 
 ### Day 2 (4 hours)
+
 - [ ] Fix screen capture test
 - [ ] Configure Jest for ESM
 - [ ] Document Signal Protocol approach
 
 ### Week 2 (8-12 hours)
+
 - [ ] Implement real Stripe integration
 - [ ] Add integration test environment
 - [ ] Measure test coverage
@@ -408,17 +454,20 @@ After completing fixes, verify:
 ## Success Criteria
 
 ### Must Have (before claiming "production-ready")
+
 - ✅ Build succeeds without errors
 - ✅ Documentation accurately reflects implementation
 - ✅ Test pass rate >95%
 - ✅ TypeScript errors = 0
 
 ### Should Have (for v1.0 release)
+
 - 📋 Stripe integration is real (not mock)
 - 📋 Test coverage measured and >80%
 - 📋 All integration tests passing
 
 ### Nice to Have (future releases)
+
 - 🚧 Official Signal Protocol library
 - 🚧 Video transcoding (FFmpeg)
 - 🚧 Advanced analytics features

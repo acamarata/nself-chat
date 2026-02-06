@@ -22,44 +22,54 @@ const QualityMetricsSchema = z.object({
 
   // Network metrics
   connectionType: z.enum(['cellular', 'wifi', 'ethernet', 'unknown']).optional(),
-  bandwidth: z.object({
-    upload: z.number().positive(), // in kbps
-    download: z.number().positive(), // in kbps
-  }).optional(),
+  bandwidth: z
+    .object({
+      upload: z.number().positive(), // in kbps
+      download: z.number().positive(), // in kbps
+    })
+    .optional(),
 
   // Audio metrics
-  audio: z.object({
-    bitrate: z.number().positive().optional(),
-    packetsLost: z.number().int().min(0).optional(),
-    packetsReceived: z.number().int().min(0).optional(),
-    jitter: z.number().min(0).optional(), // in ms
-    rtt: z.number().min(0).optional(), // round-trip time in ms
-    mos: z.number().min(1).max(5).optional(), // Mean Opinion Score
-  }).optional(),
+  audio: z
+    .object({
+      bitrate: z.number().positive().optional(),
+      packetsLost: z.number().int().min(0).optional(),
+      packetsReceived: z.number().int().min(0).optional(),
+      jitter: z.number().min(0).optional(), // in ms
+      rtt: z.number().min(0).optional(), // round-trip time in ms
+      mos: z.number().min(1).max(5).optional(), // Mean Opinion Score
+    })
+    .optional(),
 
   // Video metrics
-  video: z.object({
-    bitrate: z.number().positive().optional(),
-    frameRate: z.number().positive().optional(),
-    resolution: z.string().optional(), // e.g., "1920x1080"
-    packetsLost: z.number().int().min(0).optional(),
-    packetsReceived: z.number().int().min(0).optional(),
-    jitter: z.number().min(0).optional(),
-    rtt: z.number().min(0).optional(),
-  }).optional(),
+  video: z
+    .object({
+      bitrate: z.number().positive().optional(),
+      frameRate: z.number().positive().optional(),
+      resolution: z.string().optional(), // e.g., "1920x1080"
+      packetsLost: z.number().int().min(0).optional(),
+      packetsReceived: z.number().int().min(0).optional(),
+      jitter: z.number().min(0).optional(),
+      rtt: z.number().min(0).optional(),
+    })
+    .optional(),
 
   // Overall quality score
   qualityScore: z.number().min(0).max(100).optional(),
 
   // Issues
-  issues: z.array(z.enum([
-    'high_packet_loss',
-    'high_jitter',
-    'high_rtt',
-    'low_bandwidth',
-    'cpu_overload',
-    'network_congestion',
-  ])).optional(),
+  issues: z
+    .array(
+      z.enum([
+        'high_packet_loss',
+        'high_jitter',
+        'high_rtt',
+        'low_bandwidth',
+        'cpu_overload',
+        'network_congestion',
+      ])
+    )
+    .optional(),
 })
 
 const QualityQuerySchema = z.object({
@@ -292,10 +302,8 @@ export async function GET(request: NextRequest) {
     // Calculate aggregates if requested
     if (params.includeAggregates && metrics.length > 0) {
       response.aggregates = {
-        averageQualityScore:
-          metrics.reduce((sum, m) => sum + m.qualityScore, 0) / metrics.length,
-        averageAudioMos:
-          metrics.reduce((sum, m) => sum + (m.audio?.mos || 0), 0) / metrics.length,
+        averageQualityScore: metrics.reduce((sum, m) => sum + m.qualityScore, 0) / metrics.length,
+        averageAudioMos: metrics.reduce((sum, m) => sum + (m.audio?.mos || 0), 0) / metrics.length,
         totalIssues: metrics.reduce((sum, m) => sum + m.issues.length, 0),
         commonIssues: getCommonIssues(metrics),
         qualityTrend: calculateTrend(metrics),
@@ -421,7 +429,14 @@ function calculateBandwidthScore(bandwidth: any): number {
  */
 function detectQualityIssues(
   metrics: z.infer<typeof QualityMetricsSchema>
-): Array<'high_packet_loss' | 'high_jitter' | 'high_rtt' | 'low_bandwidth' | 'cpu_overload' | 'network_congestion'> {
+): Array<
+  | 'high_packet_loss'
+  | 'high_jitter'
+  | 'high_rtt'
+  | 'low_bandwidth'
+  | 'cpu_overload'
+  | 'network_congestion'
+> {
   const issues: any[] = []
 
   // Check audio metrics

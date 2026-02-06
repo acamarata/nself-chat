@@ -120,7 +120,9 @@ export function PinnedFilters({
         <PopoverContent className="w-72" align="end">
           <div className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="message-type-select" className="text-sm font-medium">Message Type</label>
+              <label htmlFor="message-type-select" className="text-sm font-medium">
+                Message Type
+              </label>
               <Select
                 value={filters.messageType ?? 'all'}
                 onValueChange={(value) =>
@@ -142,7 +144,9 @@ export function PinnedFilters({
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="attachments-select" className="text-sm font-medium">Attachments</label>
+              <label htmlFor="attachments-select" className="text-sm font-medium">
+                Attachments
+              </label>
               <Select
                 value={
                   filters.hasAttachments === undefined

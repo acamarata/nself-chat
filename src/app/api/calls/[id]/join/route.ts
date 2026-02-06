@@ -9,10 +9,7 @@ import { getLiveKitService } from '@/services/webrtc/livekit.service'
 
 import { logger } from '@/lib/logger.server'
 
-export async function POST(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const session = await nhost.auth.getSession()
     if (!session) {

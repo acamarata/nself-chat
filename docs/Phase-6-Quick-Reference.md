@@ -1,4 +1,5 @@
 # Phase 6 Quick Reference Guide
+
 ## Advanced Channels, Communities, and Structures
 
 ---
@@ -36,6 +37,7 @@ import { SEND_BROADCAST } from '@/graphql/channels/broadcasts'
 ### Categories
 
 **Create Category**
+
 ```typescript
 const category = await categoryService.createCategory({
   workspaceId: 'workspace-id',
@@ -46,15 +48,13 @@ const category = await categoryService.createCategory({
 ```
 
 **Reorder Categories**
+
 ```typescript
-await categoryService.reorderCategories([
-  'category-1-id',
-  'category-2-id',
-  'category-3-id',
-])
+await categoryService.reorderCategories(['category-1-id', 'category-2-id', 'category-3-id'])
 ```
 
 **Move Channel**
+
 ```typescript
 await categoryService.moveChannel({
   channelId: 'channel-id',
@@ -64,6 +64,7 @@ await categoryService.moveChannel({
 ```
 
 **Sync Permissions**
+
 ```typescript
 await categoryService.togglePermissionSync('category-id', true)
 await categoryService.syncPermissions('category-id')
@@ -74,6 +75,7 @@ await categoryService.syncPermissions('category-id')
 ### Communities (WhatsApp-style)
 
 **Create Community**
+
 ```typescript
 const community = await communityService.createCommunity({
   workspaceId: 'workspace-id',
@@ -88,6 +90,7 @@ const community = await communityService.createCommunity({
 ```
 
 **Add Group to Community**
+
 ```typescript
 await communityService.addGroup({
   communityId: 'community-id',
@@ -98,6 +101,7 @@ await communityService.addGroup({
 ```
 
 **Remove Group**
+
 ```typescript
 await communityService.removeGroup('community-id', 'channel-id')
 ```
@@ -107,6 +111,7 @@ await communityService.removeGroup('community-id', 'channel-id')
 ### Broadcast Lists
 
 **Create Broadcast List**
+
 ```typescript
 const broadcastList = await broadcastService.createBroadcastList({
   workspaceId: 'workspace-id',
@@ -122,6 +127,7 @@ const broadcastList = await broadcastService.createBroadcastList({
 ```
 
 **Subscribe Users**
+
 ```typescript
 // Single subscriber
 await broadcastService.subscribe('broadcast-list-id', 'user-id')
@@ -134,6 +140,7 @@ await broadcastService.bulkSubscribe({
 ```
 
 **Send Broadcast**
+
 ```typescript
 const message = await broadcastService.sendBroadcast({
   broadcastListId: 'broadcast-list-id',
@@ -147,6 +154,7 @@ const message = await broadcastService.sendBroadcast({
 ```
 
 **Track Delivery**
+
 ```typescript
 // Delivery stats are automatically tracked via triggers
 const message = await fetch(`/api/channels/broadcasts/messages/${messageId}`)
@@ -158,6 +166,7 @@ const message = await fetch(`/api/channels/broadcasts/messages/${messageId}`)
 ### Permissions
 
 **Permission Flags**
+
 ```typescript
 import { CHANNEL_PERMISSIONS } from '@/types/advanced-channels'
 
@@ -169,6 +178,7 @@ CHANNEL_PERMISSIONS.MANAGE_CHANNEL
 ```
 
 **Create Permission Override**
+
 ```typescript
 // Create bitfield from permission names
 const allowBits = permissionService.createBitfield([
@@ -177,9 +187,7 @@ const allowBits = permissionService.createBitfield([
   'ADD_REACTIONS',
 ])
 
-const denyBits = permissionService.createBitfield([
-  'MENTION_EVERYONE',
-])
+const denyBits = permissionService.createBitfield(['MENTION_EVERYONE'])
 
 // Apply override
 await permissionService.createOverride({
@@ -193,33 +201,25 @@ await permissionService.createOverride({
 ```
 
 **Check Permissions**
+
 ```typescript
 // Check single permission
-const canSend = await permissionService.hasPermission(
-  'channel-id',
-  'user-id',
-  'SEND_MESSAGES'
-)
+const canSend = await permissionService.hasPermission('channel-id', 'user-id', 'SEND_MESSAGES')
 
 // Get all permissions
-const permissions = await permissionService.calculatePermissions(
-  'channel-id',
-  'user-id'
-)
+const permissions = await permissionService.calculatePermissions('channel-id', 'user-id')
 // Returns: { VIEW_CHANNEL: true, SEND_MESSAGES: false, ... }
 ```
 
 **Work with Bitfields**
+
 ```typescript
 // Parse bitfield to array
 const permissions = permissionService.parseBitfield(12345n)
 // Returns: ['VIEW_CHANNEL', 'SEND_MESSAGES', ...]
 
 // Check specific permission in bitfield
-const hasPermission = permissionService.hasPermissionInBitfield(
-  12345n,
-  'MANAGE_CHANNEL'
-)
+const hasPermission = permissionService.hasPermissionInBitfield(12345n, 'MANAGE_CHANNEL')
 ```
 
 ---
@@ -315,10 +315,7 @@ query GetCategoriesWithChannels($workspaceId: uuid!) {
     icon
     color
     position
-    channels(
-      where: { is_archived: { _eq: false } }
-      order_by: { position: asc }
-    ) {
+    channels(where: { is_archived: { _eq: false } }, order_by: { position: asc }) {
       id
       name
       type
@@ -367,6 +364,7 @@ subscription SubscribeToBroadcastMessages($broadcastListId: uuid!) {
 ## API Endpoints
 
 ### Categories
+
 - `GET /api/channels/categories?workspaceId=xxx` - List
 - `POST /api/channels/categories` - Create
 - `PATCH /api/channels/categories/:id` - Update
@@ -375,6 +373,7 @@ subscription SubscribeToBroadcastMessages($broadcastListId: uuid!) {
 - `POST /api/channels/move` - Move channel
 
 ### Communities
+
 - `GET /api/channels/communities?workspaceId=xxx` - List
 - `POST /api/channels/communities` - Create
 - `GET /api/channels/communities/:id` - Get
@@ -382,6 +381,7 @@ subscription SubscribeToBroadcastMessages($broadcastListId: uuid!) {
 - `DELETE /api/channels/communities/:id/groups/:channelId` - Remove
 
 ### Broadcasts
+
 - `GET /api/channels/broadcasts?workspaceId=xxx` - List
 - `POST /api/channels/broadcasts` - Create
 - `POST /api/channels/broadcasts/:id/send` - Send message
@@ -389,6 +389,7 @@ subscription SubscribeToBroadcastMessages($broadcastListId: uuid!) {
 - `POST /api/channels/broadcasts/:id/bulk-subscribe` - Bulk
 
 ### Permissions
+
 - `GET /api/channels/:id/permissions` - List overrides
 - `POST /api/channels/permissions` - Create override
 - `GET /api/channels/:id/permissions/calculate?userId=xxx` - Calculate
@@ -403,22 +404,18 @@ import type {
   CategoryWithChannels,
   CreateCategoryInput,
   UpdateCategoryInput,
-
   Community,
   CommunityWithGroups,
   CreateCommunityInput,
   AddCommunityGroupInput,
-
   BroadcastList,
   BroadcastMessage,
   BroadcastDelivery,
   CreateBroadcastListInput,
   SendBroadcastInput,
-
   ChannelPermissionOverride,
   CreatePermissionOverrideInput,
   ChannelPermission,
-
   ChannelSubtype,
   SubscriptionMode,
 } from '@/types/advanced-channels'
@@ -435,10 +432,7 @@ import { permissionService } from '@/services/channels/permission.service'
 
 describe('PermissionService', () => {
   it('creates bitfield from permissions', () => {
-    const bitfield = permissionService.createBitfield([
-      'VIEW_CHANNEL',
-      'SEND_MESSAGES',
-    ])
+    const bitfield = permissionService.createBitfield(['VIEW_CHANNEL', 'SEND_MESSAGES'])
     expect(bitfield).toBeGreaterThan(0n)
   })
 
@@ -470,21 +464,25 @@ describe('Category API', () => {
 ## Troubleshooting
 
 ### Categories not appearing
+
 - Check `workspace_id` matches default: `ffffffff-ffff-ffff-ffff-ffffffffffff`
 - Verify migration ran successfully
 - Check user has permission to view workspace
 
 ### Permissions not applying
+
 - Verify permission override exists in database
 - Check bitfield calculation (allow takes precedence over deny)
 - Ensure category permission sync is enabled if using categories
 
 ### Broadcast delivery not tracking
+
 - Verify `track_delivery` is enabled on broadcast list
 - Check triggers are installed (`update_delivery_counts`)
 - Ensure delivery records are created when sending
 
 ### Community groups not showing
+
 - Verify channel is not archived
 - Check `position` field for ordering
 - Ensure user has access to both community and channel
@@ -524,6 +522,7 @@ describe('Category API', () => {
 ## Support
 
 For issues or questions:
+
 1. Check implementation summary: `docs/Phase-6-Implementation-Summary.md`
 2. Review type definitions: `src/types/advanced-channels.ts`
 3. Examine database schema: `.backend/migrations/040_advanced_channels_phase6.sql`

@@ -209,7 +209,7 @@ export function useStickers(): UseStickersReturn {
         store.setRecentStickers(data.nchat_recent_stickers)
       }
     } catch (err) {
-      logger.error('Failed to load recent stickers:',  err)
+      logger.error('Failed to load recent stickers:', err)
     }
   }, [user?.id, fetchRecentStickers, store])
 
@@ -225,7 +225,7 @@ export function useStickers(): UseStickersReturn {
         store.setFavoriteStickers(data.nchat_favorite_stickers)
       }
     } catch (err) {
-      logger.error('Failed to load favorite stickers:',  err)
+      logger.error('Failed to load favorite stickers:', err)
     }
   }, [user?.id, fetchFavoriteStickers, store])
 
@@ -269,7 +269,7 @@ export function useStickers(): UseStickersReturn {
         }
         return null
       } catch (err) {
-        logger.error('Failed to add pack:',  err)
+        logger.error('Failed to add pack:', err)
         return null
       }
     },
@@ -292,7 +292,7 @@ export function useStickers(): UseStickersReturn {
         }
         return false
       } catch (err) {
-        logger.error('Failed to remove pack:',  err)
+        logger.error('Failed to remove pack:', err)
         return false
       }
     },
@@ -317,7 +317,7 @@ export function useStickers(): UseStickersReturn {
           variables: { updates },
         })
       } catch (err) {
-        logger.error('Failed to reorder packs:',  err)
+        logger.error('Failed to reorder packs:', err)
         // Reload packs on failure to restore correct order
         await loadUserPacks()
       }
@@ -355,7 +355,7 @@ export function useStickers(): UseStickersReturn {
         }
         store.addRecentSticker(recentSticker)
       } catch (err) {
-        logger.error('Failed to record recent sticker:',  err)
+        logger.error('Failed to record recent sticker:', err)
       }
 
       // Close the picker
@@ -408,7 +408,7 @@ export function useStickers(): UseStickersReturn {
           store.addFavoriteSticker(data.insert_nchat_favorite_stickers_one)
         }
       } catch (err) {
-        logger.error('Failed to add to favorites:',  err)
+        logger.error('Failed to add to favorites:', err)
       }
     },
     [user?.id, addFavoriteMutation, store]
@@ -428,7 +428,7 @@ export function useStickers(): UseStickersReturn {
           store.removeFavoriteSticker(stickerId)
         }
       } catch (err) {
-        logger.error('Failed to remove from favorites:',  err)
+        logger.error('Failed to remove from favorites:', err)
       }
     },
     [user?.id, removeFavoriteMutation, store]
@@ -452,7 +452,7 @@ export function useStickers(): UseStickersReturn {
       })
       store.clearRecentStickers()
     } catch (err) {
-      logger.error('Failed to clear recent stickers:',  err)
+      logger.error('Failed to clear recent stickers:', err)
     }
   }, [user?.id, clearRecentMutation, store])
 
@@ -576,7 +576,7 @@ export function useStickerSearch(): UseStickerSearchReturn {
           store.setSearchResults(data.nchat_stickers)
         }
       } catch (err) {
-        logger.error('Search failed:',  err)
+        logger.error('Search failed:', err)
       }
     },
     [search, store]

@@ -57,6 +57,7 @@ Task 136 requires moving all temporary documentation files from the project root
 ### 1. Temporary Documentation in Root (23 files)
 
 #### Phase Completion Reports (7 files)
+
 Files that document phase implementations and should be in `docs/releases/`:
 
 ```
@@ -72,13 +73,15 @@ Files that document phase implementations and should be in `docs/releases/`:
 **Recommendation**: Move to `docs/releases/v0.9.1/phases/`
 
 #### Task Verification Report (1 file)
+
 ```
 /Users/admin/Sites/nself-chat/TASK-45-MEDIA-ENDPOINTS-VERIFICATION.md
 ```
 
-**Recommendation**: Move to `docs/` (matches other TASK-* verification reports)
+**Recommendation**: Move to `docs/` (matches other TASK-\* verification reports)
 
 #### Version/Implementation Reports (6 unique files)
+
 ```
 /Users/admin/Sites/nself-chat/AUTH-TASKS-86-91-SUMMARY.md
 /Users/admin/Sites/nself-chat/AUTONOMOUS-WORK-SESSION-SUMMARY.md
@@ -93,6 +96,7 @@ Files that document phase implementations and should be in `docs/releases/`:
 **Recommendation**: Move to `docs/releases/v0.9.1/`
 
 #### Setup/Guide Documentation (4 unique files)
+
 ```
 /Users/admin/Sites/nself-chat/EMAIL-SETUP.md
 /Users/admin/Sites/nself-chat/OAUTH-SETUP-GUIDE.md
@@ -101,12 +105,14 @@ Files that document phase implementations and should be in `docs/releases/`:
 ```
 
 **Recommendation**:
+
 - EMAIL-SETUP.md → `docs/guides/backend/email-setup.md`
 - OAUTH-SETUP-GUIDE.md → `docs/guides/backend/oauth-setup.md`
 - PRODUCTION-READY.md → `docs/deployment/production-ready.md`
 - QUICK-START-PRODUCTION.md → `docs/getting-started/production-quick-start.md`
 
 #### Legitimate Root Files (2 files) ✅
+
 ```
 /Users/admin/Sites/nself-chat/README.md
 /Users/admin/Sites/nself-chat/CHANGELOG.md
@@ -191,6 +197,7 @@ TASK-133-PERFORMANCE-TESTS-VERIFICATION.md
 ### 3. Root-Level Documentation Files
 
 #### Total Count
+
 ```bash
 Total .md files in root: 23
 Legitimate (should stay): 2
@@ -199,14 +206,14 @@ Temporary (should move): 21
 
 #### Breakdown by Category
 
-| Category | Count | Should Be In |
-|----------|-------|--------------|
-| PHASE Reports | 7 | `docs/releases/v0.9.1/phases/` |
-| TASK Reports | 1 | `docs/` |
-| Version Reports | 6 | `docs/releases/v0.9.1/` |
-| Setup Guides | 4 | `docs/guides/` or `docs/deployment/` |
-| Legitimate | 2 | Root (correct) |
-| **Total** | **20** | Various |
+| Category        | Count  | Should Be In                         |
+| --------------- | ------ | ------------------------------------ |
+| PHASE Reports   | 7      | `docs/releases/v0.9.1/phases/`       |
+| TASK Reports    | 1      | `docs/`                              |
+| Version Reports | 6      | `docs/releases/v0.9.1/`              |
+| Setup Guides    | 4      | `docs/guides/` or `docs/deployment/` |
+| Legitimate      | 2      | Root (correct)                       |
+| **Total**       | **20** | Various                              |
 
 ---
 
@@ -246,7 +253,7 @@ Untracked documentation:
    - Architecture documentation
 
 3. **Recent verification reports**
-   - Consistent format across all TASK-* reports
+   - Consistent format across all TASK-\* reports
    - Detailed findings with code examples
    - Clear completion percentages
    - DoD review sections
@@ -279,6 +286,7 @@ Untracked documentation:
 ### Immediate (Required for Task Completion)
 
 #### 1. Create Missing Directories
+
 ```bash
 mkdir -p docs/verification
 mkdir -p docs/releases/v0.9.1/phases
@@ -286,18 +294,21 @@ mkdir -p docs/releases/v0.9.1/reports
 ```
 
 #### 2. Move PHASE Reports
+
 ```bash
 # Move phase completion reports
 mv PHASE-*.md docs/releases/v0.9.1/phases/
 ```
 
 #### 3. Move TASK Report
+
 ```bash
 # Move task verification report to docs/
 mv TASK-45-MEDIA-ENDPOINTS-VERIFICATION.md docs/
 ```
 
 #### 4. Move Version Reports
+
 ```bash
 # Move version/implementation reports
 mv V0.9.1-*.md docs/releases/v0.9.1/reports/
@@ -307,6 +318,7 @@ mv *-COMPLETION*.md docs/releases/v0.9.1/reports/
 ```
 
 #### 5. Move Setup Guides
+
 ```bash
 # Move setup guides to appropriate locations
 mv EMAIL-SETUP.md docs/guides/backend/email-setup.md
@@ -316,6 +328,7 @@ mv QUICK-START-PRODUCTION.md docs/getting-started/production-quick-start.md
 ```
 
 #### 6. Organize Verification Reports (Optional but Recommended)
+
 ```bash
 # Move all TASK verification reports to verification subdirectory
 mv docs/TASK-*-VERIFICATION.md docs/verification/
@@ -325,18 +338,23 @@ mv docs/TASK-*-VERIFICATION-REPORT.md docs/verification/
 ### Additional Improvements (Optional)
 
 #### 1. Create Documentation Index
+
 Create `docs/INDEX.md` with:
+
 - Directory structure overview
 - Quick links to major sections
 - Guide selection helper
 
 #### 2. Consolidate Duplicate Content
+
 - Audit for duplicate information across files
 - Create canonical versions
 - Add cross-references instead of duplicating
 
 #### 3. Update Internal Links
+
 After moving files, update internal links:
+
 ```bash
 # Find all markdown files with links to moved files
 grep -r "PHASE-" docs/*.md
@@ -344,7 +362,9 @@ grep -r "V0.9.1-" docs/*.md
 ```
 
 #### 4. Create README files for subdirectories
+
 Add `README.md` in each major docs/ subdirectory explaining:
+
 - Purpose of the directory
 - Contents overview
 - Related directories
@@ -354,6 +374,7 @@ Add `README.md` in each major docs/ subdirectory explaining:
 ## File Migration Checklist
 
 ### From Root to docs/releases/v0.9.1/phases/
+
 - [ ] PHASE-5-COMPLETE.md
 - [ ] PHASE-6-COMPLETE.md
 - [ ] PHASE-6-8-COMPLETION-REPORT.md
@@ -363,9 +384,11 @@ Add `README.md` in each major docs/ subdirectory explaining:
 - [ ] PHASE-22-SUMMARY.md
 
 ### From Root to docs/
+
 - [ ] TASK-45-MEDIA-ENDPOINTS-VERIFICATION.md
 
 ### From Root to docs/releases/v0.9.1/reports/
+
 - [ ] AUTH-TASKS-86-91-SUMMARY.md
 - [ ] AUTONOMOUS-WORK-SESSION-SUMMARY.md
 - [ ] IMPLEMENTATION-REPORT-V0.9.1.md
@@ -376,16 +399,20 @@ Add `README.md` in each major docs/ subdirectory explaining:
 - [ ] WEBRTC-EMAIL-IMPLEMENTATION-SUMMARY.md
 
 ### From Root to docs/guides/backend/
+
 - [ ] EMAIL-SETUP.md → email-setup.md
 - [ ] OAUTH-SETUP-GUIDE.md → oauth-setup.md
 
 ### From Root to docs/deployment/
+
 - [ ] PRODUCTION-READY.md → production-ready.md
 
 ### From Root to docs/getting-started/
+
 - [ ] QUICK-START-PRODUCTION.md → production-quick-start.md
 
 ### Keep in Root ✅
+
 - [x] README.md (project overview)
 - [x] CHANGELOG.md (version history)
 
@@ -435,41 +462,45 @@ Add `README.md` in each major docs/ subdirectory explaining:
 
 ### Current Status
 
-| Metric | Target | Current | Gap |
-|--------|--------|---------|-----|
-| Root temp files | 2 | 23 | -21 |
-| Docs organized | 100% | 77% | -23% |
-| Verification reports tracked | 100% | 0% | -100% |
-| Documentation coverage | 100% | 100% | ✅ |
+| Metric                       | Target | Current | Gap   |
+| ---------------------------- | ------ | ------- | ----- |
+| Root temp files              | 2      | 23      | -21   |
+| Docs organized               | 100%   | 77%     | -23%  |
+| Verification reports tracked | 100%   | 0%      | -100% |
+| Documentation coverage       | 100%   | 100%    | ✅    |
 
 ### After Migration
 
-| Metric | Current | After | Improvement |
-|--------|---------|-------|-------------|
-| Root temp files | 23 | 2 | -91% ✅ |
-| Docs organized | 77% | 100% | +23% ✅ |
-| Directory structure | Good | Excellent | +2 levels ✅ |
+| Metric              | Current | After     | Improvement  |
+| ------------------- | ------- | --------- | ------------ |
+| Root temp files     | 23      | 2         | -91% ✅      |
+| Docs organized      | 77%     | 100%      | +23% ✅      |
+| Directory structure | Good    | Excellent | +2 levels ✅ |
 
 ---
 
 ## Timeline Estimate
 
 ### Phase 1: Directory Setup (15 minutes)
+
 - Create missing directories
 - Plan file destinations
 - Test one file move
 
 ### Phase 2: Bulk Migration (30 minutes)
+
 - Move all PHASE reports
 - Move all version reports
 - Move setup guides
 
 ### Phase 3: Verification (15 minutes)
+
 - Verify all files moved correctly
 - Check for broken links
 - Test documentation navigation
 
 ### Phase 4: Git Operations (10 minutes)
+
 - Stage all changes
 - Review diffs
 - Commit with descriptive message
@@ -511,12 +542,14 @@ Task 136 is **77% complete**. While the majority of documentation (470 files) is
 ### Key Findings
 
 ✅ **Strengths:**
+
 - Well-structured docs/ directory with 470 files
 - Comprehensive documentation coverage
 - Consistent verification report format
 - Clear categorization in subdirectories
 
 ❌ **Gaps:**
+
 - 21 temporary files still in root
 - No dedicated verification/ subdirectory
 - Version reports not consolidated

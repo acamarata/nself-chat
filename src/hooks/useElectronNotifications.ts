@@ -106,7 +106,7 @@ export function useElectronNotifications(): UseElectronNotificationsReturn {
         setSettings(notificationSettings)
         setIsDnd(dndActive)
       } catch (error) {
-        logger.error('Failed to load notification settings:',  error)
+        logger.error('Failed to load notification settings:', error)
       } finally {
         setIsLoading(false)
       }

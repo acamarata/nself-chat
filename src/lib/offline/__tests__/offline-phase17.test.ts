@@ -404,9 +404,7 @@ describe.skip('Sync Service', () => {
   })
 
   it('should handle sync failures', async () => {
-    jest.spyOn(global, 'fetch').mockImplementation(() =>
-      Promise.reject(new Error('Network error'))
-    )
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.reject(new Error('Network error')))
 
     await offlineDB.addToMessageQueue({
       id: 'msg-1',

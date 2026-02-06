@@ -22,7 +22,15 @@ mutation UpsertUserOnboarding(
     }
     on_conflict: {
       constraint: user_onboarding_user_id_key
-      update_columns: [status, current_step_id, started_at, completed_at, skipped_at, version, updated_at]
+      update_columns: [
+        status
+        current_step_id
+        started_at
+        completed_at
+        skipped_at
+        version
+        updated_at
+      ]
     }
   ) {
     id
@@ -85,15 +93,8 @@ mutation CompleteOnboardingStep(
 ) {
   # Update the completed step
   update_nchat_onboarding_steps(
-    where: {
-      user_id: { _eq: $userId }
-      step_id: { _eq: $stepId }
-    }
-    _set: {
-      status: "completed"
-      completed_at: "now()"
-      data: $data
-    }
+    where: { user_id: { _eq: $userId }, step_id: { _eq: $stepId } }
+    _set: { status: "completed", completed_at: "now()", data: $data }
   ) {
     affected_rows
   }
@@ -108,20 +109,10 @@ mutation CompleteOnboardingStep(
 }
 
 # Skip onboarding step
-mutation SkipOnboardingStep(
-  $userId: uuid!
-  $stepId: String!
-  $nextStepId: String
-) {
+mutation SkipOnboardingStep($userId: uuid!, $stepId: String!, $nextStepId: String) {
   update_nchat_onboarding_steps(
-    where: {
-      user_id: { _eq: $userId }
-      step_id: { _eq: $stepId }
-    }
-    _set: {
-      status: "skipped"
-      skipped_at: "now()"
-    }
+    where: { user_id: { _eq: $userId }, step_id: { _eq: $stepId } }
+    _set: { status: "skipped", skipped_at: "now()" }
   ) {
     affected_rows
   }
@@ -138,10 +129,7 @@ mutation SkipOnboardingStep(
 mutation CompleteOnboarding($userId: uuid!) {
   update_nchat_user_onboarding(
     where: { user_id: { _eq: $userId } }
-    _set: {
-      status: "completed"
-      completed_at: "now()"
-    }
+    _set: { status: "completed", completed_at: "now()" }
   ) {
     affected_rows
     returning {
@@ -156,10 +144,7 @@ mutation CompleteOnboarding($userId: uuid!) {
 mutation SkipOnboarding($userId: uuid!) {
   update_nchat_user_onboarding(
     where: { user_id: { _eq: $userId } }
-    _set: {
-      status: "skipped"
-      skipped_at: "now()"
-    }
+    _set: { status: "skipped", skipped_at: "now()" }
   ) {
     affected_rows
     returning {
@@ -214,7 +199,15 @@ mutation UpsertUserTour(
     }
     on_conflict: {
       constraint: user_tour_user_id_key
-      update_columns: [status, current_stop_id, completed_stops, started_at, completed_at, dismissed_at, updated_at]
+      update_columns: [
+        status
+        current_stop_id
+        completed_stops
+        started_at
+        completed_at
+        dismissed_at
+        updated_at
+      ]
     }
   ) {
     id
@@ -238,11 +231,7 @@ mutation CompleteTourStop($userId: uuid!, $stopId: String!, $nextStopId: String)
 mutation CompleteTour($userId: uuid!) {
   update_nchat_user_tour(
     where: { user_id: { _eq: $userId } }
-    _set: {
-      status: "completed"
-      completed_at: "now()"
-      current_stop_id: null
-    }
+    _set: { status: "completed", completed_at: "now()", current_stop_id: null }
   ) {
     affected_rows
   }
@@ -252,11 +241,7 @@ mutation CompleteTour($userId: uuid!) {
 mutation DismissTour($userId: uuid!) {
   update_nchat_user_tour(
     where: { user_id: { _eq: $userId } }
-    _set: {
-      status: "dismissed"
-      dismissed_at: "now()"
-      current_stop_id: null
-    }
+    _set: { status: "dismissed", dismissed_at: "now()", current_stop_id: null }
   ) {
     affected_rows
   }
@@ -280,7 +265,13 @@ mutation UpsertFeatureDiscovery(
     }
     on_conflict: {
       constraint: feature_discovery_user_id_key
-      update_columns: [discovered_features, dismissed_tips, seen_tips, last_tip_shown_at, updated_at]
+      update_columns: [
+        discovered_features
+        dismissed_tips
+        seen_tips
+        last_tip_shown_at
+        updated_at
+      ]
     }
   ) {
     id
@@ -420,15 +411,11 @@ mutation SendTeamInvitations($invitations: [nchat_invitations_insert_input!]!) {
 }
 
 # Join channels during onboarding
+# Note: objects array would need to be dynamically generated at runtime
 mutation JoinOnboardingChannels($userId: uuid!, $channelIds: [uuid!]!) {
   insert_nchat_channel_members(
-    objects: [
-      # This would need to be dynamically generated
-    ]
-    on_conflict: {
-      constraint: channel_members_channel_id_user_id_key
-      update_columns: []
-    }
+    objects: []
+    on_conflict: { constraint: channel_members_channel_id_user_id_key, update_columns: [] }
   ) {
     affected_rows
   }

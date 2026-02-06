@@ -33,18 +33,10 @@ const callManager = new CallManager({
 })
 
 // Start voice call
-await callManager.initiateCall(
-  'target-user-id',
-  'Jane Doe',
-  'voice'
-)
+await callManager.initiateCall('target-user-id', 'Jane Doe', 'voice')
 
 // Start video call
-await callManager.initiateCall(
-  'target-user-id',
-  'Jane Doe',
-  'video'
-)
+await callManager.initiateCall('target-user-id', 'Jane Doe', 'video')
 ```
 
 ### Accept/Decline Calls
@@ -278,10 +270,10 @@ const recordingUrl = stream.recordingUrl
 import { QUALITY_PRESETS } from '@/types/calls'
 
 // Available presets
-QUALITY_PRESETS.low      // 320x240 @ 15fps, 250 kbps
-QUALITY_PRESETS.medium   // 640x480 @ 24fps, 500 kbps
-QUALITY_PRESETS.high     // 1280x720 @ 30fps, 1500 kbps
-QUALITY_PRESETS.hd       // 1920x1080 @ 30fps, 3000 kbps
+QUALITY_PRESETS.low // 320x240 @ 15fps, 250 kbps
+QUALITY_PRESETS.medium // 640x480 @ 24fps, 500 kbps
+QUALITY_PRESETS.high // 1280x720 @ 30fps, 1500 kbps
+QUALITY_PRESETS.hd // 1920x1080 @ 30fps, 3000 kbps
 ```
 
 ### Monitor Call Quality
@@ -439,8 +431,7 @@ STREAM_MAX_RESOLUTION=1080p
 
 ```tsx
 import { CallModal } from '@/components/call/call-modal'
-
-<CallModal
+;<CallModal
   isOpen={isCallActive}
   onClose={() => endCall()}
   callType="video"
@@ -454,8 +445,7 @@ import { CallModal } from '@/components/call/call-modal'
 
 ```tsx
 import { StreamPlayer } from '@/components/streaming/stream-player'
-
-<StreamPlayer
+;<StreamPlayer
   streamId={streamId}
   hlsUrl={hlsUrl}
   autoplay={true}
@@ -468,11 +458,7 @@ import { StreamPlayer } from '@/components/streaming/stream-player'
 
 ```tsx
 import { StreamChat } from '@/components/streaming/stream-chat'
-
-<StreamChat
-  streamId={streamId}
-  onMessageSend={(content) => sendMessage(content)}
-/>
+;<StreamChat streamId={streamId} onMessageSend={(content) => sendMessage(content)} />
 ```
 
 ---

@@ -36,9 +36,9 @@ export function TokenGatedChannel({
 }: TokenGatedChannelProps) {
   const [walletInfo, setWalletInfo] = useState<WalletInfo | null>(null)
   const [verifying, setVerifying] = useState(false)
-  const [verificationResults, setVerificationResults] = useState<
-    Map<string, VerificationResult>
-  >(new Map())
+  const [verificationResults, setVerificationResults] = useState<Map<string, VerificationResult>>(
+    new Map()
+  )
   const [hasAccess, setHasAccess] = useState(false)
 
   const activeRequirements = requirements.filter((r) => r.enabled)
@@ -128,9 +128,7 @@ export function TokenGatedChannel({
 
           <div className="flex flex-wrap gap-2 text-xs">
             <Badge variant="outline">{getTokenTypeLabel(requirement.tokenType)}</Badge>
-            <Badge variant="outline">
-              {CRYPTO_NETWORKS[requirement.network].name}
-            </Badge>
+            <Badge variant="outline">{CRYPTO_NETWORKS[requirement.network].name}</Badge>
             {requirement.minBalance && (
               <Badge variant="outline">Min: {requirement.minBalance}</Badge>
             )}
@@ -139,20 +137,20 @@ export function TokenGatedChannel({
             )}
           </div>
 
-          <div className="text-xs text-muted-foreground font-mono">
+          <div className="font-mono text-xs text-muted-foreground">
             {requirement.contractAddress.slice(0, 10)}...{requirement.contractAddress.slice(-8)}
           </div>
 
           {result && (
             <div className="text-sm">
               {verified ? (
-                <p className="text-green-600 flex items-center gap-1">
+                <p className="flex items-center gap-1 text-green-600">
                   <CheckCircle2 className="h-4 w-4" />
                   Requirement met
                   {result.balance && ` (Balance: ${result.balance})`}
                 </p>
               ) : (
-                <p className="text-red-600 flex items-center gap-1">
+                <p className="flex items-center gap-1 text-red-600">
                   <XCircle className="h-4 w-4" />
                   {result.error || 'Requirement not met'}
                 </p>
@@ -192,19 +190,14 @@ export function TokenGatedChannel({
 
       <CardContent className="space-y-6">
         {/* Wallet Connection */}
-        <div className="flex items-center justify-between p-4 rounded-lg border">
+        <div className="flex items-center justify-between rounded-lg border p-4">
           <div>
             <p className="font-medium">Connect Wallet</p>
             <p className="text-sm text-muted-foreground">
-              {walletInfo
-                ? 'Wallet connected'
-                : 'Connect your wallet to verify access'}
+              {walletInfo ? 'Wallet connected' : 'Connect your wallet to verify access'}
             </p>
           </div>
-          <WalletConnector
-            onConnect={handleWalletConnect}
-            onDisconnect={handleWalletDisconnect}
-          />
+          <WalletConnector onConnect={handleWalletConnect} onDisconnect={handleWalletDisconnect} />
         </div>
 
         {/* Requirements */}
@@ -251,8 +244,7 @@ export function TokenGatedChannel({
                     <CheckCircle2 className="h-4 w-4" />
                     <AlertTitle>Access Granted</AlertTitle>
                     <AlertDescription>
-                      You meet all requirements for this channel. You can now access the
-                      content.
+                      You meet all requirements for this channel. You can now access the content.
                     </AlertDescription>
                   </>
                 ) : (
@@ -260,8 +252,8 @@ export function TokenGatedChannel({
                     <XCircle className="h-4 w-4" />
                     <AlertTitle>Access Denied</AlertTitle>
                     <AlertDescription>
-                      You do not meet all the requirements for this channel. Please
-                      acquire the required tokens to gain access.
+                      You do not meet all the requirements for this channel. Please acquire the
+                      required tokens to gain access.
                     </AlertDescription>
                   </>
                 )}
@@ -272,9 +264,9 @@ export function TokenGatedChannel({
 
         {/* Help Text */}
         {!walletInfo && (
-          <div className="rounded-lg border bg-muted/50 p-4 text-sm text-muted-foreground">
-            <h4 className="font-medium text-foreground mb-2">How it works:</h4>
-            <ol className="space-y-1 list-decimal list-inside">
+          <div className="bg-muted/50 rounded-lg border p-4 text-sm text-muted-foreground">
+            <h4 className="mb-2 font-medium text-foreground">How it works:</h4>
+            <ol className="list-inside list-decimal space-y-1">
               <li>Connect your crypto wallet (MetaMask, Coinbase Wallet)</li>
               <li>We'll verify your token/NFT ownership</li>
               <li>If you meet the requirements, you'll gain access to the channel</li>

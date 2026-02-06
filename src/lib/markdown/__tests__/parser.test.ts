@@ -306,11 +306,7 @@ describe('Markdown Parser', () => {
               {
                 type: 'text',
                 text: 'formatted text',
-                marks: [
-                  { type: 'bold' },
-                  { type: 'italic' },
-                  { type: 'underline' },
-                ],
+                marks: [{ type: 'bold' }, { type: 'italic' }, { type: 'underline' }],
               },
             ],
           },

@@ -115,7 +115,7 @@ export class MagicLinkProvider implements AuthProvider {
         },
       }
     } catch (err) {
-      logger.error('MagicLinkProvider.sendMagicLink error:',  err)
+      logger.error('MagicLinkProvider.sendMagicLink error:', err)
       return {
         success: false,
         error: {
@@ -159,7 +159,7 @@ export class MagicLinkProvider implements AuthProvider {
         },
       }
     } catch (err) {
-      logger.error('MagicLinkProvider.handleCallback error:',  err)
+      logger.error('MagicLinkProvider.handleCallback error:', err)
       return {
         success: false,
         error: {

@@ -372,6 +372,7 @@ if ('serviceWorker' in navigator && 'sync' in ServiceWorkerRegistration.prototyp
 #### Service Worker (public/sw.js)
 
 The service worker automatically:
+
 - Syncs pending messages
 - Syncs pending uploads
 - Syncs user settings
@@ -572,6 +573,7 @@ resolver.setUserChoiceCallback(async (conflict) => {
 ### 1. Message Handling
 
 ✅ **Do:**
+
 - Use optimistic updates for instant feedback
 - Queue messages when offline
 - Show sync status to users
@@ -579,6 +581,7 @@ resolver.setUserChoiceCallback(async (conflict) => {
 - Retry failed operations
 
 ❌ **Don't:**
+
 - Block UI waiting for sync
 - Lose messages on failure
 - Hide sync failures from users
@@ -586,12 +589,14 @@ resolver.setUserChoiceCallback(async (conflict) => {
 ### 2. Conflict Resolution
 
 ✅ **Do:**
+
 - Use appropriate strategy for data type
 - Provide manual resolution for critical data
 - Log conflicts for debugging
 - Test conflict scenarios
 
 ❌ **Don't:**
+
 - Silently overwrite user data
 - Ignore conflicts
 - Use complex strategies for simple data
@@ -599,12 +604,14 @@ resolver.setUserChoiceCallback(async (conflict) => {
 ### 3. Settings Sync
 
 ✅ **Do:**
+
 - Sync settings periodically
 - Use debouncing for frequent updates
 - Version settings for conflict detection
 - Validate settings before sync
 
 ❌ **Don't:**
+
 - Sync on every keystroke
 - Overwrite newer settings
 - Sync sensitive data without encryption
@@ -612,12 +619,14 @@ resolver.setUserChoiceCallback(async (conflict) => {
 ### 4. Performance
 
 ✅ **Do:**
+
 - Batch sync operations
 - Use background sync when available
 - Limit cache size
 - Clean up old data
 
 ❌ **Don't:**
+
 - Sync everything at once
 - Keep unlimited cache
 - Sync on every network change
@@ -682,12 +691,12 @@ console.log('Local settings:', settings)
 
 ## Browser Support
 
-| Feature | Chrome | Firefox | Safari | Edge |
-|---------|--------|---------|--------|------|
-| IndexedDB | ✅ | ✅ | ✅ | ✅ |
-| Service Workers | ✅ | ✅ | ✅ | ✅ |
-| Background Sync | ✅ | ❌ | ❌ | ✅ |
-| Periodic Sync | ✅ | ❌ | ❌ | ✅ |
+| Feature         | Chrome | Firefox | Safari | Edge |
+| --------------- | ------ | ------- | ------ | ---- |
+| IndexedDB       | ✅     | ✅      | ✅     | ✅   |
+| Service Workers | ✅     | ✅      | ✅     | ✅   |
+| Background Sync | ✅     | ❌      | ❌     | ✅   |
+| Periodic Sync   | ✅     | ❌      | ❌     | ✅   |
 
 **Note:** Background Sync gracefully degrades to manual sync on unsupported browsers.
 
@@ -696,6 +705,7 @@ console.log('Local settings:', settings)
 ### From v0.8.0 to v0.9.0
 
 1. **Update imports:**
+
    ```typescript
    // Old
    import { offlineDB } from '@/lib/offline/offline-storage'
@@ -705,6 +715,7 @@ console.log('Local settings:', settings)
    ```
 
 2. **Update queue methods:**
+
    ```typescript
    // Old
    await queueStorage.add(message)
@@ -714,6 +725,7 @@ console.log('Local settings:', settings)
    ```
 
 3. **Update sync service:**
+
    ```typescript
    // Old
    import { syncManager } from '@/lib/offline/sync-manager'
@@ -749,5 +761,6 @@ console.log('Local settings:', settings)
 ## Support
 
 For issues or questions:
+
 - GitHub Issues: [nself-chat/issues](https://github.com/nself/nself-chat/issues)
 - Documentation: [docs/](../README.md)

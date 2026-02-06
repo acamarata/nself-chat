@@ -115,10 +115,7 @@ export async function GET(request: NextRequest) {
         { status: 400 }
       )
     }
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
@@ -216,20 +213,14 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
 /**
  * Handle sending a broadcast message
  */
-async function handleSendBroadcast(
-  request: NextRequest,
-  body: unknown
-): Promise<NextResponse> {
+async function handleSendBroadcast(request: NextRequest, body: unknown): Promise<NextResponse> {
   const validation = sendBroadcastSchema.safeParse(body)
 
   if (!validation.success) {

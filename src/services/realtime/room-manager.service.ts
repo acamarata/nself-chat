@@ -256,7 +256,7 @@ class RoomManagerService {
         try {
           listener(rejoined)
         } catch (error) {
-          logger.error('[RoomManager] Reconnect listener error:',  error)
+          logger.error('[RoomManager] Reconnect listener error:', error)
         }
       })
     }
@@ -576,7 +576,7 @@ class RoomManagerService {
       try {
         listener(roomInfo)
       } catch (error) {
-        logger.error('[RoomManager] Join listener error:',  error)
+        logger.error('[RoomManager] Join listener error:', error)
       }
     })
   }
@@ -589,7 +589,7 @@ class RoomManagerService {
       try {
         listener(roomName)
       } catch (error) {
-        logger.error('[RoomManager] Leave listener error:',  error)
+        logger.error('[RoomManager] Leave listener error:', error)
       }
     })
   }
@@ -602,7 +602,7 @@ class RoomManagerService {
       try {
         listener(roomName, error)
       } catch (e) {
-        logger.error('[RoomManager] Error listener error:',  e)
+        logger.error('[RoomManager] Error listener error:', e)
       }
     })
   }

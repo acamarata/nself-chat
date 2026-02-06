@@ -68,7 +68,7 @@ export function PrivacySettings() {
       await new Promise((resolve) => setTimeout(resolve, 1000))
       setHasChanges(false)
     } catch (error) {
-      logger.error('Failed to save privacy settings:',  error)
+      logger.error('Failed to save privacy settings:', error)
     } finally {
       setIsSaving(false)
     }

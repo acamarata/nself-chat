@@ -140,7 +140,7 @@ export default function AIUsageDashboard() {
         })
       }
     } catch (error) {
-      logger.error('Error fetching AI usage data:',  error)
+      logger.error('Error fetching AI usage data:', error)
     } finally {
       setLoading(false)
     }

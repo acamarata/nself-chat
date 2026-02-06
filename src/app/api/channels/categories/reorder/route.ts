@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      const { channelId, categoryId, position} = validation.data
+      const { channelId, categoryId, position } = validation.data
 
       // TODO: Implement moveChannel in CategoryService
       // @ts-expect-error - Method will be implemented in CategoryService

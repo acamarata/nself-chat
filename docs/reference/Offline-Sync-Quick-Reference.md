@@ -115,32 +115,30 @@ console.log(`Using ${estimate.percent.toFixed(2)}% of quota`)
 
 ```tsx
 import { OfflineIndicator } from '@/components/ui/offline-indicator'
-
-<OfflineIndicator position="top" detailed />
+;<OfflineIndicator position="top" detailed />
 ```
 
 ### Queue Viewer
 
 ```tsx
 import { OfflineQueueViewer } from '@/components/offline/offline-queue-viewer'
-
-<OfflineQueueViewer asDialog open={show} onClose={() => setShow(false)} />
+;<OfflineQueueViewer asDialog open={show} onClose={() => setShow(false)} />
 ```
 
 ## Hooks
 
-| Hook | Purpose |
-|------|---------|
+| Hook                    | Purpose                    |
+| ----------------------- | -------------------------- |
 | `useOptimisticMessages` | Optimistic message updates |
-| `useSettingsSync` | Settings synchronization |
-| `useOfflineStatus` | Connection status |
+| `useSettingsSync`       | Settings synchronization   |
+| `useOfflineStatus`      | Connection status          |
 
 ## API Endpoints
 
-| Endpoint | Method | Purpose |
-|----------|--------|---------|
-| `/api/messages` | POST | Send message |
-| `/api/upload` | POST | Upload file |
+| Endpoint                  | Method  | Purpose       |
+| ------------------------- | ------- | ------------- |
+| `/api/messages`           | POST    | Send message  |
+| `/api/upload`             | POST    | Upload file   |
 | `/api/users/:id/settings` | GET/PUT | Sync settings |
 
 ## Status Codes
@@ -202,7 +200,7 @@ navigator.serviceWorker.addEventListener('message', (event) => {
     case 'SYNC_STARTED':
     case 'SYNC_COMPLETED':
     case 'SYNC_FAILED':
-      // Handle event
+    // Handle event
   }
 })
 ```
@@ -213,10 +211,10 @@ navigator.serviceWorker.addEventListener('message', (event) => {
 
 ```typescript
 syncService.configure({
-  maxRetries: 3,           // Max retry attempts
-  retryDelay: 1000,        // Initial delay (ms)
-  maxRetryDelay: 30000,    // Max delay (ms)
-  batchSize: 10,           // Items per batch
+  maxRetries: 3, // Max retry attempts
+  retryDelay: 1000, // Initial delay (ms)
+  maxRetryDelay: 30000, // Max delay (ms)
+  batchSize: 10, // Items per batch
 })
 ```
 
@@ -269,12 +267,12 @@ await offlineDB.clearAll()
 
 ## Browser Support
 
-| Feature | Support |
-|---------|---------|
-| IndexedDB | All modern browsers |
+| Feature         | Support             |
+| --------------- | ------------------- |
+| IndexedDB       | All modern browsers |
 | Service Workers | All modern browsers |
-| Background Sync | Chrome, Edge only |
-| Periodic Sync | Chrome, Edge only |
+| Background Sync | Chrome, Edge only   |
+| Periodic Sync   | Chrome, Edge only   |
 
 ## Error Handling
 

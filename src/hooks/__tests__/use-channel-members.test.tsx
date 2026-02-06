@@ -65,7 +65,8 @@ describe.skip('useChannelMembers', () => {
     const channel = createChannel()
     const member = createUser()
 
-    const mockQuery = jest.fn()
+    const mockQuery = jest
+      .fn()
       .mockResolvedValueOnce({
         data: { channel_members: [{ user: member, role: 'member' }] },
       })
@@ -142,7 +143,7 @@ describe.skip('useChannelMembers', () => {
       expect(result.current.members).toHaveLength(2)
     })
 
-    const filtered = result.current.members.filter(m => m.username.includes('ali'))
+    const filtered = result.current.members.filter((m) => m.username.includes('ali'))
     expect(filtered).toHaveLength(1)
     expect(filtered[0].username).toBe('alice')
   })

@@ -81,7 +81,10 @@ export default function TwoFactorVerifyPage() {
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault()
     const pastedData = e.clipboardData.getData('text')
-    const digits = pastedData.replace(/[^0-9]/g, '').slice(0, 6).split('')
+    const digits = pastedData
+      .replace(/[^0-9]/g, '')
+      .slice(0, 6)
+      .split('')
 
     const newCode = [...code]
     digits.forEach((digit, index) => {
@@ -138,10 +141,10 @@ export default function TwoFactorVerifyPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
+          <div className="mb-4 flex justify-center">
             <Shield className="h-12 w-12 text-indigo-600" />
           </div>
           <CardTitle>Two-Factor Authentication</CardTitle>
@@ -158,7 +161,7 @@ export default function TwoFactorVerifyPage() {
             )}
 
             <div className="space-y-2">
-              <Label className="text-center block">Verification Code</Label>
+              <Label className="block text-center">Verification Code</Label>
               <div className="flex justify-center gap-2">
                 {code.map((digit, index) => (
                   <Input
@@ -173,7 +176,7 @@ export default function TwoFactorVerifyPage() {
                     onChange={(e) => handleCodeChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
                     onPaste={index === 0 ? handlePaste : undefined}
-                    className="w-12 h-14 text-center text-2xl font-semibold"
+                    className="h-14 w-12 text-center text-2xl font-semibold"
                     disabled={isLoading}
                     autoComplete="off"
                   />
@@ -195,10 +198,8 @@ export default function TwoFactorVerifyPage() {
               )}
             </Button>
 
-            <div className="text-center space-y-2">
-              <p className="text-xs text-muted-foreground">
-                Can't access your authenticator app?
-              </p>
+            <div className="space-y-2 text-center">
+              <p className="text-xs text-muted-foreground">Can't access your authenticator app?</p>
               <Button variant="link" type="button" onClick={() => router.push('/auth/2fa-backup')}>
                 Use backup code instead
               </Button>

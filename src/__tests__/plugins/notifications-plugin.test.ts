@@ -12,7 +12,8 @@
 import { describe, it, expect, beforeAll, afterAll } from '@jest/globals'
 
 // Configuration
-const NOTIFICATIONS_URL = process.env.NEXT_PUBLIC_NOTIFICATIONS_URL || 'http://notifications.localhost:3102'
+const NOTIFICATIONS_URL =
+  process.env.NEXT_PUBLIC_NOTIFICATIONS_URL || 'http://notifications.localhost:3102'
 const PLUGINS_ENABLED = process.env.PLUGINS_ENABLED !== 'false'
 const TEST_TIMEOUT = 30000
 
@@ -230,21 +231,25 @@ describe('Notifications Plugin', () => {
       'announcement',
     ]
 
-    it.each(notificationTypes)('should support %s notification type', async (type) => {
-      const response = await fetch(`${NOTIFICATIONS_URL}/send`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: TEST_USER.id,
-          type,
-          title: `Test ${type} notification`,
-          body: 'Test body',
-          channels: ['in-app'],
-        }),
-      })
+    it.each(notificationTypes)(
+      'should support %s notification type',
+      async (type) => {
+        const response = await fetch(`${NOTIFICATIONS_URL}/send`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: TEST_USER.id,
+            type,
+            title: `Test ${type} notification`,
+            body: 'Test body',
+            channels: ['in-app'],
+          }),
+        })
 
-      expect(response.ok).toBe(true)
-    }, 10000)
+        expect(response.ok).toBe(true)
+      },
+      10000
+    )
   })
 
   describeIf('Notification Preferences', () => {
@@ -376,10 +381,14 @@ describe('Notifications Plugin', () => {
     }, 10000)
 
     it('should support pagination', async () => {
-      const page1 = await fetch(`${NOTIFICATIONS_URL}/history?userId=${TEST_USER.id}&limit=5&offset=0`)
+      const page1 = await fetch(
+        `${NOTIFICATIONS_URL}/history?userId=${TEST_USER.id}&limit=5&offset=0`
+      )
       const data1 = await page1.json()
 
-      const page2 = await fetch(`${NOTIFICATIONS_URL}/history?userId=${TEST_USER.id}&limit=5&offset=5`)
+      const page2 = await fetch(
+        `${NOTIFICATIONS_URL}/history?userId=${TEST_USER.id}&limit=5&offset=5`
+      )
       const data2 = await page2.json()
 
       expect(page1.ok).toBe(true)

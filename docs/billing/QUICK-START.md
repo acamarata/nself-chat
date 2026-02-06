@@ -100,10 +100,7 @@ import { applyPlanRestrictions, requireFeature } from '@/middleware/plan-restric
 
 export async function POST(request: NextRequest) {
   // Check if user's plan has the feature
-  const restriction = await applyPlanRestrictions(
-    request,
-    requireFeature('customBranding')
-  )
+  const restriction = await applyPlanRestrictions(request, requireFeature('customBranding'))
 
   if (restriction) return restriction // 403 error
 
@@ -157,8 +154,7 @@ if (limits.exceeded) {
 
 ```tsx
 import { CryptoPayment } from '@/components/billing/CryptoPayment'
-
-<CryptoPayment
+;<CryptoPayment
   planId="pro"
   interval="month"
   onPaymentComplete={(txHash) => {
@@ -245,8 +241,7 @@ if (suggestedPlan) {
 
 ```tsx
 import { WalletConnector } from '@/components/billing/WalletConnector'
-
-<WalletConnector
+;<WalletConnector
   onConnect={(info) => {
     console.log('Connected:', info.address)
   }}
@@ -297,6 +292,7 @@ stripe listen --forward-to localhost:3000/api/billing/webhook
 ## Support
 
 Questions? Issues?
+
 - Email: billing@nself.org
 - Docs: /docs/billing
 - GitHub Issues: https://github.com/nself-chat/issues

@@ -389,10 +389,7 @@ export class TenantBrandingService {
     }
   }
 
-  async updateTheme(
-    tenantId: string,
-    data: Partial<TenantThemeData>
-  ): Promise<TenantThemeData> {
+  async updateTheme(tenantId: string, data: Partial<TenantThemeData>): Promise<TenantThemeData> {
     try {
       const response = await fetch(`${this.apiUrl}/${tenantId}/theme`, {
         method: 'PUT',
@@ -413,14 +410,11 @@ export class TenantBrandingService {
 
   async applyTemplatePreset(tenantId: string, presetId: string): Promise<TenantThemeData> {
     try {
-      const response = await fetch(
-        `${this.apiUrl}/${tenantId}/branding/template`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ presetId }),
-        }
-      )
+      const response = await fetch(`${this.apiUrl}/${tenantId}/branding/template`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ presetId }),
+      })
 
       if (!response.ok) {
         throw new Error(`Failed to apply template: ${response.statusText}`)
@@ -602,19 +596,19 @@ export class TenantBrandingService {
     }
   }
 
-  async verifyCustomDomain(tenantId: string, domainId: string): Promise<{
+  async verifyCustomDomain(
+    tenantId: string,
+    domainId: string
+  ): Promise<{
     verified: boolean
     sslEnabled: boolean
   }> {
     try {
-      const response = await fetch(
-        `${this.apiUrl}/${tenantId}/branding/domain/verify`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ domainId }),
-        }
-      )
+      const response = await fetch(`${this.apiUrl}/${tenantId}/branding/domain/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ domainId }),
+      })
 
       if (!response.ok) {
         throw new Error(`Failed to verify domain: ${response.statusText}`)

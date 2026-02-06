@@ -42,6 +42,7 @@ Full-screen call window with video grid layout.
 **Location**: `src/components/voice-video/CallWindow.tsx`
 
 **Features**:
+
 - Dynamic grid sizing (1, 2, 4, 9, 16, 25 layouts)
 - Local video preview (self-view)
 - Remote participant videos
@@ -54,6 +55,7 @@ Full-screen call window with video grid layout.
 - Settings menu
 
 **Props**:
+
 ```typescript
 interface CallWindowProps {
   callId: string
@@ -78,10 +80,10 @@ interface CallWindowProps {
 ```
 
 **Usage**:
+
 ```tsx
 import { CallWindow } from '@/components/voice-video/CallWindow'
-
-<CallWindow
+;<CallWindow
   callId={call.id}
   callType="video"
   duration={300}
@@ -108,6 +110,7 @@ HLS video player for live streaming.
 **Location**: `src/components/voice-video/StreamPlayer.tsx`
 
 **Features**:
+
 - HLS video playback
 - Stream controls (play/pause, volume, seek)
 - Viewer count display (real-time)
@@ -120,6 +123,7 @@ HLS video player for live streaming.
 - Follow/subscribe button
 
 **Props**:
+
 ```typescript
 interface StreamPlayerProps {
   metadata: StreamMetadata
@@ -135,10 +139,10 @@ interface StreamPlayerProps {
 ```
 
 **Usage**:
+
 ```tsx
 import { StreamPlayer } from '@/components/voice-video/StreamPlayer'
-
-<StreamPlayer
+;<StreamPlayer
   metadata={{
     streamId: 'stream-123',
     title: 'Live Coding Session',
@@ -166,6 +170,7 @@ Reusable control bar for voice/video calls.
 **Location**: `src/components/voice-video/CallControls.tsx`
 
 **Features**:
+
 - Mute/unmute button with visual feedback
 - Video on/off button
 - Screen share button
@@ -178,6 +183,7 @@ Reusable control bar for voice/video calls.
 - **Keyboard shortcuts**: M (mute), V (video), Shift+S (screen share), C (chat), P (participants)
 
 **Props**:
+
 ```typescript
 interface CallControlsProps {
   isMuted: boolean
@@ -213,6 +219,7 @@ Dynamic grid layout for call participants.
 **Location**: `src/components/voice-video/ParticipantGrid.tsx`
 
 **Features**:
+
 - Dynamic grid sizing based on participant count
 - Participant video tiles
 - Audio level indicators (speaking animation)
@@ -225,6 +232,7 @@ Dynamic grid layout for call participants.
 - Muted/video-off indicators
 
 **Layouts**:
+
 - 1 participant: 1x1
 - 2 participants: 2x1
 - 3-4 participants: 2x2
@@ -244,6 +252,7 @@ Individual participant video tile.
 **Location**: `src/components/voice-video/VideoTile.tsx`
 
 **Features**:
+
 - Video stream display
 - Audio level indicator (speaking animation)
 - Name label
@@ -263,6 +272,7 @@ Optimized layout for screen sharing.
 **Location**: `src/components/voice-video/ScreenShareView.tsx`
 
 **Features**:
+
 - Large screen share area
 - Small participant thumbnails (sidebar or bottom)
 - Auto-adjust layout based on screen aspect ratio
@@ -281,6 +291,7 @@ Incoming call notification modal.
 **Location**: `src/components/voice-video/CallNotification.tsx`
 
 **Features**:
+
 - Caller information display
 - Accept with video/audio options
 - Decline button
@@ -291,10 +302,10 @@ Incoming call notification modal.
 - Pulsing ring animation
 
 **Usage**:
+
 ```tsx
 import { CallNotification } from '@/components/voice-video/CallNotification'
-
-<CallNotification
+;<CallNotification
   call={{
     id: 'call-123',
     callerId: 'user-456',
@@ -322,6 +333,7 @@ Main hook for call management.
 **Location**: `src/hooks/use-call.ts`
 
 **Features**:
+
 - Connect to LiveKit room
 - Manage participants
 - Handle call state (connecting, connected, ended)
@@ -329,6 +341,7 @@ Main hook for call management.
 - Real-time updates via WebSocket
 
 **Usage**:
+
 ```typescript
 import { useCall } from '@/hooks/use-call'
 
@@ -354,6 +367,7 @@ Hook for stream playback.
 **Location**: `src/hooks/use-stream.ts`
 
 **Features**:
+
 - Connect to HLS stream
 - Manage viewer count
 - Handle stream state
@@ -368,6 +382,7 @@ Hook for stream playback.
 **Location**: `src/lib/webrtc/livekit-client.ts`
 
 **Features**:
+
 - Singleton client instance
 - Room connection management
 - Track publishing (audio/video/screen)
@@ -377,6 +392,7 @@ Hook for stream playback.
 - Auto-reconnection
 
 **Usage**:
+
 ```typescript
 import { getLiveKitClient, getLiveKitToken } from '@/lib/webrtc/livekit-client'
 
@@ -386,17 +402,20 @@ const client = getLiveKitClient()
 const token = await getLiveKitToken('room-name', 'participant-name')
 
 // Connect to room
-await client.connect({
-  url: 'ws://localhost:7880',
-  token,
-  roomName: 'room-name',
-  identity: 'user-id',
-  name: 'User Name',
-}, {
-  onConnectionStateChange: (state) => console.log('State:', state),
-  onParticipantConnected: (id) => console.log('Participant joined:', id),
-  onError: (error) => console.error('Error:', error),
-})
+await client.connect(
+  {
+    url: 'ws://localhost:7880',
+    token,
+    roomName: 'room-name',
+    identity: 'user-id',
+    name: 'User Name',
+  },
+  {
+    onConnectionStateChange: (state) => console.log('State:', state),
+    onParticipantConnected: (id) => console.log('Participant joined:', id),
+    onError: (error) => console.error('Error:', error),
+  }
+)
 
 // Publish tracks
 await client.publishTracks(true, true) // audio + video
@@ -419,6 +438,7 @@ Generates JWT tokens for LiveKit room access.
 **Endpoint**: `POST /api/livekit/token`
 
 **Request**:
+
 ```json
 {
   "roomName": "call-123",
@@ -428,6 +448,7 @@ Generates JWT tokens for LiveKit room access.
 ```
 
 **Response**:
+
 ```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -458,17 +479,20 @@ export default function CallPage() {
       const token = await getLiveKitToken(callId, user.name)
 
       // Connect
-      await client.connect({
-        url: process.env.NEXT_PUBLIC_LIVEKIT_URL,
-        token,
-        roomName: callId,
-        identity: user.id,
-        name: user.name,
-      }, {
-        onParticipantConnected: (id) => {
-          // Update participants
+      await client.connect(
+        {
+          url: process.env.NEXT_PUBLIC_LIVEKIT_URL,
+          token,
+          roomName: callId,
+          identity: user.id,
+          name: user.name,
         },
-      })
+        {
+          onParticipantConnected: (id) => {
+            // Update participants
+          },
+        }
+      )
 
       // Publish tracks
       await client.publishTracks(true, true)
@@ -531,6 +555,7 @@ LIVEKIT_API_SECRET=your-api-secret
 ### LiveKit Server Setup
 
 1. Install LiveKit server:
+
 ```bash
 # macOS
 brew install livekit
@@ -541,6 +566,7 @@ docker run --rm -p 7880:7880 -p 7881:7881 -p 7882:7882/udp \
 ```
 
 2. Generate API keys:
+
 ```bash
 livekit-cli create-token \
   --api-key your-api-key \
@@ -557,27 +583,32 @@ livekit-cli create-token \
 ### Common Issues
 
 **1. "Failed to connect to call"**
+
 - Check LiveKit server is running: `livekit-server --dev`
 - Verify `NEXT_PUBLIC_LIVEKIT_URL` in `.env.local`
 - Check firewall/network restrictions
 
 **2. "No video stream"**
+
 - Browser permissions: Allow camera/microphone access
 - Check device availability: `navigator.mediaDevices.enumerateDevices()`
 - Verify video is enabled: `isVideoEnabled={true}`
 
 **3. "Screen share not working"**
+
 - Browser support: Chrome/Edge support screen sharing
 - User cancelled: Handle `DOMException` errors
 - Check permissions in browser settings
 
 **4. "Poor call quality"**
+
 - Check network connection quality
 - Reduce video quality: Use lower presets
 - Enable adaptive streaming: `adaptiveStream: true`
 - Check CPU usage: Lower resolution if needed
 
 **5. "Token expired"**
+
 - Default TTL is 6 hours
 - Refresh token before expiry
 - Handle `ConnectionStateChanged` event
@@ -624,6 +655,7 @@ client.getRoom()?.on('*', (event) => {
 ## Support
 
 For issues or questions:
+
 - GitHub Issues: https://github.com/nself-org/nself-chat/issues
 - Discord: https://discord.gg/nself
 - Email: support@nself.org

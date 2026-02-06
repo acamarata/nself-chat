@@ -129,7 +129,10 @@ export class AppealQueue {
 
     // Validate evidence
     if (params.evidence && params.evidence.length > this.maxEvidencePerAppeal) {
-      return { success: false, error: `Maximum ${this.maxEvidencePerAppeal} evidence items allowed` }
+      return {
+        success: false,
+        error: `Maximum ${this.maxEvidencePerAppeal} evidence items allowed`,
+      }
     }
 
     // Create evidence with IDs
@@ -195,10 +198,7 @@ export class AppealQueue {
     }
 
     // High priority if multiple evidence items or high keywords
-    if (
-      evidenceCount >= 3 ||
-      highKeywords.some((keyword) => reasonLower.includes(keyword))
-    ) {
+    if (evidenceCount >= 3 || highKeywords.some((keyword) => reasonLower.includes(keyword))) {
       return 'high'
     }
 

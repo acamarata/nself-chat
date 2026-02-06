@@ -372,12 +372,16 @@ export const ForwardIndicator = React.forwardRef<HTMLSpanElement, ForwardIndicat
             ref={ref}
             {...(onClick ? { role: 'button', tabIndex: 0 } : {})}
             onClick={onClick}
-            onKeyDown={onClick ? (e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault()
-                onClick()
-              }
-            } : undefined}
+            onKeyDown={
+              onClick
+                ? (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      onClick()
+                    }
+                  }
+                : undefined
+            }
             className={cn(
               'inline-flex items-center gap-1 rounded-sm px-1 py-0.5',
               'text-xs text-muted-foreground',

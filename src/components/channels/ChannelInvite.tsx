@@ -161,7 +161,9 @@ export function ChannelInvite({
                       />
                       <Avatar className="h-8 w-8">
                         <AvatarImage src={user.avatarUrl} alt={user.displayName} />
-                        <AvatarFallback>{user.displayName.slice(0, 2).toUpperCase()}</AvatarFallback>
+                        <AvatarFallback>
+                          {user.displayName.slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
                       </Avatar>
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-medium">{user.displayName}</p>

@@ -257,9 +257,7 @@ describe('SyncService', () => {
 
       expect(handler).toHaveBeenCalled()
       // Handler receives the event object with type 'create'
-      expect(handler).toHaveBeenCalledWith(
-        expect.objectContaining({ type: 'create' })
-      )
+      expect(handler).toHaveBeenCalledWith(expect.objectContaining({ type: 'create' }))
 
       unsubscribe()
     })

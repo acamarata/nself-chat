@@ -11,6 +11,7 @@
 A comprehensive audit of version references across the codebase reveals **significant inconsistencies**. While the primary `package.json` correctly shows v0.9.1, numerous files throughout the project reference older versions (0.9.0, 0.8.0, 0.7.0, 0.3.0, 0.2.0, and others).
 
 **Key Findings**:
+
 - ✅ `package.json` version: **0.9.1** (CORRECT)
 - ✅ `.claude/CLAUDE.md` version: **0.9.1** (CORRECT)
 - ✅ `docs/RELEASE-NOTES-V0.9.1.md` exists and is correct
@@ -27,22 +28,22 @@ A comprehensive audit of version references across the codebase reveals **signif
 
 ### ✅ CORRECT (v0.9.1)
 
-| File | Location | Status |
-|------|----------|--------|
-| `package.json` | Line 3 | ✅ "version": "0.9.1" |
-| `.claude/CLAUDE.md` | Line 7 | ✅ **Version**: 0.9.1 (February 3, 2026) |
-| `docs/RELEASE-NOTES-V0.9.1.md` | Line 1 | ✅ # ɳChat v0.9.1 Release Notes |
-| `docs/RELEASE-CHECKLIST-V0.9.1.md` | Title | ✅ Contains v0.9.1 |
-| `README.md` | Multiple | ✅ Contains v0.9.1 references |
+| File                               | Location | Status                                   |
+| ---------------------------------- | -------- | ---------------------------------------- |
+| `package.json`                     | Line 3   | ✅ "version": "0.9.1"                    |
+| `.claude/CLAUDE.md`                | Line 7   | ✅ **Version**: 0.9.1 (February 3, 2026) |
+| `docs/RELEASE-NOTES-V0.9.1.md`     | Line 1   | ✅ # ɳChat v0.9.1 Release Notes          |
+| `docs/RELEASE-CHECKLIST-V0.9.1.md` | Title    | ✅ Contains v0.9.1                       |
+| `README.md`                        | Multiple | ✅ Contains v0.9.1 references            |
 
 ### ❌ INCORRECT (Needs Update)
 
-| File | Current Version | Should Be | Priority |
-|------|----------------|-----------|----------|
-| `src/shared/constants/index.ts` | 0.2.0 | 0.9.1 | 🔴 CRITICAL |
-| `openapi.yaml` | 0.2.0 | 0.9.1 | 🔴 CRITICAL |
-| `public/openapi.yaml` | 0.2.0 | 0.9.1 | 🔴 CRITICAL |
-| `docs/api/openapi.yaml` | 0.2.0 | 0.9.1 | 🔴 CRITICAL |
+| File                            | Current Version | Should Be | Priority    |
+| ------------------------------- | --------------- | --------- | ----------- |
+| `src/shared/constants/index.ts` | 0.2.0           | 0.9.1     | 🔴 CRITICAL |
+| `openapi.yaml`                  | 0.2.0           | 0.9.1     | 🔴 CRITICAL |
+| `public/openapi.yaml`           | 0.2.0           | 0.9.1     | 🔴 CRITICAL |
+| `docs/api/openapi.yaml`         | 0.2.0           | 0.9.1     | 🔴 CRITICAL |
 
 ---
 
@@ -53,6 +54,7 @@ The following files contain `@version 0.9.0` in JSDoc comments and should be upd
 ### Services (27 files)
 
 **Realtime Services:**
+
 - `src/services/realtime/events.types.ts` - @version 0.9.0
 - `src/services/realtime/delivery.ts` - @version 0.9.0
 - `src/services/realtime/room-manager.service.ts` - @version 0.9.0
@@ -71,11 +73,13 @@ The following files contain `@version 0.9.0` in JSDoc comments and should be upd
 - `src/services/realtime/presence.service.ts` - @version 0.9.0
 
 **Message Services:**
+
 - `src/services/messages/receipt.service.ts` - @version 0.9.0
 - `src/services/messages/ephemeral.service.ts` - @version 0.9.0
 - `src/services/messages/scheduled.service.ts` - @version 0.9.0
 
 **Job Services:**
+
 - `src/services/jobs/index.ts` - @version 0.9.0
 - `src/services/jobs/scheduler.service.ts` - @version 0.9.0
 - `src/services/jobs/types.ts` - @version 0.9.0
@@ -83,9 +87,11 @@ The following files contain `@version 0.9.0` in JSDoc comments and should be upd
 - `src/services/jobs/queue.service.ts` - @version 0.9.0
 
 **Settings Services:**
+
 - `src/services/settings/settings-sync.service.ts` - @version 0.9.0
 
 **Tests:**
+
 - `src/services/settings/__tests__/settings-sync.service.test.ts` - @version 0.9.0
 - `src/services/realtime/__tests__/conflict-resolution.service.test.ts` - @version 0.9.0
 
@@ -161,11 +167,13 @@ The following files contain `@version 0.9.0` in JSDoc comments and should be upd
 These files reference "Version 0.9.0" or similar and should be reviewed:
 
 **Core Documentation:**
+
 - `PHASE-9-COMPLETION.md` - **Version**: 0.9.0 (Line 4)
 - `docs/Notifications-Implementation-Summary.md` - **Version**: 0.9.0 (Line 7)
 - `docs/MULTIPLATFORM-PLAN.md` - "version": "0.9.0" (Line 318)
 
 **Implementation Summaries:**
+
 - `docs/security/PHASE-9-E2EE-SUMMARY.md` - Version 0.9.0
 - `docs/PHASE-7-REALTIME-INTEGRATION.md` - Version 0.9.0
 - `docs/REALTIME-QUICK-START.md` - Version 0.9.0
@@ -175,10 +183,12 @@ These files reference "Version 0.9.0" or similar and should be reviewed:
 - `docs/PROGRESS.md` - Version 0.9.0
 
 **Feature Documentation:**
+
 - `docs/features/Offline-Sync-Phase17.md` - Version 0.9.0
 - `docs/reference/Offline-Sync-Quick-Reference.md` - Version 0.9.0
 
 **Examples:**
+
 - `docs/examples/offline-integration-example.tsx` - @version 0.9.0
 - `docs/examples/realtime-integration-example.tsx` - @version 0.9.0
 
@@ -187,12 +197,14 @@ These files reference "Version 0.9.0" or similar and should be reviewed:
 Many files reference v0.8.0, v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, and v0.2.0:
 
 **High Priority:**
+
 - `.github/SECURITY.md` - **Version**: 0.3.0 (Line 204) - Security policy needs update!
 - `docs/SECURITY.md` - **Version**: 0.3.0 (Line 204) - Duplicate security doc
 - `docs/about/RELEASE-NOTES-v0.3.0.md` - Historical, OK to keep
 - `docs/about/RELEASE-CHECKLIST-v0.3.0.md` - Historical, OK to keep
 
 **Release Documentation (Historical - OK to keep):**
+
 - `docs/releases/v0.8.0/` - Multiple files
 - `docs/releases/v0.7.0/` - Multiple files
 - `docs/releases/v0.6.0/` - Multiple files
@@ -201,6 +213,7 @@ Many files reference v0.8.0, v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, and v0.2.0:
 - `docs/RELEASE-NOTES-v0.8.0.md`
 
 **Feature Documentation:**
+
 - `docs/Media-Features-v0.8.0.md` - v0.8.0 reference
 - `docs/Mobile-UI-v0.8.0.md` - v0.8.0 reference
 - `docs/Search-UI-v0.7.0.md` - v0.7.0 reference
@@ -213,14 +226,17 @@ Many files reference v0.8.0, v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, and v0.2.0:
 ## 4. Additional Inconsistencies
 
 ### Next.js Config Comment
+
 - `next.config.js` Line 11: "// TypeScript and ESLint temporarily relaxed for v0.3.0 release"
   - This is a very old comment that should be updated or removed
 
 ### Package.json Description
+
 - ✅ Line 4: "ɳChat v0.9.1 - Full-featured team communication platform..."
   - This is CORRECT
 
 ### V0.9.1 Completion Report
+
 - `V0.9.1-COMPLETION-REPORT.md` Line 4: "**Status**: 40% Complete (Critical Production Features Implemented)"
   - This may need updating depending on actual completion status
 
@@ -229,25 +245,30 @@ Many files reference v0.8.0, v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, and v0.2.0:
 ## 5. Definition-of-Done Checklist
 
 ### 1. ❌ Code Exists and is Complete
+
 - **Status**: Mostly complete, but version references are inconsistent
 - **Gap**: 68+ source files have outdated @version tags
 - **Gap**: Critical constants file has wrong version
 
 ### 2. ⚠️ Tests Pass
+
 - **Status**: Unknown - tests not run as part of this verification
 - **Action**: Should run test suite to verify
 
 ### 3. ❌ No Mock Data in APIs
+
 - **Status**: Not verified in this task
 - **Action**: Separate verification needed
 
 ### 4. ❌ Documentation Complete
+
 - **Status**: Incomplete - version inconsistencies throughout
 - **Gap**: 76+ documentation files reference v0.9.0
 - **Gap**: Security policy references v0.3.0
 - **Gap**: API documentation references v0.2.0
 
 ### 5. ❌ Functionality Works as Intended
+
 - **Status**: Cannot verify - version display likely shows wrong version
 - **Issue**: APP_VERSION constant returns "0.2.0" instead of "0.9.1"
 - **Impact**: Users/APIs will see incorrect version information
@@ -259,6 +280,7 @@ Many files reference v0.8.0, v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, and v0.2.0:
 ### 🔴 CRITICAL (Must Fix)
 
 1. **`src/shared/constants/index.ts`** (Line 8)
+
    ```typescript
    // Current:
    export const APP_VERSION = '0.2.0'
@@ -267,6 +289,7 @@ Many files reference v0.8.0, v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, and v0.2.0:
    ```
 
 2. **`openapi.yaml`** (Line 4)
+
    ```yaml
    # Current:
    version: 0.2.0
@@ -275,6 +298,7 @@ Many files reference v0.8.0, v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, and v0.2.0:
    ```
 
 3. **`public/openapi.yaml`** (Line 4)
+
    ```yaml
    # Current:
    version: 0.2.0
@@ -283,6 +307,7 @@ Many files reference v0.8.0, v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, and v0.2.0:
    ```
 
 4. **`docs/api/openapi.yaml`** (Line 4)
+
    ```yaml
    # Current:
    version: 0.2.0
@@ -291,8 +316,10 @@ Many files reference v0.8.0, v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, and v0.2.0:
    ```
 
 5. **`.github/SECURITY.md`** (Update supported versions table)
+
    ```markdown
    # Current shows 0.3.x as latest
+
    # Should show 0.9.1 as latest
    ```
 
@@ -374,6 +401,7 @@ Many files reference v0.8.0, v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, and v0.2.0:
 After updates are made:
 
 1. **Verify APP_VERSION constant:**
+
    ```bash
    # Check the constant
    grep "APP_VERSION" src/shared/constants/index.ts
@@ -383,6 +411,7 @@ After updates are made:
    ```
 
 2. **Verify OpenAPI version:**
+
    ```bash
    # Check OpenAPI spec
    grep "version:" openapi.yaml
@@ -390,6 +419,7 @@ After updates are made:
    ```
 
 3. **Verify JSDoc updates:**
+
    ```bash
    # Should return 0 results
    grep -r "@version 0.9.0" src/
@@ -408,15 +438,18 @@ After updates are made:
 ## 9. Risk Assessment
 
 ### High Risk
+
 - **APP_VERSION mismatch**: Users and APIs see wrong version (0.2.0 vs 0.9.1)
 - **OpenAPI spec outdated**: API documentation shows v0.2.0 instead of v0.9.1
 - **Security policy outdated**: Shows 0.3.x as latest supported version
 
 ### Medium Risk
+
 - **JSDoc versions**: Developer confusion, may think code is older than it is
 - **Documentation versions**: Users may be confused about which features apply to which version
 
 ### Low Risk
+
 - **Historical docs**: Old release notes are correctly versioned for their time
 - **Comments**: Old comments in config files are informational only
 
@@ -427,6 +460,7 @@ After updates are made:
 ### Current Status: **25% Complete**
 
 **Breakdown:**
+
 - ✅ **10%** - Primary package.json is correct
 - ✅ **10%** - Main documentation file (.claude/CLAUDE.md) is correct
 - ✅ **5%** - Release notes file exists and is correct
@@ -496,6 +530,7 @@ While the primary package.json is correctly set to v0.9.1, there are **significa
 - **2 security policy files** reference version 0.3.0
 
 **Estimated Effort**: 2-3 hours for complete update
+
 - 30 minutes: Manual critical updates (4 files)
 - 30 minutes: Automated JSDoc updates (68 files)
 - 60 minutes: Documentation updates (76 files)
@@ -508,20 +543,24 @@ While the primary package.json is correctly set to v0.9.1, there are **significa
 ## Files Requiring Updates
 
 ### Critical (4 files)
+
 1. `/Users/admin/Sites/nself-chat/src/shared/constants/index.ts`
 2. `/Users/admin/Sites/nself-chat/openapi.yaml`
 3. `/Users/admin/Sites/nself-chat/public/openapi.yaml`
 4. `/Users/admin/Sites/nself-chat/docs/api/openapi.yaml`
 
 ### High Priority (81 files)
+
 - 68 source files with @version tags
 - 2 security policy files
 - 11 core documentation files
 
 ### Medium Priority (76 files)
+
 - Documentation files referencing v0.9.0
 
 ### Low Priority (Historical)
+
 - Release notes and changelogs for previous versions (keep as-is)
 
 ---

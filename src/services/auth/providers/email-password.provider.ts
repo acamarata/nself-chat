@@ -114,7 +114,7 @@ export class EmailPasswordProvider extends BaseAuthProvider {
 
       return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
     } catch (error) {
-      logger.error('Email/password sign in error:',  error)
+      logger.error('Email/password sign in error:', error)
       return this.createErrorResult(
         this.createError('NETWORK_ERROR', 'Failed to connect to authentication service')
       )
@@ -200,7 +200,7 @@ export class EmailPasswordProvider extends BaseAuthProvider {
 
       return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
     } catch (error) {
-      logger.error('Email/password sign up error:',  error)
+      logger.error('Email/password sign up error:', error)
       return this.createErrorResult(
         this.createError('NETWORK_ERROR', 'Failed to connect to authentication service')
       )
@@ -214,7 +214,7 @@ export class EmailPasswordProvider extends BaseAuthProvider {
         headers: this.getAuthHeaders(),
       })
     } catch (error) {
-      logger.error('Sign out error:',  error)
+      logger.error('Sign out error:', error)
     }
 
     this.clearSession()
@@ -251,7 +251,7 @@ export class EmailPasswordProvider extends BaseAuthProvider {
         data.session.refreshToken
       )
     } catch (error) {
-      logger.error('Token refresh error:',  error)
+      logger.error('Token refresh error:', error)
       return this.createErrorResult(this.createError('NETWORK_ERROR', 'Failed to refresh token'))
     }
   }
@@ -277,7 +277,7 @@ export class EmailPasswordProvider extends BaseAuthProvider {
 
       return { success: true }
     } catch (error) {
-      logger.error('Password reset request error:',  error)
+      logger.error('Password reset request error:', error)
       return {
         success: false,
         error: this.createError('NETWORK_ERROR', 'Failed to request password reset'),
@@ -325,7 +325,7 @@ export class EmailPasswordProvider extends BaseAuthProvider {
 
       return { success: true }
     } catch (error) {
-      logger.error('Password reset error:',  error)
+      logger.error('Password reset error:', error)
       return {
         success: false,
         error: this.createError('NETWORK_ERROR', 'Failed to reset password'),
@@ -364,7 +364,7 @@ export class EmailPasswordProvider extends BaseAuthProvider {
 
       return { success: true }
     } catch (error) {
-      logger.error('Email verification error:',  error)
+      logger.error('Email verification error:', error)
       return {
         success: false,
         error: this.createError('NETWORK_ERROR', 'Failed to verify email'),

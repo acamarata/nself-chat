@@ -35,6 +35,7 @@ The message edit history feature is **substantially implemented** with productio
 **Problem**: Two different table names are used across migrations:
 
 #### Migration 016 (January 30, 2026):
+
 ```sql
 CREATE TABLE IF NOT EXISTS nchat.nchat_message_edit_history (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -52,6 +53,7 @@ CREATE TABLE IF NOT EXISTS nchat.nchat_message_edit_history (
 **Location**: `/Users/admin/Sites/nself-chat/.backend/migrations/016_advanced_messaging_features.sql`
 
 #### Migration 032 (February 3, 2026):
+
 ```sql
 CREATE TABLE IF NOT EXISTS nchat.nchat_message_edits (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -68,6 +70,7 @@ CREATE TABLE IF NOT EXISTS nchat.nchat_message_edits (
 **Location**: `/Users/admin/Sites/nself-chat/.backend/migrations/032_message_features_complete.sql`
 
 #### GraphQL Implementation Uses:
+
 ```typescript
 // In src/graphql/messages/edit-history.ts
 fragment MessageEdit on nchat_message_edits {
@@ -82,6 +85,7 @@ fragment MessageEdit on nchat_message_edits {
 ```
 
 **Resolution Required**:
+
 - Migration 032 (newer) appears to be the intended schema
 - Migration 016 should either be removed or updated to align
 - Column naming difference: `user_id` vs `editor_id`, `old_content` vs `previous_content`
@@ -94,6 +98,7 @@ fragment MessageEdit on nchat_message_edits {
 **Location**: `/Users/admin/Sites/nself-chat/src/graphql/messages/edit-history.ts`
 
 #### Queries Implemented:
+
 - ✅ `GET_MESSAGE_EDIT_HISTORY` - Get all edits for a message
 - ✅ `GET_MESSAGE_EDIT_BY_ID` - Get specific edit
 - ✅ `GET_LATEST_MESSAGE_EDIT` - Get most recent edit
@@ -101,16 +106,19 @@ fragment MessageEdit on nchat_message_edits {
 - ✅ `GET_USER_EDIT_HISTORY` - Get edits by user
 
 #### Mutations Implemented:
+
 - ✅ `INSERT_MESSAGE_EDIT` - Record new edit
 - ✅ `DELETE_MESSAGE_EDIT_HISTORY` - Clean up history
 
 #### Helper Functions:
+
 - ✅ `transformMessageEdit()` - Data transformation
 - ✅ `transformMessageEdits()` - Batch transformation
 - ✅ `generateChangeSummary()` - Auto-generate change description
 - ✅ `calculateChangePercentage()` - Calculate edit magnitude
 
 **Code Quality**: Excellent
+
 - Full TypeScript typing
 - Proper fragments
 - Comprehensive documentation
@@ -121,9 +129,11 @@ fragment MessageEdit on nchat_message_edits {
 ### 3. API Endpoints - ✅ COMPLETE
 
 #### GET /api/messages/[id]/history
+
 **Location**: `/Users/admin/Sites/nself-chat/src/app/api/messages/[id]/history/route.ts`
 
 **Features**:
+
 - ✅ Authentication required
 - ✅ Rate limiting (60 req/min)
 - ✅ UUID validation
@@ -135,9 +145,11 @@ fragment MessageEdit on nchat_message_edits {
 **Implementation Quality**: Production-ready
 
 #### POST /api/messages/[id]/history/restore
+
 **Location**: `/Users/admin/Sites/nself-chat/src/app/api/messages/[id]/history/restore/route.ts`
 
 **Features**:
+
 - ✅ Authentication required
 - ✅ Rate limiting (10 req/min)
 - ✅ UUID validation
@@ -147,6 +159,7 @@ fragment MessageEdit on nchat_message_edits {
 - ✅ Audit trail
 
 **Security Measures**:
+
 - ✅ Prevents deleted message restoration
 - ✅ Logs unauthorized attempts
 - ✅ Validates edit belongs to message
@@ -159,6 +172,7 @@ fragment MessageEdit on nchat_message_edits {
 **Location**: `/Users/admin/Sites/nself-chat/src/services/messages/message.service.ts`
 
 #### Methods Implemented:
+
 ```typescript
 // Edit History Operations
 async getEditHistory(options: GetEditHistoryOptions): Promise<APIResponse<EditHistoryResult>>
@@ -168,6 +182,7 @@ private async recordEditHistory(input: RecordEditInput): Promise<void>
 ```
 
 **Features**:
+
 - ✅ Complete error handling
 - ✅ Proper logging
 - ✅ Type safety
@@ -183,6 +198,7 @@ private async recordEditHistory(input: RecordEditInput): Promise<void>
 **Location**: `/Users/admin/Sites/nself-chat/src/components/chat/message-edit-history.tsx`
 
 **Features Implemented**:
+
 - ✅ Modal dialog for viewing history
 - ✅ List view of all versions
 - ✅ Diff view (word-level changes)
@@ -195,6 +211,7 @@ private async recordEditHistory(input: RecordEditInput): Promise<void>
 - ✅ Responsive design
 
 **Code Quality**: Excellent
+
 - Uses React best practices (memo, useMemo)
 - TypeScript types
 - Accessible components (Radix UI)
@@ -206,6 +223,7 @@ private async recordEditHistory(input: RecordEditInput): Promise<void>
 ### 6. Tests - ⚠️ INCOMPLETE
 
 #### Unit Tests Found:
+
 **Location**: `/Users/admin/Sites/nself-chat/src/services/messages/__tests__/message.service.test.ts`
 
 ```typescript
@@ -231,6 +249,7 @@ it('should track edit history', async () => {
 ```
 
 #### Missing Tests:
+
 - ❌ API endpoint tests for `/api/messages/[id]/history`
 - ❌ API endpoint tests for `/api/messages/[id]/history/restore`
 - ❌ Integration tests for edit history flow
@@ -246,17 +265,20 @@ it('should track edit history', async () => {
 #### Found Documentation:
 
 **Main Report**: `/Users/admin/Sites/nself-chat/docs/MESSAGING-FEATURES-COMPLETION-REPORT.md`
+
 - Task 50 marked as COMPLETE
 - Feature list documented
 - GraphQL schema documented
 - Database table documented
 
 **Quick Reference**: `/Users/admin/Sites/nself-chat/docs/reference/advanced-messaging-quick-reference.md`
+
 - Edit message usage examples
 - Code snippets
 - Database side-effects explained
 
 **Audit Logging**: `/Users/admin/Sites/nself-chat/docs/guides/enterprise/Audit-Logging.md`
+
 - Covers general audit architecture
 - Mentions edit tracking in context
 
@@ -340,6 +362,7 @@ $$ LANGUAGE plpgsql;
 ## Files Reviewed
 
 ### Implementation Files
+
 - ✅ `/Users/admin/Sites/nself-chat/src/graphql/messages/edit-history.ts` (354 lines)
 - ✅ `/Users/admin/Sites/nself-chat/src/graphql/messages/history-queries.graphql` (359 lines)
 - ✅ `/Users/admin/Sites/nself-chat/src/app/api/messages/[id]/history/route.ts` (272 lines)
@@ -348,13 +371,16 @@ $$ LANGUAGE plpgsql;
 - ✅ `/Users/admin/Sites/nself-chat/src/components/chat/message-edit-history.tsx` (358 lines)
 
 ### Database Files
+
 - ⚠️ `/Users/admin/Sites/nself-chat/.backend/migrations/016_advanced_messaging_features.sql`
 - ⚠️ `/Users/admin/Sites/nself-chat/.backend/migrations/032_message_features_complete.sql`
 
 ### Test Files
+
 - ⚠️ `/Users/admin/Sites/nself-chat/src/services/messages/__tests__/message.service.test.ts` (partial)
 
 ### Documentation Files
+
 - ✅ `/Users/admin/Sites/nself-chat/docs/MESSAGING-FEATURES-COMPLETION-REPORT.md`
 - ✅ `/Users/admin/Sites/nself-chat/docs/reference/advanced-messaging-quick-reference.md`
 - ✅ `/Users/admin/Sites/nself-chat/docs/guides/enterprise/Audit-Logging.md`
@@ -363,15 +389,15 @@ $$ LANGUAGE plpgsql;
 
 ## Definition of Done Checklist
 
-| Criteria | Status | Notes |
-|----------|--------|-------|
-| Database schema exists | ⚠️ | Schema exists but naming inconsistency |
-| Edit history tracking works | ⚠️ | Code exists but trigger may be broken |
-| Audit trail for all edits | ✅ | Comprehensive audit logging |
-| Version history retrieval | ✅ | Full GraphQL + API support |
-| No TODOs/placeholders | ✅ | Clean production code |
-| Tests exist and pass | ❌ | Only basic unit test exists |
-| Documentation complete | ✅ | Comprehensive docs |
+| Criteria                    | Status | Notes                                  |
+| --------------------------- | ------ | -------------------------------------- |
+| Database schema exists      | ⚠️     | Schema exists but naming inconsistency |
+| Edit history tracking works | ⚠️     | Code exists but trigger may be broken  |
+| Audit trail for all edits   | ✅     | Comprehensive audit logging            |
+| Version history retrieval   | ✅     | Full GraphQL + API support             |
+| No TODOs/placeholders       | ✅     | Clean production code                  |
+| Tests exist and pass        | ❌     | Only basic unit test exists            |
+| Documentation complete      | ✅     | Comprehensive docs                     |
 
 **Overall Status**: 5/7 criteria met
 
@@ -403,6 +429,7 @@ $$ LANGUAGE plpgsql;
 The message edit history feature is **well-implemented** with high-quality code across GraphQL, API, service layer, and UI components. However, the **database schema inconsistency** is a critical issue that must be resolved before marking this task as DONE.
 
 **Recommendation**:
+
 1. Fix the schema mismatch (2-3 hours)
 2. Add integration tests (4-6 hours)
 3. Then mark task as COMPLETE

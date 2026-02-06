@@ -39,12 +39,7 @@ import {
   Minimize,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -351,7 +346,7 @@ export function CallControls({
                     <div
                       className={cn(
                         'mr-2 h-2 w-2 rounded-full',
-                        isRecording ? 'bg-red-600 animate-pulse' : 'bg-gray-400'
+                        isRecording ? 'animate-pulse bg-red-600' : 'bg-gray-400'
                       )}
                     />
                     {isRecording ? 'Stop Recording' : 'Start Recording'}

@@ -93,7 +93,7 @@ export function LocationSharing({
       getCurrentPosition()
         .then(setCurrentPosition)
         .catch((error) => {
-          logger.error('Failed to get position:',  error)
+          logger.error('Failed to get position:', error)
         })
     }
   }, [hasPermission, isOpen, currentPosition])

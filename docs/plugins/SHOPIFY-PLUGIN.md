@@ -113,6 +113,7 @@ https://store.myshopify.com/products/product-name
 ```
 
 Displays:
+
 - Product image
 - Product title
 - Price

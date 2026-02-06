@@ -169,7 +169,7 @@ export function PDFViewer({
         setNumPages(pdfDoc.numPages)
         setIsLoading(false)
       } catch (err) {
-        logger.error('Failed to load PDF:',  err)
+        logger.error('Failed to load PDF:', err)
         setError('Failed to load PDF document')
         setIsLoading(false)
       }
@@ -203,7 +203,7 @@ export function PDFViewer({
         await page.render(renderContext).promise
         setIsRendering(false)
       } catch (err) {
-        logger.error('Failed to render page:',  err)
+        logger.error('Failed to render page:', err)
         setError('Failed to render page')
         setIsRendering(false)
       }

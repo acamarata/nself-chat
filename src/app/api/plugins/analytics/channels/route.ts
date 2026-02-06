@@ -15,15 +15,12 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const limit = searchParams.get('limit') || '20'
 
-    const response = await fetch(
-      `${ANALYTICS_SERVICE_URL}/api/analytics/channels?limit=${limit}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+    const response = await fetch(`${ANALYTICS_SERVICE_URL}/api/analytics/channels?limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
 
     if (!response.ok) {
       const error = await response.text()
@@ -38,10 +35,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(data)
   } catch (error) {
     logger.error('Analytics channels proxy error:', error)
-    return NextResponse.json(
-      { error: 'Analytics service unavailable' },
-      { status: 503 }
-    )
+    return NextResponse.json({ error: 'Analytics service unavailable' }, { status: 503 })
   }
 }
 

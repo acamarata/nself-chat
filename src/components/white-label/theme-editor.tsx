@@ -145,12 +145,7 @@ const formatColorName = (name: string): string => {
     .trim()
 }
 
-export function ThemeEditor({
-  tenantId,
-  initialColors,
-  onSave,
-  className,
-}: ThemeEditorProps) {
+export function ThemeEditor({ tenantId, initialColors, onSave, className }: ThemeEditorProps) {
   const [lightColors, setLightColors] = useState<ThemeColors>({
     ...DEFAULT_LIGHT_COLORS,
     ...initialColors?.light,
@@ -258,12 +253,7 @@ export function ThemeEditor({
                 <label>
                   <Upload className="mr-2 h-4 w-4" />
                   Import
-                  <input
-                    type="file"
-                    accept=".json"
-                    onChange={handleImport}
-                    className="hidden"
-                  />
+                  <input type="file" accept=".json" onChange={handleImport} className="hidden" />
                 </label>
               </Button>
             </div>
@@ -296,9 +286,7 @@ export function ThemeEditor({
                               />
                             </div>
                             <div className="flex-1">
-                              <Label className="text-xs">
-                                {formatColorName(colorKey)}
-                              </Label>
+                              <Label className="text-xs">{formatColorName(colorKey)}</Label>
                               <Input
                                 type="text"
                                 value={activeColors[colorKey as keyof ThemeColors]}
@@ -476,7 +464,10 @@ export function ThemeEditor({
               {/* Link Example */}
               <p className="text-sm" style={{ color: activeColors.textMutedColor }}>
                 This is body text with a{' '}
-                <span className="cursor-pointer underline" style={{ color: activeColors.linkColor }}>
+                <span
+                  className="cursor-pointer underline"
+                  style={{ color: activeColors.linkColor }}
+                >
                   link example
                 </span>
                 .

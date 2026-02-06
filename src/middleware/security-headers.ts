@@ -32,16 +32,13 @@ export function applySecurityHeaders(response: NextResponse): NextResponse {
     "frame-ancestors 'self'",
     "base-uri 'self'",
     "form-action 'self'",
-    "upgrade-insecure-requests",
+    'upgrade-insecure-requests',
   ]
   headers.set('Content-Security-Policy', cspDirectives.join('; '))
 
   // HTTP Strict Transport Security (HSTS)
   // Force HTTPS for 1 year, including subdomains
-  headers.set(
-    'Strict-Transport-Security',
-    'max-age=31536000; includeSubDomains; preload'
-  )
+  headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload')
 
   // X-Frame-Options - Prevent clickjacking
   headers.set('X-Frame-Options', 'SAMEORIGIN')
@@ -161,11 +158,30 @@ export function validateFileUpload(
 ): { valid: boolean; error?: string } {
   // Check file extension
   const allowedExtensions = [
-    '.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg',
-    '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx',
-    '.txt', '.md', '.json', '.csv',
-    '.mp3', '.mp4', '.webm', '.ogg',
-    '.zip', '.tar', '.gz',
+    '.jpg',
+    '.jpeg',
+    '.png',
+    '.gif',
+    '.webp',
+    '.svg',
+    '.pdf',
+    '.doc',
+    '.docx',
+    '.xls',
+    '.xlsx',
+    '.ppt',
+    '.pptx',
+    '.txt',
+    '.md',
+    '.json',
+    '.csv',
+    '.mp3',
+    '.mp4',
+    '.webm',
+    '.ogg',
+    '.zip',
+    '.tar',
+    '.gz',
   ]
 
   const ext = filename.toLowerCase().slice(filename.lastIndexOf('.'))
@@ -199,9 +215,20 @@ export function validateFileUpload(
 
   // Block dangerous files
   const dangerousExtensions = [
-    '.exe', '.bat', '.cmd', '.sh', '.app',
-    '.js', '.jar', '.apk', '.deb', '.rpm',
-    '.msi', '.dll', '.so', '.dylib',
+    '.exe',
+    '.bat',
+    '.cmd',
+    '.sh',
+    '.app',
+    '.js',
+    '.jar',
+    '.apk',
+    '.deb',
+    '.rpm',
+    '.msi',
+    '.dll',
+    '.so',
+    '.dylib',
   ]
 
   if (dangerousExtensions.includes(ext)) {
@@ -221,9 +248,7 @@ export function generateNonce(): string {
 /**
  * Middleware to apply all security measures
  */
-export async function securityMiddleware(
-  request: NextRequest
-): Promise<NextResponse> {
+export async function securityMiddleware(request: NextRequest): Promise<NextResponse> {
   // Create response
   const response = NextResponse.next()
 

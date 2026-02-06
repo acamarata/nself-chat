@@ -152,9 +152,7 @@ export function scanDirectory(dirPath: string): SecretMatch[] {
         matches = [...matches, ...scanDirectory(fullPath)]
       } else if (stat.isFile()) {
         // Only scan text files
-        if (
-          fullPath.match(/\.(ts|tsx|js|jsx|json|env|md|txt|yaml|yml|sh)$/)
-        ) {
+        if (fullPath.match(/\.(ts|tsx|js|jsx|json|env|md|txt|yaml|yml|sh)$/)) {
           matches = [...matches, ...scanFile(fullPath)]
         }
       }
@@ -251,9 +249,7 @@ export function runSecurityAudit() {
   if (report.secrets.length > 0) {
     console.log('\n🚨 Secrets Found:\n')
     report.secrets.forEach((match) => {
-      console.log(
-        `[${match.severity.toUpperCase()}] ${match.file}:${match.line}`
-      )
+      console.log(`[${match.severity.toUpperCase()}] ${match.file}:${match.line}`)
       console.log(`  Pattern: ${match.pattern}`)
       console.log(`  Context: ${match.context}`)
       console.log()

@@ -15,14 +15,14 @@ export default function GDPRPrivacyPage() {
 
   if (!user) {
     return (
-      <div className="container mx-auto py-8 px-4">
+      <div className="container mx-auto px-4 py-8">
         <p>Please log in to access GDPR privacy settings.</p>
       </div>
     )
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="container mx-auto px-4 py-8">
       <GDPRDataRequest userId={user.id} userEmail={user.email} />
     </div>
   )

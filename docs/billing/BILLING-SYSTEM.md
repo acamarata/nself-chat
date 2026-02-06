@@ -18,6 +18,7 @@ The nself-chat billing system provides:
 ## Plan Tiers
 
 ### Free Plan
+
 - **Price**: $0/month
 - **Features**:
   - Up to 10 users
@@ -28,6 +29,7 @@ The nself-chat billing system provides:
   - Basic features only
 
 ### Starter Plan
+
 - **Price**: $8/month or $80/year
 - **Features**:
   - Up to 50 users
@@ -39,6 +41,7 @@ The nself-chat billing system provides:
   - Video calls (10 participants)
 
 ### Pro Plan (Most Popular)
+
 - **Price**: $25/month or $250/year
 - **Features**:
   - Up to 200 users
@@ -53,6 +56,7 @@ The nself-chat billing system provides:
   - Video calls (25 participants)
 
 ### Business Plan
+
 - **Price**: $75/month or $750/year
 - **Features**:
   - Up to 1,000 users
@@ -64,6 +68,7 @@ The nself-chat billing system provides:
   - Video calls (100 participants)
 
 ### Enterprise Plan
+
 - **Price**: Custom pricing
 - **Features**:
   - Unlimited everything
@@ -127,11 +132,13 @@ console.log(percentage) // 80
 ### Setup
 
 1. **Install Stripe**:
+
 ```bash
 npm install stripe
 ```
 
 2. **Configure Environment Variables**:
+
 ```bash
 # .env.local
 STRIPE_SECRET_KEY=sk_test_...
@@ -189,16 +196,13 @@ import {
   requireFeature,
   requireMinimumPlan,
   checkUsageLimit,
-  applyPlanRestrictions
+  applyPlanRestrictions,
 } from '@/middleware/plan-restrictions'
 
 // In API route
 export async function POST(request: NextRequest) {
   // Check if user's plan has the feature
-  const restriction = await applyPlanRestrictions(
-    request,
-    requireFeature('customBranding')
-  )
+  const restriction = await applyPlanRestrictions(request, requireFeature('customBranding'))
 
   if (restriction) return restriction // 403 Forbidden
 
@@ -206,10 +210,7 @@ export async function POST(request: NextRequest) {
 }
 
 // Check minimum plan tier
-const restriction = await applyPlanRestrictions(
-  request,
-  requireMinimumPlan('pro')
-)
+const restriction = await applyPlanRestrictions(request, requireMinimumPlan('pro'))
 
 // Check usage limit
 const restriction = await applyPlanRestrictions(
@@ -369,6 +370,7 @@ import { BillingDashboard } from '@/components/billing/BillingDashboard'
 ```
 
 Displays:
+
 - Total revenue
 - Monthly Recurring Revenue (MRR)
 - Annual Recurring Revenue (ARR)
@@ -564,6 +566,7 @@ Deploy test NFT contracts on testnets for verification.
 ## Support
 
 For issues or questions:
+
 - Email: billing@nself.org
 - Docs: /docs/billing
 - API Reference: /api-docs/billing

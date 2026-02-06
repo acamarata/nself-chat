@@ -211,7 +211,10 @@
 
 /* Transitions for direction changes */
 [dir] * {
-  transition: margin 150ms ease, padding 150ms ease, border-radius 150ms ease;
+  transition:
+    margin 150ms ease,
+    padding 150ms ease,
+    border-radius 150ms ease;
 }
 
 /* Prevent direction change on specific elements */

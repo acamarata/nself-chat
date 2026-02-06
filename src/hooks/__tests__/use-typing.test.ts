@@ -101,7 +101,9 @@ describe('useTyping', () => {
 
     it('should throttle typing events', () => {
       // Use longer throttle and shorter debounce to make test clearer
-      const { result } = renderHook(() => useTyping(channelId, { throttleMs: 2000, debounceMs: 100 }))
+      const { result } = renderHook(() =>
+        useTyping(channelId, { throttleMs: 2000, debounceMs: 100 })
+      )
 
       // First typing event
       act(() => {

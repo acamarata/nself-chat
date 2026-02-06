@@ -13,10 +13,7 @@ export const dynamic = 'force-dynamic'
 /**
  * POST - Verify custom domain
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: tenantId } = await params
 
@@ -65,9 +62,6 @@ export async function POST(
     })
   } catch (error) {
     logger.error('POST /api/tenants/[id]/branding/domain/verify failed:', error)
-    return NextResponse.json(
-      { error: 'Domain verification failed' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Domain verification failed' }, { status: 500 })
   }
 }

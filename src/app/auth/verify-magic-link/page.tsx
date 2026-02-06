@@ -49,13 +49,13 @@ export default function VerifyMagicLinkPage() {
   }, [searchParams, verifyMagicLink])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           {status === 'loading' && (
             <>
-              <div className="flex justify-center mb-4">
-                <Loader2 className="h-12 w-12 text-indigo-600 animate-spin" />
+              <div className="mb-4 flex justify-center">
+                <Loader2 className="h-12 w-12 animate-spin text-indigo-600" />
               </div>
               <CardTitle>Verifying Magic Link</CardTitle>
               <CardDescription>Please wait while we verify your magic link...</CardDescription>
@@ -64,7 +64,7 @@ export default function VerifyMagicLinkPage() {
 
           {status === 'success' && (
             <>
-              <div className="flex justify-center mb-4">
+              <div className="mb-4 flex justify-center">
                 <CheckCircle2 className="h-12 w-12 text-green-600" />
               </div>
               <CardTitle>Verification Successful!</CardTitle>
@@ -74,7 +74,7 @@ export default function VerifyMagicLinkPage() {
 
           {status === 'error' && (
             <>
-              <div className="flex justify-center mb-4">
+              <div className="mb-4 flex justify-center">
                 <AlertCircle className="h-12 w-12 text-red-600" />
               </div>
               <CardTitle>Verification Failed</CardTitle>

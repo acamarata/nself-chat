@@ -77,10 +77,10 @@ export class EmailSender {
           throw new Error(`Unsupported email provider: ${this.config.provider}`)
       }
 
-// REMOVED: console.log(`Email sent via ${this.config.provider} in ${Date.now() - startTime}ms`)
+      // REMOVED: console.log(`Email sent via ${this.config.provider} in ${Date.now() - startTime}ms`)
       return result
     } catch (error) {
-      logger.error('Failed to send email:',  error)
+      logger.error('Failed to send email:', error)
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
@@ -283,7 +283,7 @@ export class EmailSender {
           email.status = 'failed'
           email.error = result.error
           this.emailQueue.shift()
-          logger.error(`Email ${email.id} failed after ${email.attempts} attempts:`,  result.error)
+          logger.error(`Email ${email.id} failed after ${email.attempts} attempts:`, result.error)
         } else {
           // Retry with exponential backoff
           const delay =
@@ -348,7 +348,7 @@ export class EmailSender {
         await this.transporter.verify()
         return true
       } catch (error) {
-        logger.error('SMTP verification failed:',  error)
+        logger.error('SMTP verification failed:', error)
         return false
       }
     }

@@ -435,7 +435,7 @@ class OfflineCache {
       // Check and handle storage limits
       await this.checkStorageLimits()
     } catch (error) {
-      logger.error('[OfflineCache] Cleanup error:',  error)
+      logger.error('[OfflineCache] Cleanup error:', error)
     }
   }
 
@@ -574,7 +574,7 @@ class OfflineCache {
       try {
         listener(event)
       } catch (error) {
-        logger.error('[OfflineCache] Event listener error:',  error)
+        logger.error('[OfflineCache] Event listener error:', error)
       }
     })
   }

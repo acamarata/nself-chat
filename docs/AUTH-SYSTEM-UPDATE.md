@@ -12,27 +12,30 @@ Starting with v0.9.1, **production authentication (Nhost) is now the default**. 
 
 ### What Changed
 
-| Before (≤ v0.9.0) | After (v0.9.1+) |
-|-------------------|-----------------|
+| Before (≤ v0.9.0)                         | After (v0.9.1+)                            |
+| ----------------------------------------- | ------------------------------------------ |
 | `NEXT_PUBLIC_USE_DEV_AUTH=true` (default) | `NEXT_PUBLIC_USE_DEV_AUTH=false` (default) |
-| Dev auth enabled by default | Production auth enabled by default |
-| Test users auto-login | Real Nhost authentication required |
+| Dev auth enabled by default               | Production auth enabled by default         |
+| Test users auto-login                     | Real Nhost authentication required         |
 
 ---
 
 ## Why This Change?
 
 ### Security Best Practices
+
 - **Prevents accidental dev auth in production**: Previously, if someone forgot to set `NEXT_PUBLIC_USE_DEV_AUTH=false`, production deployments would use insecure test accounts
 - **Secure by default**: New projects now start with production-ready authentication
 - **Explicit opt-in for testing**: Developers must consciously enable test mode
 
 ### Production Readiness
+
 - v0.9.1 is production-ready, so production auth should be the default
 - Aligns with industry best practices (secure by default)
 - Reduces security risks from misconfiguration
 
 ### Compliance
+
 - Meets security audit requirements
 - Follows principle of least privilege
 - Reduces attack surface by default
@@ -65,18 +68,21 @@ Or simply omit the variable (defaults to `false` now).
 Verify your CI/CD environment variables:
 
 **✅ Correct** (production):
+
 ```bash
 NEXT_PUBLIC_ENV=production
 NEXT_PUBLIC_USE_DEV_AUTH=false  # or omit entirely
 ```
 
 **✅ Correct** (staging/preview with real auth):
+
 ```bash
 NEXT_PUBLIC_ENV=staging
 NEXT_PUBLIC_USE_DEV_AUTH=false  # or omit entirely
 ```
 
 **❌ Incorrect** (do not use):
+
 ```bash
 NEXT_PUBLIC_ENV=production
 NEXT_PUBLIC_USE_DEV_AUTH=true  # SECURITY RISK!
@@ -94,12 +100,14 @@ NEXT_PUBLIC_USE_DEV_AUTH=true  # SECURITY RISK!
 **Security**: Full production security (hashing, sessions, tokens)
 
 **Requirements**:
+
 - `.backend` services running (`nself start`)
 - PostgreSQL database with user tables
 - Nhost Auth service configured
 - Valid NEXT_PUBLIC_AUTH_URL set
 
 **Usage**:
+
 ```bash
 # .env.local (or omit NEXT_PUBLIC_USE_DEV_AUTH entirely)
 NEXT_PUBLIC_USE_DEV_AUTH=false
@@ -126,6 +134,7 @@ NEXT_PUBLIC_AUTH_URL=http://auth.localhost/v1/auth
 | charlie@nself.org | password123 | member |
 
 **Usage**:
+
 ```bash
 # .env.local
 NEXT_PUBLIC_USE_DEV_AUTH=true
@@ -133,6 +142,7 @@ NEXT_PUBLIC_ENV=development
 ```
 
 **Features**:
+
 - Auto-login as owner@nself.org on app start
 - Switch users programmatically: `useAuth().switchUser('admin@nself.org')`
 - No database required
@@ -147,11 +157,13 @@ NEXT_PUBLIC_ENV=development
 **Problem**: You're getting authentication errors in local development.
 
 **Solution**: Enable dev mode in `.env.local`:
+
 ```bash
 NEXT_PUBLIC_USE_DEV_AUTH=true
 ```
 
 Then restart the dev server:
+
 ```bash
 pnpm dev
 ```
@@ -161,6 +173,7 @@ pnpm dev
 **Problem**: Test user credentials not working.
 
 **Solution**: Verify dev mode is enabled:
+
 ```bash
 # Check current environment
 grep NEXT_PUBLIC_USE_DEV_AUTH .env.local
@@ -176,17 +189,20 @@ NEXT_PUBLIC_USE_DEV_AUTH=true
 **Solution**: This should NOT happen with v0.9.1+, but if it does:
 
 1. Check production environment variables:
+
 ```bash
 echo $NEXT_PUBLIC_USE_DEV_AUTH
 # Should be empty or "false"
 ```
 
 2. Rebuild with production config:
+
 ```bash
 pnpm build
 ```
 
 3. Verify build output doesn't include dev auth:
+
 ```bash
 grep -r "FauxAuthService" .next/
 # Should return no results
@@ -197,12 +213,14 @@ grep -r "FauxAuthService" .next/
 **Problem**: "Cannot connect to auth service" errors.
 
 **Solution**: Start the backend services:
+
 ```bash
 cd .backend
 nself start
 ```
 
 Verify auth service is running:
+
 ```bash
 nself status
 # Look for "auth" service on port 4000
@@ -275,6 +293,7 @@ function EnterpriseFeature() {
 If you need to temporarily rollback to dev auth as default (not recommended):
 
 1. Edit `.env.example`:
+
 ```bash
 NEXT_PUBLIC_USE_DEV_AUTH=true
 ```
@@ -282,6 +301,7 @@ NEXT_PUBLIC_USE_DEV_AUTH=true
 2. Update `.claude/CLAUDE.md` documentation
 
 3. Rebuild:
+
 ```bash
 pnpm build
 ```
@@ -312,11 +332,11 @@ pnpm build
 
 ## Environment Variable Reference
 
-| Variable | Default | Production | Development | Description |
-|----------|---------|------------|-------------|-------------|
-| `NEXT_PUBLIC_USE_DEV_AUTH` | `false` | `false` | `true` | Enable test users |
-| `NEXT_PUBLIC_ENV` | - | `production` | `development` | Environment name |
-| `NEXT_PUBLIC_AUTH_URL` | - | Required | Optional | Auth service URL |
+| Variable                   | Default | Production   | Development   | Description       |
+| -------------------------- | ------- | ------------ | ------------- | ----------------- |
+| `NEXT_PUBLIC_USE_DEV_AUTH` | `false` | `false`      | `true`        | Enable test users |
+| `NEXT_PUBLIC_ENV`          | -       | `production` | `development` | Environment name  |
+| `NEXT_PUBLIC_AUTH_URL`     | -       | Required     | Optional      | Auth service URL  |
 
 ---
 

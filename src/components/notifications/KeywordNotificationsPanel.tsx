@@ -206,7 +206,8 @@ function KeywordItem({
   if (isEditing) {
     return (
       <div className="space-y-3 rounded-lg border p-3">
-        <Input value={editValue} onChange={(e) => setEditValue(e.target.value)} autoFocus /> {/* eslint-disable-line jsx-a11y/no-autofocus */}
+        <Input value={editValue} onChange={(e) => setEditValue(e.target.value)} autoFocus />{' '}
+        {/* eslint-disable-line jsx-a11y/no-autofocus */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <Switch checked={editCaseSensitive} onCheckedChange={setEditCaseSensitive} />

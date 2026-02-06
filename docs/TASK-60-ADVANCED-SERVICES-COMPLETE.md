@@ -20,6 +20,7 @@ Successfully implemented 3 critical backend services that were documented but ne
 **Purpose**: Lightning-fast search with typo-tolerance, filters, and facets
 
 **Features**:
+
 - Instant search (< 50ms response time)
 - Typo-tolerant search
 - Filters and faceted search
@@ -27,6 +28,7 @@ Successfully implemented 3 critical backend services that were documented but ne
 - Custom synonyms and stop words
 
 **Configuration**:
+
 ```yaml
 Service: getmeili/meilisearch:v1.6
 Port: 7700
@@ -35,6 +37,7 @@ Auth: nchat-search-dev-key-32-chars-long
 ```
 
 **Use Cases**:
+
 - Message search across all channels
 - User directory search
 - Channel discovery
@@ -46,6 +49,7 @@ Auth: nchat-search-dev-key-32-chars-long
 **Purpose**: Real-time voice and video communication infrastructure
 
 **Features**:
+
 - 1:1 and group calls (up to 100 participants)
 - Screen sharing
 - Recording capabilities
@@ -54,6 +58,7 @@ Auth: nchat-search-dev-key-32-chars-long
 - Cross-platform support
 
 **Configuration**:
+
 ```yaml
 Service: livekit/livekit-server:v1.5
 Ports:
@@ -67,6 +72,7 @@ Config: config/livekit.yaml
 ```
 
 **Use Cases**:
+
 - Voice channels (Discord-style)
 - Video calls (1:1 and group)
 - Screen sharing sessions
@@ -78,6 +84,7 @@ Config: config/livekit.yaml
 **Purpose**: Professional-grade live streaming with RTMP ingest and HLS output
 
 **Features**:
+
 - RTMP live streaming
 - HLS (HTTP Live Streaming) output
 - Recording to disk
@@ -86,6 +93,7 @@ Config: config/livekit.yaml
 - Low-latency streaming
 
 **Configuration**:
+
 ```yaml
 Service: tiangolo/nginx-rtmp:latest
 Ports:
@@ -98,6 +106,7 @@ Config: config/nginx-rtmp.conf
 ```
 
 **Use Cases**:
+
 - Voice channel broadcasts
 - Live streaming events
 - Webinars and presentations
@@ -215,6 +224,7 @@ Config: config/nginx-rtmp.conf
 ## Statistics
 
 ### Code/Config
+
 - **Files Created**: 11
 - **Files Modified**: 3
 - **Total Lines Added**: 2000+
@@ -224,12 +234,14 @@ Config: config/nginx-rtmp.conf
 - **Directories**: 3
 
 ### Services
+
 - **Total Services**: 11 (8 core + 3 advanced)
 - **New Services**: 3
 - **Ports Used**: 15+ (including UDP ranges)
 - **Persistent Volumes**: 8
 
 ### Documentation
+
 - **Total Lines**: 1400+
 - **Setup Guide**: 520 lines
 - **Quick Start**: 200 lines
@@ -265,6 +277,7 @@ curl http://localhost:8088/stat     # RTMP
 ```
 
 Expected output from verification script:
+
 ```
 ╔═══════════════════════════════════════════════════════════════╗
 ║       Advanced Services Verification - nself-chat v0.9.1     ║
@@ -280,6 +293,7 @@ Checking RTMP Stats (port 8088)... ✓ OK
 ### 3. Quick Tests
 
 #### Test MeiliSearch
+
 ```bash
 # Create test index
 curl -X POST 'http://localhost:7700/indexes' \
@@ -301,6 +315,7 @@ curl -X POST 'http://localhost:7700/indexes/test/search' \
 ```
 
 #### Test LiveKit
+
 ```bash
 # Install CLI (one-time)
 brew install livekit-cli
@@ -312,6 +327,7 @@ lk connect --url ws://localhost:7880 \
 ```
 
 #### Test RTMP
+
 ```bash
 # Stream test video (requires ffmpeg)
 ffmpeg -re -f lavfi -i testsrc=size=1280x720:rate=30 \
@@ -342,6 +358,7 @@ NEXT_PUBLIC_HLS_URL=http://localhost:8088/hls
 ```
 
 Then restart your Next.js dev server:
+
 ```bash
 pnpm dev
 ```
@@ -381,11 +398,9 @@ import { AccessToken } from 'livekit-server-sdk'
 
 // Server-side: Generate token
 export async function generateToken(userId: string, roomName: string) {
-  const token = new AccessToken(
-    process.env.LIVEKIT_API_KEY!,
-    process.env.LIVEKIT_API_SECRET!,
-    { identity: userId }
-  )
+  const token = new AccessToken(process.env.LIVEKIT_API_KEY!, process.env.LIVEKIT_API_SECRET!, {
+    identity: userId,
+  })
 
   token.addGrant({
     room: roomName,
@@ -402,7 +417,7 @@ export async function joinVoiceChannel(roomName: string) {
   const { token } = await fetch('/api/livekit/token', {
     method: 'POST',
     body: JSON.stringify({ roomName }),
-  }).then(r => r.json())
+  }).then((r) => r.json())
 
   const room = new Room()
   await room.connect(process.env.NEXT_PUBLIC_LIVEKIT_URL!, token)
@@ -446,42 +461,43 @@ export function getPublishUrl(streamKey: string) {
 
 ## Service URLs Reference
 
-| Service | URL | Purpose |
-|---------|-----|---------|
-| **MeiliSearch** | | |
-| API | http://localhost:7700 | Search API |
-| Health | http://localhost:7700/health | Health check |
-| **LiveKit** | | |
-| WebSocket | ws://localhost:7880 | WebRTC signaling |
-| HTTP | http://localhost:7880 | API/Health |
-| RTC | UDP 50000-50100 | Media streams |
-| **RTMP** | | |
-| Publish | rtmp://localhost:1935/live | Stream input |
-| Stats | http://localhost:8088/stat | Dashboard |
-| HLS | http://localhost:8088/hls | Stream output |
+| Service         | URL                          | Purpose          |
+| --------------- | ---------------------------- | ---------------- |
+| **MeiliSearch** |                              |                  |
+| API             | http://localhost:7700        | Search API       |
+| Health          | http://localhost:7700/health | Health check     |
+| **LiveKit**     |                              |                  |
+| WebSocket       | ws://localhost:7880          | WebRTC signaling |
+| HTTP            | http://localhost:7880        | API/Health       |
+| RTC             | UDP 50000-50100              | Media streams    |
+| **RTMP**        |                              |                  |
+| Publish         | rtmp://localhost:1935/live   | Stream input     |
+| Stats           | http://localhost:8088/stat   | Dashboard        |
+| HLS             | http://localhost:8088/hls    | Stream output    |
 
 ---
 
 ## Acceptance Criteria - All Met ✅
 
-| Criteria | Status | Notes |
-|----------|--------|-------|
-| All 3 services defined in docker-compose.yml | ✅ | MeiliSearch, LiveKit, RTMP |
-| Services can start successfully | ✅ | Validated with `docker compose config` |
-| Health checks pass | ✅ | All 3 have health check endpoints |
-| Frontend can connect to services | ✅ | URLs in .env.example |
-| Configuration files are valid | ✅ | livekit.yaml, nginx-rtmp.conf |
-| Documentation is complete | ✅ | 1400+ lines across 4 files |
-| Don't break existing services | ✅ | All core services preserved |
-| Use existing network configuration | ✅ | nchat_network |
-| Follow nself CLI conventions | ✅ | Naming, volumes, network |
-| Make services optional | ✅ | Can start individually |
+| Criteria                                     | Status | Notes                                  |
+| -------------------------------------------- | ------ | -------------------------------------- |
+| All 3 services defined in docker-compose.yml | ✅     | MeiliSearch, LiveKit, RTMP             |
+| Services can start successfully              | ✅     | Validated with `docker compose config` |
+| Health checks pass                           | ✅     | All 3 have health check endpoints      |
+| Frontend can connect to services             | ✅     | URLs in .env.example                   |
+| Configuration files are valid                | ✅     | livekit.yaml, nginx-rtmp.conf          |
+| Documentation is complete                    | ✅     | 1400+ lines across 4 files             |
+| Don't break existing services                | ✅     | All core services preserved            |
+| Use existing network configuration           | ✅     | nchat_network                          |
+| Follow nself CLI conventions                 | ✅     | Naming, volumes, network               |
+| Make services optional                       | ✅     | Can start individually                 |
 
 ---
 
 ## Next Steps
 
 ### Immediate (Complete)
+
 - ✅ Add services to docker-compose.yml
 - ✅ Create configuration files
 - ✅ Update environment variables
@@ -489,6 +505,7 @@ export function getPublishUrl(streamKey: string) {
 - ✅ Create verification script
 
 ### Short Term (Frontend Integration)
+
 - 🔲 Create API routes for token generation
 - 🔲 Build search UI component
 - 🔲 Build voice channel UI
@@ -496,6 +513,7 @@ export function getPublishUrl(streamKey: string) {
 - 🔲 Add service status indicators
 
 ### Medium Term (Features)
+
 - 🔲 Implement message indexing pipeline
 - 🔲 Add voice channel controls
 - 🔲 Create stream management dashboard
@@ -503,6 +521,7 @@ export function getPublishUrl(streamKey: string) {
 - 🔲 Implement search filters
 
 ### Long Term (Production)
+
 - 🔲 Configure SSL/TLS for all services
 - 🔲 Set up TURN server for LiveKit
 - 🔲 Add authentication for RTMP
@@ -516,6 +535,7 @@ export function getPublishUrl(streamKey: string) {
 ## Production Readiness
 
 ### Development (Current) ✅
+
 - ✅ All services running locally
 - ✅ Default credentials configured
 - ✅ Health checks enabled
@@ -523,6 +543,7 @@ export function getPublishUrl(streamKey: string) {
 - ✅ Documentation complete
 
 ### Production (Required Changes)
+
 - 🔲 Generate strong API keys (32+ chars)
 - 🔲 Enable HTTPS/WSS
 - 🔲 Configure firewall rules
@@ -577,6 +598,7 @@ Before marking this task complete, verify:
 - ✅ Services don't conflict with existing ones
 
 Run verification:
+
 ```bash
 cd .backend
 ./scripts/verify-advanced-services.sh
@@ -587,20 +609,24 @@ cd .backend
 ## Support Resources
 
 ### Official Documentation
+
 - [MeiliSearch](https://www.meilisearch.com/docs)
 - [LiveKit](https://docs.livekit.io)
 - [nginx-rtmp](https://github.com/arut/nginx-rtmp-module/wiki)
 
 ### Internal Documentation
+
 - `.backend/ADVANCED-SERVICES-QUICKSTART.md`
 - `.backend/docs/ADVANCED-SERVICES-SETUP.md`
 - `.backend/SERVICES-OVERVIEW.md`
 - `.backend/ADVANCED-SERVICES-IMPLEMENTATION.md`
 
 ### Scripts
+
 - `.backend/scripts/verify-advanced-services.sh`
 
 ### Support
+
 - GitHub Issues
 - Email: support@nself.org
 
@@ -613,9 +639,11 @@ cd .backend
 The nself-chat infrastructure now includes:
 
 **Core Services (8)**:
+
 - PostgreSQL, Hasura, Auth, Storage, MinIO, Redis, MailPit, Nginx
 
 **Advanced Services (3)**:
+
 - ✅ MeiliSearch (Search)
 - ✅ LiveKit (Voice/Video)
 - ✅ RTMP (Streaming)
@@ -623,6 +651,7 @@ The nself-chat infrastructure now includes:
 **Total**: 11 services, 15+ ports, 8 volumes, 1400+ lines of documentation
 
 All services are:
+
 - ✅ Fully configured
 - ✅ Tested and validated
 - ✅ Documented (setup, usage, troubleshooting)
@@ -640,4 +669,4 @@ All services are:
 
 ---
 
-*This completes the backend infrastructure for nself-chat v0.9.1. All documented services are now implemented and ready for use.*
+_This completes the backend infrastructure for nself-chat v0.9.1. All documented services are now implemented and ready for use._

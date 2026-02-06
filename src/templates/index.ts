@@ -127,7 +127,7 @@ export async function loadTemplate(id: TemplateId): Promise<PlatformTemplate> {
     templateCache.set(id, template)
     return template
   } catch (error) {
-    logger.error(`Failed to load template "${id}":`,  error)
+    logger.error(`Failed to load template "${id}":`, error)
     if (id !== 'default') {
       return loadTemplate('default')
     }

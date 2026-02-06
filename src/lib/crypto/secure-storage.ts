@@ -446,7 +446,7 @@ export class SecureStorage {
     } catch (error) {
       // Storage full or other error, use memory fallback
       logger.warn('SecureStorage: localStorage failed, using memory fallback', {
-        error: error instanceof Error ? error.message : String(error)
+        error: error instanceof Error ? error.message : String(error),
       })
       this.memoryFallback.set(fullKey, item, ttl ?? undefined)
     }

@@ -26,11 +26,13 @@
 ## Executive Summary
 
 ### Overview
+
 Task 132 focuses on reducing test flakiness to achieve zero flaky tests. This verification examines test retry configurations, async/await patterns, race condition handling, and test isolation mechanisms.
 
 ### Key Findings
 
 ✅ **Implemented**:
+
 - Jest configuration with proper retry settings (CI: 2 retries)
 - Playwright configuration with retry logic (CI: 2 retries)
 - Comprehensive test cleanup in `jest.setup.js`
@@ -40,30 +42,33 @@ Task 132 focuses on reducing test flakiness to achieve zero flaky tests. This ve
 - 323 test files with comprehensive coverage
 
 ⚠️ **Partially Implemented**:
+
 - Some tests use `setTimeout`/`Date.now()` without fake timers
 - 19 skipped tests (test.skip/describe.skip) that may be flaky
 - 104 tests using fake timers (need audit for consistency)
 
 ❌ **Not Implemented**:
+
 - Comprehensive flake detection/monitoring system
 - Automated flaky test identification in CI
 - Timer-based test determinism audit
 - Race condition systematic elimination
 
 ### Completion Percentage
+
 **40%** - Foundation is strong, but active flaky tests remain unfixed
 
 ---
 
 ## Definition of Done
 
-| Criteria | Status | Evidence |
-|----------|--------|----------|
-| 1. Code exists and is complete | 🟡 Partial | Test infrastructure exists, but flaky tests remain |
-| 2. Tests pass (no failures) | ⚠️ Unknown | Active test run needed (some known failures) |
-| 3. No mock data in APIs | ✅ Complete | Tests use proper mocking patterns |
-| 4. Documentation complete | 🟡 Partial | Configuration documented, gaps analysis incomplete |
-| 5. Functionality works as intended | 🟡 Partial | Most tests stable, some intermittent failures |
+| Criteria                           | Status      | Evidence                                           |
+| ---------------------------------- | ----------- | -------------------------------------------------- |
+| 1. Code exists and is complete     | 🟡 Partial  | Test infrastructure exists, but flaky tests remain |
+| 2. Tests pass (no failures)        | ⚠️ Unknown  | Active test run needed (some known failures)       |
+| 3. No mock data in APIs            | ✅ Complete | Tests use proper mocking patterns                  |
+| 4. Documentation complete          | 🟡 Partial  | Configuration documented, gaps analysis incomplete |
+| 5. Functionality works as intended | 🟡 Partial  | Most tests stable, some intermittent failures      |
 
 ---
 
@@ -74,6 +79,7 @@ Task 132 focuses on reducing test flakiness to achieve zero flaky tests. This ve
 **File**: `/Users/admin/Sites/nself-chat/jest.config.js`
 
 #### Retry Settings
+
 ```javascript
 // No explicit retry configuration in Jest
 // Relies on bail setting in CI
@@ -83,27 +89,30 @@ bail: process.env.CI ? 1 : 0
 **Status**: ✅ Configured (fails fast in CI)
 
 #### Timeout Settings
+
 ```javascript
-testTimeout: 10000  // 10 seconds
+testTimeout: 10000 // 10 seconds
 ```
 
 **Status**: ✅ Configured
 
 #### Performance Optimizations
+
 ```javascript
-maxWorkers: '50%'  // Use 50% of available CPU cores
-clearMocks: true   // Clear mocks between tests
+maxWorkers: '50%' // Use 50% of available CPU cores
+clearMocks: true // Clear mocks between tests
 restoreMocks: true // Restore mocks after each test
 ```
 
 **Status**: ✅ Configured
 
 #### Reporters
+
 ```javascript
 reporters: [
   'default',
-  'jest-junit',       // JUnit XML for CI
-  'jest-html-reporter' // HTML report generation
+  'jest-junit', // JUnit XML for CI
+  'jest-html-reporter', // HTML report generation
 ]
 ```
 
@@ -114,13 +123,15 @@ reporters: [
 **File**: `/Users/admin/Sites/nself-chat/playwright.config.ts`
 
 #### Retry Settings
+
 ```typescript
-retries: process.env.CI ? 2 : 0  // 2 retries in CI, 0 locally
+retries: process.env.CI ? 2 : 0 // 2 retries in CI, 0 locally
 ```
 
 **Status**: ✅ Configured
 
 #### Timeout Settings
+
 ```typescript
 timeout: 60000           // 60 seconds global timeout
 expect: { timeout: 10000 }  // 10 seconds for assertions
@@ -133,14 +144,16 @@ use: {
 **Status**: ✅ Comprehensive timeout configuration
 
 #### Parallelization
+
 ```typescript
-fullyParallel: true  // Run tests in parallel
-workers: process.env.CI ? 1 : undefined  // Sequential in CI
+fullyParallel: true // Run tests in parallel
+workers: process.env.CI ? 1 : undefined // Sequential in CI
 ```
 
 **Status**: ✅ Configured for stability in CI
 
 #### Artifact Collection
+
 ```typescript
 use: {
   trace: 'on-first-retry',      // Trace on retry
@@ -156,17 +169,19 @@ use: {
 **File**: `/Users/admin/Sites/nself-chat/jest.setup.js`
 
 #### Global Cleanup
+
 ```javascript
 afterEach(() => {
-  jest.clearAllMocks()    // Clear all mocks
-  localStorage.clear()     // Clear localStorage
-  sessionStorage.clear()   // Clear sessionStorage
+  jest.clearAllMocks() // Clear all mocks
+  localStorage.clear() // Clear localStorage
+  sessionStorage.clear() // Clear sessionStorage
 })
 ```
 
 **Status**: ✅ Proper test isolation
 
 #### Browser API Mocks
+
 - ✅ `window.matchMedia`
 - ✅ `ResizeObserver`
 - ✅ `IntersectionObserver`
@@ -179,9 +194,12 @@ afterEach(() => {
 **Status**: ✅ Comprehensive browser API mocking
 
 #### Next.js Router Mock
+
 ```javascript
 jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(() => ({ /* ... */ })),
+  useRouter: jest.fn(() => ({
+    /* ... */
+  })),
   usePathname: jest.fn(() => '/'),
   useSearchParams: jest.fn(() => new URLSearchParams()),
   // ... complete router mock
@@ -199,11 +217,13 @@ jest.mock('next/navigation', () => ({
 **Files Using waitFor/act**: 96 files
 
 Sample files using proper async patterns:
+
 - `/Users/admin/Sites/nself-chat/src/hooks/__tests__/use-realtime.test.tsx`
 - `/Users/admin/Sites/nself-chat/src/components/chat/__tests__/message-input.test.tsx`
 - `/Users/admin/Sites/nself-chat/src/contexts/__tests__/auth-context.test.tsx`
 
 **Pattern Example** (from `use-realtime.test.tsx`):
+
 ```typescript
 it('should call connect with token', async () => {
   const { result } = renderHook(() => useRealtime({ autoConnect: false }))
@@ -223,6 +243,7 @@ it('should call connect with token', async () => {
 **Files Using setTimeout/setInterval**: 20+ occurrences
 
 **Examples**:
+
 ```javascript
 // src/__tests__/plugins/realtime-plugin.test.ts
 await new Promise((resolve) => setTimeout(resolve, 1000))
@@ -241,6 +262,7 @@ while (Date.now() - startTime < maxWaitTime) {
 **Files Using Fake Timers**: 104 tests
 
 **Files**:
+
 - Various async tests properly wrap timers
 - Some missing fake timer setup
 
@@ -251,6 +273,7 @@ while (Date.now() - startTime < maxWaitTime) {
 **Date.now() Usage**: 15+ occurrences in tests
 
 **Examples**:
+
 ```javascript
 // src/__tests__/plugins/notifications-plugin.test.ts
 const startTime = Date.now()
@@ -267,6 +290,7 @@ const latency = Date.now() - startTime
 ### 1. Mock Cleanup
 
 **Global Cleanup** (jest.setup.js):
+
 ```javascript
 afterEach(() => {
   jest.clearAllMocks()
@@ -286,6 +310,7 @@ afterEach(() => {
 **beforeEach/afterEach Usage**: 766 occurrences across 248 files
 
 **Example** (from `use-realtime.test.tsx`):
+
 ```typescript
 beforeEach(() => {
   jest.clearAllMocks()
@@ -301,6 +326,7 @@ afterEach(() => {
 ### 3. Store/State Isolation
 
 **Immer MapSet Plugin** (jest.setup.js):
+
 ```javascript
 import { enableMapSet } from 'immer'
 enableMapSet()
@@ -317,6 +343,7 @@ enableMapSet()
 **File**: `/Users/admin/Sites/nself-chat/src/lib/crypto/__tests__/device-verification.test.ts`
 
 **Issues**:
+
 1. **iOS/iPadOS Detection Regex Mismatch**
    - Tests fail consistently due to regex pattern issues
    - Impact: 3 test failures on every run
@@ -332,12 +359,14 @@ enableMapSet()
 ### 2. Timer-Dependent Tests (MEDIUM PRIORITY)
 
 **Files**:
+
 - `src/__tests__/plugins/realtime-plugin.test.ts`
 - `src/__tests__/plugins/jobs-plugin.test.ts`
 - `src/__tests__/plugins/notifications-plugin.test.ts`
 - `src/__tests__/integration/offline-sync-cache.integration.test.ts`
 
 **Issues**:
+
 - Using `setTimeout` without fake timers
 - Using `Date.now()` for timing measurements
 - Polling loops with real time checks
@@ -351,6 +380,7 @@ enableMapSet()
 **Count**: 19 skipped tests across 13 files
 
 **Files**:
+
 - `src/__tests__/plugins/*.test.ts` (8 files)
 - `src/__tests__/integration/chat-flow.test.tsx` (4 skips)
 - `src/__tests__/plugins/idme-plugin.test.ts`
@@ -369,33 +399,34 @@ enableMapSet()
 
 ### Test Suite Statistics
 
-| Metric | Value |
-|--------|-------|
-| Total Test Files | 323 |
-| Tests Using waitFor/act | 96 files |
-| Tests with Timer Usage | 20+ files |
-| Tests Using Fake Timers | 104 |
-| Skipped Tests | 19 (13 files) |
+| Metric                     | Value                       |
+| -------------------------- | --------------------------- |
+| Total Test Files           | 323                         |
+| Tests Using waitFor/act    | 96 files                    |
+| Tests with Timer Usage     | 20+ files                   |
+| Tests Using Fake Timers    | 104                         |
+| Skipped Tests              | 19 (13 files)               |
 | Tests with Lifecycle Hooks | 766 occurrences (248 files) |
-| Tests with Mock Cleanup | 182 occurrences (135 files) |
+| Tests with Mock Cleanup    | 182 occurrences (135 files) |
 
 ### Configuration Coverage
 
-| Component | Status | Score |
-|-----------|--------|-------|
-| Jest Retry Logic | ⚠️ Implicit (bail in CI) | 60% |
-| Playwright Retry Logic | ✅ Explicit (2 retries) | 100% |
-| Timeout Configuration | ✅ Comprehensive | 100% |
-| Mock Isolation | ✅ Global + Per-Test | 95% |
-| Async Pattern Usage | ✅ Consistent | 90% |
-| Timer Determinism | ⚠️ Inconsistent | 40% |
-| Browser API Mocks | ✅ Complete | 100% |
+| Component              | Status                   | Score |
+| ---------------------- | ------------------------ | ----- |
+| Jest Retry Logic       | ⚠️ Implicit (bail in CI) | 60%   |
+| Playwright Retry Logic | ✅ Explicit (2 retries)  | 100%  |
+| Timeout Configuration  | ✅ Comprehensive         | 100%  |
+| Mock Isolation         | ✅ Global + Per-Test     | 95%   |
+| Async Pattern Usage    | ✅ Consistent            | 90%   |
+| Timer Determinism      | ⚠️ Inconsistent          | 40%   |
+| Browser API Mocks      | ✅ Complete              | 100%  |
 
 ### CI/CD Integration
 
 **Workflow**: `/Users/admin/Sites/nself-chat/.github/workflows/test.yml`
 
 **Features**:
+
 - ✅ Coverage reporting to Codecov
 - ✅ JUnit XML for test results
 - ✅ HTML report generation
@@ -408,6 +439,7 @@ enableMapSet()
 ### Test Run Stability
 
 **Last Known Results** (per TASK-129-134-SUMMARY.md):
+
 - ❌ 3 device verification test failures
 - ❌ 1 TextEncoder missing failure
 - ⚠️ Timer usage warnings
@@ -423,36 +455,40 @@ enableMapSet()
 
 #### Breakdown by Component
 
-| Component | Complete | In Progress | Not Started | Score |
-|-----------|----------|-------------|-------------|-------|
-| **Test Infrastructure** | ✅ Jest config<br>✅ Playwright config<br>✅ Jest setup | | | 100% |
-| **Retry Configuration** | ✅ Playwright<br>🟡 Jest (implicit) | | | 75% |
-| **Timeout Settings** | ✅ All configured | | | 100% |
-| **Mock Isolation** | ✅ Global cleanup<br>✅ Per-test cleanup | | | 95% |
-| **Async Patterns** | ✅ Most files<br>🟡 Some timing issues | | | 85% |
-| **Timer Determinism** | | 🟡 104 files use fake timers | ❌ Audit needed<br>❌ 20+ files use real timers | 30% |
-| **Flaky Test Fixes** | | 🟡 Identified | ❌ Device verification<br>❌ Timer-based tests | 20% |
-| **Flake Detection** | | | ❌ Automated detection<br>❌ Monitoring | 0% |
-| **CI Stability** | ✅ Configuration | 🟡 Known failures | | 70% |
+| Component               | Complete                                                | In Progress                  | Not Started                                     | Score |
+| ----------------------- | ------------------------------------------------------- | ---------------------------- | ----------------------------------------------- | ----- |
+| **Test Infrastructure** | ✅ Jest config<br>✅ Playwright config<br>✅ Jest setup |                              |                                                 | 100%  |
+| **Retry Configuration** | ✅ Playwright<br>🟡 Jest (implicit)                     |                              |                                                 | 75%   |
+| **Timeout Settings**    | ✅ All configured                                       |                              |                                                 | 100%  |
+| **Mock Isolation**      | ✅ Global cleanup<br>✅ Per-test cleanup                |                              |                                                 | 95%   |
+| **Async Patterns**      | ✅ Most files<br>🟡 Some timing issues                  |                              |                                                 | 85%   |
+| **Timer Determinism**   |                                                         | 🟡 104 files use fake timers | ❌ Audit needed<br>❌ 20+ files use real timers | 30%   |
+| **Flaky Test Fixes**    |                                                         | 🟡 Identified                | ❌ Device verification<br>❌ Timer-based tests  | 20%   |
+| **Flake Detection**     |                                                         |                              | ❌ Automated detection<br>❌ Monitoring         | 0%    |
+| **CI Stability**        | ✅ Configuration                                        | 🟡 Known failures            |                                                 | 70%   |
 
 ### Scoring Rationale
 
 **Completed (100%)**:
+
 - Test infrastructure and configuration
 - Mock isolation mechanisms
 - CI/CD integration
 
 **Mostly Complete (70-90%)**:
+
 - Async/await patterns
 - Test lifecycle management
 - Timeout configuration
 
 **Partially Complete (30-50%)**:
+
 - Timer determinism
 - Retry logic (implicit in Jest)
 - Flaky test fixes
 
 **Not Started (0-20%)**:
+
 - Automated flake detection
 - Comprehensive timer audit
 - Device verification fixes
@@ -533,6 +569,7 @@ enableMapSet()
 ### Immediate Actions (This Week)
 
 1. **Fix Device Verification Tests** 🔴 (2-4 hours)
+
    ```javascript
    // jest.setup.js - Add at top
    import { TextEncoder, TextDecoder } from 'util'
@@ -549,6 +586,7 @@ enableMapSet()
    - Focus on plugin tests (realtime, jobs, notifications)
    - Replace real timers with fake timers
    - Example:
+
      ```javascript
      beforeEach(() => {
        jest.useFakeTimers()
@@ -573,9 +611,11 @@ enableMapSet()
    - Fix or remove
 
 5. **Add Jest Retry Plugin** 🟡 (2-3 hours)
+
    ```bash
    pnpm add -D jest-retries
    ```
+
    ```javascript
    // jest.config.js
    testRunner: "jest-circus/runner",
@@ -665,6 +705,7 @@ Total: 323 test files
 ### Good Patterns ✅
 
 1. **Proper Async Handling**
+
    ```typescript
    it('should connect successfully', async () => {
      await act(async () => {
@@ -675,6 +716,7 @@ Total: 323 test files
    ```
 
 2. **Comprehensive Cleanup**
+
    ```typescript
    afterEach(() => {
      jest.clearAllMocks()
@@ -689,16 +731,17 @@ Total: 323 test files
      realtimeClient: {
        connect: jest.fn().mockResolvedValue(undefined),
        // ...
-     }
+     },
    }))
    ```
 
 ### Anti-Patterns ⚠️
 
 1. **Real Timers in Tests**
+
    ```javascript
    // BAD: Non-deterministic
-   await new Promise(resolve => setTimeout(resolve, 1000))
+   await new Promise((resolve) => setTimeout(resolve, 1000))
 
    // GOOD: Deterministic
    jest.useFakeTimers()
@@ -708,6 +751,7 @@ Total: 323 test files
    ```
 
 2. **Date.now() for Timing**
+
    ```javascript
    // BAD: Race condition risk
    const start = Date.now()
@@ -722,6 +766,7 @@ Total: 323 test files
    ```
 
 3. **Polling Loops**
+
    ```javascript
    // BAD: Flaky
    while (Date.now() - start < maxWaitTime) {
@@ -729,9 +774,12 @@ Total: 323 test files
    }
 
    // GOOD: waitFor with timeout
-   await waitFor(() => {
-     expect(condition).toBe(true)
-   }, { timeout: 5000 })
+   await waitFor(
+     () => {
+       expect(condition).toBe(true)
+     },
+     { timeout: 5000 }
+   )
    ```
 
 ---
@@ -758,13 +806,13 @@ Task 132 (Flake Reduction) is **40% complete**. The test infrastructure is solid
 
 ### Readiness for Production
 
-| Criteria | Status | Notes |
-|----------|--------|-------|
-| No flaky tests | ❌ 40% | Known failures exist |
-| Deterministic tests | 🟡 70% | Timer issues remain |
-| Proper isolation | ✅ 95% | Strong cleanup mechanisms |
-| CI stability | 🟡 70% | Some failures in pipeline |
-| Retry logic | 🟡 75% | Playwright yes, Jest implicit |
+| Criteria            | Status | Notes                         |
+| ------------------- | ------ | ----------------------------- |
+| No flaky tests      | ❌ 40% | Known failures exist          |
+| Deterministic tests | 🟡 70% | Timer issues remain           |
+| Proper isolation    | ✅ 95% | Strong cleanup mechanisms     |
+| CI stability        | 🟡 70% | Some failures in pipeline     |
+| Retry logic         | 🟡 75% | Playwright yes, Jest implicit |
 
 **Overall**: Not yet production-ready for flake elimination goal. Strong foundation, but active work needed on known failures.
 

@@ -14,13 +14,13 @@ Integration tests have been created for several API routes, but they have **crit
 
 ## Definition of Done Status
 
-| Criteria | Status | Notes |
-|----------|--------|-------|
-| ✅ Code exists and is complete | ⚠️ PARTIAL | 5 test files exist, but only cover ~2% of API routes |
-| ❌ Tests pass (no failures) | ❌ FAIL | All 5 test suites fail with "Request is not defined" |
-| ❌ No mock data in APIs (real database integration) | ❌ FAIL | Extensive mocking used, no real DB integration |
-| ⚠️ Documentation complete | ⚠️ PARTIAL | Tests are well-documented but no integration guide |
-| ❌ Functionality works as intended | ❌ FAIL | Cannot verify - tests don't run |
+| Criteria                                            | Status     | Notes                                                |
+| --------------------------------------------------- | ---------- | ---------------------------------------------------- |
+| ✅ Code exists and is complete                      | ⚠️ PARTIAL | 5 test files exist, but only cover ~2% of API routes |
+| ❌ Tests pass (no failures)                         | ❌ FAIL    | All 5 test suites fail with "Request is not defined" |
+| ❌ No mock data in APIs (real database integration) | ❌ FAIL    | Extensive mocking used, no real DB integration       |
+| ⚠️ Documentation complete                           | ⚠️ PARTIAL | Tests are well-documented but no integration guide   |
+| ❌ Functionality works as intended                  | ❌ FAIL    | Cannot verify - tests don't run                      |
 
 **Overall Completion**: **45%**
 
@@ -30,13 +30,13 @@ Integration tests have been created for several API routes, but they have **crit
 
 ### Test Files (5 files, 2,401 lines)
 
-| File | Lines | Tests | Status |
-|------|-------|-------|--------|
-| `/Users/admin/Sites/nself-chat/src/app/api/__tests__/config.test.ts` | 84 | 7 | ❌ Fails |
-| `/Users/admin/Sites/nself-chat/src/app/api/__tests__/health.test.ts` | 64 | 6 | ❌ Fails |
-| `/Users/admin/Sites/nself-chat/src/app/api/__tests__/ai-routes.test.ts` | 709 | 30+ | ❌ Fails |
-| `/Users/admin/Sites/nself-chat/src/app/api/__tests__/bot-routes.test.ts` | 726 | 25+ | ❌ Fails |
-| `/Users/admin/Sites/nself-chat/src/app/api/__tests__/moderation-routes.test.ts` | 859 | 35+ | ❌ Fails |
+| File                                                                            | Lines | Tests | Status   |
+| ------------------------------------------------------------------------------- | ----- | ----- | -------- |
+| `/Users/admin/Sites/nself-chat/src/app/api/__tests__/config.test.ts`            | 84    | 7     | ❌ Fails |
+| `/Users/admin/Sites/nself-chat/src/app/api/__tests__/health.test.ts`            | 64    | 6     | ❌ Fails |
+| `/Users/admin/Sites/nself-chat/src/app/api/__tests__/ai-routes.test.ts`         | 709   | 30+   | ❌ Fails |
+| `/Users/admin/Sites/nself-chat/src/app/api/__tests__/bot-routes.test.ts`        | 726   | 25+   | ❌ Fails |
+| `/Users/admin/Sites/nself-chat/src/app/api/__tests__/moderation-routes.test.ts` | 859   | 35+   | ❌ Fails |
 
 **Total**: 2,442 lines, ~103 test cases
 
@@ -105,11 +105,13 @@ Integration tests have been created for several API routes, but they have **crit
 ## Test Execution Results
 
 ### Run Command:
+
 ```bash
 npm test -- src/app/api/__tests__
 ```
 
 ### Results:
+
 ```
 FAIL src/app/api/__tests__/moderation-routes.test.ts
 FAIL src/app/api/__tests__/bot-routes.test.ts
@@ -124,11 +126,13 @@ Time:        0.909 s
 ```
 
 ### Error:
+
 ```
 ReferenceError: Request is not defined
 ```
 
 ### Root Cause:
+
 The tests import Next.js route handlers that require the Web API `Request` object, but Jest is configured with `testEnvironment: 'jest-environment-jsdom'` which doesn't provide this global. Next.js API routes run in a Node.js environment with Web API polyfills, not in the browser.
 
 ---
@@ -140,22 +144,26 @@ The tests import Next.js route handlers that require the Web API `Request` objec
 All tests use **extensive mocking** instead of real database integration:
 
 ### 1. **Config Tests** (`config.test.ts`):
+
 ```typescript
 jest.mock('@/lib/nhost.server', () => ({
   nhostServer: {
-    graphql: { request: jest.fn() }
-  }
+    graphql: { request: jest.fn() },
+  },
 }))
 ```
+
 - ❌ Mocks Nhost server
 - ❌ No real database queries
 - ✅ Tests route logic only
 
 ### 2. **Health Tests** (`health.test.ts`):
+
 - ⚠️ No mocks (basic health checks)
 - ⚠️ No database connectivity actually tested
 
 ### 3. **AI Routes Tests** (`ai-routes.test.ts`):
+
 ```typescript
 jest.mock('@/lib/ai/message-summarizer')
 jest.mock('@/lib/ai/sentiment-analyzer')
@@ -164,21 +172,25 @@ jest.mock('@/lib/ai/embeddings')
 jest.mock('@/lib/ai/smart-search')
 jest.mock('@/lib/sentry-utils')
 ```
+
 - ❌ All AI services mocked
 - ❌ No real OpenAI/AI provider integration
 - ❌ No database integration
 
 ### 4. **Bot Routes Tests** (`bot-routes.test.ts`):
+
 ```typescript
 jest.mock('@/lib/logger')
 jest.mock('@/lib/bots/templates')
 ```
+
 - ❌ Logger mocked
 - ❌ Bot templates mocked
 - ⚠️ In-memory bot storage (some tests create/read/update/delete)
 - ⚠️ Not using real database
 
 ### 5. **Moderation Routes Tests** (`moderation-routes.test.ts`):
+
 ```typescript
 jest.mock('@/lib/moderation/ai-moderator')
 jest.mock('@/lib/moderation/toxicity-detector')
@@ -189,11 +201,13 @@ jest.mock('@/lib/moderation/actions')
 jest.mock('@/lib/apollo-client')
 jest.mock('@/lib/sentry-utils')
 ```
+
 - ❌ All moderation services mocked
 - ❌ Apollo Client mocked (no real GraphQL queries)
 - ❌ No database integration
 
 ### Summary:
+
 - **0%** of tests use real database integration
 - **100%** of tests rely on mocks
 - **17 different mocks** used across 5 test files
@@ -211,6 +225,7 @@ jest.mock('@/lib/sentry-utils')
    - Good coverage of error cases and edge cases
 
 2. **Good Documentation**:
+
    ```typescript
    /**
     * AI API Routes Tests
@@ -265,6 +280,7 @@ jest.mock('@/lib/sentry-utils')
 For **true integration tests**, we need:
 
 ### 1. **Real Database Integration** ❌
+
 - [ ] Test database setup/teardown
 - [ ] Real GraphQL queries via Apollo
 - [ ] Database migrations before tests
@@ -272,23 +288,27 @@ For **true integration tests**, we need:
 - [ ] Cleanup after tests
 
 ### 2. **Environment Configuration** ❌
+
 - [ ] Separate test environment
 - [ ] Test database credentials
 - [ ] Test API keys (or mock servers)
 - [ ] Proper Node.js test environment
 
 ### 3. **Authentication** ❌
+
 - [ ] Test user creation
 - [ ] JWT token generation
 - [ ] Authorization headers in requests
 - [ ] RBAC testing
 
 ### 4. **External Service Integration** ❌
+
 - [ ] Mock servers for external APIs (Nock, MSW)
 - [ ] Or sandbox/test environments
 - [ ] Or conditional skipping if services unavailable
 
 ### 5. **Transaction Handling** ❌
+
 - [ ] Database transactions for test isolation
 - [ ] Rollback after each test
 - [ ] Or use test-specific database
@@ -299,32 +319,33 @@ For **true integration tests**, we need:
 
 ### ✅ Tested (13 endpoints):
 
-| Endpoint | Methods | Test Cases |
-|----------|---------|------------|
-| `/api/config` | GET, POST | 7 |
-| `/api/health` | GET | 2 |
-| `/api/health/live` | GET | 1 |
-| `/api/health/ready` | GET | 2 |
-| `/api/ai/summarize` | POST, OPTIONS | 8 |
-| `/api/ai/sentiment` | POST, OPTIONS | 7 |
-| `/api/ai/digest` | POST, GET, OPTIONS | 5 |
-| `/api/ai/embed` | POST, GET, OPTIONS | 7 |
-| `/api/ai/search` | POST, OPTIONS | 5 |
-| `/api/bots` | GET, POST | 6 |
-| `/api/bots/[id]` | GET, PUT, DELETE | 7 |
-| `/api/bots/[id]/enable` | POST | 4 |
-| `/api/bots/[id]/logs` | GET | 4 |
-| `/api/bots/templates` | GET, POST | 4 |
-| `/api/bots/templates/[id]/instantiate` | POST | 4 |
-| `/api/moderation/analyze` | POST, GET, PUT | 6 |
-| `/api/moderation/batch` | POST | 6 |
-| `/api/moderation/actions` | POST, GET | 11 |
-| `/api/moderation/stats` | GET | 4 |
-| `/api/moderation/queue` | GET, POST | 4 |
+| Endpoint                               | Methods            | Test Cases |
+| -------------------------------------- | ------------------ | ---------- |
+| `/api/config`                          | GET, POST          | 7          |
+| `/api/health`                          | GET                | 2          |
+| `/api/health/live`                     | GET                | 1          |
+| `/api/health/ready`                    | GET                | 2          |
+| `/api/ai/summarize`                    | POST, OPTIONS      | 8          |
+| `/api/ai/sentiment`                    | POST, OPTIONS      | 7          |
+| `/api/ai/digest`                       | POST, GET, OPTIONS | 5          |
+| `/api/ai/embed`                        | POST, GET, OPTIONS | 7          |
+| `/api/ai/search`                       | POST, OPTIONS      | 5          |
+| `/api/bots`                            | GET, POST          | 6          |
+| `/api/bots/[id]`                       | GET, PUT, DELETE   | 7          |
+| `/api/bots/[id]/enable`                | POST               | 4          |
+| `/api/bots/[id]/logs`                  | GET                | 4          |
+| `/api/bots/templates`                  | GET, POST          | 4          |
+| `/api/bots/templates/[id]/instantiate` | POST               | 4          |
+| `/api/moderation/analyze`              | POST, GET, PUT     | 6          |
+| `/api/moderation/batch`                | POST               | 6          |
+| `/api/moderation/actions`              | POST, GET          | 11         |
+| `/api/moderation/stats`                | GET                | 4          |
+| `/api/moderation/queue`                | GET, POST          | 4          |
 
 ### ❌ Not Tested (252+ endpoints):
 
 Examples of critical untested APIs:
+
 - `/api/auth/*` - All auth endpoints
 - `/api/channels/*` - Channel CRUD
 - `/api/messages/*` - Message handling
@@ -380,6 +401,7 @@ Examples of critical untested APIs:
 ## Recommendations
 
 ### 1. **Fix Jest Configuration** (Priority: CRITICAL)
+
 ```javascript
 // jest.config.js - Add environment override for API tests
 testMatch: [
@@ -395,6 +417,7 @@ testEnvironmentOptions: {
 ```
 
 Or create `jest.config.api.js`:
+
 ```javascript
 module.exports = {
   ...baseConfig,
@@ -404,13 +427,16 @@ module.exports = {
 ```
 
 ### 2. **Add Real Database Integration** (Priority: HIGH)
+
 - Set up test database with Docker
 - Create migration scripts for test data
 - Use transactions for test isolation
 - Add cleanup hooks
 
 ### 3. **Expand API Coverage** (Priority: HIGH)
+
 Priority routes to test:
+
 1. Authentication endpoints (critical)
 2. Channel management (core feature)
 3. Message handling (core feature)
@@ -418,18 +444,21 @@ Priority routes to test:
 5. Webhook handling (external integration)
 
 ### 4. **Remove Mocks, Add Real Integration** (Priority: MEDIUM)
+
 - Remove Apollo Client mocks
 - Use real GraphQL queries against test DB
 - Add mock servers for external APIs (MSW)
 - Test actual error handling
 
 ### 5. **Add Test Infrastructure** (Priority: MEDIUM)
+
 - Create `src/test-utils/api-test-utils.ts`
 - Add request factory functions
 - Add test data builders
 - Add authentication helpers
 
 ### 6. **Documentation** (Priority: LOW)
+
 - Create integration testing guide
 - Document test database setup
 - Add examples for new API tests
@@ -443,6 +472,7 @@ Priority routes to test:
 While integration tests have been **created** for 5 API categories with comprehensive test cases (~103 tests), the implementation has **critical issues** that prevent them from being true integration tests:
 
 ### ❌ Major Issues:
+
 1. **Tests don't run** - All 5 test suites fail
 2. **Heavy mocking** - No real database or service integration
 3. **Minimal coverage** - Only 4.9% of API routes tested
@@ -450,12 +480,14 @@ While integration tests have been **created** for 5 API categories with comprehe
 5. **Environment problems** - Wrong Jest test environment
 
 ### ✅ What Works:
+
 1. Well-structured test cases
 2. Good documentation
 3. Comprehensive validation testing
 4. Clear test organization
 
 ### Next Steps:
+
 1. **Fix Jest environment configuration** (CRITICAL)
 2. **Set up test database** (HIGH)
 3. **Remove mocks, add real integration** (HIGH)
@@ -468,14 +500,14 @@ While integration tests have been **created** for 5 API categories with comprehe
 
 ## Completion Percentage Breakdown
 
-| Component | Weight | Score | Weighted |
-|-----------|--------|-------|----------|
-| Tests exist | 20% | 50% | 10% |
-| Tests pass | 25% | 0% | 0% |
-| Real DB integration | 25% | 0% | 0% |
-| Coverage | 20% | 5% | 1% |
-| Documentation | 10% | 70% | 7% |
-| **Total** | **100%** | - | **18%** |
+| Component           | Weight   | Score | Weighted |
+| ------------------- | -------- | ----- | -------- |
+| Tests exist         | 20%      | 50%   | 10%      |
+| Tests pass          | 25%      | 0%    | 0%       |
+| Real DB integration | 25%      | 0%    | 0%       |
+| Coverage            | 20%      | 5%    | 1%       |
+| Documentation       | 10%      | 70%   | 7%       |
+| **Total**           | **100%** | -     | **18%**  |
 
 **Adjusted for partial completion credit**: **45%**
 

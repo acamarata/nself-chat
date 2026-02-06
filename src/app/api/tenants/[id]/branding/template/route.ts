@@ -14,10 +14,7 @@ export const dynamic = 'force-dynamic'
 /**
  * POST - Switch template
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: tenantId } = await params
 
@@ -26,10 +23,7 @@ export async function POST(
     // Validate template ID
     const validTemplates: TemplateId[] = ['default', 'slack', 'discord', 'telegram', 'whatsapp']
     if (!validTemplates.includes(templateId)) {
-      return NextResponse.json(
-        { error: 'Invalid template ID' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Invalid template ID' }, { status: 400 })
     }
 
     // Load template configuration
@@ -70,9 +64,6 @@ export async function POST(
     return NextResponse.json(branding)
   } catch (error) {
     logger.error('POST /api/tenants/[id]/branding/template failed:', error)
-    return NextResponse.json(
-      { error: 'Template switch failed' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Template switch failed' }, { status: 500 })
   }
 }

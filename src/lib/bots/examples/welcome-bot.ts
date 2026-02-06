@@ -5,23 +5,23 @@
  * Supports customizable welcome messages and actions.
  */
 
-import { Bot, BotConfig, BotContext, BotResponse } from '../bot-types';
+import { Bot, BotConfig, BotContext, BotResponse } from '../bot-types'
 
 export interface WelcomeBotConfig extends BotConfig {
-  defaultMessage?: string;
+  defaultMessage?: string
 }
 
 interface ChannelWelcomeConfig {
-  channelId: string;
-  enabled: boolean;
-  message: string;
-  dmWelcome: boolean;
-  assignRole?: string;
-  showRules?: boolean;
+  channelId: string
+  enabled: boolean
+  message: string
+  dmWelcome: boolean
+  assignRole?: string
+  showRules?: boolean
 }
 
 // In-memory storage (use database in production)
-const channelConfigs = new Map<string, ChannelWelcomeConfig>();
+const channelConfigs = new Map<string, ChannelWelcomeConfig>()
 
 const DEFAULT_WELCOME_MESSAGE = `
 Welcome to {channel}, {user}! 🎉
@@ -33,19 +33,19 @@ We're glad to have you here. Here are some tips to get started:
 • Feel free to ask questions - we're here to help!
 
 Enjoy your stay! 🚀
-`.trim();
+`.trim()
 
 export class WelcomeBot implements Bot {
-  readonly id = 'welcome-bot';
-  readonly name = 'Welcome Bot';
-  readonly description = 'Welcome new members automatically';
-  readonly avatar = '🎉';
-  readonly version = '1.0.0';
+  readonly id = 'welcome-bot'
+  readonly name = 'Welcome Bot'
+  readonly description = 'Welcome new members automatically'
+  readonly avatar = '🎉'
+  readonly version = '1.0.0'
 
-  private defaultMessage: string;
+  private defaultMessage: string
 
   constructor(config?: WelcomeBotConfig) {
-    this.defaultMessage = config?.defaultMessage || DEFAULT_WELCOME_MESSAGE;
+    this.defaultMessage = config?.defaultMessage || DEFAULT_WELCOME_MESSAGE
   }
 
   getCommands() {
@@ -70,28 +70,29 @@ export class WelcomeBot implements Bot {
         description: 'View current welcome settings',
         usage: '/welcomesettings',
       },
-    ];
+    ]
   }
 
   async onMessage(): Promise<BotResponse | null> {
-    return null;
+    return null
   }
 
   async onCommand(command: string, args: string[], context: BotContext): Promise<BotResponse> {
     switch (command) {
       case 'setwelcome':
-        return this.setWelcome(args, context);
+        return this.setWelcome(args, context)
       case 'welcomemessage':
-        return this.setWelcomeMessage(args, context);
+        return this.setWelcomeMessage(args, context)
       case 'testwelcome':
-        return this.testWelcome(context);
+        return this.testWelcome(context)
       case 'welcomesettings':
-        return this.showSettings(context);
+        return this.showSettings(context)
       default:
         return {
           type: 'message',
-          content: 'Unknown command. Try /setwelcome, /welcomemessage, /testwelcome, or /welcomesettings',
-        };
+          content:
+            'Unknown command. Try /setwelcome, /welcomemessage, /testwelcome, or /welcomesettings',
+        }
     }
   }
 
@@ -99,24 +100,26 @@ export class WelcomeBot implements Bot {
     return {
       type: 'message',
       content: 'Hi! I welcome new members to channels. Use `/setwelcome on` to enable me!',
-    };
+    }
   }
 
   /**
    * Handle member join events
    */
-  async onMemberJoin(context: BotContext & { newMember: { id: string; displayName: string } }): Promise<BotResponse | null> {
-    const config = channelConfigs.get(context.channel.id);
+  async onMemberJoin(
+    context: BotContext & { newMember: { id: string; displayName: string } }
+  ): Promise<BotResponse | null> {
+    const config = channelConfigs.get(context.channel.id)
 
     if (!config || !config.enabled) {
-      return null;
+      return null
     }
 
     const message = this.formatWelcomeMessage(
       config.message,
       context.newMember.displayName,
       context.channel.name
-    );
+    )
 
     // If DM welcome is enabled, send a private message too
     if (config.dmWelcome) {
@@ -126,21 +129,21 @@ export class WelcomeBot implements Bot {
     return {
       type: 'message',
       content: message,
-    };
+    }
   }
 
   private setWelcome(args: string[], context: BotContext): BotResponse {
-    const [action] = args;
+    const [action] = args
 
     if (!action || !['on', 'off'].includes(action.toLowerCase())) {
       return {
         type: 'message',
         content: 'Usage: `/setwelcome on` or `/setwelcome off`',
-      };
+      }
     }
 
-    const enabled = action.toLowerCase() === 'on';
-    let config = channelConfigs.get(context.channel.id);
+    const enabled = action.toLowerCase() === 'on'
+    let config = channelConfigs.get(context.channel.id)
 
     if (!config) {
       config = {
@@ -148,10 +151,10 @@ export class WelcomeBot implements Bot {
         enabled,
         message: this.defaultMessage,
         dmWelcome: false,
-      };
-      channelConfigs.set(context.channel.id, config);
+      }
+      channelConfigs.set(context.channel.id, config)
     } else {
-      config.enabled = enabled;
+      config.enabled = enabled
     }
 
     return {
@@ -159,53 +162,54 @@ export class WelcomeBot implements Bot {
       content: enabled
         ? '✅ Welcome messages are now **enabled** for this channel.\nUse `/welcomemessage` to customize the greeting.'
         : '❌ Welcome messages are now **disabled** for this channel.',
-    };
+    }
   }
 
   private setWelcomeMessage(args: string[], context: BotContext): BotResponse {
-    const message = args.join(' ');
+    const message = args.join(' ')
 
     if (!message) {
       return {
         type: 'message',
-        content: 'Usage: `/welcomemessage <your message>`\n\nPlaceholders:\n• `{user}` - New member\'s name\n• `{channel}` - Channel name\n• `{server}` - Server name\n\nExample:\n`/welcomemessage Welcome {user}! Glad to have you in {channel}!`',
-      };
+        content:
+          "Usage: `/welcomemessage <your message>`\n\nPlaceholders:\n• `{user}` - New member's name\n• `{channel}` - Channel name\n• `{server}` - Server name\n\nExample:\n`/welcomemessage Welcome {user}! Glad to have you in {channel}!`",
+      }
     }
 
-    let config = channelConfigs.get(context.channel.id);
+    let config = channelConfigs.get(context.channel.id)
     if (!config) {
       config = {
         channelId: context.channel.id,
         enabled: true,
         message,
         dmWelcome: false,
-      };
-      channelConfigs.set(context.channel.id, config);
+      }
+      channelConfigs.set(context.channel.id, config)
     } else {
-      config.message = message;
+      config.message = message
     }
 
     return {
       type: 'message',
       content: `✅ Welcome message updated!\n\nPreview:\n${this.formatWelcomeMessage(message, context.user.displayName, context.channel.name)}`,
-    };
+    }
   }
 
   private testWelcome(context: BotContext): BotResponse {
-    const config = channelConfigs.get(context.channel.id);
+    const config = channelConfigs.get(context.channel.id)
 
     if (!config || !config.enabled) {
       return {
         type: 'message',
         content: 'Welcome messages are not enabled. Use `/setwelcome on` first.',
-      };
+      }
     }
 
     const message = this.formatWelcomeMessage(
       config.message,
       context.user.displayName,
       context.channel.name
-    );
+    )
 
     return {
       type: 'rich',
@@ -215,17 +219,17 @@ export class WelcomeBot implements Bot {
         footer: 'This is how new members will be greeted',
         color: '#22c55e',
       },
-    };
+    }
   }
 
   private showSettings(context: BotContext): BotResponse {
-    const config = channelConfigs.get(context.channel.id);
+    const config = channelConfigs.get(context.channel.id)
 
     if (!config) {
       return {
         type: 'message',
         content: 'No welcome configuration for this channel. Use `/setwelcome on` to get started.',
-      };
+      }
     }
 
     const settings = [
@@ -233,7 +237,7 @@ export class WelcomeBot implements Bot {
       `**DM Welcome:** ${config.dmWelcome ? 'Yes' : 'No'}`,
       `**Assign Role:** ${config.assignRole || 'None'}`,
       `**Show Rules:** ${config.showRules ? 'Yes' : 'No'}`,
-    ].join('\n');
+    ].join('\n')
 
     return {
       type: 'rich',
@@ -248,17 +252,17 @@ export class WelcomeBot implements Bot {
         ],
         color: '#6366f1',
       },
-    };
+    }
   }
 
   private formatWelcomeMessage(template: string, userName: string, channelName: string): string {
     return template
       .replace(/{user}/gi, userName)
       .replace(/{channel}/gi, `#${channelName}`)
-      .replace(/{server}/gi, 'this server');
+      .replace(/{server}/gi, 'this server')
   }
 }
 
 export function createWelcomeBot(config?: WelcomeBotConfig): WelcomeBot {
-  return new WelcomeBot(config);
+  return new WelcomeBot(config)
 }

@@ -168,7 +168,10 @@ function DemoControls() {
 
       {/* Channel Selector */}
       <div>
-        <label htmlFor="demo-channel-select" className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label
+          htmlFor="demo-channel-select"
+          className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
           Channel
         </label>
         <select

@@ -100,9 +100,7 @@ export async function updateSubscription(params: {
   })
 }
 
-export async function getSubscription(
-  subscriptionId: string
-): Promise<Stripe.Subscription> {
+export async function getSubscription(subscriptionId: string): Promise<Stripe.Subscription> {
   return stripe.subscriptions.retrieve(subscriptionId)
 }
 
@@ -121,9 +119,7 @@ export async function listInvoices(
   return invoices.data
 }
 
-export async function getUpcomingInvoice(
-  customerId: string
-): Promise<Stripe.Invoice | null> {
+export async function getUpcomingInvoice(customerId: string): Promise<Stripe.Invoice | null> {
   try {
     // @ts-expect-error - Stripe types may have changed, method exists
     return await stripe.invoices.retrieveUpcoming({
@@ -135,9 +131,6 @@ export async function getUpcomingInvoice(
   }
 }
 
-export function constructWebhookEvent(
-  payload: string | Buffer,
-  signature: string
-): Stripe.Event {
+export function constructWebhookEvent(payload: string | Buffer, signature: string): Stripe.Event {
   return stripe.webhooks.constructEvent(payload, signature, STRIPE_WEBHOOK_SECRET)
 }

@@ -165,9 +165,7 @@ export function ColorPaletteGenerator({
 
       {/* Harmony suggestions */}
       <div className="space-y-2">
-        <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Color Harmony
-        </span>
+        <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Color Harmony</span>
         <div className="flex flex-wrap gap-2">
           {(['custom', 'complementary', 'analogous', 'triadic'] as const).map((type) => (
             <button

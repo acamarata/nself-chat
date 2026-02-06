@@ -751,7 +751,7 @@ export class SyncService {
           documentId: e.documentId || e.id || 'unknown',
           error: e.error || e.message || 'Unknown error',
           timestamp: new Date(),
-          retryCount: 0
+          retryCount: 0,
         })) as SyncError[],
       }
     } catch (error) {
@@ -947,7 +947,7 @@ export class SyncService {
           documentId: e.documentId || e.id || 'unknown',
           error: e.error || e.message || 'Unknown error',
           timestamp: new Date(),
-          retryCount: 0
+          retryCount: 0,
         })) as SyncError[],
       }
     } catch (error) {

@@ -70,7 +70,7 @@ export function FontSelector({
           await loadFonts([{ family: font.family }])
           setLoadedFonts((prev) => new Set([...prev, font.family]))
         } catch (error) {
-          logger.error('Failed to load font:',  error)
+          logger.error('Failed to load font:', error)
         } finally {
           setLoadingFont(null)
         }

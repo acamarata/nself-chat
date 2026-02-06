@@ -65,6 +65,7 @@ WORKFLOWS_ENABLE_CODE_ACTIONS=true
 **Trigger**: user.registered
 
 **Actions**:
+
 1. Send welcome DM
 2. Assign "member" role
 3. Add to #general channel

@@ -17,9 +17,11 @@ The stream chat and reactions system is **95% complete** with comprehensive impl
 ## Definition-of-Done Checklist
 
 ### 1. ✅ Stream Chat Implementation Complete
+
 **Status**: COMPLETE
 
 **Evidence**:
+
 - **API Route**: `/Users/admin/Sites/nself-chat/src/app/api/streams/[id]/chat/route.ts`
   - GET endpoint: Fetch chat messages with pagination (limit/offset)
   - POST endpoint: Send chat messages with validation (max 500 chars)
@@ -36,10 +38,13 @@ The stream chat and reactions system is **95% complete** with comprehensive impl
   - Error handling and loading states
 
 ### 2. ⚠️ Real-time Chat Messages During Streams
+
 **Status**: PARTIAL - Socket events defined but TODO in page
 
 **Evidence**:
+
 - Socket events defined in `/Users/admin/Sites/nself-chat/src/lib/realtime/events.ts`:
+
   ```typescript
   STREAM_CHAT_MESSAGE: 'stream:chat-message',
   STREAM_CHAT_DELETED: 'stream:chat-deleted',
@@ -47,6 +52,7 @@ The stream chat and reactions system is **95% complete** with comprehensive impl
   ```
 
 - Hook implements real-time:
+
   ```typescript
   // use-stream-chat.ts lines 209-241
   subscribe<StreamChatMessage>('stream:chat-message', (message) => {
@@ -63,16 +69,19 @@ The stream chat and reactions system is **95% complete** with comprehensive impl
   ```
 
 ### 3. ⚠️ Reaction System for Streams
+
 **Status**: MOSTLY COMPLETE with **CRITICAL SCHEMA MISMATCH**
 
 **Evidence**:
 
 **✅ API Route**: `/Users/admin/Sites/nself-chat/src/app/api/streams/[id]/reactions/route.ts`
+
 - POST endpoint accepts `emoji`, `positionX`, `positionY`
 - Validates stream is live and reactions enabled
 - Inserts reaction via GraphQL mutation
 
 **✅ React Hook**: `/Users/admin/Sites/nself-chat/src/hooks/use-stream-reactions.ts`
+
 - Send reactions with position
 - Real-time socket subscription to `stream:reaction`
 - Recent reactions for animation (last 20)
@@ -81,6 +90,7 @@ The stream chat and reactions system is **95% complete** with comprehensive impl
 **❌ CRITICAL ISSUE - Schema Mismatch**:
 
 Database schema (line 283 in `0007_add_calls_and_webrtc_tables.sql`):
+
 ```sql
 CREATE TABLE nchat_stream_reactions (
   reaction_type VARCHAR(50) NOT NULL, -- heart, like, fire, clap, laugh, wow, sad, angry
@@ -89,6 +99,7 @@ CREATE TABLE nchat_stream_reactions (
 ```
 
 API implementation expects `emoji` field:
+
 ```typescript
 // route.ts line 84-86
 object: {
@@ -103,14 +114,17 @@ object: {
 The database has `reaction_type` but the API code uses `emoji`. This will cause runtime errors.
 
 ### 4. ✅ API Routes for Chat/Reactions
+
 **Status**: COMPLETE
 
 **Routes Implemented**:
+
 1. `GET /api/streams/[id]/chat` - Fetch chat messages
 2. `POST /api/streams/[id]/chat` - Send chat message
 3. `POST /api/streams/[id]/reactions` - Send reaction
 
 **Additional Stream Routes**:
+
 - `/api/streams/create` - Create stream
 - `/api/streams/[id]` - Get stream details
 - `/api/streams/[id]/start` - Start stream
@@ -119,11 +133,13 @@ The database has `reaction_type` but the API code uses `emoji`. This will cause 
 - `/api/streams/[id]/viewers` - Viewer management
 
 ### 5. ✅ Database Persistence
+
 **Status**: COMPLETE
 
 **Database Tables** (from `0007_add_calls_and_webrtc_tables.sql`):
 
 **nchat_stream_chat_messages** (lines 293-314):
+
 - id, stream_id, user_id, content
 - is_pinned, is_deleted, deleted_at, deleted_by
 - metadata, created_at
@@ -131,6 +147,7 @@ The database has `reaction_type` but the API code uses `emoji`. This will cause 
 - RLS policies enabled
 
 **nchat_stream_reactions** (lines 275-290):
+
 - id, stream_id, user_id
 - ⚠️ **reaction_type** (should be emoji for API compatibility)
 - metadata, created_at
@@ -138,36 +155,44 @@ The database has `reaction_type` but the API code uses `emoji`. This will cause 
 - RLS policies enabled
 
 **nchat_stream_viewers** (lines 244-272):
+
 - Tracks viewer engagement
 - sent_chat_messages, sent_reactions counters
 
 ### 6. ❌ GraphQL Operations
+
 **Status**: INCOMPLETE - No dedicated stream operations
 
 **Evidence**:
+
 - No stream-specific GraphQL operations file found
 - `/Users/admin/Sites/nself-chat/src/graphql/reactions.ts` only handles regular message reactions (nchat_reactions table)
 - API routes use inline GraphQL queries instead of centralized operations
 - Stream operations embedded directly in API routes (not following pattern)
 
 ### 7. ❌ Tests Pass
+
 **Status**: NO TESTS FOUND
 
 **Search Results**:
+
 - No test files found matching stream chat/reactions patterns
 - `npm test -- --listTests | grep -i stream` returned "No stream tests found"
 - No files in `**/__tests__/**/*.test.ts*` matching stream patterns
 
 ### 8. ⚠️ No TODOs or Mocks
+
 **Status**: ONE TODO FOUND
 
 **TODOs/Issues**:
+
 1. `/Users/admin/Sites/nself-chat/src/app/streams/[id]/page.tsx:78`:
    ```typescript
    // TODO: Connect to WebSocket for real-time chat and viewer count updates
    ```
 
 **No Mocks Found**:
+
 - ✅ No @ts-ignore or @ts-expect-error in implementation files
 - ✅ No FIXME comments
 - ✅ No mock implementations
@@ -235,24 +260,30 @@ The database has `reaction_type` but the API code uses `emoji`. This will cause 
 ### Core Implementation Files
 
 **API Routes**:
+
 - `/Users/admin/Sites/nself-chat/src/app/api/streams/[id]/chat/route.ts` (159 lines)
 - `/Users/admin/Sites/nself-chat/src/app/api/streams/[id]/reactions/route.ts` (102 lines)
 
 **React Hooks**:
+
 - `/Users/admin/Sites/nself-chat/src/hooks/use-stream-chat.ts` (259 lines)
 - `/Users/admin/Sites/nself-chat/src/hooks/use-stream-reactions.ts` (149 lines)
 
 **Components**:
+
 - `/Users/admin/Sites/nself-chat/src/components/streaming/StreamViewer.tsx` (358 lines)
 - `/Users/admin/Sites/nself-chat/src/app/streams/[id]/page.tsx` (245 lines)
 
 **Types**:
+
 - `/Users/admin/Sites/nself-chat/src/lib/streaming/stream-types.ts` (394 lines)
 
 **Database**:
+
 - `/Users/admin/Sites/nself-chat/backend/nself/migrations/0007_add_calls_and_webrtc_tables.sql` (648 lines)
 
 **Real-time**:
+
 - `/Users/admin/Sites/nself-chat/src/lib/realtime/events.ts` (123 lines)
 
 ---
@@ -264,6 +295,7 @@ The database has `reaction_type` but the API code uses `emoji`. This will cause 
 No test files exist for stream chat or reactions functionality.
 
 **Required Tests**:
+
 1. API route tests (GET/POST chat, POST reactions)
 2. Hook tests (useStreamChat, useStreamReactions)
 3. Component tests (StreamViewer with chat/reactions)
@@ -283,12 +315,14 @@ No test files exist for stream chat or reactions functionality.
 **Required Fix** (choose one):
 
 **Option A - Update Database** (Recommended):
+
 ```sql
 ALTER TABLE nchat_stream_reactions
 RENAME COLUMN reaction_type TO emoji;
 ```
 
 **Option B - Update API Code**:
+
 ```typescript
 // Change in route.ts line 84
 object: {
@@ -347,6 +381,7 @@ object: {
 **Overall Confidence**: 90%
 
 **Reasoning**:
+
 - ✅ Implementation is comprehensive and well-structured
 - ✅ Real-time architecture properly designed
 - ✅ Database schema complete (except naming issue)
@@ -355,6 +390,7 @@ object: {
 - ⚠️ Minor TODO in integration code
 
 **Risk Level**: MEDIUM
+
 - Schema fix is straightforward
 - TODO is minor integration work
 - Tests can be added post-fix
@@ -366,16 +402,19 @@ object: {
 **Status**: ⚠️ **MOSTLY DONE** (95% complete)
 
 **Cannot mark as DONE because**:
+
 1. Critical schema mismatch will cause runtime failures
 2. No test coverage to verify functionality
 3. One TODO in real-time integration
 
 **Can mark as DONE after**:
+
 1. ✅ Fix `reaction_type` → `emoji` schema mismatch
 2. ✅ Add basic test coverage for API routes
 3. ✅ Complete WebSocket integration (remove TODO)
 
 **Estimated Time to Completion**: 2-3 hours
+
 - Schema fix: 15 minutes
 - Tests: 1-2 hours
 - Integration: 30 minutes

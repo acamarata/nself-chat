@@ -416,7 +416,7 @@ export function useInvite(options: UseInviteOptions = {}): UseInviteReturn {
         onRevokeSuccess?.(inviteId)
         return true
       } catch (error) {
-        logger.error('Failed to revoke invite:',  error)
+        logger.error('Failed to revoke invite:', error)
         return false
       }
     },
@@ -434,7 +434,7 @@ export function useInvite(options: UseInviteOptions = {}): UseInviteReturn {
         store.removeActiveInvite(inviteId)
         return true
       } catch (error) {
-        logger.error('Failed to delete invite:',  error)
+        logger.error('Failed to delete invite:', error)
         return false
       }
     },

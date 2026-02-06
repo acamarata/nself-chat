@@ -126,7 +126,7 @@ export function PromptModal({
       await onSubmit(value)
       onOpenChange(false)
     } catch (err) {
-      logger.error('Submit failed:',  err)
+      logger.error('Submit failed:', err)
       setError(err instanceof Error ? err.message : 'An error occurred')
     } finally {
       if (externalLoading === undefined) {

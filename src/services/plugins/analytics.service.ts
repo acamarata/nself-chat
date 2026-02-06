@@ -64,13 +64,8 @@ class AnalyticsService {
     return response.json()
   }
 
-  async getUserAnalytics(
-    period: string = '7d',
-    limit: number = 100
-  ): Promise<UserAnalytics[]> {
-    const response = await fetch(
-      `${this.baseUrl}/users?period=${period}&limit=${limit}`
-    )
+  async getUserAnalytics(period: string = '7d', limit: number = 100): Promise<UserAnalytics[]> {
+    const response = await fetch(`${this.baseUrl}/users?period=${period}&limit=${limit}`)
 
     if (!response.ok) {
       throw new Error(`Failed to fetch user analytics: ${response.statusText}`)
@@ -80,9 +75,7 @@ class AnalyticsService {
     return data.users || []
   }
 
-  async getChannelAnalytics(
-    limit: number = 20
-  ): Promise<ChannelAnalytics[]> {
+  async getChannelAnalytics(limit: number = 20): Promise<ChannelAnalytics[]> {
     const response = await fetch(`${this.baseUrl}/channels?limit=${limit}`)
 
     if (!response.ok) {

@@ -110,7 +110,7 @@ export function AppConfigProvider({ children }: { children: React.ReactNode }) {
         body: JSON.stringify(newConfig),
       })
     } catch (error) {
-      logger.error('Failed to save config to database:',  error)
+      logger.error('Failed to save config to database:', error)
       // Don't throw - we already saved locally
     }
 
@@ -138,7 +138,7 @@ export function AppConfigProvider({ children }: { children: React.ReactNode }) {
         throw new Error('Failed to save configuration to database')
       }
     } catch (error) {
-      logger.error('Failed to save app config:',  error)
+      logger.error('Failed to save app config:', error)
       throw error
     }
   }

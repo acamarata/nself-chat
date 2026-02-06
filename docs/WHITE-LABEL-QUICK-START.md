@@ -5,6 +5,7 @@ Get started with nself-chat's white-label system in 5 minutes.
 ## Overview
 
 The white-label system allows you to completely customize your platform's appearance:
+
 - Choose from 5 pre-built templates
 - Customize colors and themes
 - Upload your logos
@@ -20,6 +21,7 @@ The white-label system allows you to completely customize your platform's appear
 Navigate to: **`/admin/branding`**
 
 You'll see 5 tabs:
+
 - **Template** - Choose your platform style
 - **Theme** - Customize colors
 - **Logos** - Upload branding assets
@@ -30,13 +32,13 @@ You'll see 5 tabs:
 
 Click the **Template** tab and select:
 
-| Template | Best For | Primary Color |
-|----------|----------|---------------|
-| **Default** | Modern teams | Cyan |
-| **Slack** | Enterprises | Purple |
-| **Discord** | Communities | Blue |
-| **Telegram** | Privacy-focused | Sky Blue |
-| **WhatsApp** | Personal/Small teams | Green |
+| Template     | Best For             | Primary Color |
+| ------------ | -------------------- | ------------- |
+| **Default**  | Modern teams         | Cyan          |
+| **Slack**    | Enterprises          | Purple        |
+| **Discord**  | Communities          | Blue          |
+| **Telegram** | Privacy-focused      | Sky Blue      |
+| **WhatsApp** | Personal/Small teams | Green         |
 
 Click **Apply Template** → Confirm
 
@@ -68,6 +70,7 @@ Click the **Domain** tab:
 1. Enter your domain: `chat.yourcompany.com`
 2. Click **Configure**
 3. Add the DNS records to your domain registrar:
+
    ```
    Type: CNAME
    Name: chat
@@ -77,6 +80,7 @@ Click the **Domain** tab:
    Name: _nself-verification
    Value: [verification-token]
    ```
+
 4. Wait 24-48 hours for DNS propagation
 5. Click **Verify Domain**
 
@@ -127,13 +131,13 @@ Restore or clone branding:
 
 ## Template Comparison
 
-| Feature | Default | Slack | Discord | Telegram | WhatsApp |
-|---------|---------|-------|---------|----------|----------|
-| Threads | ✅ | ✅ | ✅ | ❌ | ❌ |
-| Reactions | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Voice Notes | ✅ | ❌ | ✅ | ✅ | ✅ |
-| Code Blocks | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Message Bubbles | ❌ | ❌ | ❌ | ✅ | ✅ |
+| Feature         | Default | Slack | Discord | Telegram | WhatsApp |
+| --------------- | ------- | ----- | ------- | -------- | -------- |
+| Threads         | ✅      | ✅    | ✅      | ❌       | ❌       |
+| Reactions       | ✅      | ✅    | ✅      | ✅       | ✅       |
+| Voice Notes     | ✅      | ❌    | ✅      | ✅       | ✅       |
+| Code Blocks     | ✅      | ✅    | ✅      | ✅       | ❌       |
+| Message Bubbles | ❌      | ❌    | ❌      | ✅       | ✅       |
 
 ---
 
@@ -180,21 +184,25 @@ Domain: support.yourcompany.com
 ## Troubleshooting
 
 ### Theme not updating?
+
 - Clear browser cache (Cmd/Ctrl + Shift + R)
 - Check browser console for errors
 - Try incognito mode
 
 ### Logo not showing?
+
 - Check file size (must be < 5MB)
 - Use PNG, JPG, or SVG format
 - Ensure transparent background
 
 ### Domain not verifying?
+
 - Wait 24-48 hours for DNS propagation
 - Use `dig` or `nslookup` to check DNS records
 - Ensure no typos in DNS configuration
 
 ### CSS not applying?
+
 - Check for syntax errors
 - Use more specific selectors
 - Clear browser cache
@@ -205,24 +213,28 @@ Domain: support.yourcompany.com
 ## Best Practices
 
 ### Colors
+
 - ✅ Maintain contrast (WCAG AA minimum)
 - ✅ Test both light and dark modes
 - ✅ Use consistent primary color
 - ❌ Don't rely solely on color for information
 
 ### Logos
+
 - ✅ Use transparent backgrounds
 - ✅ Keep file sizes under 500KB
 - ✅ Test at various sizes
 - ❌ Don't use low-resolution images
 
 ### Custom CSS
+
 - ✅ Use specific selectors
 - ✅ Comment your code
 - ✅ Test thoroughly
 - ❌ Don't use `!important` excessively
 
 ### Domains
+
 - ✅ Use subdomains (chat.domain.com)
 - ✅ Wait for DNS propagation
 - ✅ Configure SPF/DKIM for email
@@ -252,6 +264,7 @@ After basic setup:
 ---
 
 **Quick Reference**:
+
 - Dashboard: `/admin/branding`
 - Docs: `/docs/WHITE-LABEL-COMPLETE.md`
 - API: `/api/tenants/[id]/branding`

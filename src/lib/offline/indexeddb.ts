@@ -179,10 +179,7 @@ class OfflineDB {
   /**
    * Generic method to add/update record
    */
-  private async put<T>(
-    storeName: string,
-    data: T
-  ): Promise<IDBValidKey> {
+  private async put<T>(storeName: string, data: T): Promise<IDBValidKey> {
     const db = await this.ensureInit()
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(storeName, 'readwrite')
@@ -197,10 +194,7 @@ class OfflineDB {
   /**
    * Generic method to get record
    */
-  private async get<T>(
-    storeName: string,
-    key: IDBValidKey | IDBKeyRange
-  ): Promise<T | undefined> {
+  private async get<T>(storeName: string, key: IDBValidKey | IDBKeyRange): Promise<T | undefined> {
     const db = await this.ensureInit()
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(storeName, 'readonly')
@@ -215,10 +209,7 @@ class OfflineDB {
   /**
    * Generic method to get all records
    */
-  private async getAll<T>(
-    storeName: string,
-    query?: IDBValidKey | IDBKeyRange
-  ): Promise<T[]> {
+  private async getAll<T>(storeName: string, query?: IDBValidKey | IDBKeyRange): Promise<T[]> {
     const db = await this.ensureInit()
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(storeName, 'readonly')
@@ -233,10 +224,7 @@ class OfflineDB {
   /**
    * Generic method to delete record
    */
-  private async delete(
-    storeName: string,
-    key: IDBValidKey | IDBKeyRange
-  ): Promise<void> {
+  private async delete(storeName: string, key: IDBValidKey | IDBKeyRange): Promise<void> {
     const db = await this.ensureInit()
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(storeName, 'readwrite')
@@ -276,19 +264,14 @@ class OfflineDB {
     await this.put(STORES.MESSAGE_QUEUE, message)
   }
 
-  async getMessageQueue(
-    status?: QueuedMessage['status']
-  ): Promise<QueuedMessage[]> {
+  async getMessageQueue(status?: QueuedMessage['status']): Promise<QueuedMessage[]> {
     if (status) {
       return this.getByIndex(STORES.MESSAGE_QUEUE, 'status', status)
     }
     return this.getAll(STORES.MESSAGE_QUEUE)
   }
 
-  async updateMessageQueueItem(
-    id: string,
-    updates: Partial<QueuedMessage>
-  ): Promise<void> {
+  async updateMessageQueueItem(id: string, updates: Partial<QueuedMessage>): Promise<void> {
     const existing = await this.get<QueuedMessage>(STORES.MESSAGE_QUEUE, id)
     if (existing) {
       await this.put(STORES.MESSAGE_QUEUE, { ...existing, ...updates })
@@ -319,19 +302,14 @@ class OfflineDB {
     await this.put(STORES.UPLOAD_QUEUE, upload)
   }
 
-  async getUploadQueue(
-    status?: QueuedUpload['status']
-  ): Promise<QueuedUpload[]> {
+  async getUploadQueue(status?: QueuedUpload['status']): Promise<QueuedUpload[]> {
     if (status) {
       return this.getByIndex(STORES.UPLOAD_QUEUE, 'status', status)
     }
     return this.getAll(STORES.UPLOAD_QUEUE)
   }
 
-  async updateUploadQueueItem(
-    id: string,
-    updates: Partial<QueuedUpload>
-  ): Promise<void> {
+  async updateUploadQueueItem(id: string, updates: Partial<QueuedUpload>): Promise<void> {
     const existing = await this.get<QueuedUpload>(STORES.UPLOAD_QUEUE, id)
     if (existing) {
       await this.put(STORES.UPLOAD_QUEUE, { ...existing, ...updates })
@@ -378,10 +356,7 @@ class OfflineDB {
     return this.getByIndex(STORES.SYNC_METADATA, 'hasConflict', true)
   }
 
-  async resolveConflict(
-    entityType: SyncMetadata['entityType'],
-    entityId: string
-  ): Promise<void> {
+  async resolveConflict(entityType: SyncMetadata['entityType'], entityId: string): Promise<void> {
     const metadata = await this.getSyncMetadata(entityType, entityId)
     if (metadata) {
       metadata.hasConflict = false

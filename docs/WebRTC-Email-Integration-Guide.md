@@ -5,6 +5,7 @@ Complete guide for WebRTC voice/video calling with LiveKit and email notificatio
 ## Overview
 
 This guide covers the implementation of:
+
 - **WebRTC UI Components**: CallWindow, StreamPlayer, CallControls, ParticipantGrid
 - **Email Service**: SendGrid/SMTP integration with React Email templates
 - **LiveKit Integration**: Voice and video call infrastructure
@@ -20,6 +21,7 @@ This guide covers the implementation of:
 Full-featured video call interface supporting 1-100 participants.
 
 **Features**:
+
 - ✅ Responsive grid layout (1x1, 2x1, 2x2, 3x3, etc.)
 - ✅ Local video preview (mirrored)
 - ✅ Remote participant videos
@@ -33,6 +35,7 @@ Full-featured video call interface supporting 1-100 participants.
 - ✅ Auto-hide controls
 
 **Usage**:
+
 ```tsx
 import { CallWindow } from '@/components/voice-video/CallWindow'
 
@@ -63,6 +66,7 @@ function MyCallPage() {
 Live streaming player with chat and reactions.
 
 **Features**:
+
 - ✅ HLS/DASH playback
 - ✅ Quality selector (Auto, 1080p, 720p, 480p, 360p)
 - ✅ Live viewer count
@@ -72,6 +76,7 @@ Live streaming player with chat and reactions.
 - ✅ Auto-hide controls
 
 **Usage**:
+
 ```tsx
 import { StreamPlayer } from '@/components/voice-video/StreamPlayer'
 
@@ -103,6 +108,7 @@ function LiveStreamPage() {
 Bottom control bar for calls with all call actions.
 
 **Features**:
+
 - ✅ Mute/unmute audio
 - ✅ Enable/disable video
 - ✅ Screen sharing toggle
@@ -113,6 +119,7 @@ Bottom control bar for calls with all call actions.
 - ✅ Keyboard shortcuts
 
 **Usage**:
+
 ```tsx
 import { CallControls } from '@/components/call/call-controls'
 
@@ -142,6 +149,7 @@ function MyCallUI() {
 Dynamic grid layout with adaptive sizing and spotlight mode.
 
 **Features**:
+
 - ✅ Auto-adaptive grid (1-100+ participants)
 - ✅ Spotlight mode (single participant)
 - ✅ Sidebar mode (screen share + thumbnails)
@@ -152,12 +160,14 @@ Dynamic grid layout with adaptive sizing and spotlight mode.
 - ✅ Pagination for 100+ participants
 
 **Layouts**:
+
 - `auto`: Automatically choose best layout
 - `grid`: Equal-sized tiles (1x1, 2x1, 2x2, 3x3, 4x4, etc.)
 - `spotlight`: One main participant
 - `sidebar`: Main participant + vertical sidebar
 
 **Usage**:
+
 ```tsx
 import { ParticipantGrid } from '@/components/voice-video/ParticipantGrid'
 
@@ -178,6 +188,7 @@ function CallView() {
 ```
 
 **Participant Interface**:
+
 ```typescript
 interface CallParticipant {
   id: string
@@ -204,11 +215,13 @@ interface CallParticipant {
 Multi-provider email service with automatic fallback.
 
 **Providers**:
+
 1. **SendGrid** (Production) - `SENDGRID_API_KEY`
 2. **SMTP** (Development) - Mailpit on `localhost:1025`
 3. **Console** (Fallback) - Logs to console
 
 **Provider Selection**:
+
 ```typescript
 // Automatic provider selection
 if (SENDGRID_API_KEY) → SendGrid
@@ -224,6 +237,7 @@ All templates use React Email for beautiful, responsive emails.
 **Location**: `src/emails/templates/`
 
 **Available Templates**:
+
 1. `email-verification.tsx` - Verify email address
 2. `password-reset.tsx` - Reset password link
 3. `welcome.tsx` - Welcome new users
@@ -344,6 +358,7 @@ LIVEKIT_API_SECRET=your_api_secret_here
 ### 3. Start LiveKit Server
 
 **Using Docker Compose**:
+
 ```bash
 # Start LiveKit
 docker-compose -f docker-compose.livekit.yml up -d
@@ -359,6 +374,7 @@ docker-compose -f docker-compose.livekit.yml down
 ```
 
 **Verify Installation**:
+
 ```bash
 # Check LiveKit API
 curl http://localhost:7880/
@@ -369,12 +385,14 @@ curl http://localhost:7880/
 ### 4. Configuration Files
 
 **`docker-compose.livekit.yml`**:
+
 - LiveKit server container
 - Port mappings (7880, 7881, 7882, 50000-60000)
 - Volume mount for config
 - Health checks
 
 **`livekit.yaml`**:
+
 - Server configuration
 - Room settings (max participants, timeouts)
 - WebRTC port ranges
@@ -390,7 +408,7 @@ For production, update `livekit.yaml`:
 # Use external IP
 rtc:
   use_external_ip: true
-  external_ip: "your-server-public-ip"
+  external_ip: 'your-server-public-ip'
 
 # Disable dev mode
 dev_mode: false
@@ -402,7 +420,7 @@ logging:
 # Configure proper TURN server
 turn:
   enabled: true
-  domain: "turn.yourdomain.com"
+  domain: 'turn.yourdomain.com'
   external_tls: true
 ```
 
@@ -415,10 +433,12 @@ turn:
 Mailpit is included in the nself backend stack for local email testing.
 
 **Access**:
+
 - SMTP: `localhost:1025`
 - Web UI: http://localhost:8025
 
 **Configuration** (`.env.local`):
+
 ```bash
 # Email provider (SMTP for dev)
 SMTP_HOST=localhost
@@ -433,6 +453,7 @@ EMAIL_FROM_NAME=nChat
 ```
 
 **Testing**:
+
 1. Start backend: `cd .backend && nself start`
 2. Access Mailpit: http://localhost:8025
 3. Trigger email (signup, password reset, etc.)
@@ -441,11 +462,13 @@ EMAIL_FROM_NAME=nChat
 ### Production Setup (SendGrid)
 
 **1. Get SendGrid API Key**:
+
 - Sign up at https://sendgrid.com
 - Create API key with "Mail Send" permission
 - Verify sender email/domain
 
 **2. Configure Environment** (`.env.local`):
+
 ```bash
 # SendGrid
 SENDGRID_API_KEY=SG.your_api_key_here
@@ -456,6 +479,7 @@ EMAIL_FROM_NAME=Your App Name
 ```
 
 **3. Verify Setup**:
+
 ```bash
 # Test email sending via API
 curl -X POST http://localhost:3000/api/auth/signup \
@@ -483,6 +507,7 @@ const branding = {
 ```
 
 **Template Structure**:
+
 ```tsx
 import EmailLayout from '../components/EmailLayout'
 import EmailHeading from '../components/EmailHeading'
@@ -493,9 +518,7 @@ export default function MyEmail({ userName, actionUrl }) {
     <EmailLayout preview="Email preview text">
       <EmailHeading>Hello {userName}!</EmailHeading>
       <Text>Your email content here...</Text>
-      <EmailButton href={actionUrl}>
-        Take Action
-      </EmailButton>
+      <EmailButton href={actionUrl}>Take Action</EmailButton>
     </EmailLayout>
   )
 }
@@ -600,18 +623,21 @@ function LiveStreamPage({ streamId }: { streamId: string }) {
 ### WebRTC Issues
 
 **Issue**: No video/audio
+
 - Check browser permissions (camera/microphone)
 - Verify LiveKit server is running
 - Check WebRTC ports are open (50000-60000)
 - Test with `chrome://webrtc-internals/`
 
 **Issue**: Poor call quality
+
 - Check network bandwidth
 - Reduce max resolution in `livekit.yaml`
 - Enable TURN server for NAT traversal
 - Check `connectionQuality` metric
 
 **Issue**: Connection failed
+
 - Verify `NEXT_PUBLIC_LIVEKIT_URL` is correct
 - Check LiveKit API credentials
 - Ensure network can reach LiveKit server
@@ -620,18 +646,21 @@ function LiveStreamPage({ streamId }: { streamId: string }) {
 ### Email Issues
 
 **Issue**: Emails not sending
+
 - Check email provider configuration
 - Verify API keys are valid
 - Check logs: `src/lib/email/email.service.ts`
 - Test with Mailpit in development
 
 **Issue**: Emails going to spam
+
 - Configure SPF, DKIM, DMARC records
 - Use verified sender domain
 - Avoid spam trigger words
 - Maintain low bounce rate
 
 **Issue**: SendGrid errors
+
 - Check API key permissions
 - Verify sender is verified
 - Check SendGrid dashboard for blocks
@@ -644,23 +673,26 @@ function LiveStreamPage({ streamId }: { streamId: string }) {
 ### WebRTC Optimizations
 
 1. **Adaptive Bitrate**:
+
 ```yaml
 # livekit.yaml
 limits:
-  track_bitrate: 2500000  # 2.5 Mbps
+  track_bitrate: 2500000 # 2.5 Mbps
 ```
 
 2. **Participant Pagination**:
+
 ```typescript
 // ParticipantGrid automatically paginates at 16 participants
 const PARTICIPANTS_PER_PAGE = 16
 ```
 
 3. **Video Resolution**:
+
 ```typescript
 // Request lower resolution for thumbnails
 const constraints = {
-  video: { width: 320, height: 240 }
+  video: { width: 320, height: 240 },
 }
 ```
 
@@ -699,19 +731,11 @@ const constraints = {
 // src/lib/livekit/token-generator.ts
 import { AccessToken } from 'livekit-server-sdk'
 
-export function generateToken(
-  roomName: string,
-  participantName: string,
-  userId: string
-): string {
-  const token = new AccessToken(
-    process.env.LIVEKIT_API_KEY!,
-    process.env.LIVEKIT_API_SECRET!,
-    {
-      identity: userId,
-      name: participantName,
-    }
-  )
+export function generateToken(roomName: string, participantName: string, userId: string): string {
+  const token = new AccessToken(process.env.LIVEKIT_API_KEY!, process.env.LIVEKIT_API_SECRET!, {
+    identity: userId,
+    name: participantName,
+  })
 
   token.addGrant({
     roomJoin: true,
@@ -729,12 +753,14 @@ export function generateToken(
 ## Next Steps
 
 1. **Test WebRTC Components**:
+
    ```bash
    pnpm dev
    # Navigate to /demo/video-call
    ```
 
 2. **Test Email Service**:
+
    ```bash
    # Start Mailpit
    cd .backend && nself start

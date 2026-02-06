@@ -196,7 +196,7 @@ export function DataExportRequest() {
         'Your data export request has been submitted. You will be notified when it is ready for download.'
       )
     } catch (error) {
-      logger.error('Failed to submit export request:',  error)
+      logger.error('Failed to submit export request:', error)
       alert('Failed to submit export request. Please try again.')
     } finally {
       setIsSubmitting(false)

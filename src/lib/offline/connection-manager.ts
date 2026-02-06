@@ -407,7 +407,7 @@ class ConnectionManager {
       try {
         listener(state)
       } catch (error) {
-        logger.error('[ConnectionManager] Listener error:',  error)
+        logger.error('[ConnectionManager] Listener error:', error)
       }
     })
   }

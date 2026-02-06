@@ -17,6 +17,7 @@ This guide covers the frontend integration of the 5 new ɳChat plugins:
 5. **Workflows** (port 3110) - Automated workflow management
 
 All plugins have been integrated with:
+
 - API proxy routes (Next.js App Router)
 - Type-safe service layers
 - React hooks with SWR
@@ -161,9 +162,7 @@ function AdminPage() {
 import { UserAnalyticsTable } from '@/components/plugins'
 
 function UserStatsPage() {
-  return (
-    <UserAnalyticsTable period="7d" limit={20} />
-  )
+  return <UserAnalyticsTable period="7d" limit={20} />
 }
 ```
 
@@ -180,7 +179,7 @@ function MyComponent() {
     await trackEvent({
       eventType: 'button_click',
       userId: 'user123',
-      metadata: { button: 'subscribe' }
+      metadata: { button: 'subscribe' },
     })
   }
 
@@ -209,12 +208,7 @@ function SearchPage() {
     console.log('Searching:', query, filters)
   }
 
-  return (
-    <AdvancedSearchBar
-      onSearch={handleSearch}
-      placeholder="Search messages..."
-    />
-  )
+  return <AdvancedSearchBar onSearch={handleSearch} placeholder="Search messages..." />
 }
 ```
 
@@ -224,23 +218,13 @@ function SearchPage() {
 import { useAdvancedSearch } from '@/hooks/plugins'
 
 function SearchResults() {
-  const {
-    query,
-    setQuery,
-    results,
-    isSearching,
-    search,
-    filters,
-    setFilters
-  } = useAdvancedSearch({ autoSearch: true })
+  const { query, setQuery, results, isSearching, search, filters, setFilters } = useAdvancedSearch({
+    autoSearch: true,
+  })
 
   return (
     <div>
-      <input
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search..."
-      />
+      <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search..." />
       {isSearching && <p>Searching...</p>}
       {results?.results.map((result) => (
         <div key={result.id}>{result.content}</div>
@@ -264,12 +248,7 @@ function MediaUploadPage() {
     console.log('Upload complete:', url, id)
   }
 
-  return (
-    <ImageUpload
-      onUploadComplete={handleUploadComplete}
-      maxSizeMB={10}
-    />
-  )
+  return <ImageUpload onUploadComplete={handleUploadComplete} maxSizeMB={10} />
 }
 ```
 
@@ -312,13 +291,7 @@ import { AIChatInterface } from '@/components/plugins'
 function AIAssistantPage() {
   const userId = 'user123'
 
-  return (
-    <AIChatInterface
-      userId={userId}
-      title="AI Assistant"
-      placeholder="Ask me anything..."
-    />
-  )
+  return <AIChatInterface userId={userId} title="AI Assistant" placeholder="Ask me anything..." />
 }
 ```
 
@@ -373,9 +346,7 @@ function WorkflowsPage() {
     console.log('Create new workflow')
   }
 
-  return (
-    <WorkflowList onCreateClick={handleCreate} />
-  )
+  return <WorkflowList onCreateClick={handleCreate} />
 }
 ```
 
@@ -400,10 +371,7 @@ function WorkflowManager() {
       {workflows.map((workflow) => (
         <div key={workflow.id}>
           <h3>{workflow.name}</h3>
-          <button
-            onClick={() => handleExecute(workflow.id)}
-            disabled={isExecuting}
-          >
+          <button onClick={() => handleExecute(workflow.id)} disabled={isExecuting}>
             Execute
           </button>
         </div>
@@ -472,7 +440,7 @@ import {
   useSearchHealth,
   useMediaHealth,
   useAIHealth,
-  useWorkflowsHealth
+  useWorkflowsHealth,
 } from '@/hooks/plugins'
 
 function HealthDashboard() {
@@ -506,28 +474,21 @@ import type {
   AnalyticsDashboard,
   UserAnalytics,
   ChannelAnalytics,
-  AnalyticsEvent
+  AnalyticsEvent,
 } from '@/services/plugins/analytics.service'
 
 // Search
-import type {
-  SearchResult,
-  SearchResponse,
-  SearchFilters
-} from '@/services/plugins/search.service'
+import type { SearchResult, SearchResponse, SearchFilters } from '@/services/plugins/search.service'
 
 // Media
-import type {
-  MediaUploadResponse,
-  MediaMetadata
-} from '@/services/plugins/media.service'
+import type { MediaUploadResponse, MediaMetadata } from '@/services/plugins/media.service'
 
 // AI
 import type {
   ChatMessage,
   ChatRequest,
   ChatResponse,
-  ModerationResult
+  ModerationResult,
 } from '@/services/plugins/ai.service'
 
 // Workflows
@@ -535,7 +496,7 @@ import type {
   Workflow,
   WorkflowTrigger,
   WorkflowAction,
-  WorkflowTemplate
+  WorkflowTemplate,
 } from '@/services/plugins/workflows.service'
 ```
 

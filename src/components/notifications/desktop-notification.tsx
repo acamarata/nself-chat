@@ -190,12 +190,12 @@ export function useDesktopNotification(): UseDesktopNotificationReturn {
 
         notification.onerror = (event) => {
           options.onError?.(new Error('Desktop notification error'))
-          logger.error('Desktop notification error:',  event)
+          logger.error('Desktop notification error:', event)
         }
 
         return notification
       } catch (error) {
-        logger.error('Failed to show desktop notification:',  error)
+        logger.error('Failed to show desktop notification:', error)
         options.onError?.(error as Error)
         return null
       }

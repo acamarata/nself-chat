@@ -20,7 +20,11 @@ import {
   getRealtimeIntegration,
   type IntegrationStatus,
 } from '@/services/realtime/realtime-integration.service'
-import type { PresenceStatus, CustomStatus, UserPresence } from '@/services/realtime/presence.service'
+import type {
+  PresenceStatus,
+  CustomStatus,
+  UserPresence,
+} from '@/services/realtime/presence.service'
 import type { TypingUser } from '@/services/realtime/typing.service'
 import { logger } from '@/lib/logger'
 
@@ -281,7 +285,9 @@ export function useRealtimeIntegration(): UseRealtimeIntegrationReturn {
         trackOutgoing: (clientMessageId: string, channelId: string, totalRecipients = 1) => {
           try {
             const integration = getRealtimeIntegration()
-            integration.getDelivery().trackOutgoingMessage(clientMessageId, channelId, totalRecipients)
+            integration
+              .getDelivery()
+              .trackOutgoingMessage(clientMessageId, channelId, totalRecipients)
           } catch (error) {
             logger.error('[useRealtimeIntegration] trackOutgoing failed:', error)
           }

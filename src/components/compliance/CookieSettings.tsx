@@ -76,7 +76,7 @@ export function CookieSettings() {
       await new Promise((resolve) => setTimeout(resolve, 1000))
       setHasChanges(false)
     } catch (error) {
-      logger.error('Failed to save cookie preferences:',  error)
+      logger.error('Failed to save cookie preferences:', error)
     } finally {
       setIsSaving(false)
     }

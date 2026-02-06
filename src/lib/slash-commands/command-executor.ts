@@ -16,20 +16,13 @@ import type {
 
 import { parseCommand, argsToObject } from './command-parser'
 import { logger } from '@/lib/logger'
-import {
-  getCommandByTrigger,
-  canUserUseCommand,
-  canUseCommandInChannel,
-} from './command-registry'
+import { getCommandByTrigger, canUserUseCommand, canUseCommandInChannel } from './command-registry'
 
 // ============================================================================
 // Built-in Action Handlers
 // ============================================================================
 
-type BuiltInHandler = (
-  context: CommandContext,
-  parsed: ParsedCommand
-) => Promise<CommandResult>
+type BuiltInHandler = (context: CommandContext, parsed: ParsedCommand) => Promise<CommandResult>
 
 const builtInHandlers: Record<string, BuiltInHandler> = {
   help: handleHelp,
@@ -141,9 +134,7 @@ export async function executeCommand(
     ...context,
     rawInput: input.slice(triggerMatch[0].length).trim(),
     args: parsed.args.map((a) => a.value),
-    flags: Object.fromEntries(
-      Object.entries(parsed.flags).map(([k, v]) => [k, v.value])
-    ),
+    flags: Object.fromEntries(Object.entries(parsed.flags).map(([k, v]) => [k, v.value])),
     timestamp: new Date(),
   }
 
@@ -151,13 +142,11 @@ export async function executeCommand(
   try {
     return await executeAction(command, fullContext, parsed)
   } catch (error) {
-    logger.error('Command execution error:',  error)
+    logger.error('Command execution error:', error)
     return {
       success: false,
       error:
-        error instanceof Error
-          ? error.message
-          : 'An error occurred while executing the command',
+        error instanceof Error ? error.message : 'An error occurred while executing the command',
     }
   }
 }
@@ -543,10 +532,7 @@ async function executeCustom(
 // Built-in Command Handlers
 // ============================================================================
 
-async function handleHelp(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handleHelp(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const commandName = parsed.args[0]?.value as string | undefined
 
   if (commandName) {
@@ -598,10 +584,7 @@ async function handleShortcuts(): Promise<CommandResult> {
   }
 }
 
-async function handleAway(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handleAway(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const message = parsed.args[0]?.value as string | undefined
 
   return {
@@ -666,19 +649,14 @@ async function handleStatus(
           userId: context.userId,
           text: message,
           emoji,
-          expiresAt: duration
-            ? new Date(Date.now() + duration).toISOString()
-            : undefined,
+          expiresAt: duration ? new Date(Date.now() + duration).toISOString() : undefined,
         },
       },
     ],
   }
 }
 
-async function handleDnd(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handleDnd(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const duration = (parsed.args[0]?.value as number) || -1 // -1 = indefinite
 
   return {
@@ -697,30 +675,21 @@ async function handleDnd(
         payload: {
           userId: context.userId,
           status: 'dnd',
-          expiresAt:
-            duration > 0
-              ? new Date(Date.now() + duration).toISOString()
-              : undefined,
+          expiresAt: duration > 0 ? new Date(Date.now() + duration).toISOString() : undefined,
         },
       },
     ],
   }
 }
 
-async function handleMute(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handleMute(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const duration = (parsed.args[0]?.value as number) || -1
 
   return {
     success: true,
     response: {
       type: 'notification',
-      content:
-        duration > 0
-          ? `Channel muted for ${formatDuration(duration)}`
-          : 'Channel muted',
+      content: duration > 0 ? `Channel muted for ${formatDuration(duration)}` : 'Channel muted',
       ephemeral: true,
     },
     sideEffects: [
@@ -812,10 +781,7 @@ async function handleLeave(context: CommandContext): Promise<CommandResult> {
   }
 }
 
-async function handleTopic(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handleTopic(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const topic = (parsed.args[0]?.value as string) || ''
 
   return {
@@ -918,10 +884,7 @@ async function handleRemind(
   }
 }
 
-async function handlePoll(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handlePoll(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const question = parsed.args[0]?.value as string
   const optionsRaw = parsed.args[1]?.value as string
   const options = optionsRaw?.match(/"([^"]+)"/g)?.map((o) => o.replace(/"/g, '')) || []
@@ -977,10 +940,7 @@ async function handleSearch(
   }
 }
 
-async function handleGiphy(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handleGiphy(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const query = parsed.args[0]?.value as string
 
   return {
@@ -1026,10 +986,7 @@ async function handleTextEmoji(
   }
 }
 
-async function handleMe(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handleMe(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const action = parsed.args[0]?.value as string
 
   return {
@@ -1042,10 +999,7 @@ async function handleMe(
   }
 }
 
-async function handleDm(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handleDm(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const user = (parsed.args[0]?.value as string).replace('@', '')
   const message = parsed.args[1]?.value as string | undefined
 
@@ -1129,10 +1083,7 @@ async function handleFeedback(
   }
 }
 
-async function handleKick(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handleKick(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const user = (parsed.args[0]?.value as string).replace('@', '')
   const reason = parsed.args[1]?.value as string | undefined
 
@@ -1158,10 +1109,7 @@ async function handleKick(
   }
 }
 
-async function handleBan(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handleBan(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const user = (parsed.args[0]?.value as string).replace('@', '')
   const reason = parsed.args[1]?.value as string | undefined
 
@@ -1187,10 +1135,7 @@ async function handleBan(
   }
 }
 
-async function handleUnban(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handleUnban(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const user = (parsed.args[0]?.value as string).replace('@', '')
 
   return {
@@ -1213,10 +1158,7 @@ async function handleUnban(
   }
 }
 
-async function handleSlow(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handleSlow(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const duration = parsed.args[0]?.value as number
 
   if (duration === 0) {
@@ -1260,10 +1202,7 @@ async function handleSlow(
   }
 }
 
-async function handleClear(
-  context: CommandContext,
-  parsed: ParsedCommand
-): Promise<CommandResult> {
+async function handleClear(context: CommandContext, parsed: ParsedCommand): Promise<CommandResult> {
   const count = parsed.args[0]?.value as number
   const from = parsed.flags.from?.value as string | undefined
 

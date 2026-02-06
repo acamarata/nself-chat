@@ -95,7 +95,7 @@ export function ConfirmModal({
       await onConfirm()
       onOpenChange(false)
     } catch (error) {
-      logger.error('Confirmation action failed:',  error)
+      logger.error('Confirmation action failed:', error)
     } finally {
       if (externalLoading === undefined) {
         setInternalLoading(false)
@@ -212,7 +212,7 @@ export function UnsavedChangesModal({
       await onSave()
       onOpenChange(false)
     } catch (error) {
-      logger.error('Save failed:',  error)
+      logger.error('Save failed:', error)
     } finally {
       if (loading === undefined) {
         setIsLoading(false)

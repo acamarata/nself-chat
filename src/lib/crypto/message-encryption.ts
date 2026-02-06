@@ -316,7 +316,7 @@ export async function decryptMessage(
         options.verificationKey
       )
     } catch (error) {
-      logger.error('Signature verification failed:',  error)
+      logger.error('Signature verification failed:', error)
       verified = false
     }
   } else {

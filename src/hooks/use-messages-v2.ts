@@ -828,9 +828,10 @@ function transformMessage(data: Record<string, unknown> | null | undefined): Mes
     replyToId: data.parent_message_id as string | undefined,
     replyTo: data.parent ? transformMessage(data.parent as Record<string, unknown>) : undefined,
     parentThreadId: data.thread_id as string | undefined,
-    attachments: data.attachments && Array.isArray(data.attachments as any)
-      ? ((data.attachments as unknown[]) || []).map(transformAttachment)
-      : [],
+    attachments:
+      data.attachments && Array.isArray(data.attachments as any)
+        ? ((data.attachments as unknown[]) || []).map(transformAttachment)
+        : [],
     reactions: data.reactions ? transformReactions(data.reactions as unknown[]) : undefined,
     isPinned: (data.is_pinned as boolean) || false,
     isDeleted: (data.is_deleted as boolean) || false,

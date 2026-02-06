@@ -263,7 +263,9 @@ function WriteReviewForm({ onCancel, onSubmit }: WriteReviewFormProps) {
         <StarRatingInput value={rating} onChange={setRating} />
       </div>
       <div>
-        <label htmlFor="review-textarea" className="mb-2 block text-sm font-medium">Your Review (optional)</label>
+        <label htmlFor="review-textarea" className="mb-2 block text-sm font-medium">
+          Your Review (optional)
+        </label>
         <Textarea
           id="review-textarea"
           value={review}

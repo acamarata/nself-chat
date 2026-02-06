@@ -84,10 +84,7 @@ class WorkflowsService {
     return data.workflow
   }
 
-  async executeWorkflow(
-    id: string,
-    payload?: Record<string, any>
-  ): Promise<WorkflowExecution> {
+  async executeWorkflow(id: string, payload?: Record<string, any>): Promise<WorkflowExecution> {
     const response = await fetch(`${this.baseUrl}/${id}/execute`, {
       method: 'POST',
       headers: {

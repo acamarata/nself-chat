@@ -184,7 +184,7 @@ export class MicrosoftProvider extends BaseAuthProvider {
 
         return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
       } catch (error) {
-        logger.error('Microsoft callback error:',  error)
+        logger.error('Microsoft callback error:', error)
         return this.createErrorResult(
           this.createError('NETWORK_ERROR', 'Failed to complete Microsoft authentication')
         )
@@ -229,7 +229,7 @@ export class MicrosoftProvider extends BaseAuthProvider {
 
         return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
       } catch (error) {
-        logger.error('Microsoft code exchange error:',  error)
+        logger.error('Microsoft code exchange error:', error)
         return this.createErrorResult(
           this.createError('NETWORK_ERROR', 'Failed to complete Microsoft authentication')
         )
@@ -254,7 +254,7 @@ export class MicrosoftProvider extends BaseAuthProvider {
         // window.location.href = `https://login.microsoftonline.com/${this.extendedConfig.tenant}/oauth2/v2.0/logout?post_logout_redirect_uri=${encodeURIComponent(window.location.origin)}`
       }
     } catch (error) {
-      logger.error('Sign out error:',  error)
+      logger.error('Sign out error:', error)
     }
 
     this.clearSession()
@@ -292,7 +292,7 @@ export class MicrosoftProvider extends BaseAuthProvider {
         data.session.refreshToken
       )
     } catch (error) {
-      logger.error('Token refresh error:',  error)
+      logger.error('Token refresh error:', error)
       return this.createErrorResult(this.createError('NETWORK_ERROR', 'Failed to refresh token'))
     }
   }

@@ -105,8 +105,7 @@ export async function connectCoinbaseWallet(): Promise<ConnectResult> {
   if (!isCoinbaseWalletInstalled()) {
     return {
       success: false,
-      error:
-        'Coinbase Wallet is not installed. Please install Coinbase Wallet extension.',
+      error: 'Coinbase Wallet is not installed. Please install Coinbase Wallet extension.',
     }
   }
 
@@ -158,9 +157,7 @@ export async function connectWalletConnect(): Promise<ConnectResult> {
 /**
  * Generic wallet connection
  */
-export async function connectWallet(
-  provider: WalletProvider
-): Promise<ConnectResult> {
+export async function connectWallet(provider: WalletProvider): Promise<ConnectResult> {
   switch (provider) {
     case 'metamask':
       return connectMetaMask()

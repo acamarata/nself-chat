@@ -318,7 +318,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 // DELETE /api/channels/[id]/category - Remove channel from category
 // ============================================================================
 
-export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   const { id } = await params
   try {
     const channelId = id

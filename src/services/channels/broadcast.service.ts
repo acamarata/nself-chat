@@ -65,11 +65,14 @@ export class BroadcastService {
   }
 
   async bulkSubscribe(input: BulkSubscribersInput): Promise<void> {
-    const response = await fetch(`/api/channels/broadcasts/${input.broadcastListId}/bulk-subscribe`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userIds: input.userIds }),
-    })
+    const response = await fetch(
+      `/api/channels/broadcasts/${input.broadcastListId}/bulk-subscribe`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userIds: input.userIds }),
+      }
+    )
     if (!response.ok) throw new Error('Failed to bulk subscribe')
   }
 

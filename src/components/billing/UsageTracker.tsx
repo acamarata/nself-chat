@@ -83,7 +83,7 @@ export function UsageTracker({ limits, onUpgrade, className }: UsageTrackerProps
       >
         <Icon
           className={cn(
-            'h-5 w-5 mt-0.5',
+            'mt-0.5 h-5 w-5',
             warning.severity === 'critical' && 'text-red-600',
             warning.severity === 'warning' && 'text-orange-600',
             warning.severity === 'info' && 'text-blue-600'
@@ -111,9 +111,7 @@ export function UsageTracker({ limits, onUpgrade, className }: UsageTrackerProps
     )
   }
 
-  const suggestedPlan = exceeded
-    ? UsageTrackerLib.suggestUpgrade(plan, current)
-    : null
+  const suggestedPlan = exceeded ? UsageTrackerLib.suggestUpgrade(plan, current) : null
 
   return (
     <div className={cn('space-y-6', className)}>
@@ -125,7 +123,7 @@ export function UsageTracker({ limits, onUpgrade, className }: UsageTrackerProps
               <CardTitle>Current Plan: {PLANS[plan].name}</CardTitle>
               <CardDescription>{PLANS[plan].description}</CardDescription>
             </div>
-            <Badge variant="outline" className="text-lg px-4 py-2">
+            <Badge variant="outline" className="px-4 py-2 text-lg">
               {plan === 'free' ? 'Free' : `$${PLANS[plan].price.monthly}/mo`}
             </Badge>
           </div>
@@ -136,9 +134,7 @@ export function UsageTracker({ limits, onUpgrade, className }: UsageTrackerProps
       {warnings.length > 0 && (
         <Alert variant={exceeded ? 'destructive' : 'default'}>
           <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>
-            {exceeded ? 'Usage Limits Exceeded' : 'Approaching Usage Limits'}
-          </AlertTitle>
+          <AlertTitle>{exceeded ? 'Usage Limits Exceeded' : 'Approaching Usage Limits'}</AlertTitle>
           <AlertDescription>
             {exceeded
               ? 'You have exceeded your plan limits. Some features may be restricted.'
@@ -151,21 +147,11 @@ export function UsageTracker({ limits, onUpgrade, className }: UsageTrackerProps
       <Card>
         <CardHeader>
           <CardTitle>Usage Overview</CardTitle>
-          <CardDescription>
-            Current usage for the billing period
-          </CardDescription>
+          <CardDescription>Current usage for the billing period</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <UsageItem
-            label="Users"
-            current={current.users}
-            limit={planLimits.maxUsers}
-          />
-          <UsageItem
-            label="Channels"
-            current={current.channels}
-            limit={planLimits.maxChannels}
-          />
+          <UsageItem label="Users" current={current.users} limit={planLimits.maxUsers} />
+          <UsageItem label="Channels" current={current.channels} limit={planLimits.maxChannels} />
           <UsageItem
             label="Messages"
             current={current.messages}
@@ -182,11 +168,7 @@ export function UsageTracker({ limits, onUpgrade, className }: UsageTrackerProps
             current={current.integrations}
             limit={planLimits.maxIntegrations}
           />
-          <UsageItem
-            label="Bots"
-            current={current.bots}
-            limit={planLimits.maxBots}
-          />
+          <UsageItem label="Bots" current={current.bots} limit={planLimits.maxBots} />
           {planLimits.aiModerationMinutes !== null && (
             <UsageItem
               label="AI Minutes"
@@ -210,9 +192,7 @@ export function UsageTracker({ limits, onUpgrade, className }: UsageTrackerProps
         <Card>
           <CardHeader>
             <CardTitle>Usage Alerts</CardTitle>
-            <CardDescription>
-              Features requiring attention
-            </CardDescription>
+            <CardDescription>Features requiring attention</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             {warnings.map((warning, index) => (
@@ -263,8 +243,7 @@ export function UsageTracker({ limits, onUpgrade, className }: UsageTrackerProps
             </div>
 
             <Button className="w-full" size="lg" onClick={onUpgrade}>
-              Upgrade to {PLANS[suggestedPlan].name} - $
-              {PLANS[suggestedPlan].price.monthly}/month
+              Upgrade to {PLANS[suggestedPlan].name} - ${PLANS[suggestedPlan].price.monthly}/month
             </Button>
           </CardContent>
         </Card>

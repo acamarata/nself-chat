@@ -19,12 +19,14 @@ Task 45 has been thoroughly verified and **MEETS ALL DEFINITION-OF-DONE CRITERIA
 **Location**: `/Users/admin/Sites/nself-chat/src/app/api/media/`
 
 #### Files Found:
+
 - ✅ `route.ts` - Main media endpoint (GET, POST, DELETE)
 - ✅ `[id]/route.ts` - Single media operations (GET, PATCH, DELETE)
 
 #### Endpoints Implemented:
 
 **POST /api/media** - Upload media
+
 - ✅ Multipart form data support
 - ✅ File validation (size, MIME type)
 - ✅ Channel association support
@@ -34,6 +36,7 @@ Task 45 has been thoroughly verified and **MEETS ALL DEFINITION-OF-DONE CRITERIA
 - ✅ Security audit logging
 
 **GET /api/media** - List user's media
+
 - ✅ Pagination (limit, offset)
 - ✅ MIME type filtering (image, video, audio, document)
 - ✅ Channel filtering
@@ -42,24 +45,28 @@ Task 45 has been thoroughly verified and **MEETS ALL DEFINITION-OF-DONE CRITERIA
 - ✅ Returns total count and hasMore flag
 
 **DELETE /api/media** - Bulk delete
+
 - ✅ Supports comma-separated or JSON array IDs
 - ✅ Validates ownership
 - ✅ Max 50 items per request
 - ✅ Security audit logging
 
 **GET /api/media/[id]** - Get media details
+
 - ✅ Returns media info and signed URL
 - ✅ Configurable expiration time
 - ✅ Access control (ownership or channel membership)
 - ✅ Rate limiting (60 downloads/min)
 
 **PATCH /api/media/[id]** - Update metadata
+
 - ✅ Update name, description, alt text, tags
 - ✅ Ownership verification
 - ✅ Zod validation
 - ✅ Rate limiting (30 updates/min)
 
 **DELETE /api/media/[id]** - Delete single media
+
 - ✅ Ownership verification
 - ✅ Deletes from storage and database
 - ✅ Security audit logging
@@ -69,6 +76,7 @@ Task 45 has been thoroughly verified and **MEETS ALL DEFINITION-OF-DONE CRITERIA
 **Location**: `/Users/admin/Sites/nself-chat/src/services/media/media.service.ts`
 
 #### Storage Implementation:
+
 - ✅ **Real Nhost Storage Integration** (lines 283-328)
   - Uses `NEXT_PUBLIC_STORAGE_URL` environment variable
   - Default: `http://storage.localhost/v1/storage`
@@ -99,6 +107,7 @@ Task 45 has been thoroughly verified and **MEETS ALL DEFINITION-OF-DONE CRITERIA
   - Unique filenames using UUIDs
 
 #### NOT Mock/Placeholder:
+
 - ❌ No mock implementations found
 - ❌ No placeholder code
 - ✅ Real fetch() calls to storage service
@@ -107,6 +116,7 @@ Task 45 has been thoroughly verified and **MEETS ALL DEFINITION-OF-DONE CRITERIA
 ### ✅ 3. Upload, Download, Thumbnail Generation
 
 #### Upload Features:
+
 - ✅ File validation (MIME type, size)
 - ✅ Buffer conversion and processing
 - ✅ Unique filename generation (UUID-based)
@@ -115,12 +125,14 @@ Task 45 has been thoroughly verified and **MEETS ALL DEFINITION-OF-DONE CRITERIA
 - ✅ Channel association support
 
 #### Download Features:
+
 - ✅ Signed URL generation
 - ✅ Configurable expiration (default 3600s)
 - ✅ Access control (ownership/channel membership)
 - ✅ Direct URL fallback
 
 #### Thumbnail Generation:
+
 - ✅ **Image Thumbnails** (`/Users/admin/Sites/nself-chat/src/lib/media/media-thumbnails.ts`)
   - Canvas-based thumbnail generation
   - Multiple fit modes (cover, contain, fill)
@@ -153,12 +165,14 @@ Task 45 has been thoroughly verified and **MEETS ALL DEFINITION-OF-DONE CRITERIA
 ### ✅ 4. No TODOs or Placeholder Code
 
 **Search Results**:
+
 - ✅ No TODOs found in `/src/app/api/media/`
 - ✅ No FIXMEs found in `/src/services/media/`
 - ✅ No HAXKs or PLACEHOLDER comments
 - ✅ All code is production-ready
 
 **Code Quality**:
+
 - ✅ Comprehensive error handling
 - ✅ Proper logging with context
 - ✅ Security audit trails
@@ -169,6 +183,7 @@ Task 45 has been thoroughly verified and **MEETS ALL DEFINITION-OF-DONE CRITERIA
 ### ✅ 5. Tests Exist and Pass
 
 #### Test Files Found:
+
 1. ✅ `/Users/admin/Sites/nself-chat/src/__tests__/integration/file-upload-storage-media.integration.test.ts`
    - 30 tests covering full upload flow
    - File validation tests
@@ -186,6 +201,7 @@ Task 45 has been thoroughly verified and **MEETS ALL DEFINITION-OF-DONE CRITERIA
 8. ✅ `/Users/admin/Sites/nself-chat/src/hooks/__tests__/use-media-gallery.test.ts`
 
 #### Test Execution:
+
 ```bash
 $ pnpm test -- src/__tests__/integration/file-upload-storage-media.integration.test.ts
 
@@ -237,6 +253,7 @@ Time:        0.504 s
 5. ✅ **Media Usage Examples** (`/Users/admin/Sites/nself-chat/docs/examples/media-usage-examples.tsx`)
 
 #### Documentation Coverage:
+
 - ✅ Upload endpoints
 - ✅ Download/retrieval
 - ✅ Thumbnail generation
@@ -255,12 +272,14 @@ Time:        0.504 s
 **Problem**: The media service and GraphQL queries reference a `nchat_media` table, but this table did not exist in the database migrations. The original schema only had `nchat_attachments`.
 
 **Impact**:
+
 - API endpoints would fail when trying to insert/query media
 - GraphQL queries would return errors
 - Media upload/download would not work in production
 
 **Fix Applied**:
 Created `/Users/admin/Sites/nself-chat/.backend/migrations/050_media_table.sql` with:
+
 - ✅ Complete `nchat_media` table schema
 - ✅ All required columns (id, user_id, channel_id, name, original_name, mime_type, size, url, thumbnail_url, metadata)
 - ✅ Proper foreign key relationships
@@ -279,6 +298,7 @@ Created `/Users/admin/Sites/nself-chat/.backend/migrations/050_media_table.sql` 
 **Location**: `/Users/admin/Sites/nself-chat/src/graphql/media.ts`
 
 ### Queries Implemented:
+
 - ✅ `GET_USER_MEDIA` - List user's media with pagination
 - ✅ `GET_MEDIA_BY_ID` - Get single media item
 - ✅ `GET_MEDIA_BY_CHANNEL` - List channel media
@@ -286,6 +306,7 @@ Created `/Users/admin/Sites/nself-chat/.backend/migrations/050_media_table.sql` 
 - ✅ `GET_USER_MEDIA_STATS` - Get media statistics (count, size by type)
 
 ### Mutations Implemented:
+
 - ✅ `INSERT_MEDIA` - Create new media record
 - ✅ `UPDATE_MEDIA` - Update media metadata
 - ✅ `UPDATE_MEDIA_METADATA` - Update metadata only
@@ -294,10 +315,12 @@ Created `/Users/admin/Sites/nself-chat/.backend/migrations/050_media_table.sql` 
 - ✅ `UPDATE_PROCESSING_STATUS` - Update processing status
 
 ### Subscriptions Implemented:
+
 - ✅ `SUBSCRIBE_USER_MEDIA` - Subscribe to user's new media
 - ✅ `SUBSCRIBE_CHANNEL_MEDIA` - Subscribe to channel's new media
 
 ### Fragments:
+
 - ✅ `MediaBasic` - Basic media fields
 - ✅ `MediaFull` - Full media fields with user and channel info
 
@@ -308,6 +331,7 @@ Created `/Users/admin/Sites/nself-chat/.backend/migrations/050_media_table.sql` 
 **Location**: `/Users/admin/Sites/nself-chat/src/services/media/media.service.ts`
 
 ### MediaService Class Features:
+
 - ✅ Singleton pattern with `getMediaService()`
 - ✅ Apollo Client integration
 - ✅ Configurable storage URL
@@ -320,6 +344,7 @@ Created `/Users/admin/Sites/nself-chat/.backend/migrations/050_media_table.sql` 
 ### Service Methods:
 
 #### Upload Operations:
+
 - ✅ `uploadMedia()` - Main upload with validation
 - ✅ `uploadToStorage()` - Storage service integration
 - ✅ File validation
@@ -327,6 +352,7 @@ Created `/Users/admin/Sites/nself-chat/.backend/migrations/050_media_table.sql` 
 - ✅ Storage path organization
 
 #### Read Operations:
+
 - ✅ `getMediaInfo()` - Get single media
 - ✅ `listUserMedia()` - List with pagination/filters
 - ✅ `listChannelMedia()` - Channel-specific listing
@@ -334,18 +360,22 @@ Created `/Users/admin/Sites/nself-chat/.backend/migrations/050_media_table.sql` 
 - ✅ `getUserMediaStats()` - Statistics by type
 
 #### Update Operations:
+
 - ✅ `updateMedia()` - Update metadata
 - ✅ `updateProcessingStatus()` - Processing state updates
 
 #### Delete Operations:
+
 - ✅ `deleteMedia()` - Delete single with ownership check
 - ✅ `bulkDeleteMedia()` - Batch delete with verification
 - ✅ `deleteFromStorage()` - Storage cleanup
 
 #### Signed URL Operations:
+
 - ✅ `getSignedUrl()` - Presigned URL generation
 
 #### Validation:
+
 - ✅ `validateFile()` - Size and MIME type validation
 - ✅ `shouldProcess()` - Determine if processing needed
 - ✅ `getMediaCategory()` - Categorize by MIME type
@@ -355,30 +385,35 @@ Created `/Users/admin/Sites/nself-chat/.backend/migrations/050_media_table.sql` 
 ## Security Features
 
 ### Authentication & Authorization:
+
 - ✅ All endpoints require authentication (`withAuth` middleware)
 - ✅ Ownership verification on updates/deletes
 - ✅ Channel membership verification for shared media
 - ✅ RLS policies in database
 
 ### Rate Limiting:
+
 - ✅ Uploads: 10 per minute
 - ✅ Reads: 60 per minute
 - ✅ Updates: 30 per minute
 - ✅ Downloads: 60 per minute
 
 ### Validation:
+
 - ✅ File size limits (25MB default)
 - ✅ MIME type whitelist
 - ✅ UUID validation for IDs
 - ✅ Zod schema validation for requests
 
 ### Audit Logging:
+
 - ✅ Upload events logged with user, file info, IP
 - ✅ Delete events logged
 - ✅ Bulk delete events logged
 - ✅ Security event integration
 
 ### Input Sanitization:
+
 - ✅ File name sanitization
 - ✅ Path traversal prevention
 - ✅ SQL injection prevention (parameterized queries)
@@ -389,18 +424,22 @@ Created `/Users/admin/Sites/nself-chat/.backend/migrations/050_media_table.sql` 
 ## Allowed File Types
 
 ### Images:
+
 - image/jpeg, image/png, image/gif, image/webp
 - image/svg+xml, image/bmp, image/tiff
 
 ### Videos:
+
 - video/mp4, video/webm, video/ogg
 - video/quicktime, video/x-msvideo, video/x-ms-wmv
 
 ### Audio:
+
 - audio/mpeg, audio/wav, audio/ogg
 - audio/webm, audio/aac, audio/flac, audio/mp4
 
 ### Documents:
+
 - application/pdf
 - application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document
 - application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
@@ -430,6 +469,7 @@ interface APIResponse<T> {
 ```
 
 ### Success Response Example:
+
 ```json
 {
   "success": true,
@@ -455,6 +495,7 @@ interface APIResponse<T> {
 ```
 
 ### Error Response Example:
+
 ```json
 {
   "success": false,
@@ -467,7 +508,9 @@ interface APIResponse<T> {
 ## Next Steps / Deployment Checklist
 
 ### Required Actions:
+
 1. ✅ **Apply Database Migration**
+
    ```bash
    cd .backend
    nself exec postgres psql -U postgres -d nself < migrations/050_media_table.sql
@@ -489,6 +532,7 @@ interface APIResponse<T> {
    - Set up image optimization pipeline
 
 ### Optional Enhancements:
+
 - [ ] Add image optimization (compression on upload)
 - [ ] Add virus scanning integration
 - [ ] Add CDN integration for media delivery
@@ -500,15 +544,15 @@ interface APIResponse<T> {
 
 ## Definition of Done - Final Verification
 
-| Criterion | Status | Evidence |
-|-----------|--------|----------|
-| 1. Media endpoints exist | ✅ DONE | `src/app/api/media/route.ts`, `src/app/api/media/[id]/route.ts` |
-| 2. Real storage integration | ✅ DONE | Nhost Storage with fetch API, signed URLs, real file operations |
-| 3. Upload/download/thumbnails | ✅ DONE | Full upload flow, signed downloads, comprehensive thumbnail generation |
-| 4. No TODOs/placeholders | ✅ DONE | Zero TODOs found in media code |
-| 5. Tests exist and pass | ✅ DONE | 30 passing tests (file-upload-storage-media.integration.test.ts) |
-| 6. Documentation | ✅ DONE | MEDIA-QUICK-REFERENCE.md, Media-Features-v0.8.0.md, inline docs |
-| **DATABASE MIGRATION** | ✅ FIXED | Created 050_media_table.sql migration |
+| Criterion                     | Status   | Evidence                                                               |
+| ----------------------------- | -------- | ---------------------------------------------------------------------- |
+| 1. Media endpoints exist      | ✅ DONE  | `src/app/api/media/route.ts`, `src/app/api/media/[id]/route.ts`        |
+| 2. Real storage integration   | ✅ DONE  | Nhost Storage with fetch API, signed URLs, real file operations        |
+| 3. Upload/download/thumbnails | ✅ DONE  | Full upload flow, signed downloads, comprehensive thumbnail generation |
+| 4. No TODOs/placeholders      | ✅ DONE  | Zero TODOs found in media code                                         |
+| 5. Tests exist and pass       | ✅ DONE  | 30 passing tests (file-upload-storage-media.integration.test.ts)       |
+| 6. Documentation              | ✅ DONE  | MEDIA-QUICK-REFERENCE.md, Media-Features-v0.8.0.md, inline docs        |
+| **DATABASE MIGRATION**        | ✅ FIXED | Created 050_media_table.sql migration                                  |
 
 ---
 
@@ -517,6 +561,7 @@ interface APIResponse<T> {
 **Task 45 - Phase 4: Media Endpoints is COMPLETE and PRODUCTION-READY.**
 
 All Definition-of-Done criteria have been met:
+
 - ✅ Media API endpoints are fully implemented with real Nhost Storage integration
 - ✅ Upload, download, and thumbnail generation are working
 - ✅ No placeholder code or TODOs

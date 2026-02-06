@@ -124,6 +124,7 @@ SMTP_PASSWORD=
 Mailpit is a local email testing tool that captures all emails:
 
 1. Install Mailpit:
+
 ```bash
 # macOS
 brew install mailpit
@@ -137,15 +138,18 @@ docker run -d \
 ```
 
 2. Start Mailpit:
+
 ```bash
 mailpit
 ```
 
 3. View emails:
+
 - Web UI: http://localhost:8025
 - SMTP server: localhost:1025
 
 4. Configure ɳChat:
+
 ```bash
 # .env.local
 SMTP_HOST=localhost
@@ -162,6 +166,7 @@ SMTP_PORT=1025
    - Copy the API key
 
 3. Configure ɳChat:
+
 ```bash
 # .env.local
 SENDGRID_API_KEY=SG.your-sendgrid-api-key
@@ -186,6 +191,7 @@ All templates are built with **React Email** for responsive, beautiful emails.
 **Template**: `src/emails/templates/email-verification.tsx`
 
 **Usage**:
+
 ```typescript
 import { emailService } from '@/lib/email/email.service'
 
@@ -203,6 +209,7 @@ await emailService.sendEmailVerification({
 **Template**: `src/emails/templates/password-reset.tsx`
 
 **Usage**:
+
 ```typescript
 await emailService.sendPasswordReset({
   to: 'user@example.com',
@@ -219,6 +226,7 @@ await emailService.sendPasswordReset({
 **Template**: Inline HTML (in `email.service.ts`)
 
 **Usage**:
+
 ```typescript
 await emailService.send2FACode({
   to: 'user@example.com',
@@ -233,6 +241,7 @@ await emailService.send2FACode({
 **Template**: Inline HTML (in `email.service.ts`)
 
 **Usage**:
+
 ```typescript
 await emailService.sendMagicLink({
   to: 'user@example.com',
@@ -247,6 +256,7 @@ await emailService.sendMagicLink({
 **Template**: `src/emails/templates/welcome.tsx`
 
 **Usage**:
+
 ```typescript
 await emailService.sendWelcomeEmail({
   to: 'user@example.com',
@@ -260,6 +270,7 @@ await emailService.sendWelcomeEmail({
 **Template**: `src/emails/templates/new-login.tsx`
 
 **Usage**:
+
 ```typescript
 await emailService.sendNewLoginNotification({
   to: 'user@example.com',
@@ -275,6 +286,7 @@ await emailService.sendNewLoginNotification({
 **Template**: `src/emails/templates/password-changed.tsx`
 
 **Usage**:
+
 ```typescript
 await emailService.sendPasswordChangedNotification({
   to: 'user@example.com',
@@ -446,28 +458,33 @@ await emailService.send({
 ### Common Issues
 
 **1. "Email not sent"**
+
 - Check provider is configured correctly
 - Verify environment variables are set
 - Check email service logs: `logger.info('[Email]')`
 - Test with console provider first
 
 **2. "SendGrid authentication failed"**
+
 - Verify `SENDGRID_API_KEY` is correct
 - Check API key permissions (needs "Mail Send")
 - Ensure API key hasn't expired
 
 **3. "Emails going to spam"**
+
 - Verify sender domain in SendGrid
 - Set up SPF and DKIM records
 - Avoid spam trigger words in subject
 - Include unsubscribe link
 
 **4. "SMTP connection failed"**
+
 - Check Mailpit is running: `ps aux | grep mailpit`
 - Verify SMTP_HOST and SMTP_PORT
 - Check firewall rules
 
 **5. "Template rendering error"**
+
 - Ensure React Email is installed: `@react-email/render`
 - Check template file exists
 - Verify template props match interface
@@ -519,6 +536,7 @@ await emailService.send({
 ## Support
 
 For issues or questions:
+
 - GitHub Issues: https://github.com/nself-org/nself-chat/issues
 - Discord: https://discord.gg/nself
 - Email: support@nself.org

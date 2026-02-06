@@ -119,73 +119,73 @@ function LanguageSwitcher() {
 
 ```typescript
 // Navigation
-t('nav.home')          // "Home"
-t('nav.chat')          // "Chat"
-t('nav.settings')      // "Settings"
+t('nav.home') // "Home"
+t('nav.chat') // "Chat"
+t('nav.settings') // "Settings"
 
 // Auth
-t('auth.signIn')       // "Sign In"
-t('auth.signUp')       // "Sign Up"
-t('auth.logout')       // "Logout"
+t('auth.signIn') // "Sign In"
+t('auth.signUp') // "Sign Up"
+t('auth.logout') // "Logout"
 
 // Common actions
-t('common.save')       // "Save"
-t('common.cancel')     // "Cancel"
-t('common.delete')     // "Delete"
-t('common.edit')       // "Edit"
+t('common.save') // "Save"
+t('common.cancel') // "Cancel"
+t('common.delete') // "Delete"
+t('common.edit') // "Edit"
 
 // Chat
-t('chat.newMessage')   // "New Message"
-t('chat.typeMessage')  // "Type a message..."
-t('chat.send')         // "Send"
+t('chat.newMessage') // "New Message"
+t('chat.typeMessage') // "Type a message..."
+t('chat.send') // "Send"
 
 // Time
-t('time.now')          // "Now"
-t('time.today')        // "Today"
-t('time.yesterday')    // "Yesterday"
+t('time.now') // "Now"
+t('time.today') // "Today"
+t('time.yesterday') // "Yesterday"
 
 // Errors
-t('errors.somethingWentWrong')  // "Something went wrong"
-t('errors.tryAgain')            // "Try again"
+t('errors.somethingWentWrong') // "Something went wrong"
+t('errors.tryAgain') // "Try again"
 ```
 
 ## Supported Languages (33)
 
-| Flag | Code | Language | Direction |
-|------|------|----------|-----------|
-| 🇺🇸 | en | English | LTR |
-| 🇪🇸 | es | Spanish | LTR |
-| 🇫🇷 | fr | French | LTR |
-| 🇩🇪 | de | German | LTR |
-| 🇸🇦 | ar | Arabic | RTL |
-| 🇨🇳 | zh | Chinese (Simplified) | LTR |
-| 🇹🇼 | zh-TW | Chinese (Traditional) | LTR |
-| 🇯🇵 | ja | Japanese | LTR |
-| 🇰🇷 | ko | Korean | LTR |
-| 🇧🇷 | pt | Portuguese | LTR |
-| 🇷🇺 | ru | Russian | LTR |
-| 🇮🇹 | it | Italian | LTR |
-| 🇳🇱 | nl | Dutch | LTR |
-| 🇵🇱 | pl | Polish | LTR |
-| 🇹🇷 | tr | Turkish | LTR |
-| 🇸🇪 | sv | Swedish | LTR |
-| 🇮🇱 | he | Hebrew | RTL |
-| 🇹🇭 | th | Thai | LTR |
-| 🇻🇳 | vi | Vietnamese | LTR |
-| 🇮🇩 | id | Indonesian | LTR |
-| 🇨🇿 | cs | Czech | LTR |
-| 🇩🇰 | da | Danish | LTR |
-| 🇫🇮 | fi | Finnish | LTR |
-| 🇳🇴 | no | Norwegian | LTR |
-| 🇬🇷 | el | Greek | LTR |
-| 🇭🇺 | hu | Hungarian | LTR |
-| 🇷🇴 | ro | Romanian | LTR |
-| 🇺🇦 | uk | Ukrainian | LTR |
-| 🇮🇳 | hi | Hindi | LTR |
-| 🇧🇩 | bn | Bengali | LTR |
-| 🇮🇷 | fa | Persian | RTL |
-| 🇲🇾 | ms | Malay | LTR |
-| 🇮🇳 | ta | Tamil | LTR |
+| Flag | Code  | Language              | Direction |
+| ---- | ----- | --------------------- | --------- |
+| 🇺🇸   | en    | English               | LTR       |
+| 🇪🇸   | es    | Spanish               | LTR       |
+| 🇫🇷   | fr    | French                | LTR       |
+| 🇩🇪   | de    | German                | LTR       |
+| 🇸🇦   | ar    | Arabic                | RTL       |
+| 🇨🇳   | zh    | Chinese (Simplified)  | LTR       |
+| 🇹🇼   | zh-TW | Chinese (Traditional) | LTR       |
+| 🇯🇵   | ja    | Japanese              | LTR       |
+| 🇰🇷   | ko    | Korean                | LTR       |
+| 🇧🇷   | pt    | Portuguese            | LTR       |
+| 🇷🇺   | ru    | Russian               | LTR       |
+| 🇮🇹   | it    | Italian               | LTR       |
+| 🇳🇱   | nl    | Dutch                 | LTR       |
+| 🇵🇱   | pl    | Polish                | LTR       |
+| 🇹🇷   | tr    | Turkish               | LTR       |
+| 🇸🇪   | sv    | Swedish               | LTR       |
+| 🇮🇱   | he    | Hebrew                | RTL       |
+| 🇹🇭   | th    | Thai                  | LTR       |
+| 🇻🇳   | vi    | Vietnamese            | LTR       |
+| 🇮🇩   | id    | Indonesian            | LTR       |
+| 🇨🇿   | cs    | Czech                 | LTR       |
+| 🇩🇰   | da    | Danish                | LTR       |
+| 🇫🇮   | fi    | Finnish               | LTR       |
+| 🇳🇴   | no    | Norwegian             | LTR       |
+| 🇬🇷   | el    | Greek                 | LTR       |
+| 🇭🇺   | hu    | Hungarian             | LTR       |
+| 🇷🇴   | ro    | Romanian              | LTR       |
+| 🇺🇦   | uk    | Ukrainian             | LTR       |
+| 🇮🇳   | hi    | Hindi                 | LTR       |
+| 🇧🇩   | bn    | Bengali               | LTR       |
+| 🇮🇷   | fa    | Persian               | RTL       |
+| 🇲🇾   | ms    | Malay                 | LTR       |
+| 🇮🇳   | ta    | Tamil                 | LTR       |
 
 ## RTL CSS Classes
 
@@ -203,6 +203,7 @@ t('errors.tryAgain')            // "Try again"
 ## Adding New Translations
 
 1. **Add to English file** (`public/locales/en/common.json`):
+
 ```json
 {
   "myFeature": {
@@ -213,12 +214,14 @@ t('errors.tryAgain')            // "Try again"
 ```
 
 2. **Use in component**:
+
 ```typescript
 const { t } = useI18n()
 <h1>{t('myFeature.title')}</h1>
 ```
 
 3. **Translate to other languages**:
+
 ```bash
 # Copy to all locales
 for lang in es fr de ar zh ja pt ru; do
@@ -229,6 +232,7 @@ done
 ```
 
 4. **Validate**:
+
 ```bash
 pnpm tsx scripts/validate-translations.ts
 ```
@@ -236,6 +240,7 @@ pnpm tsx scripts/validate-translations.ts
 ## Best Practices
 
 1. **Always use translation keys, never hardcoded text**:
+
 ```typescript
 // Good ✅
 <button>{t('common.save')}</button>
@@ -245,6 +250,7 @@ pnpm tsx scripts/validate-translations.ts
 ```
 
 2. **Provide context for translators**:
+
 ```json
 {
   "button": {
@@ -255,6 +261,7 @@ pnpm tsx scripts/validate-translations.ts
 ```
 
 3. **Use namespaces for organization**:
+
 ```json
 // common.json - general UI
 // auth.json - authentication
@@ -263,6 +270,7 @@ pnpm tsx scripts/validate-translations.ts
 ```
 
 4. **Handle plurals correctly**:
+
 ```json
 {
   "message": "{{count}} message",
@@ -271,6 +279,7 @@ pnpm tsx scripts/validate-translations.ts
 ```
 
 5. **Keep keys organized**:
+
 ```json
 {
   "feature": {

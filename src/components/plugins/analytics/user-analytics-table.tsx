@@ -33,7 +33,7 @@ export function UserAnalyticsTable({ period = '7d', limit = 10 }: UserAnalyticsT
           <CardDescription>Loading user engagement data...</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-64 bg-muted animate-pulse rounded" />
+          <div className="h-64 animate-pulse rounded bg-muted" />
         </CardContent>
       </Card>
     )
@@ -44,9 +44,7 @@ export function UserAnalyticsTable({ period = '7d', limit = 10 }: UserAnalyticsT
       <Card className="border-destructive">
         <CardHeader>
           <CardTitle>Error Loading User Analytics</CardTitle>
-          <CardDescription>
-            Failed to load user analytics. Please try again later.
-          </CardDescription>
+          <CardDescription>Failed to load user analytics. Please try again later.</CardDescription>
         </CardHeader>
       </Card>
     )
@@ -98,9 +96,7 @@ export function UserAnalyticsTable({ period = '7d', limit = 10 }: UserAnalyticsT
                   <TableCell className="text-right">
                     {getEngagementBadge(user.engagementScore)}
                   </TableCell>
-                  <TableCell>
-                    {new Date(user.lastActive).toLocaleDateString()}
-                  </TableCell>
+                  <TableCell>{new Date(user.lastActive).toLocaleDateString()}</TableCell>
                 </TableRow>
               ))
             )}

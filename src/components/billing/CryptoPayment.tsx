@@ -141,17 +141,15 @@ export function CryptoPayment({
             <CheckCircle2 className="h-6 w-6 text-green-600" />
             Payment Submitted
           </CardTitle>
-          <CardDescription>
-            Your payment is being processed on the blockchain
-          </CardDescription>
+          <CardDescription>Your payment is being processed on the blockchain</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <Alert>
             <CheckCircle2 className="h-4 w-4" />
             <AlertTitle>Transaction Submitted</AlertTitle>
             <AlertDescription>
-              Your payment has been submitted to the blockchain. It may take a few
-              minutes to confirm.
+              Your payment has been submitted to the blockchain. It may take a few minutes to
+              confirm.
             </AlertDescription>
           </Alert>
 
@@ -159,32 +157,20 @@ export function CryptoPayment({
             <Label>Transaction Hash</Label>
             <div className="flex gap-2">
               <Input value={txHash} readOnly className="font-mono text-xs" />
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => copyToClipboard(txHash)}
-              >
+              <Button variant="outline" size="icon" onClick={() => copyToClipboard(txHash)}>
                 <Copy className="h-4 w-4" />
               </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                asChild
-              >
-                <a
-                  href={getBlockExplorerUrl(txHash)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+              <Button variant="outline" size="icon" asChild>
+                <a href={getBlockExplorerUrl(txHash)} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="h-4 w-4" />
                 </a>
               </Button>
             </div>
           </div>
 
-          <div className="rounded-lg border bg-muted/50 p-4 text-sm">
-            <p className="font-medium mb-2">What happens next?</p>
-            <ol className="space-y-1 list-decimal list-inside text-muted-foreground">
+          <div className="bg-muted/50 rounded-lg border p-4 text-sm">
+            <p className="mb-2 font-medium">What happens next?</p>
+            <ol className="list-inside list-decimal space-y-1 text-muted-foreground">
               <li>Your transaction will be confirmed on the blockchain</li>
               <li>We'll verify the payment (usually takes 1-3 minutes)</li>
               <li>Your subscription will be activated</li>
@@ -207,24 +193,19 @@ export function CryptoPayment({
           <Coins className="h-6 w-6" />
           Pay with Cryptocurrency
         </CardTitle>
-        <CardDescription>
-          Subscribe to {plan.name} with crypto payments
-        </CardDescription>
+        <CardDescription>Subscribe to {plan.name} with crypto payments</CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-6">
         {/* Wallet Connection */}
-        <div className="flex items-center justify-between p-4 rounded-lg border">
+        <div className="flex items-center justify-between rounded-lg border p-4">
           <div>
             <p className="font-medium">Wallet</p>
             <p className="text-sm text-muted-foreground">
               {walletInfo ? 'Connected' : 'Connect your wallet to continue'}
             </p>
           </div>
-          <WalletConnector
-            onConnect={handleWalletConnect}
-            onDisconnect={handleWalletDisconnect}
-          />
+          <WalletConnector onConnect={handleWalletConnect} onDisconnect={handleWalletDisconnect} />
         </div>
 
         {walletInfo && (
@@ -260,9 +241,7 @@ export function CryptoPayment({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="ETH">
-                    {CRYPTO_NETWORKS[selectedNetwork].symbol}
-                  </SelectItem>
+                  <SelectItem value="ETH">{CRYPTO_NETWORKS[selectedNetwork].symbol}</SelectItem>
                   <SelectItem value="USDC">USDC</SelectItem>
                   <SelectItem value="USDT">USDT</SelectItem>
                 </SelectContent>
@@ -270,7 +249,7 @@ export function CryptoPayment({
             </div>
 
             {/* Payment Summary */}
-            <div className="rounded-lg border p-4 space-y-3">
+            <div className="space-y-3 rounded-lg border p-4">
               <h3 className="font-medium">Payment Summary</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center justify-between">
@@ -285,9 +264,9 @@ export function CryptoPayment({
                   <span className="text-muted-foreground">USD Price</span>
                   <span className="font-medium">${price}</span>
                 </div>
-                <div className="flex items-center justify-between pt-2 border-t">
+                <div className="flex items-center justify-between border-t pt-2">
                   <span className="font-medium">Total (Crypto)</span>
-                  <Badge variant="default" className="text-base px-3 py-1">
+                  <Badge variant="default" className="px-3 py-1 text-base">
                     {cryptoPrice} {selectedCurrency}
                   </Badge>
                 </div>
@@ -298,11 +277,7 @@ export function CryptoPayment({
             <div className="space-y-2">
               <Label>Payment Address</Label>
               <div className="flex gap-2">
-                <Input
-                  value={paymentAddress}
-                  readOnly
-                  className="font-mono text-xs"
-                />
+                <Input value={paymentAddress} readOnly className="font-mono text-xs" />
                 <Button
                   variant="outline"
                   size="icon"
@@ -322,20 +297,17 @@ export function CryptoPayment({
             )}
 
             {/* Pay Button */}
-            <Button
-              className="w-full"
-              size="lg"
-              onClick={handlePayment}
-              disabled={processing}
-            >
+            <Button className="w-full" size="lg" onClick={handlePayment} disabled={processing}>
               {processing ? 'Processing...' : `Pay ${cryptoPrice} ${selectedCurrency}`}
             </Button>
 
             {/* Info */}
-            <div className="rounded-lg border bg-muted/50 p-4 text-sm text-muted-foreground">
-              <p className="font-medium text-foreground mb-2">Important:</p>
-              <ul className="space-y-1 list-disc list-inside">
-                <li>Send exactly {cryptoPrice} {selectedCurrency}</li>
+            <div className="bg-muted/50 rounded-lg border p-4 text-sm text-muted-foreground">
+              <p className="mb-2 font-medium text-foreground">Important:</p>
+              <ul className="list-inside list-disc space-y-1">
+                <li>
+                  Send exactly {cryptoPrice} {selectedCurrency}
+                </li>
                 <li>Use {CRYPTO_NETWORKS[selectedNetwork].name} network</li>
                 <li>Payment confirmation takes 1-3 minutes</li>
                 <li>Do not send from an exchange (use a personal wallet)</li>

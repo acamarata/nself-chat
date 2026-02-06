@@ -184,7 +184,7 @@ export class PhoneAuthProvider implements AuthProvider {
 
       return { success: true }
     } catch (error) {
-      logger.error('[Phone Auth] Failed to send code:',  error)
+      logger.error('[Phone Auth] Failed to send code:', error)
       return { success: false, message: 'Failed to send verification code' }
     }
   }

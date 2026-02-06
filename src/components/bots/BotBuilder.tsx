@@ -228,7 +228,9 @@ export function BotBuilder({ onSave, onCancel, initialBot, className }: BotBuild
         return (
           <div className="space-y-4">
             <div>
-              <label htmlFor="bot-name" className="mb-1 block text-sm font-medium">Bot Name</label>
+              <label htmlFor="bot-name" className="mb-1 block text-sm font-medium">
+                Bot Name
+              </label>
               <input
                 id="bot-name"
                 type="text"
@@ -244,7 +246,9 @@ export function BotBuilder({ onSave, onCancel, initialBot, className }: BotBuild
             </div>
 
             <div>
-              <label htmlFor="bot-description" className="mb-1 block text-sm font-medium">Description</label>
+              <label htmlFor="bot-description" className="mb-1 block text-sm font-medium">
+                Description
+              </label>
               <textarea
                 id="bot-description"
                 value={bot.description || ''}
@@ -262,7 +266,9 @@ export function BotBuilder({ onSave, onCancel, initialBot, className }: BotBuild
             </div>
 
             <div>
-              <label htmlFor="bot-icon" className="mb-1 block text-sm font-medium">Icon (optional)</label>
+              <label htmlFor="bot-icon" className="mb-1 block text-sm font-medium">
+                Icon (optional)
+              </label>
               <input
                 id="bot-icon"
                 type="text"

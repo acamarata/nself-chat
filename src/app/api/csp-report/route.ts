@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
     // Log to console (in production, send to monitoring service)
     if (process.env.NODE_ENV === 'production') {
       // Only log in production to avoid noise during development
-            logger.warn('[CSP VIOLATION]', { context: JSON.stringify(logEntry, null, 2) })
+      logger.warn('[CSP VIOLATION]', { context: JSON.stringify(logEntry, null, 2) })
 
       // await sendToMonitoring(logEntry)
     } else {
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     return new NextResponse(null, { status: 204 })
   } catch (error) {
     // Log error but still return 204 to avoid browser retries
-    logger.error('[CSP Report Error]',  error)
+    logger.error('[CSP Report Error]', error)
     return new NextResponse(null, { status: 204 })
   }
 }

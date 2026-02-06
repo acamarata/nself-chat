@@ -26,7 +26,7 @@ const isProtectedByLegalHold = (
   item: { userId?: string; channelId?: string },
   legalHolds: Array<{ status: string; custodians: string[]; channels: string[] }>
 ) => {
-  const activeHolds = legalHolds.filter(h => h.status === 'active')
+  const activeHolds = legalHolds.filter((h) => h.status === 'active')
   for (const hold of activeHolds) {
     if (item.userId && hold.custodians.includes(item.userId)) return true
     if (item.channelId && hold.channels.includes(item.channelId)) return true

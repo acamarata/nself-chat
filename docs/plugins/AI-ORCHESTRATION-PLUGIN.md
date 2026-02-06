@@ -41,12 +41,12 @@ AI_CACHE_ENABLED=true
 
 ## Supported Providers
 
-| Provider | Models | Cost/1M Tokens |
-|----------|--------|----------------|
-| OpenAI | GPT-4o, GPT-4o-mini, o1 | $0.15-$15.00 |
-| Anthropic | Claude 3.5 Sonnet | $3.00-$15.00 |
-| Google | Gemini 2.0 Flash | $0.075-$0.30 |
-| Local | Ollama (Llama, Mistral) | $0.00 |
+| Provider  | Models                  | Cost/1M Tokens |
+| --------- | ----------------------- | -------------- |
+| OpenAI    | GPT-4o, GPT-4o-mini, o1 | $0.15-$15.00   |
+| Anthropic | Claude 3.5 Sonnet       | $3.00-$15.00   |
+| Google    | Gemini 2.0 Flash        | $0.075-$0.30   |
+| Local     | Ollama (Llama, Mistral) | $0.00          |
 
 ## API Endpoints
 
@@ -69,10 +69,8 @@ const ai = new AIService()
 // Chat completion with cost tracking
 const response = await ai.chat({
   model: 'gpt-4o-mini',
-  messages: [
-    { role: 'user', content: 'Summarize this conversation' }
-  ],
-  userId: 'user-123'
+  messages: [{ role: 'user', content: 'Summarize this conversation' }],
+  userId: 'user-123',
 })
 
 console.log(response.content) // AI response
@@ -85,8 +83,8 @@ console.log(response.cached) // false
 ```typescript
 // Set user budget
 await ai.setBudget('user-123', {
-  daily: 1.00,    // $1 per day
-  monthly: 25.00  // $25 per month
+  daily: 1.0, // $1 per day
+  monthly: 25.0, // $25 per month
 })
 
 // Get usage

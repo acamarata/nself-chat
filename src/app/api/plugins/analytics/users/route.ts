@@ -39,10 +39,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(data)
   } catch (error) {
     logger.error('Analytics users proxy error:', error)
-    return NextResponse.json(
-      { error: 'Analytics service unavailable' },
-      { status: 503 }
-    )
+    return NextResponse.json({ error: 'Analytics service unavailable' }, { status: 503 })
   }
 }
 

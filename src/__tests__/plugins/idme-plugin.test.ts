@@ -79,7 +79,9 @@ describe('ID.me Plugin', () => {
     }, 10000)
 
     it('should handle OAuth error', async () => {
-      const response = await fetch(`${API_BASE}/api/auth/oauth/callback?provider=idme&error=access_denied`)
+      const response = await fetch(
+        `${API_BASE}/api/auth/oauth/callback?provider=idme&error=access_denied`
+      )
 
       expect([200, 400, 401]).toContain(response.status)
     }, 10000)

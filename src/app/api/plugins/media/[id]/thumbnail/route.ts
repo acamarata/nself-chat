@@ -9,27 +9,18 @@ import { logger } from '@/lib/logger'
 
 const MEDIA_SERVICE_URL = process.env.MEDIA_SERVICE_URL || 'http://localhost:3108'
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
 
-    const response = await fetch(
-      `${MEDIA_SERVICE_URL}/api/media/${id}/thumbnail`,
-      {
-        method: 'GET',
-      }
-    )
+    const response = await fetch(`${MEDIA_SERVICE_URL}/api/media/${id}/thumbnail`, {
+      method: 'GET',
+    })
 
     if (!response.ok) {
       const error = await response.text()
       logger.error('Media service error:', error)
-      return NextResponse.json(
-        { error: 'Failed to get thumbnail' },
-        { status: response.status }
-      )
+      return NextResponse.json({ error: 'Failed to get thumbnail' }, { status: response.status })
     }
 
     // Return image directly
@@ -43,10 +34,7 @@ export async function GET(
     })
   } catch (error) {
     logger.error('Media thumbnail proxy error:', error)
-    return NextResponse.json(
-      { error: 'Media service unavailable' },
-      { status: 503 }
-    )
+    return NextResponse.json({ error: 'Media service unavailable' }, { status: 503 })
   }
 }
 

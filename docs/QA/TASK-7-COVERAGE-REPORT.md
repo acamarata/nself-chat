@@ -35,6 +35,7 @@ coverageThreshold: {
 #### Module-Specific Thresholds
 
 **Authentication Services (90%)**:
+
 ```javascript
 'src/services/auth/**/*.ts': {
   branches: 90,
@@ -45,6 +46,7 @@ coverageThreshold: {
 ```
 
 **State Management (85%)**:
+
 ```javascript
 'src/stores/**/*.ts': {
   branches: 85,
@@ -55,6 +57,7 @@ coverageThreshold: {
 ```
 
 **Critical Utilities (100%)**:
+
 ```javascript
 'src/lib/utils.ts': {
   branches: 100,
@@ -68,6 +71,7 @@ coverageThreshold: {
 
 ✅ **Coverage Directory**: `<rootDir>/coverage`
 ✅ **Reporters Configured**:
+
 - `text` - Console summary
 - `text-summary` - Brief console output
 - `lcov` - Machine-readable format
@@ -94,6 +98,7 @@ collectCoverageFrom: [
 ```
 
 **Smart Exclusions**:
+
 - Test utilities (avoid inflating coverage)
 - Generated code
 - Platform-specific code (tested separately)
@@ -119,6 +124,7 @@ Workers: 50% CPU cores (default Jest config)
 **Memory Usage**: 4GB+ per worker at time of failure
 
 **Error Messages**:
+
 ```
 FATAL ERROR: Ineffective mark-compacts near heap limit
 Allocation failed - JavaScript heap out of memory
@@ -140,12 +146,12 @@ signal=SIGTERM, exitCode=null
 
 ### Overall Statistics
 
-| Metric | Value |
-|--------|-------|
-| Total Test Suites | 318 |
-| Passing Suites | 179 (56.3%) |
-| Failing Suites | 139 (43.7%) |
-| Skipped Tests | 0 |
+| Metric            | Value       |
+| ----------------- | ----------- |
+| Total Test Suites | 318         |
+| Passing Suites    | 179 (56.3%) |
+| Failing Suites    | 139 (43.7%) |
+| Skipped Tests     | 0           |
 
 ### Test Distribution by Category
 
@@ -215,6 +221,7 @@ coverage/
 ### Coverage Analysis Attempt
 
 Attempted to parse `lcov.info`:
+
 ```
 Total Coverage: 0.00%
 ```
@@ -227,11 +234,11 @@ Total Coverage: 0.00%
 
 ### Source Code Scale
 
-| Metric | Count | Percentage |
-|--------|-------|------------|
-| **Total TS Files** | 3,508 | 100% |
-| **Test Files** | 323 | 9.2% |
-| **Untested Files** | 3,185 | 90.8% |
+| Metric             | Count | Percentage |
+| ------------------ | ----- | ---------- |
+| **Total TS Files** | 3,508 | 100%       |
+| **Test Files**     | 323   | 9.2%       |
+| **Untested Files** | 3,185 | 90.8%      |
 
 ### Test File Distribution
 
@@ -251,11 +258,13 @@ Other locations          ~23 test files
 Based on test file count and typical coverage ratios:
 
 **Estimated Coverage** (if all tests passed):
+
 - **Optimistic**: 65-75% (assuming good test quality)
 - **Realistic**: 50-60% (accounting for integration gaps)
 - **Pessimistic**: 35-45% (conservative estimate)
 
 **Rationale**:
+
 - 323 test files for 3,508 source files = 9.2% test file ratio
 - Industry standard: 1 test file covers 3-5 source files on average
 - 323 tests × 4 avg files = ~1,300 files covered
@@ -275,11 +284,13 @@ Based on test file count and typical coverage ratios:
 **Status**: ⚠️ Tests failing due to environment issues
 
 **Files**:
+
 - `faux-auth.service.ts` - Development authentication
 - `nhost-auth.service.ts` - Production authentication
 - `real-auth.service.ts` - Real implementation
 
 **Current Issues**:
+
 - `nhost-auth.service.test.ts` - FAILING
 - `auth-plugin.interface.test.ts` - FAILING
 
@@ -291,6 +302,7 @@ Based on test file count and typical coverage ratios:
 **Status**: ✅ Mostly passing (67% pass rate)
 
 **Tested Stores**:
+
 - ✅ `call-store.test.ts` - PASSING
 - ✅ `channel-store.test.ts` - PASSING
 - ❌ `gallery-store.test.ts` - FAILING
@@ -310,6 +322,7 @@ Based on test file count and typical coverage ratios:
 **Status**: ❌ Multiple failures
 
 **Tests**:
+
 - ❌ `media-manager.test.ts` - FAILING
 - ❌ `screen-capture.test.ts` - FAILING
 - ❌ `peer-connection.test.ts` - FAILING
@@ -323,6 +336,7 @@ Based on test file count and typical coverage ratios:
 **Status**: ❌ Failing
 
 **Tests**:
+
 - ❌ `message-encryption.test.ts` - FAILING
 
 ---
@@ -334,13 +348,16 @@ Based on test file count and typical coverage ratios:
 #### 1. Fix Memory Issues (Priority: P0)
 
 **Option A: Increase Node Memory**
+
 ```bash
 NODE_OPTIONS="--max-old-space-size=16384" pnpm test:coverage
 ```
+
 - Requires 16GB+ RAM available
 - Quick fix but not sustainable
 
 **Option B: Implement Test Sharding**
+
 ```bash
 # Split tests into 4 shards
 pnpm test:coverage -- --shard=1/4
@@ -351,6 +368,7 @@ pnpm test:coverage -- --shard=4/4
 # Merge coverage reports
 npx nyc merge coverage coverage/merged.json
 ```
+
 - Sustainable solution
 - Enables CI parallelization
 - Recommended approach
@@ -358,6 +376,7 @@ npx nyc merge coverage coverage/merged.json
 #### 2. Fix Test Environment (Priority: P0)
 
 **Update `jest.setup.js`** to add Next.js 15 polyfills:
+
 ```javascript
 // Add to jest.setup.js
 global.Request = class Request {
@@ -375,7 +394,9 @@ global.Response = class Response {
     this.status = init?.status || 200
     this.headers = new Headers(init?.headers)
   }
-  json() { return Promise.resolve(JSON.parse(this.body)) }
+  json() {
+    return Promise.resolve(JSON.parse(this.body))
+  }
 }
 ```
 
@@ -390,6 +411,7 @@ NODE_OPTIONS="--max-old-space-size=8192" pnpm test:coverage -- \
 ```
 
 This will:
+
 - Measure coverage on most critical 10% of codebase
 - Verify if thresholds are met
 - Complete in <30 minutes
@@ -400,6 +422,7 @@ This will:
 #### 4. Implement CI Coverage Collection
 
 **GitHub Actions Workflow**:
+
 ```yaml
 name: Coverage
 on: [push, pull_request]
@@ -421,6 +444,7 @@ jobs:
 #### 5. Fix Failing Test Categories
 
 **Prioritization**:
+
 1. API route tests (15+) - 1-2 days
 2. Hook JSX transform (5+) - 1 day
 3. WebRTC mocking (4+) - 2-3 days
@@ -429,6 +453,7 @@ jobs:
 #### 6. Establish Coverage Baseline
 
 Once critical modules pass:
+
 1. Measure current coverage on passing tests
 2. Set realistic initial thresholds (e.g., 60%)
 3. Incrementally increase to target 80%
@@ -450,6 +475,7 @@ Once critical modules pass:
 #### 9. Mutation Testing
 
 Once coverage >80%:
+
 - Implement Stryker mutation testing
 - Verify test quality, not just coverage
 - Find gaps in test assertions
@@ -498,11 +524,11 @@ Once coverage >80%:
 
 ### Actual Findings
 
-| Metric | Claimed | Measured | Status |
-|--------|---------|----------|--------|
-| **Coverage** | >80% | Unable to measure | ⚠️ UNVERIFIED |
-| **Test Count** | 1,014 tests | 318 test suites | ⚠️ UNCLEAR |
-| **Pass Rate** | Assumed 100% | 56.3% | ❌ BELOW EXPECTATION |
+| Metric         | Claimed      | Measured          | Status               |
+| -------------- | ------------ | ----------------- | -------------------- |
+| **Coverage**   | >80%         | Unable to measure | ⚠️ UNVERIFIED        |
+| **Test Count** | 1,014 tests  | 318 test suites   | ⚠️ UNCLEAR           |
+| **Pass Rate**  | Assumed 100% | 56.3%             | ❌ BELOW EXPECTATION |
 
 **Note**: "1,014 tests" may refer to individual test cases across 318 test suites. Without completion, exact count cannot be verified.
 
@@ -513,6 +539,7 @@ Once coverage >80%:
 ### Current State
 
 ⚠️ **Coverage Status**: UNKNOWN
+
 - Cannot be measured due to memory constraints
 - Test infrastructure is properly configured
 - Estimated coverage: 35-60% (based on test file ratio)
@@ -526,11 +553,13 @@ Once coverage >80%:
 ### Path Forward
 
 **Immediate** (1-2 days):
+
 1. Implement test sharding
 2. Fix test environment polyfills
 3. Measure coverage on critical modules
 
 **Expected Outcome**:
+
 - Baseline coverage measurement complete
 - Critical modules meeting thresholds
 - CI/CD pipeline operational

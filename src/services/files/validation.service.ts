@@ -536,26 +536,50 @@ export function generateSafeFilename(originalName: string, fileId: string): stri
  * Validation Service class for API compatibility
  */
 class ValidationService {
-  validateFile(file: { name: string; type: string; size: number }, options?: FileValidationOptions): ValidationResult {
+  validateFile(
+    file: { name: string; type: string; size: number },
+    options?: FileValidationOptions
+  ): ValidationResult {
     // Convert plain object to File-like object for validation
     const fileObject = new File([], file.name, { type: file.type })
     Object.defineProperty(fileObject, 'size', { value: file.size })
     return validateFile(fileObject, options)
   }
 
-  validateImageFile(file: { name: string; type: string; size: number }, options?: { maxSize?: number; allowedFormats?: string[]; userTier?: 'guest' | 'member' | 'premium' | 'admin' }): ValidationResult {
+  validateImageFile(
+    file: { name: string; type: string; size: number },
+    options?: {
+      maxSize?: number
+      allowedFormats?: string[]
+      userTier?: 'guest' | 'member' | 'premium' | 'admin'
+    }
+  ): ValidationResult {
     const fileObject = new File([], file.name, { type: file.type })
     Object.defineProperty(fileObject, 'size', { value: file.size })
     return validateImageFile(fileObject, options)
   }
 
-  validateVideoFile(file: { name: string; type: string; size: number }, options?: { maxSize?: number; allowedFormats?: string[]; userTier?: 'guest' | 'member' | 'premium' | 'admin' }): ValidationResult {
+  validateVideoFile(
+    file: { name: string; type: string; size: number },
+    options?: {
+      maxSize?: number
+      allowedFormats?: string[]
+      userTier?: 'guest' | 'member' | 'premium' | 'admin'
+    }
+  ): ValidationResult {
     const fileObject = new File([], file.name, { type: file.type })
     Object.defineProperty(fileObject, 'size', { value: file.size })
     return validateVideoFile(fileObject, options)
   }
 
-  validateDocumentFile(file: { name: string; type: string; size: number }, options?: { maxSize?: number; allowedFormats?: string[]; userTier?: 'guest' | 'member' | 'premium' | 'admin' }): ValidationResult {
+  validateDocumentFile(
+    file: { name: string; type: string; size: number },
+    options?: {
+      maxSize?: number
+      allowedFormats?: string[]
+      userTier?: 'guest' | 'member' | 'premium' | 'admin'
+    }
+  ): ValidationResult {
     const fileObject = new File([], file.name, { type: file.type })
     Object.defineProperty(fileObject, 'size', { value: file.size })
     return validateDocumentFile(fileObject, options)

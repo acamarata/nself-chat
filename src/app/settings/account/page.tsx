@@ -91,7 +91,7 @@ export default function AccountSettingsPage() {
       setSaved('email')
       setTimeout(() => setSaved(null), 3000)
     } catch (error) {
-      logger.error('Failed to change email:',  error)
+      logger.error('Failed to change email:', error)
     } finally {
       setLoading(null)
       setEmailPassword('')
@@ -121,7 +121,7 @@ export default function AccountSettingsPage() {
       setNewPassword('')
       setConfirmPassword('')
     } catch (error) {
-      logger.error('Failed to change password:',  error)
+      logger.error('Failed to change password:', error)
       setPasswordError('Failed to change password')
     } finally {
       setLoading(null)
@@ -133,7 +133,7 @@ export default function AccountSettingsPage() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000))
     } catch (error) {
-      logger.error(`Failed to connect ${provider}:`,  error)
+      logger.error(`Failed to connect ${provider}:`, error)
     } finally {
       setLoading(null)
     }
@@ -144,7 +144,7 @@ export default function AccountSettingsPage() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000))
     } catch (error) {
-      logger.error('Failed to disconnect account:',  error)
+      logger.error('Failed to disconnect account:', error)
     } finally {
       setLoading(null)
     }
@@ -156,7 +156,7 @@ export default function AccountSettingsPage() {
       await new Promise((resolve) => setTimeout(resolve, 1000))
       setTwoFactorEnabled(!twoFactorEnabled)
     } catch (error) {
-      logger.error('Failed to toggle 2FA:',  error)
+      logger.error('Failed to toggle 2FA:', error)
     } finally {
       setLoading(null)
     }
@@ -170,7 +170,7 @@ export default function AccountSettingsPage() {
       await new Promise((resolve) => setTimeout(resolve, 1000))
       await signOut()
     } catch (error) {
-      logger.error('Failed to delete account:',  error)
+      logger.error('Failed to delete account:', error)
     } finally {
       setLoading(null)
     }

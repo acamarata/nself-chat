@@ -40,16 +40,13 @@ export function useI18n() {
   /**
    * Change the current language
    */
-  const setLocale = useCallback(
-    async (locale: string) => {
-      const success = await changeLanguage(locale)
-      if (success) {
-        setCurrentLocale(locale)
-      }
-      return success
-    },
-    []
-  )
+  const setLocale = useCallback(async (locale: string) => {
+    const success = await changeLanguage(locale)
+    if (success) {
+      setCurrentLocale(locale)
+    }
+    return success
+  }, [])
 
   /**
    * Get locale configuration

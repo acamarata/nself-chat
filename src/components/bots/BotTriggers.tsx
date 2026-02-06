@@ -244,7 +244,9 @@ export function BotTriggers({ triggers, onAdd, onRemove, error, className }: Bot
           {/* Keyword Config */}
           {draft.type === 'keyword' && (
             <div>
-              <label htmlFor="trigger-keywords" className="mb-1 block text-sm font-medium">Keywords</label>
+              <label htmlFor="trigger-keywords" className="mb-1 block text-sm font-medium">
+                Keywords
+              </label>
               <input
                 id="trigger-keywords"
                 type="text"
@@ -262,7 +264,9 @@ export function BotTriggers({ triggers, onAdd, onRemove, error, className }: Bot
           {/* Schedule Config */}
           {draft.type === 'scheduled' && (
             <div>
-              <label htmlFor="trigger-schedule" className="mb-1 block text-sm font-medium">Schedule (Cron Expression)</label>
+              <label htmlFor="trigger-schedule" className="mb-1 block text-sm font-medium">
+                Schedule (Cron Expression)
+              </label>
               <input
                 id="trigger-schedule"
                 type="text"

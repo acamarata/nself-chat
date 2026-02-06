@@ -104,7 +104,7 @@ export function WorkflowCard({
           <div className="flex items-center gap-2">
             <button
               type="button"
-              className="cursor-pointer truncate font-medium hover:underline text-left bg-transparent border-0 p-0"
+              className="cursor-pointer truncate border-0 bg-transparent p-0 text-left font-medium hover:underline"
               onClick={handleEdit}
             >
               <h3 className="truncate font-medium">{workflow.name}</h3>
@@ -176,12 +176,10 @@ export function WorkflowCard({
           <div className="min-w-0 flex-1">
             <button
               type="button"
-              className="cursor-pointer text-left bg-transparent border-0 p-0"
+              className="cursor-pointer border-0 bg-transparent p-0 text-left"
               onClick={handleEdit}
             >
-              <CardTitle className="truncate text-base hover:underline">
-                {workflow.name}
-              </CardTitle>
+              <CardTitle className="truncate text-base hover:underline">{workflow.name}</CardTitle>
             </button>
             {workflow.description && (
               <CardDescription className="mt-1 line-clamp-2">

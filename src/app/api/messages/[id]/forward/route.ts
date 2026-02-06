@@ -122,10 +122,7 @@ const COPY_ATTACHMENTS = gql`
 // POST - Forward message
 // ============================================================================
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params
   const messageId = resolvedParams.id
 
@@ -166,10 +163,7 @@ export async function POST(
     })
 
     if (messageErrors || !messageData?.nchat_messages_by_pk) {
-      return NextResponse.json(
-        { success: false, error: 'Message not found' },
-        { status: 404 }
-      )
+      return NextResponse.json({ success: false, error: 'Message not found' }, { status: 404 })
     }
 
     const originalMessage = messageData.nchat_messages_by_pk
@@ -233,15 +227,17 @@ export async function POST(
 
       // Copy attachments if requested
       if (includeAttachments && originalMessage.attachments?.length > 0) {
-        const attachmentObjects = originalMessage.attachments.map((att: Record<string, unknown>) => ({
-          message_id: newMessageId,
-          file_name: att.file_name,
-          file_type: att.file_type,
-          file_size: att.file_size,
-          file_url: att.file_url,
-          thumbnail_url: att.thumbnail_url,
-          metadata: att.metadata,
-        }))
+        const attachmentObjects = originalMessage.attachments.map(
+          (att: Record<string, unknown>) => ({
+            message_id: newMessageId,
+            file_name: att.file_name,
+            file_type: att.file_type,
+            file_size: att.file_size,
+            file_url: att.file_url,
+            thumbnail_url: att.thumbnail_url,
+            metadata: att.metadata,
+          })
+        )
 
         await apolloClient.mutate({
           mutation: COPY_ATTACHMENTS,

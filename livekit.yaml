@@ -9,6 +9,16 @@ rtc:
   use_external_ip: true
   # For local dev, use localhost. For production, set to your server's public IP
   # external_ip: "your-server-ip"
+  # Preferred codecs
+  video_codecs:
+    - VP8
+    - H264
+    - VP9
+  audio_codecs:
+    - OPUS
+  # Bitrate limits (in kbps)
+  video_bitrate: 3000
+  audio_bitrate: 128
 
 # API keys (should be set via environment variables in production)
 # LIVEKIT_KEYS should be set as: "devkey:secret"
@@ -23,19 +33,6 @@ room:
   empty_timeout: 300
   # Enable auto-create rooms
   auto_create: true
-
-# Audio/Video codec settings
-rtc:
-  # Preferred codecs
-  video_codecs:
-    - VP8
-    - H264
-    - VP9
-  audio_codecs:
-    - OPUS
-  # Bitrate limits (in kbps)
-  video_bitrate: 3000
-  audio_bitrate: 128
 
 # TURN server configuration (for NAT traversal)
 turn:
@@ -90,11 +87,12 @@ region: local
 # Limits
 limits:
   # Max bytes per second for room
-  bytes_per_sec: 10000000  # 10 MB/s
+  bytes_per_sec: 10000000 # 10 MB/s
   # Max packets per second
   packets_per_sec: 10000
   # Max track bitrate
-  track_bitrate: 5000000   # 5 Mbps
+  track_bitrate: 5000000 # 5 Mbps
+
 
 # Development/Debug settings
 # dev:

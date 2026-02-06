@@ -9,13 +9,13 @@
 
 5 new backend plugins are now implemented with minimal viable functionality:
 
-| Plugin | Port | Status | Endpoints |
-|--------|------|--------|-----------|
-| Analytics | 3106 | ✅ MVP | 5 |
-| Advanced Search | 3107 | ✅ MVP | 4 |
-| Media Pipeline | 3108 | ✅ MVP | 5 |
-| AI Orchestration | 3109 | ✅ MVP | 7 |
-| Workflows | 3110 | ✅ MVP | 9 |
+| Plugin           | Port | Status | Endpoints |
+| ---------------- | ---- | ------ | --------- |
+| Analytics        | 3106 | ✅ MVP | 5         |
+| Advanced Search  | 3107 | ✅ MVP | 4         |
+| Media Pipeline   | 3108 | ✅ MVP | 5         |
+| AI Orchestration | 3109 | ✅ MVP | 7         |
+| Workflows        | 3110 | ✅ MVP | 9         |
 
 ---
 
@@ -84,6 +84,7 @@ curl http://localhost:3110/api/workflows/health
 **Location**: `.backend/services/analytics/`
 
 #### Start Service
+
 ```bash
 cd .backend/services/analytics
 npm install
@@ -91,6 +92,7 @@ npm run dev
 ```
 
 #### Test Endpoints
+
 ```bash
 # Health check
 curl http://localhost:3106/api/analytics/health
@@ -111,6 +113,7 @@ curl -X POST http://localhost:3106/api/analytics/track \
 ```
 
 #### Use Cases
+
 - Dashboard metrics (active users, messages, channels)
 - User engagement tracking
 - Channel activity monitoring
@@ -123,6 +126,7 @@ curl -X POST http://localhost:3106/api/analytics/track \
 **Location**: `.backend/services/advanced-search/`
 
 #### Start Service
+
 ```bash
 cd .backend/services/advanced-search
 npm install
@@ -130,6 +134,7 @@ npm run dev
 ```
 
 #### Test Endpoints
+
 ```bash
 # Health check
 curl http://localhost:3107/api/search/health
@@ -153,6 +158,7 @@ curl "http://localhost:3107/api/search/history?userId=user-123&limit=10"
 ```
 
 #### Search Syntax
+
 ```
 # Basic search
 hello world
@@ -177,6 +183,7 @@ has:file
 **Location**: `.backend/services/media-pipeline/`
 
 #### Start Service
+
 ```bash
 cd .backend/services/media-pipeline
 npm install
@@ -184,6 +191,7 @@ npm run dev
 ```
 
 #### Test Endpoints
+
 ```bash
 # Health check
 curl http://localhost:3108/api/media/health
@@ -203,6 +211,7 @@ curl "http://localhost:3108/api/media/image-123/metadata?filePath=/uploads/image
 ```
 
 #### Supported Formats
+
 - **Input**: JPEG, PNG, GIF, WebP, AVIF
 - **Output**: WebP (default), JPEG, PNG
 - **Thumbnails**: 200x200 WebP
@@ -214,6 +223,7 @@ curl "http://localhost:3108/api/media/image-123/metadata?filePath=/uploads/image
 **Location**: `.backend/services/ai-orchestration/`
 
 #### Start Service
+
 ```bash
 cd .backend/services/ai-orchestration
 cp .env.example .env
@@ -223,6 +233,7 @@ npm run dev
 ```
 
 #### Test Endpoints
+
 ```bash
 # Health check
 curl http://localhost:3109/api/ai/health
@@ -270,6 +281,7 @@ curl -X POST http://localhost:3109/api/ai/budget \
 ```
 
 #### Cost Estimates
+
 - **GPT-4o-mini**: ~$0.15-$0.60 per 1M tokens
 - **Embeddings**: ~$0.02 per 1M tokens
 - **Moderation**: Free
@@ -281,6 +293,7 @@ curl -X POST http://localhost:3109/api/ai/budget \
 **Location**: `.backend/services/workflows/`
 
 #### Start Service
+
 ```bash
 cd .backend/services/workflows
 npm install
@@ -288,6 +301,7 @@ npm run dev
 ```
 
 #### Test Endpoints
+
 ```bash
 # Health check
 curl http://localhost:3110/api/workflows/health
@@ -321,6 +335,7 @@ curl http://localhost:3110/api/workflows/workflows/wf_123/executions
 ```
 
 #### Pre-built Templates
+
 1. **Welcome New Users** - Auto-onboard new users
 2. **Daily Standup Reminder** - Send reminders at 9 AM
 3. **Archive Inactive Channels** - Auto-archive after 30 days
@@ -387,7 +402,7 @@ services:
   analytics:
     build: ./analytics
     ports:
-      - "3106:3106"
+      - '3106:3106'
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_DB=nchat
@@ -395,28 +410,28 @@ services:
   search:
     build: ./advanced-search
     ports:
-      - "3107:3107"
+      - '3107:3107'
     environment:
       - POSTGRES_HOST=postgres
 
   media:
     build: ./media-pipeline
     ports:
-      - "3108:3108"
+      - '3108:3108'
     volumes:
       - media-uploads:/app/uploads
 
   ai:
     build: ./ai-orchestration
     ports:
-      - "3109:3109"
+      - '3109:3109'
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
 
   workflows:
     build: ./workflows
     ports:
-      - "3110:3110"
+      - '3110:3110'
     environment:
       - POSTGRES_HOST=postgres
 

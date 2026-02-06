@@ -174,7 +174,10 @@ export function VideoTile({
       <div className="absolute left-2 top-2 flex items-center gap-1">
         {/* Connection quality */}
         {connectionQuality && (
-          <Badge variant="secondary" className="flex items-center gap-1 bg-black/60 backdrop-blur-sm">
+          <Badge
+            variant="secondary"
+            className="flex items-center gap-1 bg-black/60 backdrop-blur-sm"
+          >
             <Signal className={cn('h-3 w-3', getQualityColor())} />
           </Badge>
         )}

@@ -179,7 +179,7 @@ export class TwitterProvider extends BaseAuthProvider {
 
         return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
       } catch (error) {
-        logger.error('Twitter callback error:',  error)
+        logger.error('Twitter callback error:', error)
         return this.createErrorResult(
           this.createError('NETWORK_ERROR', 'Failed to complete Twitter authentication')
         )
@@ -231,7 +231,7 @@ export class TwitterProvider extends BaseAuthProvider {
 
         return this.createSuccessResult(user, data.session.accessToken, data.session.refreshToken)
       } catch (error) {
-        logger.error('Twitter code exchange error:',  error)
+        logger.error('Twitter code exchange error:', error)
         return this.createErrorResult(
           this.createError('NETWORK_ERROR', 'Failed to complete Twitter authentication')
         )
@@ -250,7 +250,7 @@ export class TwitterProvider extends BaseAuthProvider {
         headers: this.getAuthHeaders(),
       })
     } catch (error) {
-      logger.error('Sign out error:',  error)
+      logger.error('Sign out error:', error)
     }
 
     this.clearSession()
@@ -288,7 +288,7 @@ export class TwitterProvider extends BaseAuthProvider {
         data.session.refreshToken
       )
     } catch (error) {
-      logger.error('Token refresh error:',  error)
+      logger.error('Token refresh error:', error)
       return this.createErrorResult(this.createError('NETWORK_ERROR', 'Failed to refresh token'))
     }
   }

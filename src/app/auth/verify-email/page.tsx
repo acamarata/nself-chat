@@ -62,11 +62,13 @@ export default function VerifyEmailPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            {status === 'verifying' && <Loader2 className="h-12 w-12 text-indigo-600 animate-spin" />}
+          <div className="mb-4 flex justify-center">
+            {status === 'verifying' && (
+              <Loader2 className="h-12 w-12 animate-spin text-indigo-600" />
+            )}
             {status === 'success' && <CheckCircle2 className="h-12 w-12 text-green-600" />}
             {status === 'error' && <XCircle className="h-12 w-12 text-red-600" />}
           </div>
@@ -102,7 +104,7 @@ export default function VerifyEmailPage() {
 
           {status === 'success' && (
             <div className="space-y-3">
-              <p className="text-sm text-center text-muted-foreground">
+              <p className="text-center text-sm text-muted-foreground">
                 Redirecting you to login page in 3 seconds...
               </p>
               <Button onClick={() => router.push('/login')} className="w-full">
@@ -113,10 +115,14 @@ export default function VerifyEmailPage() {
 
           {status === 'error' && (
             <div className="space-y-3">
-              <p className="text-sm text-center text-muted-foreground">
+              <p className="text-center text-sm text-muted-foreground">
                 The verification link may have expired or is invalid.
               </p>
-              <Button onClick={() => router.push('/auth/resend-verification')} className="w-full" variant="outline">
+              <Button
+                onClick={() => router.push('/auth/resend-verification')}
+                className="w-full"
+                variant="outline"
+              >
                 <Mail className="mr-2 h-4 w-4" />
                 Request New Link
               </Button>

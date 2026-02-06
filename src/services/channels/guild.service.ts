@@ -363,9 +363,7 @@ export function getGuildTemplate(templateName: string): GuildTemplate {
  * Create guild structure from template
  * Returns the complete structure ready for database insertion
  */
-export function createGuildStructure(
-  options: GuildCreationOptions
-): GuildStructure {
+export function createGuildStructure(options: GuildCreationOptions): GuildStructure {
   const template = getGuildTemplate(options.template || 'default')
   const now = new Date().toISOString()
 
@@ -502,9 +500,7 @@ export function validateGuildSettings(options: GuildCreationOptions): {
 
   if (options.vanityUrl) {
     if (!/^[a-z0-9-]+$/.test(options.vanityUrl)) {
-      errors.push(
-        'Vanity URL must contain only lowercase letters, numbers, and hyphens'
-      )
+      errors.push('Vanity URL must contain only lowercase letters, numbers, and hyphens')
     }
     if (options.vanityUrl.length < 3 || options.vanityUrl.length > 30) {
       errors.push('Vanity URL must be between 3 and 30 characters')
@@ -519,10 +515,7 @@ export function validateGuildSettings(options: GuildCreationOptions): {
     errors.push('Max channels must be between 10 and 500')
   }
 
-  if (
-    options.maxFileSizeMb &&
-    (options.maxFileSizeMb < 8 || options.maxFileSizeMb > 1024)
-  ) {
+  if (options.maxFileSizeMb && (options.maxFileSizeMb < 8 || options.maxFileSizeMb > 1024)) {
     errors.push('Max file size must be between 8 MB and 1 GB')
   }
 
@@ -549,12 +542,7 @@ export function getGuildFeatures(boostTier: number): string[] {
   const features: string[] = []
 
   if (boostTier >= 1) {
-    features.push(
-      'ANIMATED_ICON',
-      'INVITE_SPLASH',
-      'BANNER',
-      'UPLOAD_LIMIT_100MB'
-    )
+    features.push('ANIMATED_ICON', 'INVITE_SPLASH', 'BANNER', 'UPLOAD_LIMIT_100MB')
   }
   if (boostTier >= 2) {
     features.push('VANITY_URL', 'UPLOAD_LIMIT_500MB', 'HD_VIDEO')

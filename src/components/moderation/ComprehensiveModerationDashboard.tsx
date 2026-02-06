@@ -117,8 +117,8 @@ export function ComprehensiveModerationDashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary" />
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-primary" />
       </div>
     )
   }
@@ -151,9 +151,7 @@ export function ComprehensiveModerationDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.reports.pending}</div>
-            <p className="text-xs text-muted-foreground">
-              {stats.reports.total} total reports
-            </p>
+            <p className="text-xs text-muted-foreground">{stats.reports.total} total reports</p>
           </CardContent>
         </Card>
 
@@ -324,13 +322,11 @@ function AutoModerationMonitor({ stats }: { stats: ModerationStats['autoModerati
               <p className="text-2xl font-bold">{stats.warned + stats.muted + stats.banned}</p>
             </div>
           </div>
-          <div className="pt-4 border-t">
+          <div className="border-t pt-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium">Model Accuracy</p>
-                <p className="text-xs text-muted-foreground">
-                  Based on moderator confirmations
-                </p>
+                <p className="text-xs text-muted-foreground">Based on moderator confirmations</p>
               </div>
               <Badge variant="outline" className="text-green-600">
                 {(stats.accuracy * 100).toFixed(1)}%

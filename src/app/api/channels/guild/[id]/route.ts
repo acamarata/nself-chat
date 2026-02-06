@@ -38,10 +38,7 @@ const updateGuildSchema = z.object({
  * GET /api/channels/guild/[id]
  * Get guild details with all channels and categories
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: guildId } = await params
 
@@ -166,10 +163,7 @@ export async function GET(
  * PATCH /api/channels/guild/[id]
  * Update guild settings
  */
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: guildId } = await params
 

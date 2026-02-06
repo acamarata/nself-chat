@@ -8,7 +8,14 @@
 import { useState } from 'react'
 import { Check, Zap, Shield, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
@@ -78,25 +85,18 @@ export function PricingTable({
         <Switch
           id="billing-interval"
           checked={billingInterval === 'year'}
-          onCheckedChange={(checked) =>
-            setBillingInterval(checked ? 'year' : 'month')
-          }
+          onCheckedChange={(checked) => setBillingInterval(checked ? 'year' : 'month')}
         />
         <Label htmlFor="billing-interval" className="text-sm">
           Yearly
-          {showAnnualSavings && (
-            <span className="ml-2 text-xs text-green-600">Save up to 17%</span>
-          )}
+          {showAnnualSavings && <span className="ml-2 text-xs text-green-600">Save up to 17%</span>}
         </Label>
       </div>
 
       {/* Plans Grid */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {plans.map((plan) => {
-          const price =
-            billingInterval === 'month'
-              ? plan.price.monthly
-              : plan.price.yearly / 12
+          const price = billingInterval === 'month' ? plan.price.monthly : plan.price.yearly / 12
           const annualSavings = calculateAnnualSavings(plan)
           const isPopular = plan.popular || plan.recommended
 
@@ -123,34 +123,26 @@ export function PricingTable({
                   {getPlanIcon(plan.id)}
                   <CardTitle className="text-xl">{plan.name}</CardTitle>
                 </div>
-                <CardDescription className="text-sm">
-                  {plan.description}
-                </CardDescription>
+                <CardDescription className="text-sm">{plan.description}</CardDescription>
               </CardHeader>
 
               <CardContent className="flex-1 space-y-4">
                 {/* Pricing */}
                 <div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-bold">
-                      {formatPrice(price)}
-                    </span>
-                    {price > 0 && (
-                      <span className="text-sm text-muted-foreground">/month</span>
-                    )}
+                    <span className="text-4xl font-bold">{formatPrice(price)}</span>
+                    {price > 0 && <span className="text-sm text-muted-foreground">/month</span>}
                   </div>
                   {billingInterval === 'year' && price > 0 && (
                     <p className="mt-1 text-xs text-muted-foreground">
                       Billed {formatPrice(plan.price.yearly)} annually
                     </p>
                   )}
-                  {showAnnualSavings &&
-                    billingInterval === 'year' &&
-                    annualSavings > 0 && (
-                      <p className="mt-1 text-xs text-green-600">
-                        Save {formatPrice(annualSavings)} per year
-                      </p>
-                    )}
+                  {showAnnualSavings && billingInterval === 'year' && annualSavings > 0 && (
+                    <p className="mt-1 text-xs text-green-600">
+                      Save {formatPrice(annualSavings)} per year
+                    </p>
+                  )}
                 </div>
 
                 {/* Key Features */}
@@ -158,7 +150,7 @@ export function PricingTable({
                   <p className="text-sm font-medium">Key Features:</p>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start gap-2">
-                      <Check className="h-4 w-4 text-green-600 mt-0.5" />
+                      <Check className="mt-0.5 h-4 w-4 text-green-600" />
                       <span>
                         {plan.features.maxUsers === null
                           ? 'Unlimited users'
@@ -166,7 +158,7 @@ export function PricingTable({
                       </span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Check className="h-4 w-4 text-green-600 mt-0.5" />
+                      <Check className="mt-0.5 h-4 w-4 text-green-600" />
                       <span>
                         {plan.features.maxStorageGB === null
                           ? 'Unlimited storage'
@@ -175,34 +167,31 @@ export function PricingTable({
                     </li>
                     {plan.features.videoConferencing && (
                       <li className="flex items-start gap-2">
-                        <Check className="h-4 w-4 text-green-600 mt-0.5" />
-                        <span>
-                          Video calls ({plan.features.maxCallParticipants}{' '}
-                          participants)
-                        </span>
+                        <Check className="mt-0.5 h-4 w-4 text-green-600" />
+                        <span>Video calls ({plan.features.maxCallParticipants} participants)</span>
                       </li>
                     )}
                     {plan.features.customBranding && (
                       <li className="flex items-start gap-2">
-                        <Check className="h-4 w-4 text-green-600 mt-0.5" />
+                        <Check className="mt-0.5 h-4 w-4 text-green-600" />
                         <span>Custom branding</span>
                       </li>
                     )}
                     {plan.features.advancedAnalytics && (
                       <li className="flex items-start gap-2">
-                        <Check className="h-4 w-4 text-green-600 mt-0.5" />
+                        <Check className="mt-0.5 h-4 w-4 text-green-600" />
                         <span>Advanced analytics</span>
                       </li>
                     )}
                     {plan.features.prioritySupport && (
                       <li className="flex items-start gap-2">
-                        <Check className="h-4 w-4 text-green-600 mt-0.5" />
+                        <Check className="mt-0.5 h-4 w-4 text-green-600" />
                         <span>Priority support</span>
                       </li>
                     )}
                     {plan.features.tokenGating && (
                       <li className="flex items-start gap-2">
-                        <Check className="h-4 w-4 text-green-600 mt-0.5" />
+                        <Check className="mt-0.5 h-4 w-4 text-green-600" />
                         <span>NFT token gating</span>
                       </li>
                     )}

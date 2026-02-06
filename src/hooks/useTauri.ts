@@ -31,7 +31,7 @@ export function useTauri() {
           setEnvironment(env)
         }
       } catch (error) {
-        logger.error('Failed to load Tauri environment:',  error)
+        logger.error('Failed to load Tauri environment:', error)
       } finally {
         if (mounted) {
           setIsLoading(false)
@@ -87,7 +87,7 @@ export function usePlatform() {
           setPlatform(p)
         }
       } catch (error) {
-        logger.error('Failed to get platform:',  error)
+        logger.error('Failed to get platform:', error)
       } finally {
         if (mounted) {
           setIsLoading(false)
@@ -122,7 +122,7 @@ export function useAppVersion() {
           setVersion(v)
         }
       } catch (error) {
-        logger.error('Failed to get app version:',  error)
+        logger.error('Failed to get app version:', error)
       } finally {
         if (mounted) {
           setIsLoading(false)

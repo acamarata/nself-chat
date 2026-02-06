@@ -167,9 +167,7 @@ describe('CategoryService', () => {
         json: async () => ({ error: 'Cannot delete system category' }),
       })
 
-      await expect(service.deleteCategory(categoryId)).rejects.toThrow(
-        'Failed to delete category'
-      )
+      await expect(service.deleteCategory(categoryId)).rejects.toThrow('Failed to delete category')
     })
   })
 

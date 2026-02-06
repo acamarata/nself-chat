@@ -43,17 +43,12 @@ export function AIChatInterface({
   }
 
   return (
-    <Card className="flex flex-col h-[600px]">
+    <Card className="flex h-[600px] flex-col">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{title}</CardTitle>
         {messages.length > 0 && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={clearMessages}
-            disabled={isProcessing}
-          >
-            <Trash2 className="h-4 w-4 mr-2" />
+          <Button variant="ghost" size="sm" onClick={clearMessages} disabled={isProcessing}>
+            <Trash2 className="mr-2 h-4 w-4" />
             Clear
           </Button>
         )}
@@ -63,27 +58,22 @@ export function AIChatInterface({
         <ScrollArea className="h-full px-6">
           <div className="space-y-4 py-4">
             {messages.length === 0 ? (
-              <div className="text-center text-muted-foreground py-12">
+              <div className="py-12 text-center text-muted-foreground">
                 <p>Start a conversation with the AI assistant</p>
               </div>
             ) : (
               messages.map((message, index) => (
                 <div
                   key={index}
-                  className={cn(
-                    'flex',
-                    message.role === 'user' ? 'justify-end' : 'justify-start'
-                  )}
+                  className={cn('flex', message.role === 'user' ? 'justify-end' : 'justify-start')}
                 >
                   <div
                     className={cn(
                       'max-w-[80%] rounded-lg px-4 py-2',
-                      message.role === 'user'
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted'
+                      message.role === 'user' ? 'text-primary-foreground bg-primary' : 'bg-muted'
                     )}
                   >
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    <p className="whitespace-pre-wrap text-sm">{message.content}</p>
                   </div>
                 </div>
               ))
@@ -91,7 +81,7 @@ export function AIChatInterface({
 
             {isProcessing && (
               <div className="flex justify-start">
-                <div className="bg-muted rounded-lg px-4 py-2">
+                <div className="rounded-lg bg-muted px-4 py-2">
                   <Loader2 className="h-4 w-4 animate-spin" />
                 </div>
               </div>
@@ -110,11 +100,7 @@ export function AIChatInterface({
             disabled={isProcessing}
             className="flex-1"
           />
-          <Button
-            onClick={handleSend}
-            disabled={!input.trim() || isProcessing}
-            size="icon"
-          >
+          <Button onClick={handleSend} disabled={!input.trim() || isProcessing} size="icon">
             {isProcessing ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
@@ -126,7 +112,7 @@ export function AIChatInterface({
 
       {error && (
         <div className="px-6 pb-4">
-          <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+          <div className="bg-destructive/10 rounded-md p-3 text-sm text-destructive">
             {error.message}
           </div>
         </div>

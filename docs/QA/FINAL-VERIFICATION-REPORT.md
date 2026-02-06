@@ -25,12 +25,12 @@ This report provides a comprehensive verification of the nself-chat project at v
 
 ### Overall Metrics
 
-| Metric | Count | Percentage |
-|--------|-------|------------|
-| **Total Test Suites** | 318 | 100% |
-| **Passing Test Suites** | 179 | 56.3% |
-| **Failing Test Suites** | 139 | 43.7% |
-| **Skipped Tests** | 0 | 0% |
+| Metric                  | Count | Percentage |
+| ----------------------- | ----- | ---------- |
+| **Total Test Suites**   | 318   | 100%       |
+| **Passing Test Suites** | 179   | 56.3%      |
+| **Failing Test Suites** | 139   | 43.7%      |
+| **Skipped Tests**       | 0     | 0%         |
 
 ### Test Execution Summary
 
@@ -107,12 +107,12 @@ Route (app)                              Size     First Load JS
 
 ### Build Artifacts
 
-| Metric | Value |
-|--------|-------|
-| **Total Build Size** | 3.0 GB |
-| **Pages Generated** | 47 static pages |
-| **Bundle Format** | Next.js 15.5.10 production |
-| **Build Directory** | `.next/` |
+| Metric               | Value                      |
+| -------------------- | -------------------------- |
+| **Total Build Size** | 3.0 GB                     |
+| **Pages Generated**  | 47 static pages            |
+| **Bundle Format**    | Next.js 15.5.10 production |
+| **Build Directory**  | `.next/`                   |
 
 ### Production Readiness
 
@@ -162,12 +162,14 @@ coverageThreshold: {
 ### Recommended Coverage Improvements
 
 1. **Reduce Test Memory Footprint**
+
    ```bash
    # Run tests in smaller batches
    NODE_OPTIONS="--max-old-space-size=8192" pnpm test:coverage --maxWorkers=2
    ```
 
 2. **Focus on Critical Modules**
+
    ```bash
    pnpm test:coverage -- src/services/ src/stores/ src/lib/
    ```
@@ -188,36 +190,36 @@ coverageThreshold: {
 
 ### Core Services (Required)
 
-| Service | Port | Status | Purpose |
-|---------|------|--------|---------|
-| **postgres** | 5432 | ✅ Configured | Primary database with 60+ extensions |
-| **hasura** | 8080 | ✅ Configured | GraphQL engine |
-| **auth** | 4000 | ✅ Configured | Nhost authentication |
-| **nginx** | 80/443 | ✅ Configured | Reverse proxy + SSL |
+| Service      | Port   | Status        | Purpose                              |
+| ------------ | ------ | ------------- | ------------------------------------ |
+| **postgres** | 5432   | ✅ Configured | Primary database with 60+ extensions |
+| **hasura**   | 8080   | ✅ Configured | GraphQL engine                       |
+| **auth**     | 4000   | ✅ Configured | Nhost authentication                 |
+| **nginx**    | 80/443 | ✅ Configured | Reverse proxy + SSL                  |
 
 ### Optional Services
 
-| Service | Port | Status | Purpose |
-|---------|------|--------|---------|
-| **meilisearch** | 7700 | ✅ Configured | Full-text search |
-| **redis** | 6379 | ✅ Configured | Cache & sessions |
-| **minio** | 9000/9001 | ✅ Configured | S3-compatible storage |
-| **livekit** | 7880/7881 | ✅ Configured | WebRTC SFU |
-| **rtmp** | 1935/8080 | ✅ Configured | Live streaming |
-| **mailpit** | 1025/8025 | ✅ Configured | Email testing (dev) |
-| **nself-admin** | 3021 | ✅ Configured | Admin UI |
+| Service         | Port      | Status        | Purpose               |
+| --------------- | --------- | ------------- | --------------------- |
+| **meilisearch** | 7700      | ✅ Configured | Full-text search      |
+| **redis**       | 6379      | ✅ Configured | Cache & sessions      |
+| **minio**       | 9000/9001 | ✅ Configured | S3-compatible storage |
+| **livekit**     | 7880/7881 | ✅ Configured | WebRTC SFU            |
+| **rtmp**        | 1935/8080 | ✅ Configured | Live streaming        |
+| **mailpit**     | 1025/8025 | ✅ Configured | Email testing (dev)   |
+| **nself-admin** | 3021      | ✅ Configured | Admin UI              |
 
 ### Advanced Plugin Services
 
 Located in `.backend/services/`:
 
-| Service | Files | Purpose |
-|---------|-------|---------|
-| **analytics** | 4 TS files | Usage analytics & reporting |
-| **advanced-search** | 4 TS files | Semantic search with MeiliSearch |
-| **media-pipeline** | 5 TS files | Video transcoding & thumbnails |
-| **ai-orchestration** | 6 TS files | AI model management |
-| **workflows** | 4 TS files | Background job processing |
+| Service              | Files      | Purpose                          |
+| -------------------- | ---------- | -------------------------------- |
+| **analytics**        | 4 TS files | Usage analytics & reporting      |
+| **advanced-search**  | 4 TS files | Semantic search with MeiliSearch |
+| **media-pipeline**   | 5 TS files | Video transcoding & thumbnails   |
+| **ai-orchestration** | 6 TS files | AI model management              |
+| **workflows**        | 4 TS files | Background job processing        |
 
 **Total Backend Service Files**: 27 TypeScript files
 
@@ -233,13 +235,13 @@ Located in `.backend/services/`:
 
 ### Source Code Statistics
 
-| Metric | Count |
-|--------|-------|
-| **TypeScript Files** | 3,508 |
-| **Test Files** | 323 |
-| **Test Coverage** | 9.2% (323/3508) |
-| **Migration Files** | 44 |
-| **Backend Services** | 27 |
+| Metric                  | Count                 |
+| ----------------------- | --------------------- |
+| **TypeScript Files**    | 3,508                 |
+| **Test Files**          | 323                   |
+| **Test Coverage**       | 9.2% (323/3508)       |
+| **Migration Files**     | 44                    |
+| **Backend Services**    | 27                    |
 | **Total Lines of Code** | ~150,000+ (estimated) |
 
 ### File Distribution
@@ -266,14 +268,14 @@ src/
 
 ## Quality Gates Assessment
 
-| Gate | Target | Actual | Status | Notes |
-|------|--------|--------|--------|-------|
-| **TypeScript Errors** | 0 | 0 | ✅ PASS | No compilation errors |
-| **Build Success** | Yes | Yes | ✅ PASS | Production build succeeds |
-| **Test Pass Rate** | >95% | 56.3% | ❌ FAIL | 139 failing tests due to env issues |
-| **Coverage** | >70% | N/A | ⚠️ BLOCKED | Memory constraints |
-| **Linting** | 0 errors | 0 | ✅ PASS | ESLint clean |
-| **Dependencies** | No critical CVEs | 0 | ✅ PASS | All deps secure |
+| Gate                  | Target           | Actual | Status     | Notes                               |
+| --------------------- | ---------------- | ------ | ---------- | ----------------------------------- |
+| **TypeScript Errors** | 0                | 0      | ✅ PASS    | No compilation errors               |
+| **Build Success**     | Yes              | Yes    | ✅ PASS    | Production build succeeds           |
+| **Test Pass Rate**    | >95%             | 56.3%  | ❌ FAIL    | 139 failing tests due to env issues |
+| **Coverage**          | >70%             | N/A    | ⚠️ BLOCKED | Memory constraints                  |
+| **Linting**           | 0 errors         | 0      | ✅ PASS    | ESLint clean                        |
+| **Dependencies**      | No critical CVEs | 0      | ✅ PASS    | All deps secure                     |
 
 ---
 
@@ -448,6 +450,7 @@ The nself-chat project at v0.9.1-beta demonstrates **strong implementation quali
 This is a **feature-complete beta** with excellent architectural foundations. The failing tests are primarily environmental issues, not code defects. With 1-2 weeks of focused testing infrastructure improvements, this project will be production-ready.
 
 The codebase demonstrates professional quality with:
+
 - Modern tech stack (Next.js 15, React 19, TypeScript 5.7)
 - Comprehensive feature set (WebRTC, E2EE, payments, AI)
 - Production-grade backend (Hasura, PostgreSQL, Redis, etc.)

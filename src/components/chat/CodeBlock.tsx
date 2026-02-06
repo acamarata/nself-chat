@@ -69,7 +69,7 @@ export const CodeBlock = memo(function CodeBlock({
         setTimeout(() => setCopied(false), 2000)
       })
       .catch((error) => {
-        logger.error('Failed to copy code:',  error)
+        logger.error('Failed to copy code:', error)
       })
   }, [code])
 

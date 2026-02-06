@@ -474,7 +474,9 @@ describe('Realtime Plugin', () => {
   describeIf('Polling Fallback', () => {
     it('should support HTTP polling for messages', async () => {
       const since = Date.now() - 60000 // Last minute
-      const response = await fetch(`${REALTIME_URL}/poll?channelId=${TEST_CHANNEL.id}&since=${since}`)
+      const response = await fetch(
+        `${REALTIME_URL}/poll?channelId=${TEST_CHANNEL.id}&since=${since}`
+      )
       const data = await response.json()
 
       expect(response.ok).toBe(true)

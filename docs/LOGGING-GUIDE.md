@@ -44,14 +44,14 @@ log.perf('User query', Date.now() - start, { query: 'complex' })
 log.security('Failed login attempt', {
   ip: req.ip,
   userId: attemptedUserId,
-  reason: 'invalid_password'
+  reason: 'invalid_password',
 })
 
 // Audit trails (compliance and tracking)
 log.audit('User role changed', currentUserId, {
   targetUser: targetUserId,
   oldRole: 'member',
-  newRole: 'admin'
+  newRole: 'admin',
 })
 ```
 
@@ -59,15 +59,15 @@ log.audit('User role changed', currentUserId, {
 
 ## When to Use What
 
-| Level | Use When | Example |
-|-------|----------|---------|
-| `debug` | Development debugging, verbose details | Variable values, function calls |
-| `info` | Important state changes, user actions | User login, file upload complete |
-| `warn` | Recoverable issues, deprecations | API rate limit warning, deprecated feature |
-| `error` | Errors that need investigation | API failures, database errors |
-| `perf` | Performance monitoring | Slow queries, long operations |
-| `security` | Security-related events | Failed auth, suspicious activity |
-| `audit` | Compliance and user actions | Permission changes, data access |
+| Level      | Use When                               | Example                                    |
+| ---------- | -------------------------------------- | ------------------------------------------ |
+| `debug`    | Development debugging, verbose details | Variable values, function calls            |
+| `info`     | Important state changes, user actions  | User login, file upload complete           |
+| `warn`     | Recoverable issues, deprecations       | API rate limit warning, deprecated feature |
+| `error`    | Errors that need investigation         | API failures, database errors              |
+| `perf`     | Performance monitoring                 | Slow queries, long operations              |
+| `security` | Security-related events                | Failed auth, suspicious activity           |
+| `audit`    | Compliance and user actions            | Permission changes, data access            |
 
 ---
 
@@ -79,7 +79,7 @@ log.audit('User role changed', currentUserId, {
 // Include context
 log.error('Failed to fetch user', error, {
   userId: 'abc123',
-  endpoint: '/api/users/abc123'
+  endpoint: '/api/users/abc123',
 })
 
 // Use scoped loggers
@@ -149,6 +149,7 @@ All `error`, `warn`, `security`, and `audit` logs are automatically sent to Sent
 ### Sentry Context
 
 The logger automatically includes:
+
 - Error stack traces
 - User context (if available)
 - Environment information
@@ -172,7 +173,7 @@ export async function GET(req: Request) {
   } catch (error) {
     log.error('Failed to fetch users', error, {
       endpoint: '/api/users',
-      method: 'GET'
+      method: 'GET',
     })
     return Response.json({ error: 'Internal error' }, { status: 500 })
   }
@@ -188,7 +189,7 @@ const log = createLogger('UserProfile')
 
 export function UserProfile({ userId }: Props) {
   useEffect(() => {
-    fetchUser(userId).catch(error => {
+    fetchUser(userId).catch((error) => {
       log.error('Failed to load user profile', error, { userId })
     })
   }, [userId])
@@ -211,14 +212,14 @@ async function login(email: string, password: string) {
     log.security('Failed login attempt', {
       email,
       ip: getClientIP(),
-      timestamp: Date.now()
+      timestamp: Date.now(),
     })
     throw new Error('Invalid credentials')
   }
 
   log.audit('User login', user.id, {
     email: user.email,
-    loginMethod: 'password'
+    loginMethod: 'password',
   })
 
   return user
@@ -242,7 +243,7 @@ async function complexQuery(params: QueryParams) {
     log.perf('Complex query executed', duration, {
       table: params.table,
       rows: results.length,
-      filters: Object.keys(params.where).length
+      filters: Object.keys(params.where).length,
     })
 
     return results
@@ -255,7 +256,7 @@ async function complexQuery(params: QueryParams) {
 
 ---
 
-## Migration from console.*
+## Migration from console.\*
 
 ### Before
 
@@ -292,8 +293,8 @@ jest.mock('@/lib/logger', () => ({
     error: jest.fn(),
     perf: jest.fn(),
     security: jest.fn(),
-    audit: jest.fn()
-  })
+    audit: jest.fn(),
+  }),
 }))
 ```
 

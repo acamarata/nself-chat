@@ -6,13 +6,76 @@
 
 // Default allowed tags (similar to DOMPurify defaults)
 const defaultAllowedTags = [
-  'a', 'abbr', 'address', 'article', 'aside', 'b', 'bdi', 'bdo', 'blockquote',
-  'br', 'caption', 'cite', 'code', 'col', 'colgroup', 'data', 'dd', 'del', 'dfn',
-  'div', 'dl', 'dt', 'em', 'figcaption', 'figure', 'footer', 'h1', 'h2', 'h3',
-  'h4', 'h5', 'h6', 'header', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'main',
-  'mark', 'nav', 'ol', 'p', 'pre', 'q', 'rp', 'rt', 'ruby', 's', 'samp',
-  'section', 'small', 'span', 'strong', 'sub', 'summary', 'sup', 'table',
-  'tbody', 'td', 'tfoot', 'th', 'thead', 'time', 'tr', 'u', 'ul', 'var', 'wbr',
+  'a',
+  'abbr',
+  'address',
+  'article',
+  'aside',
+  'b',
+  'bdi',
+  'bdo',
+  'blockquote',
+  'br',
+  'caption',
+  'cite',
+  'code',
+  'col',
+  'colgroup',
+  'data',
+  'dd',
+  'del',
+  'dfn',
+  'div',
+  'dl',
+  'dt',
+  'em',
+  'figcaption',
+  'figure',
+  'footer',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'header',
+  'hr',
+  'i',
+  'img',
+  'ins',
+  'kbd',
+  'li',
+  'main',
+  'mark',
+  'nav',
+  'ol',
+  'p',
+  'pre',
+  'q',
+  'rp',
+  'rt',
+  'ruby',
+  's',
+  'samp',
+  'section',
+  'small',
+  'span',
+  'strong',
+  'sub',
+  'summary',
+  'sup',
+  'table',
+  'tbody',
+  'td',
+  'tfoot',
+  'th',
+  'thead',
+  'time',
+  'tr',
+  'u',
+  'ul',
+  'var',
+  'wbr',
 ]
 
 interface SanitizeConfig {
@@ -38,7 +101,7 @@ const sanitize = jest.fn((dirty: string, config?: SanitizeConfig) => {
     allowedTags = [...allowedTags, ...config.ADD_TAGS]
   }
   if (config?.FORBID_TAGS) {
-    allowedTags = allowedTags.filter(tag => !config.FORBID_TAGS?.includes(tag))
+    allowedTags = allowedTags.filter((tag) => !config.FORBID_TAGS?.includes(tag))
   }
 
   let result = dirty
@@ -75,9 +138,7 @@ const sanitize = jest.fn((dirty: string, config?: SanitizeConfig) => {
 })
 
 // Mock isValidAttribute function
-const isValidAttribute = jest.fn(
-  (_tag: string, _attr: string, _value: string) => true
-)
+const isValidAttribute = jest.fn((_tag: string, _attr: string, _value: string) => true)
 
 // Mock setConfig function
 const setConfig = jest.fn((_config: unknown) => {})
@@ -114,4 +175,13 @@ const DOMPurify = {
 }
 
 export default DOMPurify
-export { sanitize, isValidAttribute, setConfig, clearConfig, addHook, removeHook, removeHooks, removeAllHooks }
+export {
+  sanitize,
+  isValidAttribute,
+  setConfig,
+  clearConfig,
+  addHook,
+  removeHook,
+  removeHooks,
+  removeAllHooks,
+}

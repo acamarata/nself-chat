@@ -7,7 +7,11 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe, toHaveNoViolations } from 'jest-axe'
-import { expectNoA11yViolations, testKeyboardNavigation, testARIA } from '@/lib/accessibility/test-utils'
+import {
+  expectNoA11yViolations,
+  testKeyboardNavigation,
+  testARIA,
+} from '@/lib/accessibility/test-utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -47,7 +51,7 @@ describe('WCAG 2.1 AA Compliance', () => {
       const { container } = render(
         <div className="bg-background text-foreground">
           <p>This text has sufficient contrast</p>
-          <button className="bg-primary text-primary-foreground">Button</button>
+          <button className="text-primary-foreground bg-primary">Button</button>
         </div>
       )
 
