@@ -267,7 +267,7 @@ describe('WCAG 2.1 AA Compliance', () => {
         <div>
           <button aria-label="Close dialog">×</button>
           <div role="alert">Important message</div>
-          <input type="checkbox" aria-checked="false" role="checkbox" />
+          <input type="checkbox" aria-checked="false" role="checkbox" aria-label="Accept terms" />
         </div>
       )
 
