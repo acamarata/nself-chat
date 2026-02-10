@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
 
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,7 +27,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9.15.4
+          version: 9
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -35,7 +39,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('frontend/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
@@ -63,6 +67,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
 
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -75,7 +83,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9.15.4
+          version: 9
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -94,6 +102,10 @@ jobs:
     name: Playwright Visual Snapshots
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -106,7 +118,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9.15.4
+          version: 9
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -123,5 +135,5 @@ jobs:
         if: always()
         with:
           name: playwright-visual-snapshots
-          path: test-results/
+          path: frontend/test-results/
           retention-days: 30

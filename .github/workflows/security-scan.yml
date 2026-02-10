@@ -41,18 +41,24 @@ jobs:
       findings_high: ${{ steps.analyze.outputs.high }}
       findings_medium: ${{ steps.analyze.outputs.medium }}
       should_block: ${{ steps.analyze.outputs.should_block }}
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -137,7 +143,7 @@ jobs:
         with:
           name: sast-results
           path: |
-            sast-results.json
+            frontend/sast-results.json
             semgrep.sarif
           retention-days: 30
 
@@ -152,18 +158,24 @@ jobs:
       findings_high: ${{ steps.analyze.outputs.high }}
       findings_moderate: ${{ steps.analyze.outputs.moderate }}
       should_block: ${{ steps.analyze.outputs.should_block }}
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -249,7 +261,7 @@ jobs:
         with:
           name: dependency-scan-results
           path: |
-            audit-report.json
+            frontend/audit-report.json
             trivy-results.sarif
           retention-days: 30
 
@@ -295,7 +307,7 @@ jobs:
           )
 
           for pattern in "${PATTERNS[@]}"; do
-            if grep -rE "$pattern" --include="*.ts" --include="*.tsx" --include="*.js" --include="*.json" --include="*.env*" src/ 2>/dev/null | grep -v "node_modules" | grep -v ".test."; then
+            if grep -rE "$pattern" --include="*.ts" --include="*.tsx" --include="*.js" --include="*.json" --include="*.env*" frontend/ 2>/dev/null | grep -v "node_modules" | grep -v ".test."; then
               FOUND=1
               echo "::warning::Potential secret found matching pattern: $pattern"
             fi
@@ -329,18 +341,24 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       has_restricted: ${{ steps.check.outputs.has_restricted }}
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -371,7 +389,7 @@ jobs:
         if: always()
         with:
           name: license-report
-          path: license-report.txt
+          path: frontend/license-report.txt
           retention-days: 30
 
   # ==========================================================================

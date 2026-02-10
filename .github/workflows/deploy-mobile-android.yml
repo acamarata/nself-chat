@@ -33,6 +33,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: play-store
     timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: frontend
 
     steps:
       - name: Checkout
@@ -47,18 +50,22 @@ jobs:
           bundler-cache: false
 
       - name: Install Fastlane
+        working-directory: .
         run: |
           gem install fastlane -v '~> 2.220.0'
           fastlane --version
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -89,11 +96,11 @@ jobs:
           NODE_ENV: production
 
       - name: Sync Capacitor
-        working-directory: platforms/capacitor
+        working-directory: frontend/platforms/capacitor
         run: npx cap sync android
 
       - name: Decode Android keystore
-        working-directory: platforms/capacitor/android
+        working-directory: frontend/platforms/capacitor/android
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
@@ -101,7 +108,7 @@ jobs:
           ls -la app/release.keystore
 
       - name: Create keystore properties
-        working-directory: platforms/capacitor/android
+        working-directory: frontend/platforms/capacitor/android
         env:
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
@@ -115,7 +122,7 @@ jobs:
           EOF
 
       - name: Build Android release
-        working-directory: platforms/capacitor
+        working-directory: frontend/platforms/capacitor
         env:
           NCHAT_RELEASE_STORE_FILE: app/release.keystore
           NCHAT_RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
@@ -125,6 +132,7 @@ jobs:
           fastlane android release
 
       - name: Create Play Store service account file
+        working-directory: .
         env:
           PLAY_STORE_JSON_KEY: ${{ secrets.PLAY_STORE_JSON_KEY }}
         run: |
@@ -132,7 +140,7 @@ jobs:
 
       - name: Upload to Play Store (Internal)
         if: inputs.track == 'internal' || contains(github.ref, 'internal')
-        working-directory: platforms/capacitor
+        working-directory: frontend/platforms/capacitor
         env:
           PLAY_STORE_JSON_KEY: /tmp/play-store-key.json
         run: |
@@ -140,7 +148,7 @@ jobs:
 
       - name: Upload to Play Store (Alpha)
         if: inputs.track == 'alpha'
-        working-directory: platforms/capacitor
+        working-directory: frontend/platforms/capacitor
         env:
           PLAY_STORE_JSON_KEY: /tmp/play-store-key.json
         run: |
@@ -148,7 +156,7 @@ jobs:
 
       - name: Upload to Play Store (Beta)
         if: inputs.track == 'beta'
-        working-directory: platforms/capacitor
+        working-directory: frontend/platforms/capacitor
         env:
           PLAY_STORE_JSON_KEY: /tmp/play-store-key.json
         run: |
@@ -156,7 +164,7 @@ jobs:
 
       - name: Upload to Play Store (Production)
         if: inputs.track == 'production'
-        working-directory: platforms/capacitor
+        working-directory: frontend/platforms/capacitor
         env:
           PLAY_STORE_JSON_KEY: /tmp/play-store-key.json
         run: |
@@ -168,9 +176,9 @@ jobs:
         with:
           name: android-release-${{ steps.version.outputs.version }}-${{ steps.version.outputs.version_code }}
           path: |
-            platforms/capacitor/dist/android/*.aab
-            platforms/capacitor/dist/android/*.apk
-            platforms/capacitor/android/app/build/outputs/mapping/release/mapping.txt
+            frontend/platforms/capacitor/dist/android/*.aab
+            frontend/platforms/capacitor/dist/android/*.apk
+            frontend/platforms/capacitor/android/app/build/outputs/mapping/release/mapping.txt
           retention-days: 30
 
       - name: Upload build logs
@@ -179,16 +187,17 @@ jobs:
         with:
           name: android-build-logs-${{ github.run_number }}
           path: |
-            platforms/capacitor/fastlane/report.xml
-            platforms/capacitor/android/app/build/reports
+            frontend/platforms/capacitor/fastlane/report.xml
+            frontend/platforms/capacitor/android/app/build/reports
           retention-days: 7
 
       - name: Cleanup sensitive files
         if: always()
+        working-directory: .
         run: |
           rm -f /tmp/play-store-key.json
-          rm -f platforms/capacitor/android/app/release.keystore
-          rm -f platforms/capacitor/android/keystore.properties
+          rm -f frontend/platforms/capacitor/android/app/release.keystore
+          rm -f frontend/platforms/capacitor/android/keystore.properties
 
       - name: Notify on success
         if: success()

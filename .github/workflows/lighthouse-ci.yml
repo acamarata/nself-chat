@@ -8,6 +8,10 @@ jobs:
     name: Lighthouse Performance Audit
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,7 +26,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9.15.4
+          version: 9
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -58,8 +62,8 @@ jobs:
         with:
           name: lighthouse-results
           path: |
-            .lighthouseci
-            lighthouseci-*.html
+            frontend/.lighthouseci
+            frontend/lighthouseci-*.html
           retention-days: 30
 
       - name: Comment PR with results
@@ -71,7 +75,7 @@ jobs:
             const path = require('path');
 
             // Find manifest file
-            const manifestPath = '.lighthouseci/manifest.json';
+            const manifestPath = 'frontend/.lighthouseci/manifest.json';
             if (!fs.existsSync(manifestPath)) {
               console.log('No manifest file found');
               return;

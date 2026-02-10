@@ -41,25 +41,31 @@ jobs:
     name: Build iOS
     runs-on: macos-latest
     if: inputs.platform == 'all' || inputs.platform == 'ios'
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
-          working-directory: platforms/react-native/ios
+          working-directory: frontend/platforms/react-native/ios
 
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
@@ -125,26 +131,32 @@ jobs:
         with:
           name: rn-ios-${{ inputs.build_type }}
           path: |
-            platforms/react-native/ios/build/export/*.ipa
-            platforms/react-native/ios/build/Build/Products/Debug-iphonesimulator/*.app
+            frontend/platforms/react-native/ios/build/export/*.ipa
+            frontend/platforms/react-native/ios/build/Build/Products/Debug-iphonesimulator/*.app
           retention-days: 14
 
   build-android:
     name: Build Android
     runs-on: ubuntu-latest
     if: inputs.platform == 'all' || inputs.platform == 'android'
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -188,8 +200,8 @@ jobs:
         with:
           name: rn-android-${{ inputs.build_type }}
           path: |
-            platforms/react-native/android/app/build/outputs/apk/**/*.apk
-            platforms/react-native/android/app/build/outputs/bundle/**/*.aab
+            frontend/platforms/react-native/android/app/build/outputs/apk/**/*.apk
+            frontend/platforms/react-native/android/app/build/outputs/bundle/**/*.aab
           retention-days: 14
 
   combine:

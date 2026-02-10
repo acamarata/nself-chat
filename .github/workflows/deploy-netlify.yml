@@ -29,6 +29,9 @@ jobs:
   deploy:
     name: Deploy to Netlify
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     outputs:
       url: ${{ steps.deploy.outputs.deploy-url }}
     environment:
@@ -41,12 +44,15 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -61,7 +67,7 @@ jobs:
         id: deploy
         uses: nwtgck/actions-netlify@v3
         with:
-          publish-dir: '.next'
+          publish-dir: 'frontend/.next'
           production-branch: main
           production-deploy: ${{ inputs.environment == 'production' }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -69,7 +75,7 @@ jobs:
           enable-pull-request-comment: true
           enable-commit-comment: false
           overwrites-pull-request-comment: true
-          functions-dir: '.netlify/functions'
+          functions-dir: 'frontend/.netlify/functions'
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

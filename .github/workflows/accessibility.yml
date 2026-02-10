@@ -12,21 +12,25 @@ jobs:
     name: Accessibility Linting (jsx-a11y)
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: frontend
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
-          version: 9.15.4
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -35,32 +39,29 @@ jobs:
         run: pnpm lint
         continue-on-error: false
 
-      - name: Upload ESLint results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: eslint-results
-          path: .next/
-
   a11y-unit:
     name: Accessibility Unit Tests (jest-axe)
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: frontend
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
-          version: 9.15.4
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -68,34 +69,29 @@ jobs:
       - name: Run accessibility unit tests
         run: pnpm test -- --testPathPattern="a11y|accessibility" --passWithNoTests
 
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: a11y-unit-test-results
-          path: |
-            coverage/
-            test-results/
-
   a11y-e2e:
     name: Accessibility E2E Tests (Playwright + Axe)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: frontend
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
-          version: 9.15.4
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -119,28 +115,32 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playwright-a11y-report
-          path: playwright-report/
+          path: frontend/playwright-report/
           retention-days: 30
 
   lighthouse:
     name: Lighthouse Accessibility Audit
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: frontend
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
-          version: 9.15.4
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -165,7 +165,7 @@ jobs:
             http://localhost:3000
             http://localhost:3000/chat
             http://localhost:3000/settings
-          configPath: '.lighthouserc.json'
+          configPath: 'frontend/.lighthouserc.json'
           uploadArtifacts: true
           temporaryPublicStorage: true
 
@@ -174,40 +174,46 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lighthouse-results
-          path: .lighthouseci/
+          path: frontend/.lighthouseci/
 
   i18n-validation:
     name: Translation Coverage Validation
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: frontend
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
-          version: 9.15.4
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Validate translation coverage
-        run: pnpm tsx .github/scripts/validate-translations.ts
+        working-directory: .
+        run: pnpm --dir frontend tsx .github/scripts/validate-translations.ts
         continue-on-error: true
 
       - name: Generate translation report
         if: always()
+        working-directory: .
         run: |
           echo "## Translation Coverage Report" >> $GITHUB_STEP_SUMMARY
-          pnpm tsx .github/scripts/validate-translations.ts 2>&1 | tail -n 50 >> $GITHUB_STEP_SUMMARY
+          pnpm --dir frontend tsx .github/scripts/validate-translations.ts 2>&1 | tail -n 50 >> $GITHUB_STEP_SUMMARY
 
   accessibility-summary:
     name: Accessibility Summary

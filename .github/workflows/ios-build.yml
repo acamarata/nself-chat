@@ -27,6 +27,9 @@ jobs:
     name: Build iOS App
     runs-on: macos-14
     timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: frontend
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
@@ -43,6 +46,8 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -54,7 +59,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('frontend/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
 
@@ -62,10 +67,10 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            platforms/capacitor/ios/Pods
+            frontend/platforms/capacitor/ios/Pods
             ~/Library/Caches/CocoaPods
             ~/.cocoapods
-          key: ${{ runner.os }}-pods-${{ hashFiles('platforms/capacitor/ios/Podfile.lock') }}
+          key: ${{ runner.os }}-pods-${{ hashFiles('frontend/platforms/capacitor/ios/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
 
@@ -84,7 +89,7 @@ jobs:
           NEXT_PUBLIC_USE_DEV_AUTH: 'false'
 
       - name: Setup Capacitor
-        working-directory: platforms/capacitor
+        working-directory: frontend/platforms/capacitor
         run: |
           pnpm install
           npx cap sync ios
@@ -100,7 +105,7 @@ jobs:
           pod install --repo-update
 
       - name: Update version
-        working-directory: platforms/capacitor/ios/App
+        working-directory: frontend/platforms/capacitor/ios/App
         run: |
           VERSION=$(node -p "require('../../../../package.json').version")
           BUILD_NUMBER=$(date +%Y%m%d%H%M)
@@ -113,14 +118,14 @@ jobs:
 
       - name: Configure signing (Debug)
         if: github.event.inputs.build_type == 'debug' || github.event_name == 'pull_request'
-        working-directory: platforms/capacitor/ios/App
+        working-directory: frontend/platforms/capacitor/ios/App
         run: |
           # Use automatic signing for debug builds
           sed -i '' 's/CODE_SIGN_STYLE = Manual/CODE_SIGN_STYLE = Automatic/' App.xcodeproj/project.pbxproj
 
       - name: Configure signing (Release)
         if: github.event.inputs.build_type == 'release' && github.event_name != 'pull_request'
-        working-directory: platforms/capacitor/ios/App
+        working-directory: frontend/platforms/capacitor/ios/App
         env:
           CERTIFICATES_P12: ${{ secrets.CERTIFICATES_P12 }}
           CERTIFICATES_PASSWORD: ${{ secrets.CERTIFICATES_PASSWORD }}
@@ -149,7 +154,7 @@ jobs:
 
       - name: Build (Debug)
         if: github.event.inputs.build_type == 'debug' || github.event_name == 'pull_request'
-        working-directory: platforms/capacitor/ios
+        working-directory: frontend/platforms/capacitor/ios
         run: |
           xcodebuild -workspace App/App.xcworkspace \
             -scheme App \
@@ -160,7 +165,7 @@ jobs:
 
       - name: Build (Release)
         if: github.event.inputs.build_type == 'release' && github.event_name != 'pull_request'
-        working-directory: platforms/capacitor/ios
+        working-directory: frontend/platforms/capacitor/ios
         run: |
           xcodebuild -workspace App/App.xcworkspace \
             -scheme App \
@@ -172,7 +177,7 @@ jobs:
 
       - name: Export IPA
         if: github.event.inputs.build_type == 'release' && github.event_name != 'pull_request'
-        working-directory: platforms/capacitor/ios
+        working-directory: frontend/platforms/capacitor/ios
         run: |
           cat > build/ExportOptions.plist <<EOF
           <?xml version="1.0" encoding="UTF-8"?>
@@ -201,7 +206,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: nchat-ios-${{ env.VERSION }}-${{ env.BUILD_NUMBER }}
-          path: platforms/capacitor/ios/build/ipa/*.ipa
+          path: frontend/platforms/capacitor/ios/build/ipa/*.ipa
           retention-days: 30
 
       - name: Deploy to TestFlight
@@ -213,9 +218,10 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        working-directory: .
         run: |
           chmod +x scripts/deploy-testflight.sh
-          scripts/deploy-testflight.sh --ipa platforms/capacitor/ios/build/ipa/App.ipa
+          scripts/deploy-testflight.sh --ipa frontend/platforms/capacitor/ios/build/ipa/App.ipa
 
       - name: Clean up keychain
         if: always()

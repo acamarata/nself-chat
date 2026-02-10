@@ -22,6 +22,9 @@ jobs:
   build-web:
     name: Build Web App
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -45,7 +48,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('frontend/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
@@ -63,8 +66,8 @@ jobs:
         with:
           name: nextjs-build
           path: |
-            .next/
-            public/
+            frontend/.next/
+            frontend/public/
           retention-days: 1
 
   # Build Windows installer
@@ -88,18 +91,18 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: nextjs-build
-          path: .
+          path: frontend
 
       - name: Install Electron dependencies
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: npm install
 
       - name: Build Electron (TypeScript)
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: npm run build:all
 
       - name: Build Windows installer
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: npm run dist:win -- --${{ matrix.arch }}
         env:
           # Code signing (if available)
@@ -112,7 +115,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-${{ matrix.arch }}
-          path: dist-electron/*.exe
+          path: frontend/dist-electron/*.exe
           retention-days: 7
 
   # Build macOS DMG and PKG
@@ -136,18 +139,18 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: nextjs-build
-          path: .
+          path: frontend
 
       - name: Install Electron dependencies
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: npm install
 
       - name: Install @electron/notarize
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: npm install --save-dev @electron/notarize
 
       - name: Build Electron (TypeScript)
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: npm run build:all
 
       - name: Import Code Signing Certificate
@@ -172,7 +175,7 @@ jobs:
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
       - name: Build macOS DMG/PKG
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: npm run dist:mac -- --${{ matrix.arch }}
         env:
           # Code signing
@@ -200,9 +203,9 @@ jobs:
         with:
           name: macos-${{ matrix.arch }}
           path: |
-            dist-electron/*.dmg
-            dist-electron/*.pkg
-            dist-electron/*.zip
+            frontend/dist-electron/*.dmg
+            frontend/dist-electron/*.pkg
+            frontend/dist-electron/*.zip
           retention-days: 7
 
   # Build Linux packages
@@ -223,7 +226,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: nextjs-build
-          path: .
+          path: frontend
 
       - name: Install system dependencies
         run: |
@@ -231,15 +234,15 @@ jobs:
           sudo apt-get install -y rpm fakeroot dpkg
 
       - name: Install Electron dependencies
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: npm install
 
       - name: Build Electron (TypeScript)
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: npm run build:all
 
       - name: Build Linux packages
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: npm run dist:linux
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -249,10 +252,10 @@ jobs:
         with:
           name: linux-x64
           path: |
-            dist-electron/*.AppImage
-            dist-electron/*.deb
-            dist-electron/*.rpm
-            dist-electron/*.tar.gz
+            frontend/dist-electron/*.AppImage
+            frontend/dist-electron/*.deb
+            frontend/dist-electron/*.rpm
+            frontend/dist-electron/*.tar.gz
           retention-days: 7
 
   # Create GitHub Release

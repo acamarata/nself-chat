@@ -46,18 +46,24 @@ jobs:
     name: Build macOS
     runs-on: macos-latest
     if: inputs.platform == 'all' || inputs.platform == 'macos'
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -66,19 +72,19 @@ jobs:
         run: pnpm build
 
       - name: Build Electron TypeScript
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: pnpm build:all
 
       - name: Build Electron (Unsigned)
         if: ${{ !inputs.sign }}
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: pnpm dist:mac
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: Build Electron (Signed)
         if: ${{ inputs.sign }}
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: pnpm dist:mac
         env:
           CSC_LINK: ${{ secrets.CSC_LINK }}
@@ -92,27 +98,33 @@ jobs:
         with:
           name: electron-macos
           path: |
-            dist-electron/*.dmg
-            dist-electron/*.zip
-            dist-electron/mac/*.app
+            frontend/dist-electron/*.dmg
+            frontend/dist-electron/*.zip
+            frontend/dist-electron/mac/*.app
           retention-days: 14
 
   build-windows:
     name: Build Windows
     runs-on: windows-latest
     if: inputs.platform == 'all' || inputs.platform == 'windows'
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -121,19 +133,19 @@ jobs:
         run: pnpm build
 
       - name: Build Electron TypeScript
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: pnpm build:all
 
       - name: Build Electron (Unsigned)
         if: ${{ !inputs.sign }}
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: pnpm dist:win
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: Build Electron (Signed)
         if: ${{ inputs.sign }}
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: pnpm dist:win
         env:
           WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
@@ -144,26 +156,32 @@ jobs:
         with:
           name: electron-windows
           path: |
-            dist-electron/*.exe
-            dist-electron/win-unpacked
+            frontend/dist-electron/*.exe
+            frontend/dist-electron/win-unpacked
           retention-days: 14
 
   build-linux:
     name: Build Linux
     runs-on: ubuntu-22.04
     if: inputs.platform == 'all' || inputs.platform == 'linux'
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -172,11 +190,11 @@ jobs:
         run: pnpm build
 
       - name: Build Electron TypeScript
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: pnpm build:all
 
       - name: Build Electron
-        working-directory: platforms/electron
+        working-directory: frontend/platforms/electron
         run: pnpm dist:linux
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
@@ -186,9 +204,9 @@ jobs:
         with:
           name: electron-linux
           path: |
-            dist-electron/*.AppImage
-            dist-electron/*.deb
-            dist-electron/*.rpm
+            frontend/dist-electron/*.AppImage
+            frontend/dist-electron/*.deb
+            frontend/dist-electron/*.rpm
           retention-days: 14
 
   combine:
@@ -231,7 +249,7 @@ jobs:
           name: Desktop Build ${{ github.run_number }}
           body: |
             Automated desktop build from commit ${{ github.sha }}
-            
+
             **Platform:** ${{ inputs.platform }}
             **Signed:** ${{ inputs.sign }}
           files: |

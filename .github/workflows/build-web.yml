@@ -30,6 +30,9 @@ jobs:
   build:
     name: Build Web Application
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     outputs:
       artifact-name: ${{ steps.artifact.outputs.name }}
     steps:
@@ -38,12 +41,15 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Get version
         id: version
@@ -69,16 +75,19 @@ jobs:
         with:
           name: ${{ steps.artifact.outputs.name }}
           path: |
-            .next
-            public
-            package.json
-            pnpm-lock.yaml
-            next.config.js
+            frontend/.next
+            frontend/public
+            frontend/package.json
+            frontend/pnpm-lock.yaml
+            frontend/next.config.js
           retention-days: 14
 
   analyze:
     name: Analyze Bundle
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     needs: [build]
     if: inputs.environment == 'production' || inputs.environment == ''
     steps:
@@ -87,12 +96,15 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -108,6 +120,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bundle-analysis
-          path: .next/analyze/
+          path: frontend/.next/analyze/
           retention-days: 7
         continue-on-error: true

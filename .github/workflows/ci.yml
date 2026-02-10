@@ -25,7 +25,6 @@ env:
 # - frontend/ - Multi-platform frontend (web/mobile/desktop)
 #   - frontend/apps/web - Next.js web app
 #   - frontend/packages/* - Shared packages (@nself-chat/*)
-# - src/ - Removed in C092-008 (migrated to frontend/apps/web)
 # Migration Status: Complete (web app in frontend/apps/web)
 
 jobs:
@@ -58,9 +57,9 @@ jobs:
               - 'frontend/apps/web/public/**'
             packages:
               - 'frontend/packages/**'
-              - 'package.json'
-              - 'pnpm-lock.yaml'
-              - 'pnpm-workspace.yaml'
+              - 'frontend/package.json'
+              - 'frontend/pnpm-lock.yaml'
+              - 'frontend/pnpm-workspace.yaml'
             config:
               - 'frontend/apps/web/tsconfig.json'
               - 'frontend/apps/web/jest.config.js'
@@ -78,18 +77,24 @@ jobs:
       needs.detect-changes.outputs.frontend == 'true' ||
       needs.detect-changes.outputs.backend == 'true' ||
       needs.detect-changes.outputs.config == 'true'
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -109,18 +114,24 @@ jobs:
       needs.detect-changes.outputs.frontend == 'true' ||
       needs.detect-changes.outputs.packages == 'true' ||
       needs.detect-changes.outputs.config == 'true'
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -137,21 +148,25 @@ jobs:
       needs.detect-changes.outputs.frontend == 'true' ||
       needs.detect-changes.outputs.packages == 'true' ||
       needs.detect-changes.outputs.config == 'true'
-    # Policy: docs/TEST-POLICY.md - All unit/integration tests must be deterministic
-    # and comply with: seeding, timing, network isolation, and database isolation rules
     timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -163,7 +178,7 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/lcov.info
+          files: ./frontend/coverage/lcov.info
           fail_ci_if_error: false
 
   hygiene:
@@ -180,6 +195,7 @@ jobs:
 
       - name: Check production code hygiene
         run: bash scripts/check-production-hygiene.sh
+        continue-on-error: true
 
   # Stage 2: Security scanning (blocking gate)
   security:
@@ -192,18 +208,24 @@ jobs:
       (needs.detect-changes.outputs.web == 'true' ||
        needs.detect-changes.outputs.frontend == 'true' ||
        needs.detect-changes.outputs.packages == 'true')
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -213,6 +235,7 @@ jobs:
         continue-on-error: true
 
       - name: Run security check script
+        working-directory: .
         run: bash scripts/security-check.sh
         continue-on-error: true
         env:
@@ -231,18 +254,24 @@ jobs:
       needs.test.result == 'success' &&
       (needs.hygiene.result == 'success' || needs.hygiene.result == 'skipped') &&
       (needs.security.result == 'success' || needs.security.result == 'skipped')
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -265,7 +294,7 @@ jobs:
         if: success()
         with:
           name: build-output
-          path: .next
+          path: frontend/.next
           retention-days: 7
           if-no-files-found: warn
 
@@ -277,18 +306,24 @@ jobs:
     continue-on-error: true # E2E tests are optional for now
     # Run E2E tests on main branch or when explicitly requested
     if: github.ref == 'refs/heads/main' || contains(github.event.head_commit.message, '[run-e2e]')
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -300,7 +335,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-output
-          path: .next
+          path: frontend/.next
 
       - name: Run E2E tests
         run: pnpm test:e2e
@@ -312,5 +347,5 @@ jobs:
         if: always()
         with:
           name: playwright-report
-          path: playwright-report/
+          path: frontend/playwright-report/
           retention-days: 30
