@@ -39,5 +39,16 @@
     "jsx-a11y/role-has-required-aria-props": "error",
     "jsx-a11y/role-supports-aria-props": "error",
     "jsx-a11y/tabindex-no-positive": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx", "**/__tests__/**/*"],
+      "rules": {
+        "no-template-curly-in-string": "off",
+        "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+        "@typescript-eslint/no-unused-expressions": "off",
+        "jsx-a11y/label-has-associated-control": "off"
+      }
+    }
+  ]
 }
