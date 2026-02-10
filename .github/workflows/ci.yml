@@ -194,7 +194,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Check production code hygiene
-        run: bash scripts/check-production-hygiene.sh
+        run: bash frontend/scripts/check-production-hygiene.sh
         continue-on-error: true
 
   # Stage 2: Security scanning (blocking gate)
@@ -236,7 +236,7 @@ jobs:
 
       - name: Run security check script
         working-directory: .
-        run: bash scripts/security-check.sh
+        run: bash frontend/scripts/security-check.sh
         continue-on-error: true
         env:
           NODE_ENV: production
