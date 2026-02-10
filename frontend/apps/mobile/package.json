@@ -40,7 +40,7 @@
     "@capacitor/preferences": "^6.0.3",
     "@capacitor/push-notifications": "^6.0.3",
     "@capacitor/splash-screen": "^6.0.3",
-    "@capacitor/status-bar": "^6.0.2",
+    "@capacitor/status-bar": "^8.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.2.0",
