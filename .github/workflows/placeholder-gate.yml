@@ -12,6 +12,9 @@ jobs:
     name: Scan for Placeholders and Mocks
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: frontend
 
     steps:
       - name: Checkout code
@@ -39,7 +42,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('frontend/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
@@ -47,6 +50,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install ripgrep (for fast scanning)
+        working-directory: .
         run: sudo apt-get update && sudo apt-get install -y ripgrep
 
       - name: Run placeholder scanner
@@ -60,7 +64,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: placeholder-scan-results
-          path: scan-results.json
+          path: frontend/scan-results.json
           retention-days: 30
 
       - name: Parse results and comment on PR
@@ -69,7 +73,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const results = JSON.parse(fs.readFileSync('scan-results.json', 'utf8'));
+            const results = JSON.parse(fs.readFileSync('frontend/scan-results.json', 'utf8'));
 
             if (results.violations.length === 0) {
               return;
@@ -122,7 +126,7 @@ jobs:
             comment += '**Next Steps:**\n';
             comment += '1. Remove or fix violations in production code\n';
             comment += '2. If the code is intentionally using these patterns, add it to `APPROVED_EXCEPTIONS` in `.github/scripts/scan-placeholders.ts`\n';
-            comment += '3. Document the exception in `.claude/v092/PLACEHOLDER-EXCEPTIONS.md`\n';
+            comment += '3. Document the exception in `docs/PLACEHOLDER-EXCEPTIONS.md`\n';
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
