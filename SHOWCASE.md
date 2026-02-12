@@ -99,14 +99,16 @@ nself start
 
 **Demo Accounts (Local/Staging Only):**
 
-| Email | Password | Role | Showcase |
-|-------|----------|------|----------|
-| owner@nself.org | `password` | Owner | Full admin, billing, settings |
-| admin@nself.org | `password` | Admin | User mgmt, channels, moderation |
-| mod@nself.org | `password` | Moderator | Content moderation |
-| support@nself.org | `password` | Moderator | Support team |
-| helper@nself.org | `password` | Member | Helpful user |
-| user@nself.org | `password` | Member | Regular account |
+Role hierarchy with **descending access levels** (1 = highest, 6 = no special role):
+
+| # | Email | Password | Role | Showcase |
+|---|-------|----------|------|----------|
+| 1 | owner@nself.org | `password` | **Owner** | Top level - Cannot be removed, all access |
+| 2 | admin@nself.org | `password` | **Admin** | High-level administration |
+| 3 | mod@nself.org | `password` | **Moderator** | Content moderation |
+| 4 | support@nself.org | `password` | **Support** | User support with limited admin |
+| 5 | helper@nself.org | `password` | **Helper** | Community helper with limited mod |
+| 6 | user@nself.org | `password` | *(no role)* | Regular user - No special permissions |
 
 ### 4. **Per-App RBAC (Monorepo Ready)**
 

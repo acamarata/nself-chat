@@ -43,12 +43,13 @@ ON CONFLICT (app_id) DO UPDATE SET
 -- ============================================================================
 
 -- Expected user emails (created via signup):
--- - owner@nself.org
--- - admin@nself.org
--- - mod@nself.org (moderator)
--- - support@nself.org
--- - helper@nself.org
--- - user@nself.org (regular user, no special role)
+-- Role hierarchy (descending access):
+-- 1. owner@nself.org - OWNER (top level, cannot be removed, all access)
+-- 2. admin@nself.org - ADMIN (high-level administration)
+-- 3. mod@nself.org - MODERATOR (content moderation)
+-- 4. support@nself.org - SUPPORT (user support, limited admin)
+-- 5. helper@nself.org - HELPER (community helper, limited mod)
+-- 6. user@nself.org - USER (regular account, no special permissions)
 
 COMMENT ON COLUMN auth.users.email IS 'User email addresses - see seed file for demo accounts';
 
@@ -102,14 +103,15 @@ $$ LANGUAGE plpgsql;
 -- ============================================================================
 
 -- Attempt to assign roles (will succeed only if users exist)
+-- Role hierarchy: owner > admin > moderator > support > helper > (no role for regular user)
 DO $$
 BEGIN
     PERFORM assign_role_by_email('owner@nself.org', 'nchat', 'owner');
     PERFORM assign_role_by_email('admin@nself.org', 'nchat', 'admin');
     PERFORM assign_role_by_email('mod@nself.org', 'nchat', 'moderator');
-    PERFORM assign_role_by_email('support@nself.org', 'nchat', 'moderator');
-    PERFORM assign_role_by_email('helper@nself.org', 'nchat', 'member');
-    PERFORM assign_role_by_email('user@nself.org', 'nchat', 'member');
+    PERFORM assign_role_by_email('support@nself.org', 'nchat', 'support');
+    PERFORM assign_role_by_email('helper@nself.org', 'nchat', 'helper');
+    -- user@nself.org intentionally has NO role assignment (regular user)
 END $$;
 
 -- ============================================================================

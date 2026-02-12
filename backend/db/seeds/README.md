@@ -14,50 +14,80 @@ This directory contains SQL seed files for populating the database with demo dat
 
 ## Demo Users
 
-### User Accounts
+### User Accounts (Role Hierarchy)
 
-| Email | Password | Role | Access Level |
-|-------|----------|------|--------------|
-| owner@nself.org | `password` | Owner | Full administrative access, billing, settings |
-| admin@nself.org | `password` | Admin | User management, channel management, moderation |
-| mod@nself.org | `password` | Moderator | Content moderation, message deletion, user warnings |
-| support@nself.org | `password` | Moderator | Same as moderator (for support team) |
-| helper@nself.org | `password` | Member | Regular user helping others |
-| user@nself.org | `password` | Member | Standard user account |
+Roles are listed in **descending order of access** (top = most access):
 
-### What Each Role Can Do
+| # | Email | Password | Role | Access Level |
+|---|-------|----------|------|--------------|
+| 1 | owner@nself.org | `password` | **Owner** | Top level - Cannot be removed, hardcoded all access |
+| 2 | admin@nself.org | `password` | **Admin** | High-level administration (below owner) |
+| 3 | mod@nself.org | `password` | **Moderator** | Content moderation |
+| 4 | support@nself.org | `password` | **Support** | User support with limited admin |
+| 5 | helper@nself.org | `password` | **Helper** | Community helper with limited mod |
+| 6 | user@nself.org | `password` | *(no role)* | Regular user - No special permissions |
 
-**Owner:**
-- ✅ Full access to everything
+### Permission Breakdown
+
+**1. Owner** (Highest Authority)
+- ✅ Full access to EVERYTHING (cannot be restricted)
+- ✅ Cannot be removed by anyone
+- ✅ Hardcoded system-level access
 - ✅ Manage billing and subscriptions
 - ✅ Configure app settings
-- ✅ Manage all users and channels
+- ✅ Assign/revoke any role
 - ✅ Delete any content
-- ✅ Assign/revoke roles
+- ✅ Ban/unban users
 
-**Admin:**
+**2. Admin** (High-Level Administration)
 - ✅ Manage users (create, edit, disable)
 - ✅ Create and delete channels
 - ✅ Delete any messages
 - ✅ Ban users
 - ✅ View analytics
+- ✅ Manage integrations
 - ❌ Cannot access billing settings
+- ❌ Cannot remove owner
 
-**Moderator:**
+**3. Moderator** (Content Moderation)
 - ✅ Delete messages
 - ✅ Pin messages
-- ✅ Warn and timeout users
+- ✅ Warn users
+- ✅ Timeout users (temporary ban)
 - ✅ Manage channel settings
 - ❌ Cannot delete channels
-- ❌ Cannot ban users permanently
+- ❌ Cannot permanently ban users
+- ❌ Cannot manage users
 
-**Member:**
+**4. Support** (User Support)
+- ✅ View all channels
+- ✅ Send messages anywhere
+- ✅ Pin messages
+- ✅ Warn users (soft moderation)
+- ✅ Send DMs to help users
+- ❌ Cannot delete messages
+- ❌ Cannot timeout/ban users
+- ❌ Cannot manage channels
+
+**5. Helper** (Community Helper)
+- ✅ Send messages
+- ✅ Pin messages (highlight important info)
+- ✅ Join any public channel
+- ✅ Upload files
+- ✅ React to messages
+- ✅ Edit/delete own messages
+- ❌ Cannot moderate other users
+- ❌ Cannot delete others' messages
+- ❌ Cannot warn/timeout users
+
+**6. User** (Regular Account - No Special Role)
 - ✅ Send messages
 - ✅ Join public channels
 - ✅ Upload files
 - ✅ React to messages
 - ✅ Edit/delete own messages
-- ❌ Cannot moderate content
+- ❌ No moderation capabilities
+- ❌ No admin capabilities
 
 ## Setup Instructions
 

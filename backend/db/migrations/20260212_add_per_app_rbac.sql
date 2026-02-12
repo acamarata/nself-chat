@@ -170,6 +170,30 @@ INSERT INTO public.app_role_permissions (app_id, role, permission) VALUES
     ('nchat', 'moderator', 'messages.pin')
 ON CONFLICT (app_id, role, permission, resource) DO NOTHING;
 
+-- Support permissions (user support with limited admin)
+INSERT INTO public.app_role_permissions (app_id, role, permission) VALUES
+    ('nchat', 'support', 'users.warn'),
+    ('nchat', 'support', 'channels.view'),
+    ('nchat', 'support', 'channels.join'),
+    ('nchat', 'support', 'messages.view'),
+    ('nchat', 'support', 'messages.send'),
+    ('nchat', 'support', 'messages.pin'),
+    ('nchat', 'support', 'dms.send')
+ON CONFLICT (app_id, role, permission, resource) DO NOTHING;
+
+-- Helper permissions (community helper with limited moderation)
+INSERT INTO public.app_role_permissions (app_id, role, permission) VALUES
+    ('nchat', 'helper', 'channels.view'),
+    ('nchat', 'helper', 'channels.join'),
+    ('nchat', 'helper', 'messages.send'),
+    ('nchat', 'helper', 'messages.edit.own'),
+    ('nchat', 'helper', 'messages.delete.own'),
+    ('nchat', 'helper', 'messages.react'),
+    ('nchat', 'helper', 'messages.pin'),
+    ('nchat', 'helper', 'files.upload'),
+    ('nchat', 'helper', 'dms.send')
+ON CONFLICT (app_id, role, permission, resource) DO NOTHING;
+
 -- Member permissions (standard user)
 INSERT INTO public.app_role_permissions (app_id, role, permission) VALUES
     ('nchat', 'member', 'channels.view'),
