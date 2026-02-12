@@ -4,7 +4,7 @@ Multi-platform team communication app built with Next.js 15.1.6 and React 19.0.0
 
 ## 🎯 Code Once, Deploy Everywhere
 
-This monorepo contains a single codebase that deploys to:
+A single Next.js codebase that deploys to multiple platforms:
 
 - 🌐 **Web** - Next.js web application (Vercel, Netlify, Docker)
 - 📱 **iOS** - Native iOS app via Capacitor (App Store)
@@ -17,19 +17,23 @@ This monorepo contains a single codebase that deploys to:
 
 ```
 frontend/
-├── apps/
-│   ├── web/         # Next.js web app (@nself-chat/web)
-│   ├── mobile/      # Capacitor mobile app (@nself-chat/mobile)
-│   └── desktop/     # Electron desktop app (@nself-chat/desktop)
-├── packages/
-│   ├── ui/          # Shared UI components (@nself-chat/ui)
-│   ├── config/      # Shared configuration (@nself-chat/config)
-│   ├── lib/         # Shared utilities (@nself-chat/lib)
-│   ├── graphql/     # GraphQL client and queries (@nself-chat/graphql)
-│   ├── auth/        # Authentication logic (@nself-chat/auth)
-│   └── types/       # TypeScript types (@nself-chat/types)
-└── tooling/
-    └── eslint/      # ESLint configuration
+├── src/              # Main Next.js application source
+│   ├── app/          # Next.js App Router pages
+│   ├── components/   # React components
+│   ├── hooks/        # Custom React hooks
+│   ├── lib/          # Utilities and helpers
+│   ├── stores/       # Zustand state management
+│   ├── services/     # API services
+│   ├── config/       # App configuration
+│   └── types/        # TypeScript types
+├── public/           # Static assets
+├── platforms/        # Platform-specific builds
+│   ├── mobile/       # Capacitor (iOS + Android)
+│   └── desktop/      # Electron (Windows + macOS + Linux)
+├── variants/         # Platform-specific UI components
+├── tests/            # Test suites
+├── docs/             # Documentation
+└── scripts/          # Build automation
 ```
 
 ## 🚀 Quick Start
@@ -66,9 +70,10 @@ pnpm format           # Prettier format
 
 **Technology**: Next.js 15.1.6 (App Router) + React 19.0.0
 
-**Location**: `apps/web/`
+**Location**: `frontend/` (root)
 
 **Features**:
+
 - Server-side rendering (SSR)
 - Static site generation (SSG)
 - API routes
@@ -77,17 +82,18 @@ pnpm format           # Prettier format
 - Progressive Web App (PWA)
 
 **Deployment**:
+
 ```bash
 # Vercel (recommended)
-pnpm build:web
+pnpm build
 vercel deploy
 
 # Docker
-docker build -f apps/web/Dockerfile -t nchat-web .
+docker build -f Dockerfile -t nchat-web .
 docker run -p 3000:3000 nchat-web
 
 # Netlify
-pnpm build:web
+pnpm build
 netlify deploy --prod
 ```
 
@@ -95,9 +101,10 @@ netlify deploy --prod
 
 **Technology**: Capacitor 6.x (iOS + Android)
 
-**Location**: `apps/mobile/`
+**Location**: `platforms/mobile/`
 
 **Features**:
+
 - Native iOS and Android from one codebase
 - Native capabilities (camera, push notifications, biometrics)
 - App Store and Play Store ready
@@ -105,6 +112,7 @@ netlify deploy --prod
 - Background sync
 
 **Development**:
+
 ```bash
 # iOS (requires macOS + Xcode)
 pnpm dev:mobile:ios
@@ -118,6 +126,7 @@ pnpm build:mobile:android  # Generates .apk/.aab
 ```
 
 **Publishing**:
+
 - iOS: Submit `.ipa` to App Store Connect
 - Android: Submit `.aab` to Google Play Console
 
@@ -125,9 +134,10 @@ pnpm build:mobile:android  # Generates .apk/.aab
 
 **Technology**: Electron 28.x (Windows + macOS + Linux)
 
-**Location**: `apps/desktop/`
+**Location**: `platforms/desktop/`
 
 **Features**:
+
 - Native desktop apps for all platforms
 - System tray integration
 - Auto-updates
@@ -135,11 +145,13 @@ pnpm build:mobile:android  # Generates .apk/.aab
 - Native notifications
 
 **Development**:
+
 ```bash
 pnpm dev:desktop
 ```
 
 **Building Installers**:
+
 ```bash
 # Build for current platform
 pnpm build:desktop
@@ -151,64 +163,81 @@ pnpm build:desktop:linux   # Linux (AppImage, deb, rpm)
 ```
 
 **Distribution**:
+
 - Windows: `.exe` NSIS installer
 - macOS: `.dmg` disk image
 - Linux: `.AppImage`, `.deb`, `.rpm`
 
-## 📦 Shared Packages
+## 📦 Source Organization
 
-### @nself-chat/ui
+### src/components/
+
 Radix UI components with Tailwind CSS:
+
 - Button, Input, Dialog, Dropdown, etc.
 - Dark/light mode support
 - Accessible (WCAG 2.1 AA)
+- Located in `src/components/ui/`
 
-### @nself-chat/config
-Shared configuration:
+### src/config/
+
+Application configuration:
+
 - App config types
 - Environment detection
 - Feature flags
 
-### @nself-chat/lib
-Utility functions:
-- Date formatting
+### src/lib/
+
+Utility functions and helpers:
+
+- Date formatting (date-fns)
 - String helpers
 - Validation
 - Theme utilities
+- API clients
 
-### @nself-chat/graphql
+### src/graphql/
+
 GraphQL client and operations:
+
 - Apollo Client setup
 - Queries and mutations
 - Subscriptions
 - Type generation
 
-### @nself-chat/auth
-Authentication logic:
-- Nhost auth integration
+### src/services/
+
+Business logic and integrations:
+
+- Authentication (Nhost)
 - Session management
 - Role-based access control (RBAC)
+- External service integrations
 
-### @nself-chat/types
-Shared TypeScript types:
+### src/types/
+
+TypeScript type definitions:
+
 - User, Channel, Message types
 - API response types
+- Domain models
 - Database schema types
 
 ## 🎨 Tech Stack
 
-| Category | Technology |
-|----------|-----------|
-| Framework | Next.js 15.1.6 + React 19.0.0 |
-| Mobile | Capacitor 6.x |
-| Desktop | Electron 28.x |
-| State | Zustand 5.0.3 + Apollo Client 3.12.8 |
-| UI | Radix UI + Tailwind CSS 3.4.17 |
-| Forms | React Hook Form 7.54.2 + Zod 3.24.1 |
-| Editor | TipTap 2.11.2 |
+| Category  | Technology                              |
+| --------- | --------------------------------------- |
+| Framework | Next.js 15.1.6 + React 19.0.0           |
+| Mobile    | Capacitor 6.x                           |
+| Desktop   | Electron 28.x                           |
+| State     | Zustand 5.0.3 + Apollo Client 3.12.8    |
+| UI        | Radix UI + Tailwind CSS 3.4.17          |
+| Forms     | React Hook Form 7.54.2 + Zod 3.24.1     |
+| Editor    | TipTap 2.11.2                           |
 | Real-time | Socket.io 4.8.1 + GraphQL subscriptions |
-| Testing | Jest 29.7.0 + Playwright 1.50.1 |
-| Linting | ESLint 9.18.0 + Prettier 3.4.2 |
+| Testing   | Jest 29.7.0 + Playwright 1.50.1         |
+| Linting   | ESLint 9.18.0 + Prettier 3.4.2          |
 
 ## 🧪 Testing
 
@@ -253,11 +282,13 @@ NEXT_PUBLIC_ENV=development
 ## 📊 Bundle Size
 
 Target sizes:
+
 - Web: < 300KB gzipped
 - Mobile: < 50MB app size
 - Desktop: < 100MB installer
 
 Check bundle size:
+
 ```bash
 pnpm analyze:bundle
 ```
@@ -283,10 +314,10 @@ pnpm analyze:bundle
 
 ```typescript
 // Coming soon
-import { useTranslation } from '@nself-chat/i18n'
+import { useTranslation } from "@nself-chat/i18n";
 
-const { t } = useTranslation()
-t('common.welcome') // "Welcome"
+const { t } = useTranslation();
+t("common.welcome"); // "Welcome"
 ```
 
 ## 🚀 Performance
@@ -298,6 +329,7 @@ t('common.welcome') // "Welcome"
 - Lighthouse CI
 
 Target scores:
+
 - Performance: > 90
 - Accessibility: 100
 - Best Practices: > 95
@@ -305,13 +337,13 @@ Target scores:
 
 ## 📚 Documentation
 
-- [Web App README](apps/web/README.md)
-- [Mobile App README](apps/mobile/README.md)
-- [Desktop App README](apps/desktop/README.md)
+- [Complete Documentation](../.wiki/Home.md)
+- [Deployment Guide](../.wiki/deployment/DEPLOYMENT-GUIDE.md)
+- [Architecture Overview](../.wiki/Architecture-Overview.md)
 - [Contributing Guide](../.wiki/CONTRIBUTING.md)
 
 ## 🔗 Related Links
 
 - [Backend README](../backend/README.md)
-- [Main README](../README.md)
-- [Full Documentation](../.wiki/Home.md)
+- [Main Project README](../README.md)
+- [Platform Documentation](./platforms/)

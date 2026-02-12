@@ -53,18 +53,18 @@ jobs:
             frontend:
               - 'frontend/**'
             web:
-              - 'frontend/apps/web/src/**'
-              - 'frontend/apps/web/public/**'
+              - 'frontend/src/**'
+              - 'frontend/public/**'
             packages:
-              - 'frontend/packages/**'
+              - 'frontend/src/**'
               - 'frontend/package.json'
               - 'frontend/pnpm-lock.yaml'
               - 'frontend/pnpm-workspace.yaml'
             config:
-              - 'frontend/apps/web/tsconfig.json'
-              - 'frontend/apps/web/jest.config.js'
-              - 'frontend/apps/web/next.config.js'
-              - 'frontend/apps/web/tailwind.config.ts'
+              - 'frontend/tsconfig.json'
+              - 'frontend/jest.config.js'
+              - 'frontend/next.config.js'
+              - 'frontend/tailwind.config.ts'
               - '.github/workflows/**'
 
   # Stage 1: Linting and formatting (run in parallel)
@@ -174,7 +174,7 @@ jobs:
 
       - name: Run tests
         run: |
-          cd apps/web
+          cd frontend
           NODE_OPTIONS='--max-old-space-size=4096' npx jest --no-coverage --forceExit --maxWorkers=1
         env:
           CI: true

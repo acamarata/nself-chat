@@ -10,21 +10,7 @@ const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
-    // Workspace packages (v0.9.2 monorepo paths)
-    '^@nself-chat/core$': '<rootDir>/../../packages/core/src',
-    '^@nself-chat/core/(.*)$': '<rootDir>/../../packages/core/src/$1',
-    '^@nself-chat/api$': '<rootDir>/../../packages/api/src',
-    '^@nself-chat/api/(.*)$': '<rootDir>/../../packages/api/src/$1',
-    '^@nself-chat/state$': '<rootDir>/../../packages/state/src',
-    '^@nself-chat/state/(.*)$': '<rootDir>/../../packages/state/src/$1',
-    '^@nself-chat/ui$': '<rootDir>/../../packages/ui/src',
-    '^@nself-chat/ui/(.*)$': '<rootDir>/../../packages/ui/src/$1',
-    '^@nself-chat/config$': '<rootDir>/../../packages/config/src',
-    '^@nself-chat/config/(.*)$': '<rootDir>/../../packages/config/src/$1',
-    '^@nself-chat/testing$': '<rootDir>/../../packages/testing/src',
-    '^@nself-chat/testing/(.*)$': '<rootDir>/../../packages/testing/src/$1',
-
-    // Web app internal paths
+    // App internal paths (flat structure - no workspace packages)
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@/test-utils$': '<rootDir>/src/test-utils',
     '^@/test-utils/(.*)$': '<rootDir>/src/test-utils/$1',

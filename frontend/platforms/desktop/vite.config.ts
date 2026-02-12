@@ -18,12 +18,13 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src/renderer'),
-      '@nself-chat/core': path.resolve(__dirname, '../../packages/core/src'),
-      '@nself-chat/api': path.resolve(__dirname, '../../packages/api/src'),
-      '@nself-chat/state': path.resolve(__dirname, '../../packages/state/src'),
-      '@nself-chat/ui': path.resolve(__dirname, '../../packages/ui/src'),
-      '@nself-chat/config': path.resolve(__dirname, '../../packages/config/src'),
+      '@': path.resolve(__dirname, '../../src'),
+      '@/lib': path.resolve(__dirname, '../../src/lib'),
+      '@/components': path.resolve(__dirname, '../../src/components'),
+      '@/hooks': path.resolve(__dirname, '../../src/hooks'),
+      '@/config': path.resolve(__dirname, '../../src/config'),
+      '@/stores': path.resolve(__dirname, '../../src/stores'),
+      '@/test-utils': path.resolve(__dirname, '../../src/test-utils'),
     },
   },
   server: {

@@ -13,13 +13,13 @@
     "isolatedModules": true,
     "noEmit": false,
     "paths": {
-      "@/*": ["./src/renderer/*"],
-      "@nself-chat/core": ["../../packages/core/src"],
-      "@nself-chat/api": ["../../packages/api/src"],
-      "@nself-chat/state": ["../../packages/state/src"],
-      "@nself-chat/ui": ["../../packages/ui/src"],
-      "@nself-chat/config": ["../../packages/config/src"],
-      "@nself-chat/testing": ["../../packages/testing/src"]
+      "@/*": ["../../src/*"],
+      "@/lib/*": ["../../src/lib/*"],
+      "@/components/*": ["../../src/components/*"],
+      "@/hooks/*": ["../../src/hooks/*"],
+      "@/config/*": ["../../src/config/*"],
+      "@/stores/*": ["../../src/stores/*"],
+      "@/test-utils/*": ["../../src/test-utils/*"]
     }
   },
   "include": ["src/**/*"],

@@ -48,26 +48,26 @@ jobs:
             frontend:
               - 'frontend/**'
             packages:
-              - 'frontend/packages/**'
+              - 'frontend/src/**'
               - 'frontend/pnpm-workspace.yaml'
             web:
               - 'frontend/apps/web/**'
             src:
-              - 'frontend/apps/web/src/**'
-              - 'frontend/apps/web/public/**'
+              - 'frontend/src/**'
+              - 'frontend/public/**'
             tests:
               - 'frontend/**/*.test.ts'
               - 'frontend/**/*.test.tsx'
               - 'frontend/**/*.spec.ts'
               - 'frontend/**/*.spec.tsx'
-              - 'frontend/apps/web/e2e/**'
+              - 'frontend/tests/e2e/**'
             config:
               - 'frontend/package.json'
               - 'frontend/pnpm-lock.yaml'
-              - 'frontend/apps/web/tsconfig.json'
-              - 'frontend/apps/web/jest.config.js'
-              - 'frontend/apps/web/next.config.js'
-              - 'frontend/apps/web/tailwind.config.ts'
+              - 'frontend/tsconfig.json'
+              - 'frontend/jest.config.js'
+              - 'frontend/next.config.js'
+              - 'frontend/tailwind.config.ts'
             docs:
               - '*.md'
               - 'docs/**'
