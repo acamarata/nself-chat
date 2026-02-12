@@ -499,9 +499,9 @@ When someone clones nself-chat, they get:
 
 ## 🔗 Links
 
-- **Documentation**: [.wiki/Home.md](.wiki/Home.md)
+- **Documentation**: [Home.md](Home.md)
 - **Architecture**: [ARCHITECTURE.md](ARCHITECTURE.md)
-- **Deployment**: [.wiki/deployment/](..wiki/deployment/)
+- **Deployment**: [deployment/](deployment/)
 - **GitHub**: https://github.com/acamarata/nself-chat
 - **ɳSelf CLI**: https://github.com/acamarata/nself
 

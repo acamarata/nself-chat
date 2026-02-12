@@ -756,7 +756,7 @@ Emergency Contact: [Emergency escalation]
 - Grafana Documentation: https://grafana.com/docs/
 
 ### Internal Links
-- Architecture Docs: `/docs/ARCHITECTURE.md`
+- Architecture Docs: `/.wiki/ARCHITECTURE.md`
 - API Documentation: `/docs/API.md`
 - Deployment Guide: `/docs/DEPLOYMENT.md`
 

@@ -48,8 +48,9 @@ nself-chat/
 │   ├── public/         # Static assets
 │   ├── tests/          # Jest + Playwright tests
 │   └── README.md       # Frontend documentation
-├── ARCHITECTURE.md      # **NEW** - Monorepo setup guide
 └── .wiki/              # Complete documentation (this folder)
+    ├── ARCHITECTURE.md      # **NEW** - Monorepo setup guide
+    └── ...
 ```
 
 **Key Features:**
@@ -60,7 +61,7 @@ nself-chat/
 - ✅ Shared authentication with SSO
 - ✅ Multi-platform support (Web, iOS, Android, Desktop)
 
-**New in v0.9.2:** Per-app RBAC/ACL system enables users to have different roles in different applications sharing the same backend. See [ARCHITECTURE.md](../ARCHITECTURE.md) for monorepo setup.
+**New in v0.9.2:** Per-app RBAC/ACL system enables users to have different roles in different applications sharing the same backend. See [ARCHITECTURE.md](ARCHITECTURE.md) for monorepo setup.
 
 ---
 

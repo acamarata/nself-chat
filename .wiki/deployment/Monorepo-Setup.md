@@ -714,7 +714,7 @@ GRANT EXECUTE ON FUNCTION public.user_has_app_permission TO hasura;
 
 ## Additional Resources
 
-- [ARCHITECTURE.md](../../ARCHITECTURE.md) - Complete architecture documentation
+- [ARCHITECTURE.md](../ARCHITECTURE.md) - Complete architecture documentation
 - [Per-App RBAC Types](../../frontend/src/types/app-rbac.ts) - TypeScript types
 - [useAppPermissions Hook](../../frontend/src/hooks/use-app-permissions.ts) - React hook
 - [GraphQL Queries](../../frontend/src/graphql/app-rbac.ts) - RBAC queries

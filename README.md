@@ -31,56 +31,81 @@ Get a complete, production-ready chat application running in under 5 minutes:
 git clone https://github.com/acamarata/nself-chat.git
 cd nself-chat
 
-# 2. Start the backend (includes PostgreSQL, Hasura, Auth, Storage, etc.)
-cd backend
-nself start
+# 2. Start the backend (11 services: PostgreSQL, Hasura, Auth, Storage, etc.)
+cd backend && nself start
 
 # 3. Start the frontend (in a new terminal)
-cd frontend
-pnpm install
-pnpm dev
+cd frontend && pnpm install && pnpm dev
 ```
 
-**That's it!** Your app is now running:
+**That's it!** Your app is now running at **http://localhost:3000**
 
-- 🎨 **Chat Application**: [http://localhost:3000](http://localhost:3000)
+### Service URLs (Automatic SSL - No warnings!)
+
+- 🎨 **Chat App**: [http://localhost:3000](http://localhost:3000)
 - 🚀 **GraphQL API**: [https://api.local.nself.org](https://api.local.nself.org)
-- 🔐 **Auth Service**: [https://auth.local.nself.org](https://auth.local.nself.org)
+- 🔐 **Auth**: [https://auth.local.nself.org](https://auth.local.nself.org)
 - 📦 **Storage**: [https://storage.local.nself.org](https://storage.local.nself.org)
 - 📧 **Email (dev)**: [https://mail.local.nself.org](https://mail.local.nself.org)
-- 📊 **Admin Dashboard**: [http://localhost:3021](http://localhost:3021)
+- 📊 **Admin**: [http://localhost:3021](http://localhost:3021)
 
-All URLs use automatic SSL with zero configuration. No browser warnings!
+### Demo Users (Local Development)
 
-**First time?** The backend will automatically:
+Role hierarchy (descending access: 1 = highest, 6 = no special role):
 
-- ✅ Download and start 11 backend services (Docker)
-- ✅ Initialize PostgreSQL with 222 tables
-- ✅ Configure GraphQL with authentication
-- ✅ Set up real-time subscriptions
-- ✅ Enable S3-compatible storage
-- ✅ Configure email (dev mode with MailPit)
+| # | Email | Password | Role | Access |
+|---|-------|----------|------|---------|
+| 1 | owner@nself.org | `password` | **Owner** | Top level - Cannot be removed, all access |
+| 2 | admin@nself.org | `password` | **Admin** | High-level administration |
+| 3 | mod@nself.org | `password` | **Moderator** | Content moderation |
+| 4 | support@nself.org | `password` | **Support** | User support with limited admin |
+| 5 | helper@nself.org | `password` | **Helper** | Community helper with limited mod |
+| 6 | user@nself.org | `password` | *(no role)* | Regular user - No special permissions |
 
-**What you get:**
+**To use demo users:**
 
-- 🔒 Production-grade authentication (email/password + 11 OAuth providers)
-- 💬 Real-time messaging with typing indicators
-- 📁 File uploads with S3 storage
-- 🔍 Full-text search (MeiliSearch)
-- 📊 Admin dashboard for user management
-- 🎭 White-label customization
-- 🚀 Ready to deploy to production
+1. Sign up for each user through the UI at http://localhost:3000
+2. Or run: `cd backend && ./scripts/create-demo-users.sh`
+3. Then run: `cd backend && ./scripts/seed.sh` to assign roles
 
 ### Prerequisites
 
 - **Docker Desktop** (20.10+) - [Install Docker](https://www.docker.com/get-started)
 - **Node.js** (20.0+) - [Install Node](https://nodejs.org/)
-- **ɳSelf CLI** (0.9.8+) - Install with: `curl -sSL https://install.nself.org | bash`
+- **ɳSelf CLI** (0.9.8+) - Install: `curl -sSL https://install.nself.org | bash`
 
 **System Requirements:**
 - RAM: 8GB minimum (16GB recommended)
 - Disk: 20GB free space
 - OS: macOS, Linux, or Windows with WSL2
+
+### What Gets Started Automatically
+
+When you run `nself start`, the backend automatically:
+
+- ✅ Downloads and starts 11 backend services (Docker)
+- ✅ Initializes PostgreSQL with 222 tables (namespaced to `nchat_`)
+- ✅ Configures Hasura GraphQL with authentication
+- ✅ Sets up real-time GraphQL subscriptions
+- ✅ Enables MinIO S3-compatible storage
+- ✅ Starts MailPit for dev email testing
+
+### Environment Defaults
+
+**Current (Local Development):**
+- App: `chat.local.nself.org` / `localhost:3000`
+- API: `api.local.nself.org`
+- Database: `nchat` (all tables use `nchat_` prefix)
+
+**Staging (Future):**
+- App: `chat.staging.nself.org`
+- API: `api.staging.nself.org`
+- Same `nchat` naming
+
+**Production (Future):**
+- App: `chat.nself.org`
+- API: `api.nself.org`
+- Same `nchat` naming
 
 ### Troubleshooting
 
@@ -88,26 +113,29 @@ All URLs use automatic SSL with zero configuration. No browser warnings!
 
 ```bash
 # Check Docker is running
-docker --version
+docker ps
 
 # Check nself installation
 nself version
 
-# View logs
-cd backend
-nself logs
+# View backend logs
+cd backend && nself logs
+
+# Check service status
+cd backend && nself status
 ```
 
 **Port conflicts?**
 
 ```bash
-# Check if ports are already in use
+# Check if ports are in use
 lsof -i :3000  # Frontend
 lsof -i :5432  # PostgreSQL
 lsof -i :8080  # Hasura
+lsof -i :3021  # Admin dashboard
 ```
 
-**Need help?** See [Troubleshooting Guide](.wiki/troubleshooting/README.md) or [open an issue](https://github.com/acamarata/nself-chat/issues).
+**Need help?** See [.wiki/Home.md](.wiki/Home.md) or [open an issue](https://github.com/acamarata/nself-chat/issues).
 
 ---
 
