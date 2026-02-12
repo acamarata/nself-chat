@@ -206,8 +206,6 @@ next-env.d.ts
 # AI assistant directories (private context)
 .ai-assistant/
 .*aude/
-.claude/
-.codex/
 
 # nSelf CLI feedback (private)
 CLI.md
@@ -223,3 +221,20 @@ platforms/capacitor/ios/App/App/GoogleService-Info.plist
 
 # Private planning
 /PLAN.md
+
+# AI agent directories (private)
+.ai/
+.claude
+.codex
+
+# Standard entries (added by global compliance)
+.env.*.local
+*.tmp
+*.temp
+coverage/
+test-results/
+DONE.md
+FEEDBACK.md
+PLAN.md
+READY.md
+.claude/
